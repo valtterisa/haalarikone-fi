@@ -65,7 +65,20 @@ Feature requests are welcome! Use the [Feature Request template](.github/ISSUE_T
    git push origin feature/your-feature-name
    ```
 
-6. **Open a Pull Request** using the [PR template](.github/PULL_REQUEST_TEMPLATE.md)
+6. **Open a Draft Pull Request (recommended for ongoing work)** using the [PR template](.github/PULL_REQUEST_TEMPLATE.md)
+
+   - Use **Draft** while the work is in progress and you still plan to make changes.
+   - Keep pushing commits to the same branch; the Draft PR stays up to date automatically.
+
+7. **When ready, mark the PR as "Ready for review"**
+
+   - Only mark it ready when the change is stable and you want feedback.
+
+8. **Check and address CodeRabbit feedback**
+
+   - CodeRabbit will leave automated review comments on your PR.
+   - Read all CodeRabbit comments and either implement the suggested change or reply with a clear reason why you are not applying it.
+   - Resolve CodeRabbit threads before requesting final approval / merging.
 
 ## Development Setup
 
@@ -145,7 +158,10 @@ docs: clarify environment setup
 2. **Add tests** for new features or bug fixes
 3. **Ensure all tests pass** locally
 4. **Update CHANGELOG.md** if applicable (if the project uses one)
-5. **Request review** from maintainers
+5. **Make sure the PR is ready for review**
+   - PR is not a Draft
+   - CodeRabbit feedback is addressed (changes made or rationale provided)
+6. **Request review** from maintainers
 
 ### PR Review Checklist
 
@@ -158,6 +174,7 @@ Before submitting, ensure:
 - [ ] Code is self-documenting (no unnecessary comments)
 - [ ] TypeScript types are properly defined
 - [ ] Changes are tested in development environment
+- [ ] CodeRabbit comments are reviewed and resolved
 
 ## Questions?
 
