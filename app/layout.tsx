@@ -1,6 +1,7 @@
 import { Arvo } from "next/font/google";
 import "./globals.css";
 import { getLocale } from 'next-intl/server';
+import { ThemeProvider } from "@/components/theme-provider";
 import Script from "next/script";
 
 const arvo = Arvo({
@@ -36,7 +37,14 @@ export default async function RootLayout({
         )}
       </head>
       <body className={arvo.className}>
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

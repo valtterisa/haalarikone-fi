@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from './language-switcher';
+import { ThemeSwitcher } from './theme-switcher';
 import { useTranslatedRoutes } from '@/lib/use-translated-routes';
 
 export default function Header() {
@@ -92,9 +93,11 @@ export default function Header() {
               </Link>
             ))}
             <LanguageSwitcher />
+            <ThemeSwitcher />
           </div>
           <div className="flex items-center gap-2 md:hidden">
             <LanguageSwitcher />
+            <ThemeSwitcher />
             <button
               type="button"
               className="inline-flex items-center justify-center rounded-full border border-border/80 p-2 text-muted-foreground transition-colors hover:border-green hover:text-green focus:outline-none focus:ring-2 focus:ring-green/40"
@@ -134,7 +137,7 @@ export default function Header() {
                           onClick={closeMobileMenu}
                         >
                           <div className="flex items-center gap-3">
-                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-green shadow-inner">
+                            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-green shadow-inner dark:bg-secondary">
                               <Icon className="h-4 w-4" />
                             </div>
                             <div className="flex flex-col">

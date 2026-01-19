@@ -30,7 +30,7 @@ export default function UniversityCard({ uni }: UniversityCardProps) {
       onClick={() => router.push(routes.overall(String(uni.id)))}
     >
       <div className="flex">
-        <div 
+        <div
           className="flex-shrink-0 w-16 sm:w-20 flex items-center justify-center relative"
           style={parseStyles(uni.hex)}
           title={`${t('color')}: ${uni.vari}`}
@@ -87,8 +87,8 @@ export default function UniversityCard({ uni }: UniversityCardProps) {
               className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium transition-all duration-200 bg-secondary/80 text-foreground/70 hover:bg-green/15 hover:text-green"
               onClick={(e) => e.stopPropagation()}
             >
-              <span 
-                className="w-2 h-2 rounded-full ring-1 ring-black/10" 
+              <span
+                className="w-2 h-2 rounded-full ring-1 ring-black/10"
                 style={parseStyles(uni.hex)}
               />
               {uni.vari}

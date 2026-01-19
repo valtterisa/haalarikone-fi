@@ -317,7 +317,7 @@ export default function SearchForm({
                   >
                     <SelectValue placeholder={t('selectColor')} />
                   </SelectTrigger>
-                  <SelectContent className="bg-white">
+                  <SelectContent className="bg-white dark:bg-popover">
                     {translatedColorOptions.map(({ key, displayName, data }) => (
                       <SelectItem
                         key={key}
@@ -357,7 +357,7 @@ export default function SearchForm({
                   >
                     <SelectValue placeholder={t('selectCity')} />
                   </SelectTrigger>
-                  <SelectContent className="bg-white">
+                  <SelectContent className="bg-white dark:bg-popover">
                     {areas.map((area) => (
                       <SelectItem
                         key={area}
@@ -389,7 +389,7 @@ export default function SearchForm({
                   >
                     <SelectValue placeholder={t('selectField')} />
                   </SelectTrigger>
-                  <SelectContent className="bg-white">
+                  <SelectContent className="bg-white dark:bg-popover">
                     {fields.map((field) => (
                       <SelectItem
                         key={field}
@@ -421,7 +421,7 @@ export default function SearchForm({
                   >
                     <SelectValue placeholder={t('selectSchool')} />
                   </SelectTrigger>
-                  <SelectContent className="bg-white">
+                  <SelectContent className="bg-white dark:bg-popover">
                     {schools.map((school) => (
                       <SelectItem
                         key={school}
@@ -454,7 +454,7 @@ export default function SearchForm({
             <Button
               variant="outline"
               onClick={handleClear}
-              className="h-9 sm:h-10 text-xs sm:text-sm bg-white text-foreground border-input hover:bg-muted flex-1"
+              className="h-9 sm:h-10 text-xs sm:text-sm bg-white dark:bg-background text-foreground border-input hover:bg-muted flex-1"
               type="button"
             >
               <X className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />

@@ -63,7 +63,7 @@ export default function ResultsDisplay({ results }: ResultsDisplayProps) {
       ref={resultsDivRef}
       className="max-w-3xl w-full mx-auto mb-4 sm:mb-8 px-2"
     >
-      <div className="bg-white rounded-lg border border-border shadow-sm px-3 pt-4 sm:px-6 sm:pt-8">
+      <div className="bg-white dark:bg-card rounded-lg border border-border shadow-sm px-3 pt-4 sm:px-6 sm:pt-8">
         <h2 className="text-base sm:text-lg font-semibold text-foreground mb-4 sm:mb-6 flex justify-between items-center">
           {t('results')}{" "}
           <span className="text-xs sm:text-sm text-muted-foreground">
@@ -111,7 +111,7 @@ export default function ResultsDisplay({ results }: ResultsDisplayProps) {
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="h-9 sm:h-10 px-3 sm:px-4 text-xs sm:text-sm bg-white text-foreground border border-input hover:bg-muted rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="h-9 sm:h-10 px-3 sm:px-4 text-xs sm:text-sm bg-white dark:bg-background text-foreground border border-input hover:bg-muted rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {tCommon('next')}
               </button>
