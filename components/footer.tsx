@@ -76,7 +76,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="https://discord.gg/NqwQwduM"
+                    href="https://discord.gg/mNNYxtHSVr"
                     target="_blank"
                     rel="noreferrer"
                     aria-label="Join Discord"
