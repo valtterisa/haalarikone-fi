@@ -25,13 +25,16 @@ const feedbackSchema = z.object({
 
 type FeedbackEmailPayload = z.infer<typeof feedbackSchema>;
 
-const resendApiKey = process.env.RESEND_API_KEY!;
-const feedbackTo = process.env.FEEDBACK_EMAIL_TO!;
+const resendApiKey = process.env.RESEND_API_KEY;
+const feedbackTo = process.env.FEEDBACK_EMAIL_TO;
 const feedbackFrom = "noreply@haalarikone.fi";
 
-const resend = new Resend(resendApiKey);
-
 export async function sendFeedbackEmail(payload: FeedbackEmailPayload) {
+  if (!resendApiKey || !feedbackTo) {
+    console.log("Resend API key or feedback email not configured. Feedback submission will be silently skipped.");
+    return;
+  }
+
   const headersList = await headers();
   const ip =
     headersList.get("x-forwarded-for")?.split(",")[0] ??
@@ -80,6 +83,8 @@ export async function sendFeedbackEmail(payload: FeedbackEmailPayload) {
     "Viesti:",
     validated.message,
   ].join("\n");
+
+  const resend = new Resend(resendApiKey);
 
   const { error } = await resend.emails.send({
     from: feedbackFrom,

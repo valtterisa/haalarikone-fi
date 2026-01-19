@@ -1,10 +1,25 @@
 {
   "slug": "miten-haalarivarit-valitaan-opiskelijakulttuurin-perusteet",
-  "title": "Miten haalarivärit valitaan? Opiskelijakulttuurin perusteet",
-  "description": "Opi, miten haalarivärit valitaan suomalaisissa yliopistoissa ja AMK:issa. Tutustu prosessiin ja perinteisiin.",
-  "content": "<p>Haalarivärien valinta on monimutkainen prosessi, joka perustuu pitkälti perinteisiin ja yhteisölliseen päätöksentekoon.</p><h2>Kuka päättää haalariväreistä?</h2><p>Yleensä haalarivärit valitaan opiskelijajärjestöjen ja ainejärjestöjen kesken yhteisesti. Prosessi vaihtelee oppilaitoksittain - joissakin tapauksissa vanhat opiskelijat ja järjestöt vahvistavat perinteet, kun taas toisissa paikoissa voi olla virallinen äänestysprosessi.</p><h2>Miksi värit vaihtelevat?</h2><p>Haalarivärit eivät ole sattumanvaraisia. Ne voivat perustua historiallisiin perinteisiin, alan tunnusmerkkeihin tai jopa oppilaitoksen väritykseen. Joissakin tapauksissa värit valitaan nimenomaan erottuakseen muista.</p><h2>Värien symboliikka</h2><p>Jotkut värit voivat olla symbolisia - esimerkiksi lääketieteen opiskelijat voivat käyttää valkoista, kun taas tekniikan alalla voi olla enemmän vaihtelua. Värit kertovat usein alan luonteesta ja historian merkityksestä.</p><h2>Muuttuvatko värit?</h2><p>Haalarivärit ovat yleensä pysyviä, mutta muutoksia tapahtuu. Uudet alat voivat saada omat värit, ja joskus perinteitä päivitetään. Muutokset tehdään yleensä huolellisesti ja yhteisöllisesti.</p>",
-  "author": "Haalarikone",
+  "title": {
+    "fi": "Miten haalarivärit valitaan? Opiskelijakulttuurin perusteet",
+    "en": "How are Overall Colors Chosen? Basics of Student Culture",
+    "sv": "Hur väljs overallsfärger? Grunderna i studentkultur"
+  },
+  "description": {
+    "fi": "Opi, miten haalarivärit valitaan suomalaisissa yliopistoissa ja AMK:issa. Tutustu prosessiin ja perinteisiin.",
+    "en": "Learn how overall colors are chosen at Finnish universities and UAS. Get familiar with the process and traditions.",
+    "sv": "Lär dig hur overallsfärger väljs vid finska universitet och högskolor. Bekanta dig med processen och traditionerna."
+  },
+  "content": {
+    "fi": "<p>Haalarivärien valinta on monimutkainen prosessi, joka perustuu pitkälti perinteisiin ja yhteisölliseen päätöksentekoon.</p><h2>Kuka päättää haalariväreistä?</h2><p>Yleensä haalarivärit valitaan opiskelijajärjestöjen ja ainejärjestöjen kesken yhteisesti. Prosessi vaihtelee oppilaitoksittain - joissakin tapauksissa vanhat opiskelijat ja järjestöt vahvistavat perinteet, kun taas toisissa paikoissa voi olla virallinen äänestysprosessi.</p><h2>Miksi värit vaihtelevat?</h2><p>Haalarivärit eivät ole sattumanvaraisia. Ne voivat perustua historiallisiin perinteisiin, alan tunnusmerkkeihin tai jopa oppilaitoksen väritykseen. Joissakin tapauksissa värit valitaan nimenomaan erottuakseen muista.</p><h2>Värien symboliikka</h2><p>Jotkut värit voivat olla symbolisia - esimerkiksi lääketieteen opiskelijat voivat käyttää valkoista, kun taas tekniikan alalla voi olla enemmän vaihtelua. Värit kertovat usein alan luonteesta ja historian merkityksestä.</p><h2>Muuttuvatko värit?</h2><p>Haalarivärit ovat yleensä pysyviä, mutta muutoksia tapahtuu. Uudet alat voivat saada omat värit, ja joskus perinteitä päivitetään. Muutokset tehdään yleensä huolellisesti ja yhteisöllisesti.</p>",
+    "en": "<p>The selection of overall colors is a complex process that is largely based on traditions and communal decision-making.</p><h2>Who decides on overall colors?</h2><p>Generally, overall colors are chosen collectively among student organizations and subject organizations. The process varies by institution - in some cases, older students and organizations confirm traditions, while in other places there may be an official voting process.</p><h2>Why do colors vary?</h2><p>Overall colors are not random. They can be based on historical traditions, field identifiers, or even the institution's color scheme. In some cases, colors are chosen specifically to stand out from others.</p><h2>Color symbolism</h2><p>Some colors can be symbolic - for example, medical students may use white, while in the field of technology there can be more variation. Colors often tell about the nature of the field and the significance of history.</p><h2>Do colors change?</h2><p>Overall colors are generally permanent, but changes do occur. New fields can get their own colors, and sometimes traditions are updated. Changes are usually made carefully and communally.</p>",
+    "sv": "<p>Valet av overallsfärger är en komplex process som till stor del bygger på traditioner och gemensamt beslutsfattande.</p><h2>Vem bestämmer overallsfärgerna?</h2><p>Generellt väljs overallsfärger kollektivt bland studentorganisationer och ämnesorganisationer. Processen varierar per institution - i vissa fall bekräftar äldre studenter och organisationer traditioner, medan det på andra platser kan finnas en officiell omröstningsprocess.</p><h2>Varför varierar färgerna?</h2><p>Overallsfärger är inte slumpmässiga. De kan baseras på historiska traditioner, områdesidentifierare eller till och med institutionens färgschema. I vissa fall väljs färger specifikt för att sticka ut från andra.</p><h2>Färgsymbolik</h2><p>Vissa färger kan vara symboliska - till exempel kan medicinstudenter använda vitt, medan det inom teknikområdet kan finnas mer variation. Färger berättar ofta om områdets karaktär och historiens betydelse.</p><h2>Ändras färgerna?</h2><p>Overallsfärger är generellt permanenta, men förändringar sker. Nya områden kan få sina egna färger, och ibland uppdateras traditioner. Förändringar görs vanligtvis noggrant och gemensamt.</p>"
+  },
+  "author": {
+    "fi": "Haalarikone",
+    "en": "Haalarikone",
+    "sv": "Haalarikone"
+  },
   "publishDate": "2024-02-01",
   "readingTime": 4
 }
-

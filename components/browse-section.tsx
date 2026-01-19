@@ -1,5 +1,7 @@
-import Link from "next/link";
-import { generateSlug } from "@/lib/generate-slug";
+"use client";
+
+import { Link } from "@/i18n/routing";
+import { getSlugForEntity } from "@/lib/slug-translations";
 import type { University } from "@/types/university";
 import {
   getUniqueUniversities,
@@ -7,12 +9,16 @@ import {
   getUniqueColors,
   getUniqueAreas,
 } from "@/lib/get-unique-values";
+import { useTranslatedRoutes } from "@/lib/use-translated-routes";
+import { useLocale } from "next-intl";
 
 interface BrowseSectionProps {
   universities: University[];
 }
 
 export default function BrowseSection({ universities }: BrowseSectionProps) {
+  const routes = useTranslatedRoutes();
+  const locale = useLocale() as 'fi' | 'en' | 'sv';
   const uniqueUniversities = getUniqueUniversities(universities);
   const uniqueFields = getUniqueFields(universities);
   const uniqueColors = getUniqueColors(universities);
@@ -40,7 +46,7 @@ export default function BrowseSection({ universities }: BrowseSectionProps) {
             {popularUniversities.map((uni) => (
               <Link
                 key={uni}
-                href={`/oppilaitos/${generateSlug(uni)}`}
+                href={routes.universities(getSlugForEntity(uni, locale, 'university'))}
                 className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition text-sm"
               >
                 {uni}
@@ -61,7 +67,7 @@ export default function BrowseSection({ universities }: BrowseSectionProps) {
             {popularFields.map((field) => (
               <Link
                 key={field}
-                href={`/ala/${generateSlug(field)}`}
+                href={routes.fields(getSlugForEntity(field, locale, 'field'))}
                 className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition text-sm"
               >
                 {field}
@@ -81,7 +87,7 @@ export default function BrowseSection({ universities }: BrowseSectionProps) {
             {popularColors.map((color) => (
               <Link
                 key={color}
-                href={`/vari/${generateSlug(color)}`}
+                href={routes.colors(getSlugForEntity(color, locale, 'color'))}
                 className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition text-sm"
               >
                 {color}
@@ -101,7 +107,7 @@ export default function BrowseSection({ universities }: BrowseSectionProps) {
             {popularAreas.map((area) => (
               <Link
                 key={area}
-                href={`/alue/${generateSlug(area)}`}
+                href={routes.areas(getSlugForEntity(area, locale, 'area'))}
                 className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition text-sm"
               >
                 {area}

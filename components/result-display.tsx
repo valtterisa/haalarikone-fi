@@ -2,12 +2,16 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import type { University } from "@/types/university";
 import UniversityCard from "@/components/university-card";
+import { useTranslations } from 'next-intl';
 
 interface ResultsDisplayProps {
   results: University[];
 }
 
 export default function ResultsDisplay({ results }: ResultsDisplayProps) {
+  const t = useTranslations('search');
+  const tCommon = useTranslations('common');
+  
   // State for pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [resultsPerPage, setResultsPerPage] = useState(15);
@@ -61,11 +65,11 @@ export default function ResultsDisplay({ results }: ResultsDisplayProps) {
     >
       <div className="bg-white rounded-lg border border-border shadow-sm px-3 pt-4 sm:px-6 sm:pt-8">
         <h2 className="text-base sm:text-lg font-semibold text-foreground mb-4 sm:mb-6 flex justify-between items-center">
-          Haun tulokset{" "}
+          {t('results')}{" "}
           <span className="text-xs sm:text-sm text-muted-foreground">
-            {results.length > 1
-              ? `${results.length} tulosta`
-              : `${results.length} tulos`}
+            {results.length === 1
+              ? `${results.length} ${t('result')}`
+              : `${results.length} ${t('resultsCount')}`}
           </span>
         </h2>
 
@@ -79,11 +83,11 @@ export default function ResultsDisplay({ results }: ResultsDisplayProps) {
               className="w-20 h-20 sm:w-[120px] sm:h-[120px]"
             />
             <p className="text-muted-foreground text-xs sm:text-sm">
-              Haku ei tuottanut tuloksia. Kokeile muokata hakuvaihtoehtojasi.
+              {t('noResultsMessageAlt')}
             </p>
           </div>
         ) : (
-          <ul className="space-y-3 sm:space-y-4">
+          <ul className="space-y-2.5 sm:space-y-3">
             {paginatedResults.map((uni) => (
               <UniversityCard key={uni.id} uni={uni} />
             ))}
@@ -99,7 +103,7 @@ export default function ResultsDisplay({ results }: ResultsDisplayProps) {
                 disabled={currentPage === 1}
                 className="h-9 sm:h-10 px-3 sm:px-4 text-xs sm:text-sm bg-white text-foreground border border-input hover:bg-muted rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                Edellinen
+                {tCommon('previous')}
               </button>
               <p className="flex items-center text-xs sm:text-sm text-muted-foreground px-2 sm:px-4">
                 {currentPage} / {totalPages}
@@ -109,7 +113,7 @@ export default function ResultsDisplay({ results }: ResultsDisplayProps) {
                 disabled={currentPage === totalPages}
                 className="h-9 sm:h-10 px-3 sm:px-4 text-xs sm:text-sm bg-white text-foreground border border-input hover:bg-muted rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                Seuraava
+                {tCommon('next')}
               </button>
             </div>
           </div>

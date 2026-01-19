@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
@@ -25,8 +25,10 @@ import {
   Settings,
 } from "lucide-react";
 import { Criteria } from "./search-container";
-import { colorData } from "../data/mockData";
+import type { ColorData } from "@/lib/load-color-data";
 import { track } from "@databuddy/sdk";
+import { useTranslations, useLocale } from 'next-intl';
+import translationsData from '../data/translations.json';
 
 interface SearchFormProps {
   onTextSearchChange: (textSearch: string) => void;
@@ -42,7 +44,17 @@ interface SearchFormProps {
   draftFilterResultCount: number;
   hasSearched: boolean;
   isSearching?: boolean;
+  colorData: ColorData;
 }
+
+type Translations = {
+  fields: Record<string, { fi: string; en: string; sv: string }>;
+  colors: Record<string, { fi: string; en: string; sv: string }>;
+  universities: Record<string, { fi: string; en: string; sv: string }>;
+  areas: Record<string, { fi: string; en: string; sv: string }>;
+};
+
+const translations = translationsData as Translations;
 
 export default function SearchForm({
   onTextSearchChange,
@@ -56,8 +68,36 @@ export default function SearchForm({
   draftAdvancedFilters,
   draftFilterResultCount,
   isSearching = false,
+  colorData,
 }: SearchFormProps) {
+  const t = useTranslations('search');
+  const locale = useLocale() as 'fi' | 'en' | 'sv';
+
+  const translateEntity = (
+    value: string,
+    type: 'color' | 'area' | 'field' | 'university'
+  ): string => {
+    const translationsMap =
+      type === 'color' ? translations.colors :
+        type === 'area' ? translations.areas :
+          type === 'field' ? translations.fields :
+            translations.universities;
+
+    const translation = translationsMap[value];
+    return translation?.[locale] || value;
+  };
+
+  // Translate color options for display (colors need translation since colorData uses Finnish keys)
+  const translatedColorOptions = useMemo(() => {
+    return Object.entries(colorData.colors).map(([colorKey, data]) => ({
+      key: colorKey,
+      displayName: translateEntity(colorKey, 'color'),
+      data,
+    }));
+  }, [locale]);
+
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
+  const [commandOpen, setCommandOpen] = useState(false);
   const [localSearchValue, setLocalSearchValue] = useState(
     selectedCriteria.textSearch
   );
@@ -67,6 +107,52 @@ export default function SearchForm({
   useEffect(() => {
     setLocalSearchValue(selectedCriteria.textSearch);
   }, [selectedCriteria.textSearch]);
+
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const commandRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        e.stopPropagation();
+        setCommandOpen((prev) => !prev);
+      }
+      if (e.key === "Escape") {
+        setCommandOpen(false);
+      }
+    };
+    document.addEventListener("keydown", down, true);
+    return () => document.removeEventListener("keydown", down, true);
+  }, []);
+
+  useEffect(() => {
+    if (commandOpen && searchInputRef.current) {
+      requestAnimationFrame(() => {
+        searchInputRef.current?.focus();
+      });
+    }
+  }, [commandOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        commandRef.current &&
+        !commandRef.current.contains(event.target as Node) &&
+        searchInputRef.current &&
+        !searchInputRef.current.contains(event.target as Node)
+      ) {
+        setCommandOpen(false);
+      }
+    };
+
+    if (commandOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, [commandOpen]);
 
   useEffect(() => {
     if (debounceTimeoutRef.current) {
@@ -108,6 +194,14 @@ export default function SearchForm({
     onDraftAdvancedFilterChange({ ...draftAdvancedFilters, [field]: value });
   };
 
+  const handleApplyFilters = () => {
+    track("advanced_filters", {
+      button_text: "Advanced filters apply",
+      location: "search_form",
+    });
+    onApplyAdvancedFilters();
+  };
+
   const handleClear = () => {
     onClearAll();
     setIsAdvancedSearchOpen(false);
@@ -137,14 +231,20 @@ export default function SearchForm({
           <div className="relative">
             <SearchIcon className="absolute left-3 sm:left-6 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4 sm:w-6 sm:h-6 pointer-events-none z-10" />
             <Input
+              ref={searchInputRef}
               id="text-search"
               type="text"
               value={localSearchValue}
               onChange={(e) => handleTextSearchChange(e.target.value)}
-              placeholder="Kerro mitä etsit?"
-              className="pl-10 pr-10 sm:pl-16 sm:pr-16 h-12 sm:h-16 text-base sm:text-lg bg-white text-foreground border-input focus:ring-2 focus:ring-green/30 focus-visible:ring-2 focus-visible:ring-green/30 border-2 shadow-sm hover:shadow-md transition-shadow"
+              placeholder={t('placeholder')}
+              className="pl-10 pr-24 sm:pl-16 sm:pr-28 h-12 sm:h-16 text-base sm:text-lg bg-white text-foreground border-input focus:ring-2 focus:ring-green/30 focus-visible:ring-2 focus-visible:ring-green/30 border-2 shadow-sm hover:shadow-md transition-shadow"
               aria-disabled={isSearching}
             />
+            {!localSearchValue && !isSearching && (
+              <kbd className="absolute right-3 sm:right-6 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+                <span className="text-xs">⌘</span>K
+              </kbd>
+            )}
             {isSearching && (
               <div className="absolute right-3 sm:right-6 top-1/2 transform -translate-y-1/2 z-10">
                 <div className="w-4 h-4 sm:w-6 sm:h-6 border-2 border-green border-t-transparent rounded-full animate-spin" />
@@ -155,7 +255,7 @@ export default function SearchForm({
                 type="button"
                 onClick={() => handleTextSearchChange("")}
                 className="absolute right-3 sm:right-6 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition p-1 sm:p-2 rounded hover:bg-muted z-10"
-                aria-label="Tyhjennä haku"
+                aria-label={t('clearSearch')}
               >
                 <X className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
@@ -163,7 +263,7 @@ export default function SearchForm({
           </div>
         </div>
 
-        <div className="px-3 pb-3 pt-3 sm:px-6 sm:pb-6 sm:pt-4 border-t border-border/50">
+        <div className="px-3 pb-3 pt-3 sm:px-6 border-t border-border/50">
           <Collapsible
             open={isAdvancedSearchOpen}
             onOpenChange={setIsAdvancedSearchOpen}
@@ -176,7 +276,7 @@ export default function SearchForm({
                 <div className="flex items-center gap-1.5 sm:gap-2">
                   <Settings className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground" />
                   <span className="text-[10px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                    Suodattimet
+                    {t('filters')}
                   </span>
                   {hasActiveFilters && (
                     <span className="ml-1 px-1 py-0.5 sm:ml-1.5 sm:px-1.5 text-[9px] sm:text-[10px] bg-green text-white rounded-full font-medium">
@@ -204,7 +304,7 @@ export default function SearchForm({
                   htmlFor="color"
                   className="text-[10px] sm:text-xs text-muted-foreground font-medium"
                 >
-                  Väri
+                  {t('color')}
                 </Label>
                 <Select
                   key={selectedCriteria.color || "color-empty"}
@@ -215,28 +315,26 @@ export default function SearchForm({
                     id="color"
                     className="h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0"
                   >
-                    <SelectValue placeholder="Valitse väri" />
+                    <SelectValue placeholder={t('selectColor')} />
                   </SelectTrigger>
                   <SelectContent className="bg-white">
-                    {Object.entries(colorData.colors).map(
-                      ([colorKey, data]) => (
-                        <SelectItem
-                          key={colorKey}
-                          value={colorKey}
-                          className="text-xs sm:text-sm text-foreground"
-                        >
-                          <div className="flex items-center gap-1.5 sm:gap-2">
-                            <div
-                              className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded border"
-                              style={{
-                                backgroundImage: `linear-gradient(to bottom right, ${data.color}, ${data.alt})`,
-                              }}
-                            />
-                            <span>{data.main[0]}</span>
-                          </div>
-                        </SelectItem>
-                      )
-                    )}
+                    {translatedColorOptions.map(({ key, displayName, data }) => (
+                      <SelectItem
+                        key={key}
+                        value={key}
+                        className="text-xs sm:text-sm text-foreground"
+                      >
+                        <div className="flex items-center gap-1.5 sm:gap-2">
+                          <div
+                            className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded border"
+                            style={{
+                              backgroundColor: data.color,
+                            }}
+                          />
+                          <span>{displayName}</span>
+                        </div>
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -246,7 +344,7 @@ export default function SearchForm({
                   htmlFor="area"
                   className="text-[10px] sm:text-xs text-muted-foreground font-medium"
                 >
-                  Kaupunki
+                  {t('city')}
                 </Label>
                 <Select
                   key={selectedCriteria.area || "area-empty"}
@@ -257,16 +355,16 @@ export default function SearchForm({
                     id="area"
                     className="h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0"
                   >
-                    <SelectValue placeholder="Valitse kaupunki" />
+                    <SelectValue placeholder={t('selectCity')} />
                   </SelectTrigger>
                   <SelectContent className="bg-white">
-                    {areas.map((a) => (
+                    {areas.map((area) => (
                       <SelectItem
-                        key={a}
-                        value={a}
+                        key={area}
+                        value={area}
                         className="text-xs sm:text-sm text-foreground"
                       >
-                        {a}
+                        {area}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -278,7 +376,7 @@ export default function SearchForm({
                   htmlFor="field"
                   className="text-[10px] sm:text-xs text-muted-foreground font-medium"
                 >
-                  Opiskeluala
+                  {t('field')}
                 </Label>
                 <Select
                   key={selectedCriteria.field || "field-empty"}
@@ -289,16 +387,16 @@ export default function SearchForm({
                     id="field"
                     className="h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0"
                   >
-                    <SelectValue placeholder="Valitse opiskeluala" />
+                    <SelectValue placeholder={t('selectField')} />
                   </SelectTrigger>
                   <SelectContent className="bg-white">
-                    {fields.map((f) => (
+                    {fields.map((field) => (
                       <SelectItem
-                        key={f}
-                        value={f}
+                        key={field}
+                        value={field}
                         className="text-xs sm:text-sm text-foreground"
                       >
-                        {f}
+                        {field}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -310,7 +408,7 @@ export default function SearchForm({
                   htmlFor="school"
                   className="text-[10px] sm:text-xs text-muted-foreground font-medium"
                 >
-                  Oppilaitos
+                  {t('school')}
                 </Label>
                 <Select
                   key={selectedCriteria.school || "school-empty"}
@@ -321,16 +419,16 @@ export default function SearchForm({
                     id="school"
                     className="h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0"
                   >
-                    <SelectValue placeholder="Valitse oppilaitos" />
+                    <SelectValue placeholder={t('selectSchool')} />
                   </SelectTrigger>
                   <SelectContent className="bg-white">
-                    {schools.map((s) => (
+                    {schools.map((school) => (
                       <SelectItem
-                        key={s}
-                        value={s}
+                        key={school}
+                        value={school}
                         className="text-xs sm:text-sm text-foreground"
                       >
-                        {s}
+                        {school}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -340,10 +438,10 @@ export default function SearchForm({
               {hasDraftChanges && (
                 <Button
                   type="button"
-                  onClick={onApplyAdvancedFilters}
+                  onClick={handleApplyFilters}
                   className="h-9 sm:h-10 text-xs sm:text-sm bg-green hover:bg-green/90 text-white mt-2"
                 >
-                  Suodata{" "}
+                  {t('filter')}{" "}
                   {draftFilterResultCount >= 0 && `(${draftFilterResultCount})`}
                 </Button>
               )}
@@ -360,7 +458,7 @@ export default function SearchForm({
               type="button"
             >
               <X className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
-              Tyhjennä
+              {t('clear')}
             </Button>
           </div>
         )}

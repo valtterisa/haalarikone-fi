@@ -1,38 +1,22 @@
 import type { University } from "@/types/university";
 
-export type UpstashSearchResult = {
-  id: string;
-  content: Record<string, unknown>;
-  metadata: Record<string, unknown>;
-  score: number;
-};
-
-export type UniversityWithScore = University & {
-  score: number;
-};
-
-export function convertUpstashResultToUniversity(
-  result: UpstashSearchResult
-): UniversityWithScore {
-  const content = result.content;
-  const metadata = result.metadata;
-
-  return {
-    id: parseInt(result.id, 10),
-    vari: (content.vari as string) || "",
-    hex: (metadata.hex as string) || "",
-    alue: (content.alue as string) || "",
-    ala: (content.ala as string) || null,
-    ainejärjestö: (content.ainejärjestö as string) || null,
-    oppilaitos: (content.oppilaitos as string) || "",
-    score: result.score || 0,
+export type SearchResponse = {
+  results: University[];
+  totalCount: number;
+  filters?: {
+    color?: string;
+    area?: string;
+    field?: string;
+    school?: string;
   };
-}
+  semanticQuery?: string;
+};
 
 export async function searchUniversitiesAPI(
-  query: string
-): Promise<UniversityWithScore[]> {
-  if (!query || query.trim().length < 2) {
+  query: string,
+  locale: 'fi' | 'en' | 'sv' = 'fi'
+): Promise<University[]> {
+  if (!query || query.trim().length < 3) {
     return [];
   }
 
@@ -40,20 +24,17 @@ export async function searchUniversitiesAPI(
     const res = await fetch("/api/search", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query }),
+      body: JSON.stringify({ query, locale }),
     });
 
     if (!res.ok) {
       return [];
     }
 
-    const data = await res.json();
-    const results = data.results || [];
-
-    const converted = results.map(convertUpstashResultToUniversity);
-
-    return converted;
+    const data = await res.json() as SearchResponse;
+    return data.results || [];
   } catch (error) {
+    console.error('Search API error:', error);
     return [];
   }
 }

@@ -1,10 +1,25 @@
 {
   "slug": "opiskelijakulttuurin-historia-suomessa",
-  "title": "Opiskelijakulttuurin historia Suomessa",
-  "description": "Tutustu suomalaisen opiskelijakulttuurin historiaan ja haalarivärien syntyyn. Miten nykypäivän perinteet ovat syntyneet?",
-  "content": "<p>Suomalainen opiskelijakulttuuri on syvät juuret, jotka ulottuvat 1800-luvun lopulle.</p><h2>Ensimmäiset haalarit</h2><p>Haalarit eivät ole aina olleet osa suomalaista opiskelijakulttuuria. Ensimmäiset haalarit tulivat käyttöön vasta 1900-luvulla, ja ne liittyivät läheisesti teknillisten alojen opiskelijakulttuuriin.</p><h2>Yliopistokulttuurin kehitys</h2><p>Yliopistojen kasvaessa ja uusien alojen syntyessä myös haalarikulttuuri levisi. Jokainen ala ja oppilaitos alkoi kehittää omia perinteitään ja värejään.</p><h2>AMK-kulttuuri</h2><p>Kun AMK:t perustettiin 1990-luvulla, ne alkoivat kehittää omia haalarikulttuurejaan. Usein nämä perustuivat alkuperäisten insinöörikoulujen perinteisiin.</p><h2>Nykypäivä</h2><p>Nykyään haalarit ovat olennainen osa suomalaista opiskelijakulttuuria. Ne edustavat yhteisöllisyyttä, perinteitä ja opiskelijoiden identiteettiä. Haalarikone auttaa nykypäivän opiskelijoita ja kiinnostuneita löytämään tietoa näistä perinteistä.</p><h2>Tulevaisuus</h2><p>Opiskelijakulttuuri kehittyy jatkuvasti, ja haalariväritkin saattavat muuttua. Tärkeää on säilyttää perinteet samalla kun annetaan tilaa uudelle kehitykselle.</p>",
-  "author": "Haalarikone",
+  "title": {
+    "fi": "Opiskelijakulttuurin historia Suomessa",
+    "en": "History of Student Culture in Finland",
+    "sv": "Studentkulturens historia i Finland"
+  },
+  "description": {
+    "fi": "Tutustu suomalaisen opiskelijakulttuurin historiaan ja haalarivärien syntyyn. Miten nykypäivän perinteet ovat syntyneet?",
+    "en": "Learn about the history of Finnish student culture and the origin of overall colors. How have today's traditions emerged?",
+    "sv": "Lär dig om den finska studentkulturens historia och ursprunget till overallsfärger. Hur har dagens traditioner uppstått?"
+  },
+  "content": {
+    "fi": "<p>Suomalainen opiskelijakulttuuri on syvät juuret, jotka ulottuvat 1800-luvun lopulle.</p><h2>Ensimmäiset haalarit</h2><p>Haalarit eivät ole aina olleet osa suomalaista opiskelijakulttuuria. Ensimmäiset haalarit tulivat käyttöön vasta 1900-luvulla, ja ne liittyivät läheisesti teknillisten alojen opiskelijakulttuuriin.</p><h2>Yliopistokulttuurin kehitys</h2><p>Yliopistojen kasvaessa ja uusien alojen syntyessä myös haalarikulttuuri levisi. Jokainen ala ja oppilaitos alkoi kehittää omia perinteitään ja värejään.</p><h2>AMK-kulttuuri</h2><p>Kun AMK:t perustettiin 1990-luvulla, ne alkoivat kehittää omia haalarikulttuurejaan. Usein nämä perustuivat alkuperäisten insinöörikoulujen perinteisiin.</p><h2>Nykypäivä</h2><p>Nykyään haalarit ovat olennainen osa suomalaista opiskelijakulttuuria. Ne edustavat yhteisöllisyyttä, perinteitä ja opiskelijoiden identiteettiä. Haalarikone auttaa nykypäivän opiskelijoita ja kiinnostuneita löytämään tietoa näistä perinteistä.</p><h2>Tulevaisuus</h2><p>Opiskelijakulttuuri kehittyy jatkuvasti, ja haalariväritkin saattavat muuttua. Tärkeää on säilyttää perinteet samalla kun annetaan tilaa uudelle kehitykselle.</p>",
+    "en": "<p>Finnish student culture has deep roots that extend to the end of the 19th century.</p><h2>The first overalls</h2><p>Overalls have not always been part of Finnish student culture. The first overalls came into use only in the 20th century, and they were closely related to the student culture of technical fields.</p><h2>Development of university culture</h2><p>As universities grew and new fields emerged, overall culture also spread. Each field and institution began to develop its own traditions and colors.</p><h2>UAS culture</h2><p>When UAS institutions were established in the 1990s, they began to develop their own overall cultures. Often these were based on the traditions of the original engineering schools.</p><h2>Present day</h2><p>Today, overalls are an essential part of Finnish student culture. They represent community, traditions, and student identity. Haalarikone helps today's students and interested parties find information about these traditions.</p><h2>Future</h2><p>Student culture is constantly evolving, and overall colors may also change. It is important to preserve traditions while giving room for new development.</p>",
+    "sv": "<p>Den finska studentkulturen har djupa rötter som sträcker sig till slutet av 1800-talet.</p><h2>De första overallerna</h2><p>Overall har inte alltid varit en del av den finska studentkulturen. De första overallerna kom i bruk först på 1900-talet, och de var nära kopplade till studentkulturen inom tekniska områden.</p><h2>Utvecklingen av universitetskultur</h2><p>När universiteten växte och nya områden uppstod spreds även overallkulturen. Varje område och institution började utveckla sina egna traditioner och färger.</p><h2>Högskolekultur</h2><p>När högskolor etablerades på 1990-talet började de utveckla sina egna overallkulturer. Ofta byggde dessa på traditionerna från de ursprungliga ingenjörsskolorna.</p><h2>Nutid</h2><p>Idag är overall en viktig del av den finska studentkulturen. De representerar gemenskap, traditioner och studentidentitet. Haalarikone hjälper dagens studenter och intresserade att hitta information om dessa traditioner.</p><h2>Framtid</h2><p>Studentkulturen utvecklas ständigt, och overallsfärger kan också förändras. Det är viktigt att bevara traditioner samtidigt som man ger utrymme för ny utveckling.</p>"
+  },
+  "author": {
+    "fi": "Haalarikone",
+    "en": "Haalarikone",
+    "sv": "Haalarikone"
+  },
   "publishDate": "2024-02-15",
   "readingTime": 6
 }
-

@@ -2,14 +2,14 @@
 
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
+import { useLocale } from 'next-intl';
 import SearchForm from "./search-form";
 import ResultsDisplay from "./result-display";
 import PlaceholderDisplay from "./placeholder-display";
 import {
   searchUniversitiesAPI,
-  type UniversityWithScore,
 } from "@/lib/search-utils";
-import { colorData } from "../data/mockData";
+import type { ColorData } from "@/lib/load-color-data";
 import {
   getUniqueAreas,
   getUniqueFields,
@@ -20,16 +20,16 @@ import type { University } from "@/types/university";
 export type Criteria = {
   textSearch: string;
   color:
-    | ""
-    | "punainen"
-    | "sininen"
-    | "vihreä"
-    | "keltainen"
-    | "oranssi"
-    | "violetti"
-    | "pinkki"
-    | "black"
-    | "white";
+  | ""
+  | "punainen"
+  | "sininen"
+  | "vihreä"
+  | "keltainen"
+  | "oranssi"
+  | "violetti"
+  | "pinkki"
+  | "black"
+  | "white";
   area: string;
   field: string;
   school: string;
@@ -37,11 +37,14 @@ export type Criteria = {
 
 interface SearchContainerProps {
   initialUniversities: University[];
+  colorData: ColorData;
 }
 
 export default function SearchContainer({
   initialUniversities,
+  colorData,
 }: SearchContainerProps) {
+  const locale = useLocale() as 'fi' | 'en' | 'sv';
   const [selectedCriteria, setSelectedCriteria] = useState<Criteria>({
     textSearch: "",
     color: "",
@@ -67,9 +70,8 @@ export default function SearchContainer({
     (universities: University[]): University[] => {
       return universities.filter((uni) => {
         const colorMatch = selectedCriteria.color
-          ? colorData.colors[selectedCriteria.color].main
-              .concat(colorData.colors[selectedCriteria.color].shades)
-              .some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()))
+          ? [...colorData.colors[selectedCriteria.color].main, ...colorData.colors[selectedCriteria.color].shades]
+            .some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()))
           : true;
         const areaMatch =
           !selectedCriteria.area ||
@@ -94,16 +96,16 @@ export default function SearchContainer({
   );
 
   const performSearch = useCallback(async () => {
-    setIsSearching(true);
     let searchResults: University[] = [];
 
-    if (selectedCriteria.textSearch.trim().length >= 2) {
+    if (selectedCriteria.textSearch.trim().length >= 3) {
       try {
         searchResults = await searchUniversitiesAPI(
-          selectedCriteria.textSearch.trim()
+          selectedCriteria.textSearch.trim(),
+          locale
         );
       } catch (error) {
-        console.error("API search failed:", error);
+        console.error("Search failed");
         searchResults = [];
       }
     } else {
@@ -113,13 +115,6 @@ export default function SearchContainer({
     const filteredResults = applyFilters(searchResults);
 
     const orderedResults = filteredResults.sort((a, b) => {
-      const aScore = "score" in a ? (a as UniversityWithScore).score : 0;
-      const bScore = "score" in b ? (b as UniversityWithScore).score : 0;
-
-      if (aScore !== bScore) {
-        return bScore - aScore;
-      }
-
       if (a.oppilaitos === b.oppilaitos) {
         if (!a.ainejärjestö && !b.ainejärjestö) return 0;
         if (!a.ainejärjestö) return 1;
@@ -132,7 +127,7 @@ export default function SearchContainer({
     setResults(orderedResults);
     setHasSearched(true);
     setIsSearching(false);
-  }, [selectedCriteria, applyFilters, initialUniversities]);
+  }, [selectedCriteria, applyFilters, initialUniversities, locale]);
 
   // Load all data on initial mount
   useEffect(() => {
@@ -152,7 +147,7 @@ export default function SearchContainer({
   }, [hasSearched, initialUniversities]);
 
   useEffect(() => {
-    const hasTextSearch = selectedCriteria.textSearch.trim().length >= 2;
+    const hasTextSearch = selectedCriteria.textSearch.trim().length >= 3;
     const hasFilters =
       selectedCriteria.color ||
       selectedCriteria.area ||
@@ -176,9 +171,10 @@ export default function SearchContainer({
 
     // Only perform search if user has entered text or applied filters
     if (hasTextSearch || hasFilters) {
+      setIsSearching(true);
       const timeoutId = setTimeout(() => {
         performSearch();
-      }, 300);
+      }, 1000);
 
       return () => {
         clearTimeout(timeoutId);
@@ -227,13 +223,14 @@ export default function SearchContainer({
   const [draftFilterResultCount, setDraftFilterResultCount] = useState(0);
 
   useEffect(() => {
-    const calculateDraftFilterResultCount = async () => {
+      const calculateDraftFilterResultCount = async () => {
       let searchResults: University[] = [];
 
-      if (selectedCriteria.textSearch.trim().length >= 2) {
+      if (selectedCriteria.textSearch.trim().length >= 3) {
         try {
           searchResults = await searchUniversitiesAPI(
-            selectedCriteria.textSearch.trim()
+            selectedCriteria.textSearch.trim(),
+            locale
           );
         } catch (error) {
           console.error("API search failed in draftFilterResultCount:", error);
@@ -245,9 +242,8 @@ export default function SearchContainer({
 
       const filteredResults = searchResults.filter((uni) => {
         const colorMatch = draftAdvancedFilters.color
-          ? colorData.colors[draftAdvancedFilters.color].main
-              .concat(colorData.colors[draftAdvancedFilters.color].shades)
-              .some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()))
+          ? [...colorData.colors[draftAdvancedFilters.color].main, ...colorData.colors[draftAdvancedFilters.color].shades]
+            .some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()))
           : true;
         const areaMatch =
           !draftAdvancedFilters.area ||
@@ -271,7 +267,7 @@ export default function SearchContainer({
     };
 
     calculateDraftFilterResultCount();
-  }, [selectedCriteria.textSearch, draftAdvancedFilters, initialUniversities]);
+  }, [selectedCriteria.textSearch, draftAdvancedFilters, initialUniversities, locale]);
 
   useEffect(() => {
     setDraftAdvancedFilters({
@@ -292,9 +288,8 @@ export default function SearchContainer({
       const colorMatch =
         ignore === "color" || !draftAdvancedFilters.color
           ? true
-          : colorData.colors[draftAdvancedFilters.color].main
-              .concat(colorData.colors[draftAdvancedFilters.color].shades)
-              .some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()));
+          : [...colorData.colors[draftAdvancedFilters.color].main, ...colorData.colors[draftAdvancedFilters.color].shades]
+            .some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()));
 
       const areaMatch =
         ignore === "area" ||
@@ -360,6 +355,7 @@ export default function SearchContainer({
         draftFilterResultCount={draftFilterResultCount}
         hasSearched={hasSearched}
         isSearching={isSearching}
+        colorData={colorData}
       />
       {results.length > 0 && (
         <motion.div

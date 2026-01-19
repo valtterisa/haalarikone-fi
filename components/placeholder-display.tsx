@@ -3,28 +3,28 @@
 import { useEffect, useState } from 'react'
 import { motion } from "framer-motion"
 import Image from 'next/image';
-
-const messages = [
-    "Hiljaista kuin Otaniemen metroasema keskiyöllä. 🤔 Paina hakua, niin ehkä löydät elämää täältäkin!",
-    "Tyhjää kuin opiskelijan lompakossa päivää ennen opintotukea. 🤔 Anna haulle mahdollisuus pelastaa päivä!",
-    "Täällä on yhtä autiota kuin Kuopion torilla sadepäivänä. 🤔 Kokeile hakua – maksaa vähemmän kuin kalakukko!",
-    "Hiljaista kuin kirjastossa perjantai-iltana. 🤔 Klikkaa hakua ennen kuin tylsyys iskee!",
-    "Täällä on yhtä paljon nähtävää kuin pääkaupunkiseudun talvisessa maisemassa – pelkkää harmaata. 🤔 Kokeile hakua, niin saat ehkä väriä päivään!",
-    "Täällä on hiljaista kuin työhaastattelussa, kun kysytään 'Missä näet itsesi viiden vuoden päästä?'. 🤔 Paina hakua ja saa edes jotain aikaan!",
-    "Ei tuloksia – vähän sama kuin yrittäisi löytää ilmaista kahvia yliopistolla. 🤔 Anna haulle mahdollisuus loistaa!",
-    "Täällä on tyhjää kuin ruokalassa kasvisvaihtoehdon loputtua. 🤔 Kokeile hakua, niin löydät ehkä parempaa purtavaa!",
-    "Täällä on hiljaisempaa kuin luentosalissa, kun kysytään vapaaehtoisia projektiryhmään. 🤔 Klikkaa hakua ja täytä tämä tyhjyys!",
-    "Serveri ry GOD TIER! Serveriii!!!! <33333 Ennestään hajalla ollut mielenterveys meni tätä koodatessa :) Mut joo kokeile käyttää tota hakua yläpuolella!",
-];
+import { useTranslations } from 'next-intl';
 
 function PlaceholderDisplay() {
+    const t = useTranslations('placeholders');
     const [currentMessage, setCurrentMessage] = useState("");
 
     useEffect(() => {
-        // Pick a random message when the component is mounted (on page refresh)
+        const messages = [
+            t('1'),
+            t('2'),
+            t('3'),
+            t('4'),
+            t('5'),
+            t('6'),
+            t('7'),
+            t('8'),
+            t('9'),
+            t('10'),
+        ];
         const randomIndex = Math.floor(Math.random() * messages.length);
         setCurrentMessage(messages[randomIndex]);
-    }, []);
+    }, [t]);
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}

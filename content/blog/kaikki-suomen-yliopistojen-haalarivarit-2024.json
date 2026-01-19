@@ -1,10 +1,25 @@
 {
   "slug": "kaikki-suomen-yliopistojen-haalarivarit-2024",
-  "title": "Kaikki Suomen yliopistojen haalarivärit 2024",
-  "description": "Täydellinen opas suomalaisten yliopistojen ja AMK:iden haalariväreihin. Selvitä minkä värinen haalari eri alojen opiskelijoilla on.",
-  "content": "<p>Suomen opiskelijakulttuuri on rikas ja monipuolinen, ja haalarivärit ovat tärkeä osa sitä. Jokaisella oppilaitoksella ja alalla on omat perinteensä haalarivärien suhteen.</p><h2>Mikä on haalari?</h2><p>Haalari eli overall on opiskelijoiden tunnusmerkki, joka kertoo heidän alastaan ja oppilaitoksestaan. Värit vaihtelevat huomattavasti - jopa sama ala voi käyttää eri värejä eri yliopistoissa.</p><h2>Suomen yliopistot</h2><p>Suomessa on useita yliopistoja ja AMK:ita, joilla jokaisella on omat haalarivärinsä. Esimerkiksi Aalto-yliopistossa eri alojen opiskelijat käyttävät eri värejä, kun taas joissakin AMK:issa sama väri voi koskea useampaa alaa.</p><h2>Haalarivärien merkitys</h2><p>Haalarivärit eivät ole vain muotia - ne ovat tärkeä osa opiskelijakulttuuria ja yhteisöllisyyttä. Ne auttavat opiskelijoita tunnistamaan toisiaan ja luomaan yhteisöllisyyttä.</p><h2>Käytä Haalarikonetta</h2><p>Käytä Haalarikonetta löytääksesi tarkat haalarivärit eri alojen opiskelijoille. Voit hakea väriä, alaa, yliopistoa tai aluetta.</p>",
-  "author": "Haalarikone",
+  "title": {
+    "fi": "Kaikki Suomen yliopistojen haalarivärit 2024",
+    "en": "All Finnish University Overall Colors 2024",
+    "sv": "Alla finska universitets overallsfärger 2024"
+  },
+  "description": {
+    "fi": "Täydellinen opas suomalaisten yliopistojen ja AMK:iden haalariväreihin. Selvitä minkä värinen haalari eri alojen opiskelijoilla on.",
+    "en": "Complete guide to overall colors at Finnish universities and UAS. Find out what color overalls students in different fields wear.",
+    "sv": "Komplett guide till overallsfärger vid finska universitet och högskolor. Ta reda på vilken färg overall studenter inom olika områden bär."
+  },
+  "content": {
+    "fi": "<p>Suomen opiskelijakulttuuri on rikas ja monipuolinen, ja haalarivärit ovat tärkeä osa sitä. Jokaisella oppilaitoksella ja alalla on omat perinteensä haalarivärien suhteen.</p><h2>Mikä on haalari?</h2><p>Haalari eli overall on opiskelijoiden tunnusmerkki, joka kertoo heidän alastaan ja oppilaitoksestaan. Värit vaihtelevat huomattavasti - jopa sama ala voi käyttää eri värejä eri yliopistoissa.</p><h2>Suomen yliopistot</h2><p>Suomessa on useita yliopistoja ja AMK:ita, joilla jokaisella on omat haalarivärinsä. Esimerkiksi Aalto-yliopistossa eri alojen opiskelijat käyttävät eri värejä, kun taas joissakin AMK:issa sama väri voi koskea useampaa alaa.</p><h2>Haalarivärien merkitys</h2><p>Haalarivärit eivät ole vain muotia - ne ovat tärkeä osa opiskelijakulttuuria ja yhteisöllisyyttä. Ne auttavat opiskelijoita tunnistamaan toisiaan ja luomaan yhteisöllisyyttä.</p><h2>Käytä Haalarikonetta</h2><p>Käytä Haalarikonetta löytääksesi tarkat haalarivärit eri alojen opiskelijoille. Voit hakea väriä, alaa, yliopistoa tai aluetta.</p>",
+    "en": "<p>Finnish student culture is rich and diverse, and overall colors are an important part of it. Each institution and field has its own traditions regarding overall colors.</p><h2>What is an overall?</h2><p>An overall (haalari) is a student identifier that tells about their field and institution. Colors vary significantly - even the same field can use different colors at different universities.</p><h2>Finnish universities</h2><p>Finland has several universities and UAS institutions, each with their own overall colors. For example, at Aalto University, students in different fields use different colors, while at some UAS institutions, the same color may apply to multiple fields.</p><h2>The significance of overall colors</h2><p>Overall colors are not just fashion - they are an important part of student culture and community. They help students identify each other and create community.</p><h2>Use Haalarikone</h2><p>Use Haalarikone to find the exact overall colors for students in different fields. You can search by color, field, university, or region.</p>",
+    "sv": "<p>Den finska studentkulturen är rik och mångfaldig, och overallsfärger är en viktig del av den. Varje institution och område har sina egna traditioner när det gäller overallsfärger.</p><h2>Vad är en overall?</h2><p>En overall (haalari) är en studentidentifierare som berättar om deras område och institution. Färgerna varierar avsevärt - även samma område kan använda olika färger vid olika universitet.</p><h2>Finska universitet</h2><p>Finland har flera universitet och högskolor, var och en med sina egna overallsfärger. Till exempel använder studenter inom olika områden olika färger vid Aalto-universitetet, medan samma färg kan gälla för flera områden vid vissa högskolor.</p><h2>Betydelsen av overallsfärger</h2><p>Overallsfärger är inte bara mode - de är en viktig del av studentkulturen och gemenskapen. De hjälper studenter att identifiera varandra och skapa gemenskap.</p><h2>Använd Haalarikone</h2><p>Använd Haalarikone för att hitta de exakta overallsfärgerna för studenter inom olika områden. Du kan söka efter färg, område, universitet eller region.</p>"
+  },
+  "author": {
+    "fi": "Haalarikone",
+    "en": "Haalarikone",
+    "sv": "Haalarikone"
+  },
   "publishDate": "2024-01-15",
   "readingTime": 5
 }
-
