@@ -60,6 +60,7 @@ export default function Header() {
                   variant="ghost"
                   size="sm"
                   className="gap-2 h-9 px-3 focus-visible:ring-0 focus-visible:ring-offset-0 group"
+                  suppressHydrationWarning
                 >
                   <span>{t('common.categories')}</span>
                   <ChevronDown className="h-4 w-4 opacity-50 transition-transform duration-200 group-data-[state=open]:rotate-180" />

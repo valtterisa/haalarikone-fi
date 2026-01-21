@@ -11,33 +11,34 @@ import {
   CollapsibleTrigger,
 } from "./ui/collapsible";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
-import {
   Search as SearchIcon,
   ChevronDown,
   ChevronUp,
   X,
   Settings,
 } from "lucide-react";
-import { Criteria } from "./search-container";
+import { Criteria, ColorKey } from "./search-container";
+import { Checkbox } from "./ui/checkbox";
+import { Badge } from "./ui/badge";
 import type { ColorData } from "@/lib/load-color-data";
 import { track } from "@databuddy/sdk";
 import { useTranslations, useLocale } from 'next-intl';
 import translationsData from '../data/translations.json';
+
+type OptionWithCount = {
+  value: string;
+  count: number;
+};
 
 interface SearchFormProps {
   onTextSearchChange: (textSearch: string) => void;
   onDraftAdvancedFilterChange: (filters: Omit<Criteria, "textSearch">) => void;
   onApplyAdvancedFilters: () => void;
   onClearAll: () => void;
-  areas: string[];
-  fields: string[];
-  schools: string[];
+  colorOptions: Array<{ value: ColorKey; count: number }>;
+  areaOptions: OptionWithCount[];
+  fieldOptions: OptionWithCount[];
+  schoolOptions: OptionWithCount[];
   selectedCriteria: Criteria;
   draftAdvancedFilters: Omit<Criteria, "textSearch">;
   resultCount: number;
@@ -61,9 +62,10 @@ export default function SearchForm({
   onDraftAdvancedFilterChange,
   onApplyAdvancedFilters,
   onClearAll,
-  areas,
-  fields,
-  schools,
+  colorOptions,
+  areaOptions,
+  fieldOptions,
+  schoolOptions,
   selectedCriteria,
   draftAdvancedFilters,
   draftFilterResultCount,
@@ -103,6 +105,7 @@ export default function SearchForm({
   );
   const lastTrackedSearchRef = useRef<string>("");
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const collapsibleContentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setLocalSearchValue(selectedCriteria.textSearch);
@@ -119,12 +122,15 @@ export default function SearchForm({
         setCommandOpen((prev) => !prev);
       }
       if (e.key === "Escape") {
+        if (isAdvancedSearchOpen) {
+          setIsAdvancedSearchOpen(false);
+        }
         setCommandOpen(false);
       }
     };
     document.addEventListener("keydown", down, true);
     return () => document.removeEventListener("keydown", down, true);
-  }, []);
+  }, [isAdvancedSearchOpen]);
 
   useEffect(() => {
     if (commandOpen && searchInputRef.current) {
@@ -187,11 +193,15 @@ export default function SearchForm({
     setLocalSearchValue(value);
   };
 
-  const handleDraftChange = (
-    field: "color" | "area" | "field" | "school",
-    value: string
+  const toggleArrayFilter = (
+    field: "colors" | "areas" | "fields" | "schools",
+    value: string | ColorKey
   ) => {
-    onDraftAdvancedFilterChange({ ...draftAdvancedFilters, [field]: value });
+    const currentArray = draftAdvancedFilters[field] as string[];
+    const newArray = currentArray.includes(value as string)
+      ? currentArray.filter((item) => item !== value)
+      : [...currentArray, value as string];
+    onDraftAdvancedFilterChange({ ...draftAdvancedFilters, [field]: newArray });
   };
 
   const handleApplyFilters = () => {
@@ -207,17 +217,34 @@ export default function SearchForm({
     setIsAdvancedSearchOpen(false);
   };
 
+  const removeFilter = (
+    field: "colors" | "areas" | "fields" | "schools",
+    value: string
+  ) => {
+    const newCriteria = {
+      ...selectedCriteria,
+      [field]: (selectedCriteria[field] as string[]).filter((v) => v !== value),
+    };
+    onDraftAdvancedFilterChange({
+      colors: newCriteria.colors,
+      areas: newCriteria.areas,
+      fields: newCriteria.fields,
+      schools: newCriteria.schools,
+    });
+    onApplyAdvancedFilters();
+  };
+
   const hasActiveFilters =
-    selectedCriteria.color ||
-    selectedCriteria.area ||
-    selectedCriteria.field ||
-    selectedCriteria.school;
+    selectedCriteria.colors.length > 0 ||
+    selectedCriteria.areas.length > 0 ||
+    selectedCriteria.fields.length > 0 ||
+    selectedCriteria.schools.length > 0;
 
   const hasDraftChanges =
-    draftAdvancedFilters.color !== selectedCriteria.color ||
-    draftAdvancedFilters.area !== selectedCriteria.area ||
-    draftAdvancedFilters.field !== selectedCriteria.field ||
-    draftAdvancedFilters.school !== selectedCriteria.school;
+    JSON.stringify(draftAdvancedFilters.colors.sort()) !== JSON.stringify(selectedCriteria.colors.sort()) ||
+    JSON.stringify(draftAdvancedFilters.areas.sort()) !== JSON.stringify(selectedCriteria.areas.sort()) ||
+    JSON.stringify(draftAdvancedFilters.fields.sort()) !== JSON.stringify(selectedCriteria.fields.sort()) ||
+    JSON.stringify(draftAdvancedFilters.schools.sort()) !== JSON.stringify(selectedCriteria.schools.sort());
 
   return (
     <motion.div
@@ -263,7 +290,7 @@ export default function SearchForm({
           </div>
         </div>
 
-        <div className="px-3 pb-3 pt-3 sm:px-6 border-t border-border/50">
+        <div className="px-3 sm:px-6 pb-3 pt-3 border-t border-border/50">
           <Collapsible
             open={isAdvancedSearchOpen}
             onOpenChange={setIsAdvancedSearchOpen}
@@ -272,195 +299,316 @@ export default function SearchForm({
               <button
                 type="button"
                 className="w-full flex items-center justify-between py-1 sm:py-1.5 px-0 text-left hover:opacity-70 transition-opacity group"
+                aria-expanded={isAdvancedSearchOpen}
+                aria-controls="advanced-filters-content"
+                aria-label={isAdvancedSearchOpen ? "Close advanced filters" : "Open advanced filters"}
               >
                 <div className="flex items-center gap-1.5 sm:gap-2">
-                  <Settings className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground" />
+                  <Settings className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground" aria-hidden="true" />
                   <span className="text-[10px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     {t('filters')}
                   </span>
                   {hasActiveFilters && (
-                    <span className="ml-1 px-1 py-0.5 sm:ml-1.5 sm:px-1.5 text-[9px] sm:text-[10px] bg-green text-white rounded-full font-medium">
+                    <span className="ml-1 px-1 py-0.5 sm:ml-1.5 sm:px-1.5 text-[9px] sm:text-[10px] bg-green text-white rounded-full font-medium" aria-label={`${selectedCriteria.colors.length + selectedCriteria.areas.length + selectedCriteria.fields.length + selectedCriteria.schools.length} active filters`}>
                       {
-                        [
-                          selectedCriteria.color,
-                          selectedCriteria.area,
-                          selectedCriteria.field,
-                          selectedCriteria.school,
-                        ].filter(Boolean).length
+                        selectedCriteria.colors.length +
+                        selectedCriteria.areas.length +
+                        selectedCriteria.fields.length +
+                        selectedCriteria.schools.length
                       }
                     </span>
                   )}
                 </div>
                 {isAdvancedSearchOpen ? (
-                  <ChevronUp className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground" />
+                  <ChevronUp className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground" aria-hidden="true" />
                 ) : (
-                  <ChevronDown className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground" />
+                  <ChevronDown className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground" aria-hidden="true" />
                 )}
               </button>
             </CollapsibleTrigger>
-            <CollapsibleContent className="mt-2 sm:mt-3 pl-2 sm:pl-4 border-l border-muted/30 space-y-2 sm:space-y-3">
-              <div className="space-y-1 sm:space-y-1.5">
-                <Label
-                  htmlFor="color"
-                  className="text-[10px] sm:text-xs text-muted-foreground font-medium"
-                >
+            <CollapsibleContent
+              ref={collapsibleContentRef}
+              id="advanced-filters-content"
+              className="mt-3 sm:mt-3 space-y-0"
+              role="region"
+              aria-label="Advanced filter options"
+            >
+              <div className="space-y-1.5 py-3 border-b border-border/30 last:border-b-0">
+                <Label className="text-sm sm:text-xs font-medium text-foreground">
                   {t('color')}
                 </Label>
-                <Select
-                  key={selectedCriteria.color || "color-empty"}
-                  value={draftAdvancedFilters.color || undefined}
-                  onValueChange={(value) => handleDraftChange("color", value)}
-                >
-                  <SelectTrigger
-                    id="color"
-                    className="h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0"
-                  >
-                    <SelectValue placeholder={t('selectColor')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white">
-                    {translatedColorOptions.map(({ key, displayName, data }) => (
-                      <SelectItem
+                <div className="space-y-1.5 max-h-56 overflow-y-auto">
+                  {translatedColorOptions.map(({ key, displayName, data }) => {
+                    const optionData = colorOptions.find((opt) => opt.value === key);
+                    const count = optionData?.count || 0;
+                    const isDisabled = count === 0;
+                    return (
+                      <label
                         key={key}
-                        value={key}
-                        className="text-xs sm:text-sm text-foreground"
+                        className={`flex items-center justify-between gap-2 rounded-md p-2 sm:p-2 transition-colors ${isDisabled
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-pointer hover:bg-muted/60"
+                          }`}
                       >
-                        <div className="flex items-center gap-1.5 sm:gap-2">
+                        <div className="flex items-center gap-2.5 sm:gap-2">
+                          <Checkbox
+                            checked={draftAdvancedFilters.colors.includes(key as ColorKey)}
+                            onCheckedChange={() =>
+                              !isDisabled && toggleArrayFilter("colors", key)
+                            }
+                            disabled={isDisabled}
+                          />
                           <div
-                            className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded border"
+                            className="w-4 h-4 rounded border flex-shrink-0"
                             style={{
                               backgroundColor: data.color,
                             }}
                           />
-                          <span>{displayName}</span>
+                          <span className="text-sm sm:text-sm text-foreground">
+                            {displayName}
+                          </span>
                         </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                        <span className="text-xs sm:text-xs text-muted-foreground font-medium">
+                          ({count})
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
               </div>
 
-              <div className="space-y-1 sm:space-y-1.5">
-                <Label
-                  htmlFor="area"
-                  className="text-[10px] sm:text-xs text-muted-foreground font-medium"
-                >
+              <div className="space-y-1.5 py-3 border-b border-border/30 last:border-b-0">
+                <Label className="text-sm sm:text-xs font-medium text-foreground">
                   {t('city')}
                 </Label>
-                <Select
-                  key={selectedCriteria.area || "area-empty"}
-                  value={draftAdvancedFilters.area || undefined}
-                  onValueChange={(value) => handleDraftChange("area", value)}
-                >
-                  <SelectTrigger
-                    id="area"
-                    className="h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0"
-                  >
-                    <SelectValue placeholder={t('selectCity')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white">
-                    {areas.map((area) => (
-                      <SelectItem
+                <div className="space-y-1.5 max-h-56 overflow-y-auto">
+                  {areaOptions.map(({ value: area, count }) => {
+                    const isDisabled = count === 0;
+                    return (
+                      <label
                         key={area}
-                        value={area}
-                        className="text-xs sm:text-sm text-foreground"
+                        className={`flex items-center justify-between gap-2 rounded-md p-2 sm:p-2 transition-colors ${isDisabled
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-pointer hover:bg-muted/60"
+                          }`}
                       >
-                        {area}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                        <div className="flex items-center gap-2.5 sm:gap-2">
+                          <Checkbox
+                            checked={draftAdvancedFilters.areas.includes(area)}
+                            onCheckedChange={() =>
+                              !isDisabled && toggleArrayFilter("areas", area)
+                            }
+                            disabled={isDisabled}
+                          />
+                          <span className="text-sm sm:text-sm text-foreground">{area}</span>
+                        </div>
+                        <span className="text-xs sm:text-xs text-muted-foreground font-medium">
+                          ({count})
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
               </div>
 
-              <div className="space-y-1 sm:space-y-1.5">
-                <Label
-                  htmlFor="field"
-                  className="text-[10px] sm:text-xs text-muted-foreground font-medium"
-                >
+              <div className="space-y-1.5 py-3 border-b border-border/30 last:border-b-0">
+                <Label className="text-sm sm:text-xs font-medium text-foreground">
                   {t('field')}
                 </Label>
-                <Select
-                  key={selectedCriteria.field || "field-empty"}
-                  value={draftAdvancedFilters.field || undefined}
-                  onValueChange={(value) => handleDraftChange("field", value)}
-                >
-                  <SelectTrigger
-                    id="field"
-                    className="h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0"
-                  >
-                    <SelectValue placeholder={t('selectField')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white">
-                    {fields.map((field) => (
-                      <SelectItem
+                <div className="space-y-1.5 max-h-56 overflow-y-auto">
+                  {fieldOptions.map(({ value: field, count }) => {
+                    const isDisabled = count === 0;
+                    return (
+                      <label
                         key={field}
-                        value={field}
-                        className="text-xs sm:text-sm text-foreground"
+                        className={`flex items-center justify-between gap-2 rounded-md p-2 sm:p-2 transition-colors ${isDisabled
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-pointer hover:bg-muted/60"
+                          }`}
                       >
-                        {field}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                        <div className="flex items-center gap-2.5 sm:gap-2">
+                          <Checkbox
+                            checked={draftAdvancedFilters.fields.includes(field)}
+                            onCheckedChange={() =>
+                              !isDisabled && toggleArrayFilter("fields", field)
+                            }
+                            disabled={isDisabled}
+                          />
+                          <span className="text-sm sm:text-sm text-foreground">{field}</span>
+                        </div>
+                        <span className="text-xs sm:text-xs text-muted-foreground font-medium">
+                          ({count})
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
               </div>
 
-              <div className="space-y-1 sm:space-y-1.5">
-                <Label
-                  htmlFor="school"
-                  className="text-[10px] sm:text-xs text-muted-foreground font-medium"
-                >
+              <div className="space-y-1.5 py-3 border-b border-border/30 last:border-b-0">
+                <Label className="text-sm sm:text-xs font-medium text-foreground">
                   {t('school')}
                 </Label>
-                <Select
-                  key={selectedCriteria.school || "school-empty"}
-                  value={draftAdvancedFilters.school || undefined}
-                  onValueChange={(value) => handleDraftChange("school", value)}
-                >
-                  <SelectTrigger
-                    id="school"
-                    className="h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0"
-                  >
-                    <SelectValue placeholder={t('selectSchool')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white">
-                    {schools.map((school) => (
-                      <SelectItem
+                <div className="space-y-1.5 max-h-56 overflow-y-auto">
+                  {schoolOptions.map(({ value: school, count }) => {
+                    const isDisabled = count === 0;
+                    return (
+                      <label
                         key={school}
-                        value={school}
-                        className="text-xs sm:text-sm text-foreground"
+                        className={`flex items-center justify-between gap-2 rounded-md p-2 sm:p-2 transition-colors ${isDisabled
+                          ? "opacity-50 cursor-not-allowed"
+                          : "cursor-pointer hover:bg-muted/60"
+                          }`}
                       >
-                        {school}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                        <div className="flex items-center gap-2.5 sm:gap-2">
+                          <Checkbox
+                            checked={draftAdvancedFilters.schools.includes(school)}
+                            onCheckedChange={() =>
+                              !isDisabled && toggleArrayFilter("schools", school)
+                            }
+                            disabled={isDisabled}
+                          />
+                          <span className="text-sm sm:text-sm text-foreground">{school}</span>
+                        </div>
+                        <span className="text-xs sm:text-xs text-muted-foreground font-medium">
+                          ({count})
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
               </div>
 
               {hasDraftChanges && (
-                <Button
-                  type="button"
-                  onClick={handleApplyFilters}
-                  className="h-9 sm:h-10 text-xs sm:text-sm bg-green hover:bg-green/90 text-white mt-2"
-                >
-                  {t('filter')}{" "}
-                  {draftFilterResultCount >= 0 && `(${draftFilterResultCount})`}
-                </Button>
+                <>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:gap-3 mt-2 sm:mt-3">
+                    <Button
+                      type="button"
+                      onClick={handleApplyFilters}
+                      className="h-10 sm:h-10 text-sm sm:text-sm bg-green hover:bg-green/90 text-white flex-1"
+                    >
+                      {t('filter')}{" "}
+                      {draftFilterResultCount >= 0 && `(${draftFilterResultCount})`}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={handleClear}
+                      className="h-10 sm:h-10 text-sm sm:text-sm mt-2 sm:mt-0 border-border/70 hover:bg-muted flex-1"
+                    >
+                      <X className="w-4 h-4 mr-2" />
+                      {t('clear')}
+                    </Button>
+                  </div>
+                  <div
+                    className="sr-only"
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true"
+                  >
+                    {draftFilterResultCount} results will be shown when filters are applied
+                  </div>
+                </>
               )}
             </CollapsibleContent>
           </Collapsible>
         </div>
 
         {hasActiveFilters && (
-          <div className="px-3 pb-3 sm:px-6 sm:pb-6 flex mt-2">
-            <Button
-              variant="outline"
-              onClick={handleClear}
-              className="h-9 sm:h-10 text-xs sm:text-sm bg-white text-foreground border-input hover:bg-muted flex-1"
-              type="button"
-            >
-              <X className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
-              {t('clear')}
-            </Button>
-          </div>
+          <>
+            <div className="px-3 sm:px-6 pb-2 sm:pb-3">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                {selectedCriteria.colors.map((color) => {
+                  const colorInfo = translatedColorOptions.find((c) => c.key === color);
+                  return (
+                    <Badge
+                      key={`color-${color}`}
+                      variant="secondary"
+                      className="flex items-center gap-1 sm:gap-1.5 pr-1 text-[10px] sm:text-xs"
+                    >
+                      <div
+                        className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full border"
+                        style={{
+                          backgroundColor: colorInfo?.data.color,
+                        }}
+                      />
+                      {colorInfo?.displayName}
+                      <button
+                        type="button"
+                        onClick={() => removeFilter("colors", color)}
+                        className="ml-0.5 hover:bg-muted rounded-full p-0.5"
+                        aria-label={`Remove ${colorInfo?.displayName} filter`}
+                      >
+                        <X className="w-2.5 h-2.5 sm:w-3 sm:h-3" aria-hidden="true" />
+                      </button>
+                    </Badge>
+                  );
+                })}
+                {selectedCriteria.areas.map((area) => (
+                  <Badge
+                    key={`area-${area}`}
+                    variant="secondary"
+                    className="flex items-center gap-1 sm:gap-1.5 pr-1 text-[10px] sm:text-xs"
+                  >
+                    {area}
+                    <button
+                      type="button"
+                      onClick={() => removeFilter("areas", area)}
+                      className="ml-0.5 hover:bg-muted rounded-full p-0.5"
+                      aria-label={`Remove ${area} filter`}
+                    >
+                      <X className="w-2.5 h-2.5 sm:w-3 sm:h-3" aria-hidden="true" />
+                    </button>
+                  </Badge>
+                ))}
+                {selectedCriteria.fields.map((field) => (
+                  <Badge
+                    key={`field-${field}`}
+                    variant="secondary"
+                    className="flex items-center gap-1 sm:gap-1.5 pr-1 text-[10px] sm:text-xs"
+                  >
+                    {field}
+                    <button
+                      type="button"
+                      onClick={() => removeFilter("fields", field)}
+                      className="ml-0.5 hover:bg-muted rounded-full p-0.5"
+                      aria-label={`Remove ${field} filter`}
+                    >
+                      <X className="w-2.5 h-2.5 sm:w-3 sm:h-3" aria-hidden="true" />
+                    </button>
+                  </Badge>
+                ))}
+                {selectedCriteria.schools.map((school) => (
+                  <Badge
+                    key={`school-${school}`}
+                    variant="secondary"
+                    className="flex items-center gap-1 sm:gap-1.5 pr-1 text-[10px] sm:text-xs"
+                  >
+                    {school}
+                    <button
+                      type="button"
+                      onClick={() => removeFilter("schools", school)}
+                      className="ml-0.5 hover:bg-muted rounded-full p-0.5"
+                      aria-label={`Remove ${school} filter`}
+                    >
+                      <X className="w-2.5 h-2.5 sm:w-3 sm:h-3" aria-hidden="true" />
+                    </button>
+                  </Badge>
+                ))}
+              </div>
+            </div>
+            <div className="px-3 pb-3 sm:px-6 sm:pb-6 flex">
+              <Button
+                variant="outline"
+                onClick={handleClear}
+                className="h-9 sm:h-10 text-xs sm:text-sm bg-white text-foreground border-input hover:bg-muted flex-1"
+                type="button"
+              >
+                <X className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
+                {t('clear')}
+              </Button>
+            </div>
+          </>
         )}
       </div>
     </motion.div>

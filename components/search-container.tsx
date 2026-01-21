@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useLocale } from 'next-intl';
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import SearchForm from "./search-form";
 import ResultsDisplay from "./result-display";
 import PlaceholderDisplay from "./placeholder-display";
@@ -17,10 +18,7 @@ import {
 } from "@/lib/get-unique-values";
 import type { University } from "@/types/university";
 
-export type Criteria = {
-  textSearch: string;
-  color:
-  | ""
+export type ColorKey =
   | "punainen"
   | "sininen"
   | "vihreä"
@@ -30,9 +28,13 @@ export type Criteria = {
   | "pinkki"
   | "black"
   | "white";
-  area: string;
-  field: string;
-  school: string;
+
+export type Criteria = {
+  textSearch: string;
+  colors: ColorKey[];
+  areas: string[];
+  fields: string[];
+  schools: string[];
 };
 
 interface SearchContainerProps {
@@ -45,68 +47,127 @@ export default function SearchContainer({
   colorData,
 }: SearchContainerProps) {
   const locale = useLocale() as 'fi' | 'en' | 'sv';
-  const [selectedCriteria, setSelectedCriteria] = useState<Criteria>({
-    textSearch: "",
-    color: "",
-    area: "",
-    field: "",
-    school: "",
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [selectedCriteria, setSelectedCriteria] = useState<Criteria>(() => {
+    const colors = searchParams.get("colors")?.split(",").filter(Boolean) as ColorKey[] || [];
+    const areas = searchParams.get("areas")?.split(",").filter(Boolean) || [];
+    const fields = searchParams.get("fields")?.split(",").filter(Boolean) || [];
+    const schools = searchParams.get("schools")?.split(",").filter(Boolean) || [];
+    const textSearch = searchParams.get("q") || "";
+    
+    return {
+      textSearch,
+      colors,
+      areas,
+      fields,
+      schools,
+    };
   });
 
   const [draftAdvancedFilters, setDraftAdvancedFilters] = useState<
     Omit<Criteria, "textSearch">
   >({
-    color: "",
-    area: "",
-    field: "",
-    school: "",
+    colors: [],
+    areas: [],
+    fields: [],
+    schools: [],
   });
 
   const [results, setResults] = useState<University[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [searchCache, setSearchCache] = useState<Map<string, University[]>>(
+    new Map()
+  );
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    
+    if (selectedCriteria.textSearch) {
+      params.set("q", selectedCriteria.textSearch);
+    }
+    if (selectedCriteria.colors.length > 0) {
+      params.set("colors", selectedCriteria.colors.join(","));
+    }
+    if (selectedCriteria.areas.length > 0) {
+      params.set("areas", selectedCriteria.areas.join(","));
+    }
+    if (selectedCriteria.fields.length > 0) {
+      params.set("fields", selectedCriteria.fields.join(","));
+    }
+    if (selectedCriteria.schools.length > 0) {
+      params.set("schools", selectedCriteria.schools.join(","));
+    }
+
+    const queryString = params.toString();
+    const newUrl = queryString ? `${pathname}?${queryString}` : pathname;
+    
+    router.replace(newUrl, { scroll: false });
+  }, [selectedCriteria, pathname, router]);
 
   const applyFilters = useCallback(
     (universities: University[]): University[] => {
       return universities.filter((uni) => {
-        const colorMatch = selectedCriteria.color
-          ? [...colorData.colors[selectedCriteria.color].main, ...colorData.colors[selectedCriteria.color].shades]
-            .some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()))
-          : true;
+        const colorMatch =
+          selectedCriteria.colors.length === 0 ||
+          selectedCriteria.colors.some((colorKey) => {
+            const colorVariants = [
+              ...colorData.colors[colorKey].main,
+              ...colorData.colors[colorKey].shades,
+            ];
+            return colorVariants.some((c) =>
+              uni.vari.toLowerCase().includes(c.toLowerCase())
+            );
+          });
+
         const areaMatch =
-          !selectedCriteria.area ||
-          uni.alue.toLowerCase().includes(selectedCriteria.area.toLowerCase());
+          selectedCriteria.areas.length === 0 ||
+          selectedCriteria.areas.some((area) =>
+            uni.alue.toLowerCase().includes(area.toLowerCase())
+          );
+
         const fieldMatch =
-          !selectedCriteria.field ||
-          uni.ala?.toLowerCase().includes(selectedCriteria.field.toLowerCase());
+          selectedCriteria.fields.length === 0 ||
+          selectedCriteria.fields.some((field) =>
+            uni.ala?.toLowerCase().includes(field.toLowerCase())
+          );
+
         const schoolMatch =
-          !selectedCriteria.school ||
-          uni.oppilaitos
-            .toLowerCase()
-            .includes(selectedCriteria.school.toLowerCase());
+          selectedCriteria.schools.length === 0 ||
+          selectedCriteria.schools.some((school) =>
+            uni.oppilaitos.toLowerCase().includes(school.toLowerCase())
+          );
+
         return colorMatch && areaMatch && fieldMatch && schoolMatch;
       });
     },
     [
-      selectedCriteria.color,
-      selectedCriteria.area,
-      selectedCriteria.field,
-      selectedCriteria.school,
+      selectedCriteria.colors,
+      selectedCriteria.areas,
+      selectedCriteria.fields,
+      selectedCriteria.schools,
+      colorData,
     ]
   );
 
   const performSearch = useCallback(async () => {
     let searchResults: University[] = [];
+    const searchQuery = selectedCriteria.textSearch.trim();
 
-    if (selectedCriteria.textSearch.trim().length >= 3) {
-      try {
-        searchResults = await searchUniversitiesAPI(
-          selectedCriteria.textSearch.trim(),
-          locale
-        );
-      } catch (error) {
-        console.error("Search failed");
-        searchResults = [];
+    if (searchQuery.length >= 3) {
+      if (searchCache.has(searchQuery)) {
+        searchResults = searchCache.get(searchQuery)!;
+      } else {
+        try {
+          searchResults = await searchUniversitiesAPI(searchQuery, locale);
+          setSearchCache((prev) => new Map(prev).set(searchQuery, searchResults));
+        } catch (error) {
+          console.error("Search failed");
+          searchResults = [];
+        }
       }
     } else {
       searchResults = initialUniversities;
@@ -127,7 +188,7 @@ export default function SearchContainer({
     setResults(orderedResults);
     setHasSearched(true);
     setIsSearching(false);
-  }, [selectedCriteria, applyFilters, initialUniversities, locale]);
+  }, [selectedCriteria, applyFilters, initialUniversities, locale, searchCache]);
 
   // Load all data on initial mount
   useEffect(() => {
@@ -149,10 +210,10 @@ export default function SearchContainer({
   useEffect(() => {
     const hasTextSearch = selectedCriteria.textSearch.trim().length >= 3;
     const hasFilters =
-      selectedCriteria.color ||
-      selectedCriteria.area ||
-      selectedCriteria.field ||
-      selectedCriteria.school;
+      selectedCriteria.colors.length > 0 ||
+      selectedCriteria.areas.length > 0 ||
+      selectedCriteria.fields.length > 0 ||
+      selectedCriteria.schools.length > 0;
 
     // If user clears everything, show all data again
     if (hasSearched && !hasTextSearch && !hasFilters) {
@@ -197,147 +258,212 @@ export default function SearchContainer({
   const handleApplyAdvancedFilters = useCallback(() => {
     setSelectedCriteria((prev) => ({
       ...prev,
-      color: draftAdvancedFilters.color,
-      area: draftAdvancedFilters.area,
-      field: draftAdvancedFilters.field,
-      school: draftAdvancedFilters.school,
+      colors: draftAdvancedFilters.colors,
+      areas: draftAdvancedFilters.areas,
+      fields: draftAdvancedFilters.fields,
+      schools: draftAdvancedFilters.schools,
     }));
   }, [draftAdvancedFilters]);
 
   const handleClearAll = useCallback(() => {
     setSelectedCriteria({
       textSearch: "",
-      color: "",
-      area: "",
-      field: "",
-      school: "",
+      colors: [],
+      areas: [],
+      fields: [],
+      schools: [],
     });
     setDraftAdvancedFilters({
-      color: "",
-      area: "",
-      field: "",
-      school: "",
+      colors: [],
+      areas: [],
+      fields: [],
+      schools: [],
     });
   }, []);
 
   const [draftFilterResultCount, setDraftFilterResultCount] = useState(0);
 
   useEffect(() => {
-      const calculateDraftFilterResultCount = async () => {
+    const calculateDraftFilterResultCount = async () => {
       let searchResults: University[] = [];
+      const searchQuery = selectedCriteria.textSearch.trim();
 
-      if (selectedCriteria.textSearch.trim().length >= 3) {
-        try {
-          searchResults = await searchUniversitiesAPI(
-            selectedCriteria.textSearch.trim(),
-            locale
-          );
-        } catch (error) {
-          console.error("API search failed in draftFilterResultCount:", error);
-          searchResults = [];
+      if (searchQuery.length >= 3) {
+        if (searchCache.has(searchQuery)) {
+          searchResults = searchCache.get(searchQuery)!;
+        } else {
+          try {
+            searchResults = await searchUniversitiesAPI(searchQuery, locale);
+            setSearchCache((prev) => new Map(prev).set(searchQuery, searchResults));
+          } catch (error) {
+            console.error("API search failed in draftFilterResultCount:", error);
+            searchResults = [];
+          }
         }
       } else {
         searchResults = initialUniversities;
       }
 
       const filteredResults = searchResults.filter((uni) => {
-        const colorMatch = draftAdvancedFilters.color
-          ? [...colorData.colors[draftAdvancedFilters.color].main, ...colorData.colors[draftAdvancedFilters.color].shades]
-            .some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()))
-          : true;
+        const colorMatch =
+          draftAdvancedFilters.colors.length === 0 ||
+          draftAdvancedFilters.colors.some((colorKey) => {
+            const colorVariants = [
+              ...colorData.colors[colorKey].main,
+              ...colorData.colors[colorKey].shades,
+            ];
+            return colorVariants.some((c) =>
+              uni.vari.toLowerCase().includes(c.toLowerCase())
+            );
+          });
+
         const areaMatch =
-          !draftAdvancedFilters.area ||
-          uni.alue
-            .toLowerCase()
-            .includes(draftAdvancedFilters.area.toLowerCase());
+          draftAdvancedFilters.areas.length === 0 ||
+          draftAdvancedFilters.areas.some((area) =>
+            uni.alue.toLowerCase().includes(area.toLowerCase())
+          );
+
         const fieldMatch =
-          !draftAdvancedFilters.field ||
-          uni.ala
-            ?.toLowerCase()
-            .includes(draftAdvancedFilters.field.toLowerCase());
+          draftAdvancedFilters.fields.length === 0 ||
+          draftAdvancedFilters.fields.some((field) =>
+            uni.ala?.toLowerCase().includes(field.toLowerCase())
+          );
+
         const schoolMatch =
-          !draftAdvancedFilters.school ||
-          uni.oppilaitos
-            .toLowerCase()
-            .includes(draftAdvancedFilters.school.toLowerCase());
+          draftAdvancedFilters.schools.length === 0 ||
+          draftAdvancedFilters.schools.some((school) =>
+            uni.oppilaitos.toLowerCase().includes(school.toLowerCase())
+          );
+
         return colorMatch && areaMatch && fieldMatch && schoolMatch;
       });
 
       setDraftFilterResultCount(filteredResults.length);
     };
 
-    calculateDraftFilterResultCount();
-  }, [selectedCriteria.textSearch, draftAdvancedFilters, initialUniversities, locale]);
+    const timeoutId = setTimeout(() => {
+      calculateDraftFilterResultCount();
+    }, 200);
+
+    return () => clearTimeout(timeoutId);
+  }, [
+    selectedCriteria.textSearch,
+    draftAdvancedFilters,
+    initialUniversities,
+    locale,
+    searchCache,
+    colorData,
+  ]);
 
   useEffect(() => {
     setDraftAdvancedFilters({
-      color: selectedCriteria.color,
-      area: selectedCriteria.area,
-      field: selectedCriteria.field,
-      school: selectedCriteria.school,
+      colors: selectedCriteria.colors,
+      areas: selectedCriteria.areas,
+      fields: selectedCriteria.fields,
+      schools: selectedCriteria.schools,
     });
   }, [
-    selectedCriteria.color,
-    selectedCriteria.area,
-    selectedCriteria.field,
-    selectedCriteria.school,
+    selectedCriteria.colors,
+    selectedCriteria.areas,
+    selectedCriteria.fields,
+    selectedCriteria.schools,
   ]);
 
   const matchesDraftFilters = useCallback(
-    (uni: University, ignore?: "color" | "area" | "field" | "school") => {
+    (uni: University, ignore?: "colors" | "areas" | "fields" | "schools") => {
       const colorMatch =
-        ignore === "color" || !draftAdvancedFilters.color
-          ? true
-          : [...colorData.colors[draftAdvancedFilters.color].main, ...colorData.colors[draftAdvancedFilters.color].shades]
-            .some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()));
+        ignore === "colors" ||
+        draftAdvancedFilters.colors.length === 0 ||
+        draftAdvancedFilters.colors.some((colorKey) => {
+          const colorVariants = [
+            ...colorData.colors[colorKey].main,
+            ...colorData.colors[colorKey].shades,
+          ];
+          return colorVariants.some((c) =>
+            uni.vari.toLowerCase().includes(c.toLowerCase())
+          );
+        });
 
       const areaMatch =
-        ignore === "area" ||
-        !draftAdvancedFilters.area ||
-        uni.alue
-          .toLowerCase()
-          .includes(draftAdvancedFilters.area.toLowerCase());
+        ignore === "areas" ||
+        draftAdvancedFilters.areas.length === 0 ||
+        draftAdvancedFilters.areas.some((area) =>
+          uni.alue.toLowerCase().includes(area.toLowerCase())
+        );
 
       const fieldMatch =
-        ignore === "field" ||
-        !draftAdvancedFilters.field ||
-        uni.ala
-          ?.toLowerCase()
-          .includes(draftAdvancedFilters.field.toLowerCase());
+        ignore === "fields" ||
+        draftAdvancedFilters.fields.length === 0 ||
+        draftAdvancedFilters.fields.some((field) =>
+          uni.ala?.toLowerCase().includes(field.toLowerCase())
+        );
 
       const schoolMatch =
-        ignore === "school" ||
-        !draftAdvancedFilters.school ||
-        uni.oppilaitos
-          .toLowerCase()
-          .includes(draftAdvancedFilters.school.toLowerCase());
+        ignore === "schools" ||
+        draftAdvancedFilters.schools.length === 0 ||
+        draftAdvancedFilters.schools.some((school) =>
+          uni.oppilaitos.toLowerCase().includes(school.toLowerCase())
+        );
 
       return colorMatch && areaMatch && fieldMatch && schoolMatch;
     },
-    [draftAdvancedFilters]
+    [draftAdvancedFilters, colorData]
   );
 
-  const areaOptions = useMemo(
-    () =>
-      getUniqueAreas(
-        initialUniversities.filter((uni) => matchesDraftFilters(uni, "area"))
-      ),
-    [initialUniversities, matchesDraftFilters]
-  );
-  const fieldOptions = useMemo(
-    () =>
-      getUniqueFields(
-        initialUniversities.filter((uni) => matchesDraftFilters(uni, "field"))
-      ),
-    [initialUniversities, matchesDraftFilters]
-  );
-  const schoolOptions = useMemo(
-    () =>
-      getUniqueUniversities(
-        initialUniversities.filter((uni) => matchesDraftFilters(uni, "school"))
-      ),
-    [initialUniversities, matchesDraftFilters]
-  );
+  const colorOptionsWithCounts = useMemo(() => {
+    return Object.keys(colorData.colors).map((colorKey) => {
+      const count = initialUniversities.filter((uni) => {
+        if (!matchesDraftFilters(uni, "colors")) return false;
+        const colorVariants = [
+          ...colorData.colors[colorKey].main,
+          ...colorData.colors[colorKey].shades,
+        ];
+        return colorVariants.some((c) =>
+          uni.vari.toLowerCase().includes(c.toLowerCase())
+        );
+      }).length;
+      return { value: colorKey as ColorKey, count };
+    });
+  }, [initialUniversities, matchesDraftFilters, colorData]);
+
+  const areaOptionsWithCounts = useMemo(() => {
+    const areas = getUniqueAreas(
+      initialUniversities.filter((uni) => matchesDraftFilters(uni, "areas"))
+    );
+    return areas.map((area) => {
+      const count = initialUniversities.filter((uni) => {
+        if (!matchesDraftFilters(uni, "areas")) return false;
+        return uni.alue.toLowerCase().includes(area.toLowerCase());
+      }).length;
+      return { value: area, count };
+    });
+  }, [initialUniversities, matchesDraftFilters]);
+
+  const fieldOptionsWithCounts = useMemo(() => {
+    const fields = getUniqueFields(
+      initialUniversities.filter((uni) => matchesDraftFilters(uni, "fields"))
+    );
+    return fields.map((field) => {
+      const count = initialUniversities.filter((uni) => {
+        if (!matchesDraftFilters(uni, "fields")) return false;
+        return uni.ala?.toLowerCase().includes(field.toLowerCase());
+      }).length;
+      return { value: field, count };
+    });
+  }, [initialUniversities, matchesDraftFilters]);
+
+  const schoolOptionsWithCounts = useMemo(() => {
+    const schools = getUniqueUniversities(
+      initialUniversities.filter((uni) => matchesDraftFilters(uni, "schools"))
+    );
+    return schools.map((school) => {
+      const count = initialUniversities.filter((uni) => {
+        if (!matchesDraftFilters(uni, "schools")) return false;
+        return uni.oppilaitos.toLowerCase().includes(school.toLowerCase());
+      }).length;
+      return { value: school, count };
+    });
+  }, [initialUniversities, matchesDraftFilters]);
 
   return (
     <div className="w-full">
@@ -346,9 +472,10 @@ export default function SearchContainer({
         onDraftAdvancedFilterChange={handleDraftAdvancedFilterChange}
         onApplyAdvancedFilters={handleApplyAdvancedFilters}
         onClearAll={handleClearAll}
-        areas={areaOptions}
-        fields={fieldOptions}
-        schools={schoolOptions}
+        colorOptions={colorOptionsWithCounts}
+        areaOptions={areaOptionsWithCounts}
+        fieldOptions={fieldOptionsWithCounts}
+        schoolOptions={schoolOptionsWithCounts}
         selectedCriteria={selectedCriteria}
         draftAdvancedFilters={draftAdvancedFilters}
         resultCount={results.length}
