@@ -95,8 +95,8 @@
     "title": "Haalarivärit",
     "description": "Selvitä missä oppilaitoksissa käytetään {color} haalaria. Tietokanta sisältää {count} eri haalaria {schoolCount} eri oppilaitoksella.",
     "notFound": "Väri ei löytynyt",
-    "pageTitle": "Haalarivärit | Kaikki opiskelijahaalarivärit Suomessa | Haalarikone",
-    "pageDescription": "Täydellinen lista kaikista Suomen opiskelijahaalariväreistä. Yli 100 eri haalariväriä yliopistoista ja AMK:ista. Löydä haluamasi haalariväri ja katso mitkä oppilaitokset käyttävät sitä.",
+    "pageTitle": "Haalarivärit – Selvitä kenen haalari on minkä värinen | Haalarikone",
+    "pageDescription": "Etsi haalarivärit alan, oppilaitoksen tai värin mukaan. Yli {count} väriä – vastaus heti.",
     "relatedTopics": "Liittyvät aiheet",
     "overallCount": "eri haalaria",
     "schoolCount": "eri oppilaitoksella"

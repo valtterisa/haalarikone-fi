@@ -94,8 +94,8 @@
     "title": "Overall Colors",
     "description": "Select an overall color to see all related overalls and institutions.",
     "notFound": "Color not found",
-    "pageTitle": "Overall Colors | All student overall colors in Finland | Overall Machine",
-    "pageDescription": "Complete list of all student overall colors in Finland. Over 100 different overall colors from universities and UAS. Find your desired overall color and see which institutions use it.",
+    "pageTitle": "Overall Colors – Find which color each field wears | Overall Machine",
+    "pageDescription": "Search overall colors by field, institution or color. Over {count} colors – get your answer fast.",
     "relatedTopics": "Related topics",
     "overallCount": "different overalls",
     "schoolCount": "different institutions"

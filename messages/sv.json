@@ -94,8 +94,8 @@
     "title": "Overallfärger",
     "description": "Välj en overallfärg för att se alla relaterade overallar och institutioner.",
     "notFound": "Färg hittades inte",
-    "pageTitle": "Overallfärger | Alla studentoverallfärger i Finland | Overallmaskinen",
-    "pageDescription": "Komplett lista över alla studentoverallfärger i Finland. Över 100 olika overallfärger från universitet och yrkeshögskolor. Hitta din önskade overallfärg och se vilka institutioner som använder den.",
+    "pageTitle": "Overallfärger – Se vilken färg varje område har | Overallmaskinen",
+    "pageDescription": "Sök overallfärger efter område, institution eller färg. Över {count} färger – få svar direkt.",
     "relatedTopics": "Relaterade ämnen",
     "overallCount": "olika overallar",
     "schoolCount": "olika institutioner"

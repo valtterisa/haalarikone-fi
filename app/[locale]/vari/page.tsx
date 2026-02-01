@@ -21,10 +21,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'colors' });
   const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
-  
+  const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
+  const colorCount = getUniqueColors(universities).length;
+  const description = t('pageDescription', { count: colorCount });
+
   return {
     title: t('pageTitle'),
-    description: t('pageDescription'),
+    description,
     keywords: [
       "haalarivärit",
       "opiskelijahaalarivärit",
@@ -37,7 +40,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     ],
     openGraph: {
       title: t('pageTitle'),
-      description: t('pageDescription'),
+      description,
       images: [
         {
           url: "/haalarikone-og.png",
@@ -54,7 +57,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     twitter: {
       card: "summary_large_image",
       title: t('pageTitle'),
-      description: t('pageDescription'),
+      description,
       images: ["/haalarikone-og.png"],
     },
     alternates: {
@@ -140,7 +143,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
 
         <h1 className="text-4xl font-bold mb-4">{t('colors.title')}</h1>
         <p className="text-lg text-gray-700 mb-8">
-          {t('colors.pageDescription')}
+          {t('colors.pageDescription', { count: colors.length })}
         </p>
 
         <SearchWithDivider section="colors" />
