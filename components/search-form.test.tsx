@@ -90,7 +90,7 @@ describe("SearchForm", () => {
         schools={["Helsingin yliopisto"]}
         selectedCriteria={baseCriteria}
         draftAdvancedFilters={{
-          color: "vihrea",
+          color: "vihreä",
           area: "Helsinki",
           field: "fysiikka",
           school: "Helsingin yliopisto",
@@ -107,7 +107,7 @@ describe("SearchForm", () => {
     await userEvent.click(filtersToggle);
 
     const applyButton = await screen.findByRole("button", {
-      name: /filter/i,
+      name: "filter (3)",
     });
 
     await userEvent.click(applyButton);

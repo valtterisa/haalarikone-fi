@@ -42,7 +42,7 @@ describe("FeedbackForm", () => {
     const messageInput = screen.getByLabelText("Viesti");
     const submitButton = screen.getByRole("button", { name: "Lähetä" });
 
-    await userEvent.type(messageInput, "Liian lyhyt");
+    await userEvent.type(messageInput, "Lyhyt");
     await userEvent.click(submitButton);
 
     expect(
