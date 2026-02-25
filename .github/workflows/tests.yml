@@ -10,15 +10,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-      FEEDBACK_EMAIL_TO: ${{ secrets.FEEDBACK_EMAIL_TO }}
-      UPSTASH_SEARCH_REST_URL: ${{ secrets.UPSTASH_SEARCH_REST_URL }}
-      UPSTASH_SEARCH_REST_TOKEN: ${{ secrets.UPSTASH_SEARCH_REST_TOKEN }}
-      UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
-      UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
-      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -35,14 +26,30 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
       - name: Run unit and component tests
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          FEEDBACK_EMAIL_TO: ${{ secrets.FEEDBACK_EMAIL_TO }}
+          UPSTASH_SEARCH_REST_URL: ${{ secrets.UPSTASH_SEARCH_REST_URL }}
+          UPSTASH_SEARCH_REST_TOKEN: ${{ secrets.UPSTASH_SEARCH_REST_TOKEN }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: pnpm test
 
       - name: Run end-to-end tests
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          FEEDBACK_EMAIL_TO: ${{ secrets.FEEDBACK_EMAIL_TO }}
+          UPSTASH_SEARCH_REST_URL: ${{ secrets.UPSTASH_SEARCH_REST_URL }}
+          UPSTASH_SEARCH_REST_TOKEN: ${{ secrets.UPSTASH_SEARCH_REST_TOKEN }}
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: pnpm run test:e2e
 
