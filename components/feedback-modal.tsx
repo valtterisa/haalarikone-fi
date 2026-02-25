@@ -34,6 +34,7 @@ export function FeedbackModal({
         className={triggerClassName}
         variant={triggerVariant}
         size={triggerSize}
+        data-testid="feedback-trigger"
       >
         {triggerLabel}
       </Button>

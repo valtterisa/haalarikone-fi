@@ -197,6 +197,7 @@ export function FeedbackForm({
         <textarea
           id={`${id}-message`}
           name="message"
+          data-testid="feedback-message"
           required
           minLength={10}
           placeholder={messagePlaceholder}
@@ -213,6 +214,7 @@ export function FeedbackForm({
           type="submit"
           disabled={pending}
           className="bg-green text-white hover:bg-green/90"
+          data-testid="feedback-submit"
         >
           {pending ? "Lähetetään..." : submitLabel}
         </Button>

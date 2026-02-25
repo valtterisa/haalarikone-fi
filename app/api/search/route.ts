@@ -25,12 +25,16 @@ export async function POST(req: Request) {
     );
   }
 
-  const body = await req.json() as {
-    query: string;
-    locale?: 'fi' | 'en' | 'sv';
-  };
+  let parsed: { query?: string; locale?: 'fi' | 'en' | 'sv' } = {};
 
-  const { query, locale = 'fi' } = body;
+  try {
+    parsed = await req.json() as typeof parsed;
+  } catch {
+    // If body is missing or invalid JSON, fall back to empty query.
+  }
+
+  const query = parsed.query?.trim() ?? '';
+  const locale = parsed.locale ?? 'fi';
 
   if (!query || query.trim().length < 3) {
     return NextResponse.json({ results: [], totalCount: 0 });
