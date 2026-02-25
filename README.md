@@ -1,6 +1,8 @@
 # Haalarikone
 
-**Haalarikone** is Finland's easiest overall database – a unique way to explore Finnish student culture through colors. Find out what color overall a student in a specific field wears!
+> Finland's easiest overall database – a unique way to explore Finnish student culture through colors.
+
+Find out what color overall a student in a specific field wears.
 
 ## Overview
 
@@ -25,113 +27,16 @@ Check out the live project at: [haalarikone.fi](https://haalarikone.fi)
 - **Rate Limiting & Caching:** Upstash Redis
 - **Email:** Resend (for feedback forms)
 - **Analytics:** Databuddy
-- **Testing:** Playwright
+- **Testing:** Vitest + React Testing Library (unit/integration), Playwright (end-to-end)
 - **Package Manager:** pnpm
 - **Deployment:** Vercel
 
-## Prerequisites
+## Quick Links
 
-Before you begin, ensure you have the following installed:
-
-- **Node.js** (LTS version recommended)
-- **pnpm** (package manager)
-- **Git**
-
-## Getting Started
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/YOUR_USERNAME/haalarikone.git
-cd haalarikone
-```
-
-### 2. Install Dependencies
-
-```bash
-pnpm install
-```
-
-### 3. Set Up Required Services
-
-#### Upstash (Required)
-
-The application requires Upstash for search functionality and rate limiting. Follow these steps to set up Upstash:
-
-1. **Create an Upstash account:**
-   - Go to [upstash.com](https://upstash.com) and sign up for a free account
-
-2. **Create an Upstash Redis database:**
-   - Navigate to the Redis tab in your Upstash console
-   - Click "Create Database"
-   - Choose a name and region closest to your deployment
-   - Copy the **REST URL** and **REST TOKEN** from the database details page
-
-3. **Create an Upstash Search index:**
-   - Navigate to the Search tab in your Upstash console
-   - Click "Create Index"
-   - Name it `haalarikone-db`
-   - Copy the **REST URL** and **REST TOKEN** from the index details page
-
-4. **Get an Anthropic API key:**
-   - Go to [console.anthropic.com](https://console.anthropic.com)
-   - Sign up or log in
-   - Navigate to API Keys
-   - Create a new API key and copy it
-
-#### Resend (Optional - for feedback form)
-
-5. **Get a Resend API key (optional):**
-   - Go to [resend.com](https://resend.com)
-   - Sign up or log in
-   - Create an API key
-   - Note: If not configured, the feedback form will fail silently without visible errors
-
-### 4. Environment Variables
-
-Create a `.env.local` file in the root directory with the following variables:
-
-```env
-# Upstash Search (Required)
-UPSTASH_SEARCH_REST_URL=your_upstash_search_rest_url
-UPSTASH_SEARCH_REST_TOKEN=your_upstash_search_rest_token
-
-# Upstash Redis (Required - for rate limiting and caching)
-UPSTASH_REDIS_REST_URL=your_upstash_redis_rest_url
-UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_rest_token
-
-# Anthropic (Required - for AI-powered search)
-ANTHROPIC_API_KEY=your_anthropic_api_key
-
-# Resend (Optional - feedback form only, fails silently if missing)
-RESEND_API_KEY=your_resend_api_key
-FEEDBACK_EMAIL_TO=your_email@example.com
-```
-
-**Note:** 
-- **Required keys:** UPSTASH_SEARCH_REST_URL, UPSTASH_SEARCH_REST_TOKEN, UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN, ANTHROPIC_API_KEY
-- **Optional keys:** RESEND_API_KEY, FEEDBACK_EMAIL_TO (feedback form fails silently if missing)
-- The app uses `localePrefix: 'as-needed'` - Finnish (default) has no prefix, other locales use `/en` or `/sv`
-
-### 5. Run the Development Server
-
-```bash
-pnpm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser to see the app.
-
-### 6. Run Tests
-
-```bash
-pnpm test
-```
-
-To view the test report:
-
-```bash
-pnpm exec playwright show-report
-```
+- **Live Site:** [haalarikone.fi](https://haalarikone.fi)
+- **Contributing Guidelines:** [CONTRIBUTING.md](./CONTRIBUTING.md)
+- **Issue Tracker:** [`Issues` on GitHub](https://github.com/valtterisa/haalarikone/issues)
+- **License:** [LICENSE](./LICENSE)
 
 ## Project Structure
 
@@ -173,14 +78,6 @@ student-overall-app/
 ├── utils/                 # Utility functions
 └── tests/                 # Playwright tests
 ```
-
-## Available Scripts
-
-- `pnpm run dev` - Start development server with Turbopack
-- `pnpm run build` - Build production bundle with Turbopack
-- `pnpm run start` - Start production server
-- `pnpm test` - Run Playwright tests
-- `pnpm exec playwright show-report` - View test report after running tests
 
 ## Features
 
@@ -252,47 +149,6 @@ flowchart TD
 - **Intelligent Parsing:** Understands natural language queries in Finnish, English, Swedish
 - **Fast Performance:** Deterministic filtering is ~10-50ms, AI parsing ~200-400ms
 - **Fallback Safety:** Semantic search only when needed, still respects filters
-
-## Development Guidelines
-
-### Code Style
-
-- **TypeScript:** Strict mode enabled
-- **Formatting:** Prettier (configured)
-- **Linting:** TypeScript compiler checks
-- **Comments:** Minimal comments (per project preferences)
-
-### Component Structure
-
-- Use functional components with TypeScript
-- Prefer server components when possible (Next.js App Router)
-- Client components should be marked with `"use client"` directive
-- Use path aliases (`@/`) for imports
-
-### Internationalization
-
-- All user-facing text should be in translation files (`messages/*.json`)
-- Use `useTranslations` hook for client components
-- Use `getTranslations` for server components
-- Route segments are automatically translated via `route-translations.ts`
-- Entity slugs (universities, fields, colors) are translated via `slug-translations.ts`
-
-### Styling
-
-- Use Tailwind CSS utility classes
-- Custom components in `components/ui/` use Radix UI primitives
-- Theme support via `next-themes`
-- Responsive breakpoints: `sm:`, `md:`, `lg:`, `xl:`
-
-## Testing
-
-Tests are written using Playwright and located in the `tests/` directory. The test configuration runs tests against Chromium, Firefox, and WebKit.
-
-To run tests in a specific browser:
-
-```bash
-pnpm exec playwright test --project=chromium
-```
 
 ## Contributing
 

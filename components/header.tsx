@@ -120,12 +120,12 @@ export default function Header() {
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen((prev) => !prev)}
             >
-            {mobileOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
-          </button>
+              {mobileOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </button>
           </div>
         </nav>
         {mobileOpen && (
