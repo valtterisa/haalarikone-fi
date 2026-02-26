@@ -1,24 +1,28 @@
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { Databuddy } from "@databuddy/sdk/react";
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
-import { notFound } from 'next/navigation';
-import { routing } from '@/i18n/routing';
-import { getTranslations } from 'next-intl/server';
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
+import { getTranslations } from "next-intl/server";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'meta' });
-  
+  const t = await getTranslations({ locale, namespace: "meta" });
+
   return {
     metadataBase: new URL("https://haalarikone.fi"),
-    title: t('defaultTitle'),
-    description: t('defaultDescription'),
+    title: t("defaultTitle"),
+    description: t("defaultDescription"),
     keywords: [
       "haalarivärit",
       "opiskelijahaalarivärit",
@@ -31,7 +35,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       "haalarivärit 2025",
       "opiskelijan haalari",
     ],
-    authors: [{ name: t('siteName') }],
+    authors: [{ name: t("siteName") }],
     robots: {
       index: true,
       follow: true,
@@ -44,29 +48,29 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       },
     },
     openGraph: {
-      title: t('defaultTitle'),
-      description: t('defaultDescription'),
+      title: t("defaultTitle"),
+      description: t("defaultDescription"),
       images: [
         {
           url: "/haalarikone-og.png",
           width: 1200,
           height: 630,
-          alt: `${t('siteName')} - Suomen helpoin haalaritietokanta`,
+          alt: `${t("siteName")} - Suomen helpoin haalaritietokanta`,
         },
       ],
       type: "website",
-      siteName: t('siteName'),
-      locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: `https://haalarikone.fi${locale === 'fi' ? '' : `/${locale}`}`,
+      siteName: t("siteName"),
+      locale: locale === "fi" ? "fi_FI" : locale === "en" ? "en_US" : "sv_SE",
+      url: `https://haalarikone.fi${locale === "fi" ? "" : `/${locale}`}`,
     },
     twitter: {
       card: "summary_large_image",
-      title: t('defaultTitle'),
-      description: t('defaultDescription'),
+      title: t("defaultTitle"),
+      description: t("defaultDescription"),
       images: ["/haalarikone-og.png"],
     },
     alternates: {
-      canonical: `https://haalarikone.fi${locale === 'fi' ? '' : `/${locale}`}`,
+      canonical: `https://haalarikone.fi${locale === "fi" ? "" : `/${locale}`}`,
       languages: {
         fi: "https://haalarikone.fi",
         en: "https://haalarikone.fi/en",
@@ -84,7 +88,7 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  
+
   if (!routing.locales.includes(locale as any)) {
     notFound();
   }
@@ -101,10 +105,7 @@ export default async function LocaleLayout({
             clientId="Uu3N9TuBuUAa3wAS4pHNw"
             trackOutgoingLinks={true}
             trackInteractions={true}
-            trackEngagement={true}
-            trackExitIntent={true}
-            trackBounceRate={true}
-            trackWebVitals={true}
+            trackWebVitals={false}
             trackErrors={true}
             enableBatching={true}
           />
@@ -114,4 +115,3 @@ export default async function LocaleLayout({
     </NextIntlClientProvider>
   );
 }
-
