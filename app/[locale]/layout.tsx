@@ -11,8 +11,15 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params;
+export async function generateMetadata({ params }: { params: { locale: string } }) {
+  const { locale: localeRaw } = params;
+
+  if (!routing.locales.includes(localeRaw as (typeof routing.locales)[number])) {
+    notFound();
+  }
+
+  const locale = localeRaw as (typeof routing.locales)[number];
+
   const t = await getTranslations({ locale, namespace: 'meta' });
 
   return {
@@ -83,11 +90,13 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  const { locale: localeRaw } = await params;
 
-  if (!routing.locales.includes(locale as any)) {
+  if (!routing.locales.includes(localeRaw as (typeof routing.locales)[number])) {
     notFound();
   }
+
+  const locale = localeRaw as (typeof routing.locales)[number];
 
   const messages = await getMessages({ locale });
 

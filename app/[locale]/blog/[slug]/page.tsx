@@ -8,7 +8,7 @@ import { getTranslations } from 'next-intl/server';
 export const revalidate = 86400;
 
 type Props = {
-  params: Promise<{ locale: string; slug: string }>;
+  params: Promise<{ locale: 'fi' | 'en' | 'sv'; slug: string }>;
 };
 
 export async function generateStaticParams() {
@@ -35,11 +35,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const contentString = typeof post.content === 'string' ? post.content : (post.content[locale as keyof typeof post.content] || post.content.fi || '');
-  const titleString = typeof post.title === 'string' ? post.title : (post.title[locale as keyof typeof post.title] || post.title.en || post.title.fi || '');
-  const descriptionString = typeof post.description === 'string' ? post.description : (post.description[locale as keyof typeof post.description] || post.description.en || post.description.fi || '');
-  const authorString = typeof post.author === 'string' ? post.author : (post.author[locale as keyof typeof post.author] || post.author.en || post.author.fi || '');
-  const wordCount = contentString.replace(/<[^>]*>/g, '').split(/\s+/).length;
+  const titleString =
+    typeof post.title === 'string'
+      ? post.title
+      : post.title[locale as keyof typeof post.title] || post.title.en || post.title.fi || '';
+  const descriptionString =
+    typeof post.description === 'string'
+      ? post.description
+      : post.description[locale as keyof typeof post.description] ||
+        post.description.en ||
+        post.description.fi ||
+        '';
+  const authorString =
+    typeof post.author === 'string'
+      ? post.author
+      : post.author[locale as keyof typeof post.author] || post.author.en || post.author.fi || '';
   const category = 'Opiskelijakulttuuri';
   const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
 
@@ -106,10 +116,25 @@ export default async function BlogPostPage({ params }: Props) {
     notFound();
   }
 
-  const contentString = typeof post.content === 'string' ? post.content : (post.content[locale as keyof typeof post.content] || post.content.fi || '');
-  const titleString = typeof post.title === 'string' ? post.title : (post.title[locale as keyof typeof post.title] || post.title.en || post.title.fi || '');
-  const descriptionString = typeof post.description === 'string' ? post.description : (post.description[locale as keyof typeof post.description] || post.description.en || post.description.fi || '');
-  const authorString = typeof post.author === 'string' ? post.author : (post.author[locale as keyof typeof post.author] || post.author.en || post.author.fi || '');
+  const contentString =
+    typeof post.content === 'string'
+      ? post.content
+      : post.content[locale as keyof typeof post.content] || post.content.fi || '';
+  const titleString =
+    typeof post.title === 'string'
+      ? post.title
+      : post.title[locale as keyof typeof post.title] || post.title.en || post.title.fi || '';
+  const descriptionString =
+    typeof post.description === 'string'
+      ? post.description
+      : post.description[locale as keyof typeof post.description] ||
+        post.description.en ||
+        post.description.fi ||
+        '';
+  const authorString =
+    typeof post.author === 'string'
+      ? post.author
+      : post.author[locale as keyof typeof post.author] || post.author.en || post.author.fi || '';
   const wordCount = contentString.replace(/<[^>]*>/g, '').split(/\s+/).length;
   const timeRequired = post.readingTime ? `PT${post.readingTime}M` : undefined;
   const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
@@ -195,10 +220,7 @@ export default async function BlogPostPage({ params }: Props) {
         }}
       />
       <div className="container mx-auto px-4 py-16 max-w-4xl">
-        <Link
-          href="/blog"
-          className="text-green hover:underline mb-4 inline-block"
-        >
+        <Link href="/blog" className="text-green hover:underline mb-4 inline-block">
           ← {t('common.backToHome')}
         </Link>
 
@@ -208,16 +230,23 @@ export default async function BlogPostPage({ params }: Props) {
             <p className="text-xl text-gray-700 mb-6">{descriptionString}</p>
             <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 border-b pb-4">
               <time dateTime={post.publishDate}>
-                {new Date(post.publishDate).toLocaleDateString(locale === 'fi' ? 'fi-FI' : locale === 'en' ? 'en-US' : 'sv-SE', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
+                {new Date(post.publishDate).toLocaleDateString(
+                  locale === 'fi' ? 'fi-FI' : locale === 'en' ? 'en-US' : 'sv-SE',
+                  {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  },
+                )}
               </time>
               {post.readingTime && (
-                <span>{t('blog.readingTime')}: {post.readingTime} min</span>
+                <span>
+                  {t('blog.readingTime')}: {post.readingTime} min
+                </span>
               )}
-              <span>{t('blog.author')}: {authorString}</span>
+              <span>
+                {t('blog.author')}: {authorString}
+              </span>
             </div>
           </header>
 
@@ -228,10 +257,7 @@ export default async function BlogPostPage({ params }: Props) {
         </article>
 
         <div className="mt-12 pt-8 border-t">
-          <Link
-            href="/blog"
-            className="text-green hover:underline font-medium"
-          >
+          <Link href="/blog" className="text-green hover:underline font-medium">
             ← {t('common.backToHome')}
           </Link>
         </div>
@@ -239,4 +265,3 @@ export default async function BlogPostPage({ params }: Props) {
     </>
   );
 }
-

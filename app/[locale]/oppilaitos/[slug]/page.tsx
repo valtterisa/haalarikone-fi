@@ -5,31 +5,29 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { loadUniversities } from "@/lib/load-universities";
-import { getUniversitiesByUniversity } from "@/lib/get-universities-by-criteria";
-import { getSlugForEntity, getEntityFromSlug, getEntityTranslation } from "@/lib/slug-translations";
-import { capitalizeFirstLetter } from "@/lib/utils";
-import { Metadata } from "next";
-import { Link } from "@/i18n/routing";
-import Script from "next/script";
-import UniversityCard from "@/components/university-card";
+} from '@/components/ui/breadcrumb';
+import { loadUniversities } from '@/lib/load-universities';
+import { getUniversitiesByUniversity } from '@/lib/get-universities-by-criteria';
+import { getSlugForEntity, getEntityFromSlug, getEntityTranslation } from '@/lib/slug-translations';
+import { capitalizeFirstLetter } from '@/lib/utils';
+import { Metadata } from 'next';
+import { Link } from '@/i18n/routing';
+import Script from 'next/script';
+import UniversityCard from '@/components/university-card';
 import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 
 export const revalidate = 3600;
 
 type Props = {
-  params: Promise<{ locale: string; slug: string }>;
+  params: Promise<{ locale: 'fi' | 'en' | 'sv'; slug: string }>;
 };
 
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const universities = await loadUniversities('fi');
-  const uniqueUniversities = Array.from(
-    new Set(universities.map((u) => u.oppilaitos))
-  );
+  const uniqueUniversities = Array.from(new Set(universities.map((u) => u.oppilaitos)));
 
   const params = [];
   for (const locale of routing.locales) {
@@ -45,11 +43,9 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
-  const uniqueUniversities = Array.from(
-    new Set(universities.map((u) => u.oppilaitos))
-  );
-  const university = getEntityFromSlug(slug, locale as 'fi' | 'en' | 'sv', 'university', uniqueUniversities);
+  const universities = await loadUniversities(locale);
+  const uniqueUniversities = Array.from(new Set(universities.map((u) => u.oppilaitos)));
+  const university = getEntityFromSlug(slug, locale, 'university', uniqueUniversities);
 
   if (!university) {
     const t = await getTranslations({ locale, namespace: 'universities' });
@@ -60,51 +56,56 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const universityData = getUniversitiesByUniversity(universities, university);
   const fields = Array.from(
-    new Set(
-      universityData
-        .flatMap((u) => (u.ala ? u.ala.split(", ") : []))
-        .filter(Boolean)
-    )
+    new Set(universityData.flatMap((u) => (u.ala ? u.ala.split(', ') : [])).filter(Boolean)),
   );
 
   const t = await getTranslations({ locale });
-  const translatedUniversity = getEntityTranslation(university, locale as 'fi' | 'en' | 'sv', 'university');
+  const translatedUniversity = getEntityTranslation(university, locale, 'university');
   const capitalizedUniversity = capitalizeFirstLetter(translatedUniversity);
   const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
 
   return {
     title: `${capitalizedUniversity} - ${t('colors.title')} | Haalarikone`,
-    description: t('universities.description', { university: capitalizedUniversity, count: universityData.length }),
+    description: t('universities.description', {
+      university: capitalizedUniversity,
+      count: universityData.length,
+    }),
     keywords: [
       `${capitalizedUniversity} ${t('colors.title').toLowerCase()}`,
       `${capitalizedUniversity} haalarit`,
       `${capitalizedUniversity} opiskelijahaalarit`,
-      "haalarivärit",
-      "opiskelijahaalarit",
-      "suomen opiskelijakulttuuri",
+      'haalarivärit',
+      'opiskelijahaalarit',
+      'suomen opiskelijakulttuuri',
       ...fields.slice(0, 5).map((f) => `${capitalizedUniversity} ${f}`),
     ],
     openGraph: {
       title: `${capitalizedUniversity} - ${t('colors.title')} | Haalarikone`,
-      description: t('universities.description', { university: capitalizedUniversity, count: universityData.length }),
+      description: t('universities.description', {
+        university: capitalizedUniversity,
+        count: universityData.length,
+      }),
       images: [
         {
-          url: "/haalarikone-og.png",
+          url: '/haalarikone-og.png',
           width: 1200,
           height: 630,
           alt: `${capitalizedUniversity} ${t('colors.title').toLowerCase()}`,
         },
       ],
-      type: "website",
-      siteName: "Haalarikone",
+      type: 'website',
+      siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
       url: `${baseUrl}/oppilaitos/${getSlugForEntity(university, locale as 'fi' | 'en' | 'sv', 'university')}`,
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title: `${capitalizedUniversity} - ${t('colors.title')} | Haalarikone`,
-      description: t('universities.description', { university: capitalizedUniversity, count: universityData.length }),
-      images: ["/haalarikone-og.png"],
+      description: t('universities.description', {
+        university: capitalizedUniversity,
+        count: universityData.length,
+      }),
+      images: ['/haalarikone-og.png'],
     },
     alternates: {
       canonical: `${baseUrl}/oppilaitos/${getSlugForEntity(university, locale as 'fi' | 'en' | 'sv', 'university')}`,
@@ -120,10 +121,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function UniversityPage({ params }: Props) {
   const { locale, slug } = await params;
   const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
-  const uniqueUniversities = Array.from(
-    new Set(universities.map((u) => u.oppilaitos))
+  const uniqueUniversities = Array.from(new Set(universities.map((u) => u.oppilaitos)));
+  const university = getEntityFromSlug(
+    slug,
+    locale as 'fi' | 'en' | 'sv',
+    'university',
+    uniqueUniversities,
   );
-  const university = getEntityFromSlug(slug, locale as 'fi' | 'en' | 'sv', 'university', uniqueUniversities);
   const t = await getTranslations({ locale });
 
   if (!university) {
@@ -139,51 +143,57 @@ export default async function UniversityPage({ params }: Props) {
 
   const universityData = getUniversitiesByUniversity(universities, university);
   const fields = Array.from(
-    new Set(
-      universityData
-        .flatMap((u) => (u.ala ? u.ala.split(", ") : []))
-        .filter(Boolean)
-    )
+    new Set(universityData.flatMap((u) => (u.ala ? u.ala.split(', ') : [])).filter(Boolean)),
   );
   const colors = Array.from(new Set(universityData.map((u) => u.vari)));
 
-  const translatedUniversity = getEntityTranslation(university, locale as 'fi' | 'en' | 'sv', 'university');
+  const translatedUniversity = getEntityTranslation(
+    university,
+    locale as 'fi' | 'en' | 'sv',
+    'university',
+  );
   const capitalizedUniversity = capitalizeFirstLetter(translatedUniversity);
   const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
 
   const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "EducationalOrganization",
+    '@context': 'https://schema.org',
+    '@type': 'EducationalOrganization',
     name: capitalizedUniversity,
-    description: t('universities.description', { university: capitalizedUniversity, count: universityData.length }),
+    description: t('universities.description', {
+      university: capitalizedUniversity,
+      count: universityData.length,
+    }),
     url: `${baseUrl}/oppilaitos/${getSlugForEntity(university, locale as 'fi' | 'en' | 'sv', 'university')}`,
   };
 
   const itemListSchema = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
     name: `${capitalizedUniversity} ${t('colors.title').toLowerCase()}`,
-    description: t('universities.description', { university: capitalizedUniversity, count: universityData.length }),
+    description: t('universities.description', {
+      university: capitalizedUniversity,
+      count: universityData.length,
+    }),
     numberOfItems: universityData.length,
     itemListElement: universityData.slice(0, 50).map((uni, index) => ({
-      "@type": "ListItem",
+      '@type': 'ListItem',
       position: index + 1,
       item: `${baseUrl}/haalari/${uni.id}`,
     })),
   };
 
   const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
     itemListElement: [
       {
-        "@type": "ListItem",
+        '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
         item: baseUrl,
       },
       {
-        "@type": "ListItem",
+        '@type': 'ListItem',
         position: 2,
         name: capitalizedUniversity,
         item: `${baseUrl}/oppilaitos/${slug}`,
@@ -237,7 +247,11 @@ export default async function UniversityPage({ params }: Props) {
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-4">{capitalizedUniversity}</h1>
           <p className="text-lg text-gray-700 mb-6">
-            {t('universities.description', { university: capitalizedUniversity, count: universityData.length })}.
+            {t('universities.description', {
+              university: capitalizedUniversity,
+              count: universityData.length,
+            })}
+            .
           </p>
         </div>
 
@@ -274,4 +288,3 @@ export default async function UniversityPage({ params }: Props) {
     </>
   );
 }
-

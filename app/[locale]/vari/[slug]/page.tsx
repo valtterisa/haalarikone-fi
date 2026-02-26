@@ -5,15 +5,15 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { loadUniversities } from "@/lib/load-universities";
-import { getUniversitiesByColor } from "@/lib/get-universities-by-criteria";
-import { getSlugForEntity, getEntityFromSlug, getEntityTranslation } from "@/lib/slug-translations";
-import { parseStyles, capitalizeFirstLetter } from "@/lib/utils";
-import { Metadata } from "next";
-import { Link } from "@/i18n/routing";
-import UniversityCard from "@/components/university-card";
-import Script from "next/script";
+} from '@/components/ui/breadcrumb';
+import { loadUniversities } from '@/lib/load-universities';
+import { getUniversitiesByColor } from '@/lib/get-universities-by-criteria';
+import { getSlugForEntity, getEntityFromSlug, getEntityTranslation } from '@/lib/slug-translations';
+import { parseStyles, capitalizeFirstLetter } from '@/lib/utils';
+import { Metadata } from 'next';
+import { Link } from '@/i18n/routing';
+import UniversityCard from '@/components/university-card';
+import Script from 'next/script';
 import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 import { getTranslatedRoute } from '@/lib/use-translated-routes';
@@ -21,7 +21,7 @@ import { getTranslatedRoute } from '@/lib/use-translated-routes';
 export const revalidate = 3600;
 
 type Props = {
-  params: Promise<{ locale: string; slug: string }>;
+  params: Promise<{ locale: 'fi' | 'en' | 'sv'; slug: string }>;
 };
 
 export async function generateStaticParams() {
@@ -42,9 +42,9 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
+  const universities = await loadUniversities(locale);
   const uniqueColors = Array.from(new Set(universities.map((u) => u.vari)));
-  const color = getEntityFromSlug(slug, locale as 'fi' | 'en' | 'sv', 'color', uniqueColors);
+  const color = getEntityFromSlug(slug, locale, 'color', uniqueColors);
 
   if (!color) {
     const t = await getTranslations({ locale, namespace: 'colors' });
@@ -54,49 +54,59 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const colorData = getUniversitiesByColor(universities, color);
-  const universitiesList = Array.from(
-    new Set(colorData.map((u) => u.oppilaitos))
-  );
+  const universitiesList = Array.from(new Set(colorData.map((u) => u.oppilaitos)));
 
   const t = await getTranslations({ locale });
-  const translatedColor = getEntityTranslation(color, locale as 'fi' | 'en' | 'sv', 'color');
+  const translatedColor = getEntityTranslation(color, locale, 'color');
   const capitalizedColor = capitalizeFirstLetter(translatedColor);
   const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
   const colorSlug = getSlugForEntity(color, locale as 'fi' | 'en' | 'sv', 'color');
 
   return {
     title: `${capitalizedColor} - ${t('colors.title')} | Haalarikone`,
-    description: t('colors.description', { color: capitalizedColor, count: colorData.length, schoolCount: universitiesList.length }),
+    description: t('colors.description', {
+      color: capitalizedColor,
+      count: colorData.length,
+      schoolCount: universitiesList.length,
+    }),
     keywords: [
       `${capitalizedColor} haalari`,
       `${capitalizedColor} haalariväri`,
       `${capitalizedColor} opiskelijahaalari`,
-      "haalarivärit",
-      "opiskelijahaalarit",
-      "suomen opiskelijakulttuuri",
+      'haalarivärit',
+      'opiskelijahaalarit',
+      'suomen opiskelijakulttuuri',
       ...universitiesList.slice(0, 5).map((u) => `${capitalizedColor} ${u}`),
     ],
     openGraph: {
       title: `${capitalizedColor} - ${t('colors.title')} | Haalarikone`,
-      description: t('colors.description', { color: capitalizedColor, count: colorData.length, schoolCount: universitiesList.length }),
+      description: t('colors.description', {
+        color: capitalizedColor,
+        count: colorData.length,
+        schoolCount: universitiesList.length,
+      }),
       images: [
         {
-          url: "/haalarikone-og.png",
+          url: '/haalarikone-og.png',
           width: 1200,
           height: 630,
           alt: `${capitalizedColor} haalari`,
         },
       ],
-      type: "website",
-      siteName: "Haalarikone",
+      type: 'website',
+      siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
       url: `${baseUrl}${getTranslatedRoute('colors', locale as 'fi' | 'en' | 'sv', colorSlug)}`,
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title: `${capitalizedColor} - ${t('colors.title')} | Haalarikone`,
-      description: t('colors.description', { color: capitalizedColor, count: colorData.length, schoolCount: universitiesList.length }),
-      images: ["/haalarikone-og.png"],
+      description: t('colors.description', {
+        color: capitalizedColor,
+        count: colorData.length,
+        schoolCount: universitiesList.length,
+      }),
+      images: ['/haalarikone-og.png'],
     },
     alternates: {
       canonical: `${baseUrl}${getTranslatedRoute('colors', locale as 'fi' | 'en' | 'sv', colorSlug)}`,
@@ -128,13 +138,9 @@ export default async function ColorPage({ params }: Props) {
   }
 
   const colorData = getUniversitiesByColor(universities, color);
-  const universitiesList = Array.from(
-    new Set(colorData.map((u) => u.oppilaitos))
-  );
+  const universitiesList = Array.from(new Set(colorData.map((u) => u.oppilaitos)));
   const fields = Array.from(
-    new Set(
-      colorData.flatMap((u) => (u.ala ? u.ala.split(", ") : [])).filter(Boolean)
-    )
+    new Set(colorData.flatMap((u) => (u.ala ? u.ala.split(', ') : [])).filter(Boolean)),
   );
 
   const firstColorData = colorData[0];
@@ -144,17 +150,17 @@ export default async function ColorPage({ params }: Props) {
   const colorSlug = getSlugForEntity(color, locale as 'fi' | 'en' | 'sv', 'color');
 
   const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
     itemListElement: [
       {
-        "@type": "ListItem",
+        '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
         item: baseUrl,
       },
       {
-        "@type": "ListItem",
+        '@type': 'ListItem',
         position: 2,
         name: `${capitalizedColor} haalari`,
         item: `${baseUrl}${getTranslatedRoute('colors', locale as 'fi' | 'en' | 'sv', colorSlug)}`,
@@ -163,13 +169,17 @@ export default async function ColorPage({ params }: Props) {
   };
 
   const itemListSchema = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
     name: `${capitalizedColor} ${t('colors.title').toLowerCase()}`,
-    description: t('colors.description', { color: capitalizedColor, count: colorData.length, schoolCount: universitiesList.length }),
+    description: t('colors.description', {
+      color: capitalizedColor,
+      count: colorData.length,
+      schoolCount: universitiesList.length,
+    }),
     numberOfItems: colorData.length,
     itemListElement: colorData.slice(0, 50).map((uni, index) => ({
-      "@type": "ListItem",
+      '@type': 'ListItem',
       position: index + 1,
       item: `${baseUrl}${getTranslatedRoute('overall', locale as 'fi' | 'en' | 'sv', String(uni.id))}`,
     })),
@@ -203,7 +213,9 @@ export default async function ColorPage({ params }: Props) {
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link href={getTranslatedRoute('colors', locale as 'fi' | 'en' | 'sv')}>{t('colors.title')}</Link>
+                  <Link href={getTranslatedRoute('colors', locale as 'fi' | 'en' | 'sv')}>
+                    {t('colors.title')}
+                  </Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
@@ -220,7 +232,8 @@ export default async function ColorPage({ params }: Props) {
             <div>
               <h1 className="text-4xl font-bold">{capitalizedColor}</h1>
               <p className="text-lg text-gray-700">
-                {t('colors.overallCount', { count: colorData.length })} {t('colors.schoolCount', { count: universitiesList.length })}
+                {t('colors.overallCount', { count: colorData.length })}{' '}
+                {t('colors.schoolCount', { count: universitiesList.length })}
               </p>
             </div>
           </div>
@@ -238,7 +251,11 @@ export default async function ColorPage({ params }: Props) {
             {universitiesList.slice(0, 10).map((uni) => (
               <Link
                 key={uni}
-                href={getTranslatedRoute('universities', locale as 'fi' | 'en' | 'sv', getSlugForEntity(uni, locale as 'fi' | 'en' | 'sv', 'university'))}
+                href={getTranslatedRoute(
+                  'universities',
+                  locale as 'fi' | 'en' | 'sv',
+                  getSlugForEntity(uni, locale as 'fi' | 'en' | 'sv', 'university'),
+                )}
                 className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition"
               >
                 {uni}
@@ -247,7 +264,11 @@ export default async function ColorPage({ params }: Props) {
             {fields.slice(0, 10).map((field) => (
               <Link
                 key={field}
-                href={getTranslatedRoute('fields', locale as 'fi' | 'en' | 'sv', getSlugForEntity(field, locale as 'fi' | 'en' | 'sv', 'field'))}
+                href={getTranslatedRoute(
+                  'fields',
+                  locale as 'fi' | 'en' | 'sv',
+                  getSlugForEntity(field, locale as 'fi' | 'en' | 'sv', 'field'),
+                )}
                 className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition"
               >
                 {field}
@@ -259,4 +280,3 @@ export default async function ColorPage({ params }: Props) {
     </>
   );
 }
-
