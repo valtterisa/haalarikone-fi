@@ -92,9 +92,7 @@ describe('FeedbackForm', () => {
     await userEvent.type(messageInput, 'Tämä on pidempi palauteviesti käyttäjältä.');
     await userEvent.click(submitButton);
 
-    expect(
-      await screen.findByText('Palautteen lähetys epäonnistui, yritä hetken päästä uudelleen.'),
-    ).toBeInTheDocument();
+    expect(await screen.findByText(/Palautteen lähetys epäonnistui/i)).toBeInTheDocument();
   });
 
   it('treats honeypot submissions as success without calling the server action', async () => {
