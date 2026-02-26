@@ -4,33 +4,37 @@ import { rankSemantically } from '@/lib/semantic-ranking';
 import { semanticSearch } from '@/lib/semantic-search';
 import { loadColorData } from '@/lib/load-color-data';
 import { NextResponse } from 'next/server';
-import { Ratelimit } from "@upstash/ratelimit";
-import { Redis } from "@upstash/redis";
+import { Ratelimit } from '@upstash/ratelimit';
+import { Redis } from '@upstash/redis';
 import type { University } from '@/types/university';
-import type { QueryUnderstanding } from '@/lib/query-understanding';
 
 export async function POST(req: Request) {
   const ratelimit = new Ratelimit({
     redis: Redis.fromEnv(),
-    limiter: Ratelimit.slidingWindow(15, "10 s"),
+    limiter: Ratelimit.slidingWindow(15, '10 s'),
   });
 
-  const identifier = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'anonymous';
+  const identifier =
+    req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'anonymous';
   const { success } = await ratelimit.limit(identifier);
 
   if (!success) {
     return NextResponse.json(
-      { success: false, error: "Unable to process at this time" },
-      { status: 429 }
+      { success: false, error: 'Unable to process at this time' },
+      { status: 429 },
     );
   }
 
-  const body = await req.json() as {
-    query: string;
-    locale?: 'fi' | 'en' | 'sv';
-  };
+  let parsed: { query?: string; locale?: 'fi' | 'en' | 'sv' } = {};
 
-  const { query, locale = 'fi' } = body;
+  try {
+    parsed = (await req.json()) as typeof parsed;
+  } catch {
+    // If body is missing or invalid JSON, fall back to empty query.
+  }
+
+  const query = parsed.query?.trim() ?? '';
+  const locale = parsed.locale ?? 'fi';
 
   if (!query || query.trim().length < 3) {
     return NextResponse.json({ results: [], totalCount: 0 });
@@ -66,8 +70,8 @@ export async function POST(req: Request) {
 
             for (const colorInfo of Object.values(colorData.colors)) {
               const allVariants = [...colorInfo.main, ...colorInfo.shades];
-              if (allVariants.some(c => c.toLowerCase() === colorLower)) {
-                if (allVariants.some(c => uni.vari.toLowerCase().includes(c.toLowerCase()))) {
+              if (allVariants.some((c) => c.toLowerCase() === colorLower)) {
+                if (allVariants.some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()))) {
                   colorMatched = true;
                   break;
                 }
@@ -125,12 +129,8 @@ export async function POST(req: Request) {
       filters: qu.filters,
       semanticQuery: qu.semanticQuery,
     });
-
   } catch (error) {
     console.error('Search error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Search failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Search failed' }, { status: 500 });
   }
 }

@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
-import type { University } from "@/types/university";
-import UniversityCard from "@/components/university-card";
+import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
+import type { University } from '@/types/university';
+import UniversityCard from '@/components/university-card';
 import { useTranslations } from 'next-intl';
 
 interface ResultsDisplayProps {
@@ -11,10 +11,9 @@ interface ResultsDisplayProps {
 export default function ResultsDisplay({ results }: ResultsDisplayProps) {
   const t = useTranslations('search');
   const tCommon = useTranslations('common');
-  
-  // State for pagination
+
   const [currentPage, setCurrentPage] = useState(1);
-  const [resultsPerPage, setResultsPerPage] = useState(15);
+  const resultsPerPage = 15;
   const resultsDivRef = useRef<HTMLDivElement>(null);
   const prevPageRef = useRef(1);
 
@@ -24,7 +23,7 @@ export default function ResultsDisplay({ results }: ResultsDisplayProps) {
   // Slice the results based on the current page and results per page
   const paginatedResults = results.slice(
     (currentPage - 1) * resultsPerPage,
-    currentPage * resultsPerPage
+    currentPage * resultsPerPage,
   );
 
   // When results change, reset pagination (don't scroll)
@@ -41,8 +40,8 @@ export default function ResultsDisplay({ results }: ResultsDisplayProps) {
       setTimeout(() => {
         if (resultsDivRef.current) {
           resultsDivRef.current.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
+            behavior: 'smooth',
+            block: 'start',
           });
         }
       }, 0);
@@ -58,14 +57,10 @@ export default function ResultsDisplay({ results }: ResultsDisplayProps) {
   };
 
   return (
-    <div
-      id="top"
-      ref={resultsDivRef}
-      className="max-w-3xl w-full mx-auto mb-4 sm:mb-8 px-2"
-    >
+    <div id="top" ref={resultsDivRef} className="max-w-3xl w-full mx-auto mb-4 sm:mb-8 px-2">
       <div className="bg-white rounded-lg border border-border shadow-sm px-3 pt-4 sm:px-6 sm:pt-8">
         <h2 className="text-base sm:text-lg font-semibold text-foreground mb-4 sm:mb-6 flex justify-between items-center">
-          {t('results')}{" "}
+          {t('results')}{' '}
           <span className="text-xs sm:text-sm text-muted-foreground">
             {results.length === 1
               ? `${results.length} ${t('result')}`
@@ -82,12 +77,10 @@ export default function ResultsDisplay({ results }: ResultsDisplayProps) {
               height={120}
               className="w-20 h-20 sm:w-[120px] sm:h-[120px]"
             />
-            <p className="text-muted-foreground text-xs sm:text-sm">
-              {t('noResultsMessageAlt')}
-            </p>
+            <p className="text-muted-foreground text-xs sm:text-sm">{t('noResultsMessageAlt')}</p>
           </div>
         ) : (
-          <ul className="space-y-2.5 sm:space-y-3">
+          <ul className="space-y-2.5 sm:space-y-3" data-testid="results-list">
             {paginatedResults.map((uni) => (
               <UniversityCard key={uni.id} uni={uni} />
             ))}

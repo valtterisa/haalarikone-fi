@@ -82,25 +82,98 @@ Feature requests are welcome! Use the [Feature Request template](.github/ISSUE_T
 
 ## Development Setup
 
-1. **Clone your fork**:
+### Prerequisites
 
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/haalarikone.git
-   cd haalarikone
-   ```
+- Node.js (LTS version recommended)
+- pnpm (package manager)
+- Git
+- Upstash account (Redis + Search)
+- Anthropic API key
+- (Optional) Resend account for feedback emails
 
-2. **Install dependencies**:
+### 1. Clone your fork
 
-   ```bash
-   pnpm install
-   ```
+```bash
+git clone https://github.com/YOUR_USERNAME/haalarikone.git
+cd haalarikone
+```
 
-3. **Set up environment variables** (see [README.md](./README.md#3-environment-variables))
+### 2. Install dependencies
 
-4. **Start the development server**:
-   ```bash
-   pnpm run dev
-   ```
+```bash
+pnpm install
+```
+
+### 3. Environment variables
+
+Create a `.env.local` file in the root directory with at least the following variables:
+
+```env
+# Upstash Search (required)
+UPSTASH_SEARCH_REST_URL=your_upstash_search_rest_url
+UPSTASH_SEARCH_REST_TOKEN=your_upstash_search_rest_token
+
+# Upstash Redis (required - rate limiting and caching)
+UPSTASH_REDIS_REST_URL=your_upstash_redis_rest_url
+UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_rest_token
+
+# Anthropic (required - AI-powered search)
+ANTHROPIC_API_KEY=your_anthropic_api_key
+
+# Resend (optional - feedback form)
+RESEND_API_KEY=your_resend_api_key
+FEEDBACK_EMAIL_TO=your_email@example.com
+```
+
+Notes:
+
+- Required: `UPSTASH_SEARCH_REST_URL`, `UPSTASH_SEARCH_REST_TOKEN`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`, `ANTHROPIC_API_KEY`
+- Optional: `RESEND_API_KEY`, `FEEDBACK_EMAIL_TO` (feedback form fails silently if missing)
+- The app uses `localePrefix: 'as-needed'` – Finnish (default) has no prefix, other locales use `/en` or `/sv`
+
+### 4. Start the development server
+
+```bash
+pnpm run dev
+```
+
+## Linting, formatting, and commit hooks
+
+This project uses **ESLint**, **Prettier**, **Husky**, and **lint-staged** to keep code quality and structure consistent.
+
+### Tooling
+
+- ESLint with TypeScript support (`@typescript-eslint/*`) and `eslint-config-next`
+- Prettier for formatting (configured via `.prettierrc`)
+- Husky for Git hooks
+- lint-staged for running checks only on staged files
+
+### On each commit
+
+When you run `git commit`, Husky runs `lint-staged`, which:
+
+- Runs `eslint --fix` on staged `*.ts` and `*.tsx` files
+- Runs `prettier --write` on the same staged files
+- Runs `prettier --write` on staged `*.md` and `*.json` files
+
+TypeScript typechecking is **not** part of any Git hook to keep commits fast. Type safety is enforced by `next build` (and optionally by running a manual typecheck command in CI or locally).
+
+### Manual commands
+
+Use these commands during development:
+
+```bash
+pnpm lint       # Lint all .ts/.tsx files
+pnpm lint:fix   # Lint and auto-fix .ts/.tsx files
+pnpm format     # Format the whole codebase with Prettier
+pnpm test       # Run the test suite
+```
+
+In CI or locally, you can also rely on:
+
+```bash
+pnpm build      # Runs Next.js build, which performs typechecking
+```
 
 ## Adding Data to Upstash Search
 
@@ -314,6 +387,21 @@ After upload, the data in Upstash Search will have this structure:
 - Use path aliases (`@/`) for imports
 - Keep components small and reusable
 
+### Internationalization
+
+- Keep all user-facing text in translation files (`messages/*.json`)
+- Use `useTranslations` in client components
+- Use `getTranslations` in server components
+- Route segments are translated via `lib/route-translations.ts`
+- Entity slugs (universities, fields, colors) are translated via `lib/slug-translations.ts`
+
+### Styling
+
+- Use Tailwind CSS utility classes
+- Shared UI components in `components/ui/` are built on Radix UI primitives
+- Theme support is handled via `next-themes`
+- Responsive breakpoints follow Tailwind conventions: `sm:`, `md:`, `lg:`, `xl:`
+
 ### Git Commit Messages
 
 Use conventional commits-style prefixes:
@@ -335,10 +423,40 @@ docs: clarify environment setup
 
 ## Testing
 
-- Write tests for new features when applicable
-- Ensure existing tests pass
-- Test in multiple browsers (Chrome, Firefox, Safari)
-- Test responsive design on different screen sizes
+Haalarikone uses two layers of automated tests:
+
+- **Unit & integration tests:** Vitest + React Testing Library (running in jsdom)
+- **End-to-end tests:** Playwright browser tests
+
+### Unit & integration tests (Vitest)
+
+- Place tests close to the code under test (for example `components/*.test.tsx`, `lib/*.test.ts`)
+- Run the full suite once:
+
+```bash
+pnpm test
+```
+
+- Run tests in watch mode during development:
+
+```bash
+pnpm test:watch
+```
+
+### End-to-end tests (Playwright)
+
+- E2E tests live in the `tests/` directory
+- Ensure the dev server is running (`pnpm run dev`), then run:
+
+```bash
+pnpm test:e2e
+```
+
+- After a run, open the HTML report:
+
+```bash
+pnpm exec playwright show-report
+```
 
 ## Pull Request Process
 

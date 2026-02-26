@@ -5,32 +5,28 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { loadUniversities } from "@/lib/load-universities";
-import { getUniversitiesByArea } from "@/lib/get-universities-by-criteria";
-import { getSlugForEntity, getEntityFromSlug, getEntityTranslation } from "@/lib/slug-translations";
-import { capitalizeFirstLetter } from "@/lib/utils";
-import { Metadata } from "next";
-import { Link } from "@/i18n/routing";
-import Script from "next/script";
-import UniversityCard from "@/components/university-card";
+} from '@/components/ui/breadcrumb';
+import { loadUniversities } from '@/lib/load-universities';
+import { getUniversitiesByArea } from '@/lib/get-universities-by-criteria';
+import { getSlugForEntity, getEntityFromSlug, getEntityTranslation } from '@/lib/slug-translations';
+import { capitalizeFirstLetter } from '@/lib/utils';
+import { Metadata } from 'next';
+import { Link } from '@/i18n/routing';
+import Script from 'next/script';
+import UniversityCard from '@/components/university-card';
 import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 
 export const revalidate = 3600;
 
 type Props = {
-  params: Promise<{ locale: string; slug: string }>;
+  params: Promise<{ locale: 'fi' | 'en' | 'sv'; slug: string }>;
 };
 
 export async function generateStaticParams() {
   const universities = await loadUniversities('fi');
   const uniqueAreas = Array.from(
-    new Set(
-      universities.flatMap((u) =>
-        u.alue ? u.alue.split(', ').map((a) => a.trim()) : []
-      )
-    )
+    new Set(universities.flatMap((u) => (u.alue ? u.alue.split(', ').map((a) => a.trim()) : []))),
   );
 
   const params = [];
@@ -47,15 +43,11 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
+  const universities = await loadUniversities(locale);
   const uniqueAreas = Array.from(
-    new Set(
-      universities.flatMap((u) =>
-        u.alue ? u.alue.split(', ').map((a) => a.trim()) : []
-      )
-    )
+    new Set(universities.flatMap((u) => (u.alue ? u.alue.split(', ').map((a) => a.trim()) : []))),
   );
-  const area = getEntityFromSlug(slug, locale as 'fi' | 'en' | 'sv', 'area', uniqueAreas);
+  const area = getEntityFromSlug(slug, locale, 'area', uniqueAreas);
 
   if (!area) {
     const t = await getTranslations({ locale, namespace: 'areas' });
@@ -68,13 +60,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const universitiesList = Array.from(new Set(areaData.map((u) => u.oppilaitos)));
 
   const t = await getTranslations({ locale });
-  const translatedArea = getEntityTranslation(area, locale as 'fi' | 'en' | 'sv', 'area');
+  const translatedArea = getEntityTranslation(area, locale, 'area');
   const capitalizedArea = capitalizeFirstLetter(translatedArea);
   const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
 
   return {
     title: `${capitalizedArea} - ${t('colors.title')} | Haalarikone`,
-    description: t('areas.description', { area: capitalizedArea, count: areaData.length, schoolCount: universitiesList.length }),
+    description: t('areas.description', {
+      area: capitalizedArea,
+      count: areaData.length,
+      schoolCount: universitiesList.length,
+    }),
     keywords: [
       `${capitalizedArea} ${t('colors.title').toLowerCase()}`,
       `${capitalizedArea} haalarit`,
@@ -86,7 +82,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ],
     openGraph: {
       title: `${capitalizedArea} - ${t('colors.title')} | Haalarikone`,
-      description: t('areas.description', { area: capitalizedArea, count: areaData.length, schoolCount: universitiesList.length }),
+      description: t('areas.description', {
+        area: capitalizedArea,
+        count: areaData.length,
+        schoolCount: universitiesList.length,
+      }),
       images: [
         {
           url: '/haalarikone-og.png',
@@ -103,7 +103,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title: `${capitalizedArea} - ${t('colors.title')} | Haalarikone`,
-      description: t('areas.description', { area: capitalizedArea, count: areaData.length, schoolCount: universitiesList.length }),
+      description: t('areas.description', {
+        area: capitalizedArea,
+        count: areaData.length,
+        schoolCount: universitiesList.length,
+      }),
       images: ['/haalarikone-og.png'],
     },
     alternates: {
@@ -121,11 +125,7 @@ export default async function AreaPage({ params }: Props) {
   const { locale, slug } = await params;
   const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
   const uniqueAreas = Array.from(
-    new Set(
-      universities.flatMap((u) =>
-        u.alue ? u.alue.split(', ').map((a) => a.trim()) : []
-      )
-    )
+    new Set(universities.flatMap((u) => (u.alue ? u.alue.split(', ').map((a) => a.trim()) : []))),
   );
   const area = getEntityFromSlug(slug, locale as 'fi' | 'en' | 'sv', 'area', uniqueAreas);
   const t = await getTranslations({ locale });
@@ -144,9 +144,7 @@ export default async function AreaPage({ params }: Props) {
   const areaData = getUniversitiesByArea(universities, area);
   const universitiesList = Array.from(new Set(areaData.map((u) => u.oppilaitos)));
   const fields = Array.from(
-    new Set(
-      areaData.flatMap((u) => (u.ala ? u.ala.split(', ') : [])).filter(Boolean)
-    )
+    new Set(areaData.flatMap((u) => (u.ala ? u.ala.split(', ') : [])).filter(Boolean)),
   );
   const colors = Array.from(new Set(areaData.map((u) => u.vari)));
 
@@ -177,7 +175,11 @@ export default async function AreaPage({ params }: Props) {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: `${capitalizedArea} ${t('colors.title').toLowerCase()}`,
-    description: t('areas.description', { area: capitalizedArea, count: areaData.length, schoolCount: universitiesList.length }),
+    description: t('areas.description', {
+      area: capitalizedArea,
+      count: areaData.length,
+      schoolCount: universitiesList.length,
+    }),
     numberOfItems: areaData.length,
     itemListElement: areaData.slice(0, 50).map((uni, index) => ({
       '@type': 'ListItem',
@@ -219,7 +221,12 @@ export default async function AreaPage({ params }: Props) {
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-4">{capitalizedArea}</h1>
           <p className="text-lg text-gray-700 mb-6">
-            {t('areas.description', { area: capitalizedArea, count: areaData.length, schoolCount: universitiesList.length })}.
+            {t('areas.description', {
+              area: capitalizedArea,
+              count: areaData.length,
+              schoolCount: universitiesList.length,
+            })}
+            .
           </p>
         </div>
 
@@ -265,4 +272,3 @@ export default async function AreaPage({ params }: Props) {
     </>
   );
 }
-

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useLocale } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/routing';
@@ -26,20 +26,20 @@ export function LanguageSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
   const [isTranslating, setIsTranslating] = useState(false);
-  
+
   const localeFromParams = params?.locale as string | undefined;
   const localeFromHook = useLocale();
   const locale = (localeFromParams || localeFromHook || 'fi') as Locale;
 
-  const currentLanguage = languages.find(lang => lang.code === locale) || languages[0];
+  const currentLanguage = languages.find((lang) => lang.code === locale) || languages[0];
 
   const switchLocale = (newLocale: string) => {
     if (isTranslating) return;
-    
+
     setIsTranslating(true);
     try {
-      let translatedPath = translatePathClient(pathname, locale, newLocale as Locale);
-      
+      const translatedPath = translatePathClient(pathname, locale, newLocale as Locale);
+
       if (translatedPath === '/' && newLocale === 'fi') {
         router.push('/', { locale: 'fi' });
       } else {
@@ -80,9 +80,7 @@ export function LanguageSwitcher() {
           >
             <span className="text-lg mr-2">{lang.flag}</span>
             <span className="flex-1">{lang.name}</span>
-            {locale === lang.code && !isTranslating && (
-              <Check className="h-4 w-4 text-green" />
-            )}
+            {locale === lang.code && !isTranslating && <Check className="h-4 w-4 text-green" />}
             {isTranslating && locale !== lang.code && (
               <div className="h-4 w-4 border-2 border-green border-t-transparent rounded-full animate-spin" />
             )}
@@ -92,4 +90,3 @@ export function LanguageSwitcher() {
     </DropdownMenu>
   );
 }
-

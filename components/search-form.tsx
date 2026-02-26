@@ -1,45 +1,29 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect, useMemo } from "react";
-import { motion } from "framer-motion";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Button } from "./ui/button";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "./ui/collapsible";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
-import {
-  Search as SearchIcon,
-  ChevronDown,
-  ChevronUp,
-  X,
-  Settings,
-} from "lucide-react";
-import { Criteria } from "./search-container";
-import type { ColorData } from "@/lib/load-color-data";
-import { track } from "@databuddy/sdk";
+import { useState, useRef, useEffect, useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
+import { Button } from './ui/button';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Search as SearchIcon, ChevronDown, ChevronUp, X, Settings } from 'lucide-react';
+import { Criteria } from './search-container';
+import type { ColorData } from '@/lib/load-color-data';
+import { track } from '@databuddy/sdk';
 import { useTranslations, useLocale } from 'next-intl';
 import translationsData from '../data/translations.json';
 
 interface SearchFormProps {
   onTextSearchChange: (textSearch: string) => void;
-  onDraftAdvancedFilterChange: (filters: Omit<Criteria, "textSearch">) => void;
+  onDraftAdvancedFilterChange: (filters: Omit<Criteria, 'textSearch'>) => void;
   onApplyAdvancedFilters: () => void;
   onClearAll: () => void;
   areas: string[];
   fields: string[];
   schools: string[];
   selectedCriteria: Criteria;
-  draftAdvancedFilters: Omit<Criteria, "textSearch">;
+  draftAdvancedFilters: Omit<Criteria, 'textSearch'>;
   resultCount: number;
   draftFilterResultCount: number;
   hasSearched: boolean;
@@ -75,13 +59,16 @@ export default function SearchForm({
 
   const translateEntity = (
     value: string,
-    type: 'color' | 'area' | 'field' | 'university'
+    type: 'color' | 'area' | 'field' | 'university',
   ): string => {
     const translationsMap =
-      type === 'color' ? translations.colors :
-        type === 'area' ? translations.areas :
-          type === 'field' ? translations.fields :
-            translations.universities;
+      type === 'color'
+        ? translations.colors
+        : type === 'area'
+          ? translations.areas
+          : type === 'field'
+            ? translations.fields
+            : translations.universities;
 
     const translation = translationsMap[value];
     return translation?.[locale] || value;
@@ -94,14 +81,12 @@ export default function SearchForm({
       displayName: translateEntity(colorKey, 'color'),
       data,
     }));
-  }, [locale]);
+  }, [locale, colorData.colors, translateEntity]);
 
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
-  const [localSearchValue, setLocalSearchValue] = useState(
-    selectedCriteria.textSearch
-  );
-  const lastTrackedSearchRef = useRef<string>("");
+  const [localSearchValue, setLocalSearchValue] = useState(selectedCriteria.textSearch);
+  const lastTrackedSearchRef = useRef<string>('');
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -113,17 +98,17 @@ export default function SearchForm({
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         e.stopPropagation();
         setCommandOpen((prev) => !prev);
       }
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         setCommandOpen(false);
       }
     };
-    document.addEventListener("keydown", down, true);
-    return () => document.removeEventListener("keydown", down, true);
+    document.addEventListener('keydown', down, true);
+    return () => document.removeEventListener('keydown', down, true);
   }, []);
 
   useEffect(() => {
@@ -147,9 +132,9 @@ export default function SearchForm({
     };
 
     if (commandOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
       return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener('mousedown', handleClickOutside);
       };
     }
   }, [commandOpen]);
@@ -164,13 +149,13 @@ export default function SearchForm({
       const isEmpty = !localSearchValue.trim();
 
       if (wasEmpty && !isEmpty) {
-        track("search_change", {
-          button_text: "Text search change",
-          location: "search_form",
+        track('search_change', {
+          button_text: 'Text search change',
+          location: 'search_form',
         });
         lastTrackedSearchRef.current = localSearchValue;
       } else if (isEmpty) {
-        lastTrackedSearchRef.current = "";
+        lastTrackedSearchRef.current = '';
       }
 
       onTextSearchChange(localSearchValue);
@@ -187,17 +172,14 @@ export default function SearchForm({
     setLocalSearchValue(value);
   };
 
-  const handleDraftChange = (
-    field: "color" | "area" | "field" | "school",
-    value: string
-  ) => {
+  const handleDraftChange = (field: 'color' | 'area' | 'field' | 'school', value: string) => {
     onDraftAdvancedFilterChange({ ...draftAdvancedFilters, [field]: value });
   };
 
   const handleApplyFilters = () => {
-    track("advanced_filters", {
-      button_text: "Advanced filters apply",
-      location: "search_form",
+    track('advanced_filters', {
+      button_text: 'Advanced filters apply',
+      location: 'search_form',
     });
     onApplyAdvancedFilters();
   };
@@ -237,6 +219,7 @@ export default function SearchForm({
               value={localSearchValue}
               onChange={(e) => handleTextSearchChange(e.target.value)}
               placeholder={t('placeholder')}
+              data-testid="text-search-input"
               className="pl-10 pr-24 sm:pl-16 sm:pr-28 h-12 sm:h-16 text-base sm:text-lg bg-white text-foreground border-input focus:ring-2 focus:ring-green/30 focus-visible:ring-2 focus-visible:ring-green/30 border-2 shadow-sm hover:shadow-md transition-shadow"
               aria-disabled={isSearching}
             />
@@ -253,7 +236,7 @@ export default function SearchForm({
             {localSearchValue && !isSearching && (
               <button
                 type="button"
-                onClick={() => handleTextSearchChange("")}
+                onClick={() => handleTextSearchChange('')}
                 className="absolute right-3 sm:right-6 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition p-1 sm:p-2 rounded hover:bg-muted z-10"
                 aria-label={t('clearSearch')}
               >
@@ -264,10 +247,7 @@ export default function SearchForm({
         </div>
 
         <div className="px-3 pb-3 pt-3 sm:px-6 border-t border-border/50">
-          <Collapsible
-            open={isAdvancedSearchOpen}
-            onOpenChange={setIsAdvancedSearchOpen}
-          >
+          <Collapsible open={isAdvancedSearchOpen} onOpenChange={setIsAdvancedSearchOpen}>
             <CollapsibleTrigger asChild>
               <button
                 type="button"
@@ -307,9 +287,9 @@ export default function SearchForm({
                   {t('color')}
                 </Label>
                 <Select
-                  key={selectedCriteria.color || "color-empty"}
+                  key={selectedCriteria.color || 'color-empty'}
                   value={draftAdvancedFilters.color || undefined}
-                  onValueChange={(value) => handleDraftChange("color", value)}
+                  onValueChange={(value) => handleDraftChange('color', value)}
                 >
                   <SelectTrigger
                     id="color"
@@ -347,9 +327,9 @@ export default function SearchForm({
                   {t('city')}
                 </Label>
                 <Select
-                  key={selectedCriteria.area || "area-empty"}
+                  key={selectedCriteria.area || 'area-empty'}
                   value={draftAdvancedFilters.area || undefined}
-                  onValueChange={(value) => handleDraftChange("area", value)}
+                  onValueChange={(value) => handleDraftChange('area', value)}
                 >
                   <SelectTrigger
                     id="area"
@@ -379,9 +359,9 @@ export default function SearchForm({
                   {t('field')}
                 </Label>
                 <Select
-                  key={selectedCriteria.field || "field-empty"}
+                  key={selectedCriteria.field || 'field-empty'}
                   value={draftAdvancedFilters.field || undefined}
-                  onValueChange={(value) => handleDraftChange("field", value)}
+                  onValueChange={(value) => handleDraftChange('field', value)}
                 >
                   <SelectTrigger
                     id="field"
@@ -411,9 +391,9 @@ export default function SearchForm({
                   {t('school')}
                 </Label>
                 <Select
-                  key={selectedCriteria.school || "school-empty"}
+                  key={selectedCriteria.school || 'school-empty'}
                   value={draftAdvancedFilters.school || undefined}
-                  onValueChange={(value) => handleDraftChange("school", value)}
+                  onValueChange={(value) => handleDraftChange('school', value)}
                 >
                   <SelectTrigger
                     id="school"
@@ -441,8 +421,7 @@ export default function SearchForm({
                   onClick={handleApplyFilters}
                   className="h-9 sm:h-10 text-xs sm:text-sm bg-green hover:bg-green/90 text-white mt-2"
                 >
-                  {t('filter')}{" "}
-                  {draftFilterResultCount >= 0 && `(${draftFilterResultCount})`}
+                  {t('filter')} {draftFilterResultCount >= 0 && `(${draftFilterResultCount})`}
                 </Button>
               )}
             </CollapsibleContent>
