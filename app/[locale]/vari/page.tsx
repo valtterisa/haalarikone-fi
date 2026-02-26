@@ -5,19 +5,23 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Link } from "@/i18n/routing";
-import Script from "next/script";
-import { Metadata } from "next";
-import { loadUniversities } from "@/lib/load-universities";
-import { getUniqueColors } from "@/lib/get-unique-values";
-import { getSlugForEntity } from "@/lib/slug-translations";
-import { SearchWithDivider } from "@/components/search-with-divider";
+} from '@/components/ui/breadcrumb';
+import { Link } from '@/i18n/routing';
+import Script from 'next/script';
+import { Metadata } from 'next';
+import { loadUniversities } from '@/lib/load-universities';
+import { getUniqueColors } from '@/lib/get-unique-values';
+import { getSlugForEntity } from '@/lib/slug-translations';
+import { SearchWithDivider } from '@/components/search-with-divider';
 import { getTranslations } from 'next-intl/server';
 
 export const revalidate = 3600;
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'colors' });
   const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
@@ -29,43 +33,43 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: t('pageTitle'),
     description,
     keywords: [
-      "haalarivärit",
-      "opiskelijahaalarivärit",
-      "haalarivärit 2025",
-      "kaikki haalarivärit",
-      "opiskelijan haalariväri",
-      "yliopiston haalarivärit",
-      "AMK haalarivärit",
-      "teekkarihaalari värit",
+      'haalarivärit',
+      'opiskelijahaalarivärit',
+      'haalarivärit 2026',
+      'kaikki haalarivärit',
+      'opiskelijan haalariväri',
+      'yliopiston haalarivärit',
+      'AMK haalarivärit',
+      'teekkarihaalari värit',
     ],
     openGraph: {
       title: t('pageTitle'),
       description,
       images: [
         {
-          url: "/haalarikone-og.png",
+          url: '/haalarikone-og.png',
           width: 1200,
           height: 630,
           alt: t('title'),
         },
       ],
-      type: "website",
-      siteName: "Haalarikone",
+      type: 'website',
+      siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
       url: `${baseUrl}/vari`,
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title: t('pageTitle'),
       description,
-      images: ["/haalarikone-og.png"],
+      images: ['/haalarikone-og.png'],
     },
     alternates: {
       canonical: `${baseUrl}/vari`,
       languages: {
-        fi: "https://haalarikone.fi/vari",
-        en: "https://haalarikone.fi/en/vari",
-        sv: "https://haalarikone.fi/sv/vari",
+        fi: 'https://haalarikone.fi/vari',
+        en: 'https://haalarikone.fi/en/vari',
+        sv: 'https://haalarikone.fi/sv/vari',
       },
     },
   };
@@ -74,43 +78,43 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function ColorIndexPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
-  const colors = getUniqueColors(universities).sort((a, b) =>
-    a.localeCompare(b, "fi")
-  );
+  const colors = getUniqueColors(universities).sort((a, b) => a.localeCompare(b, 'fi'));
   const t = await getTranslations({ locale });
 
   const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
     itemListElement: [
       {
-        "@type": "ListItem",
+        '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: locale === 'fi' ? "https://haalarikone.fi" : `https://haalarikone.fi/${locale}`,
+        item: locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`,
       },
       {
-        "@type": "ListItem",
+        '@type': 'ListItem',
         position: 2,
         name: t('colors.title'),
-        item: locale === 'fi' ? "https://haalarikone.fi/vari" : `https://haalarikone.fi/${locale}/vari`,
+        item:
+          locale === 'fi' ? 'https://haalarikone.fi/vari' : `https://haalarikone.fi/${locale}/vari`,
       },
     ],
   };
 
   const itemListSchema = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
     name: t('colors.title'),
     description: t('colors.pageDescription'),
     numberOfItems: colors.length,
     itemListElement: colors.map((color, index) => ({
-      "@type": "ListItem",
+      '@type': 'ListItem',
       position: index + 1,
       name: color,
-      url: locale === 'fi' 
-        ? `https://haalarikone.fi/vari/${getSlugForEntity(color, 'fi', 'color')}`
-        : `https://haalarikone.fi/${locale}/vari/${getSlugForEntity(color, locale as 'fi' | 'en' | 'sv', 'color')}`,
+      url:
+        locale === 'fi'
+          ? `https://haalarikone.fi/vari/${getSlugForEntity(color, 'fi', 'color')}`
+          : `https://haalarikone.fi/${locale}/vari/${getSlugForEntity(color, locale as 'fi' | 'en' | 'sv', 'color')}`,
     })),
   };
 
@@ -163,4 +167,3 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
     </>
   );
 }
-
