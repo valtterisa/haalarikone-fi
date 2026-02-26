@@ -7,9 +7,7 @@ import { FeedbackForm } from './feedback-form';
 const sendFeedbackEmailMock = vi.fn();
 
 vi.mock('@/lib/send-feedback-email', () => ({
-  sendFeedbackEmail: async (...args: unknown[]) => {
-    sendFeedbackEmailMock(...args);
-  },
+  sendFeedbackEmail: (...args: unknown[]) => sendFeedbackEmailMock(...args),
 }));
 
 beforeEach(() => {
