@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
       'yliopiston haalarivärit',
       'AMK haalarivärit',
       'suomen opiskelijakulttuuri',
-      'haalarivärit 2025',
+      'haalarivärit 2026',
       'opiskelijan haalari',
     ],
     authors: [{ name: t('siteName') }],
