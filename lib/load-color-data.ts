@@ -1,5 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import { parseHexFromMetadata } from '@/utils/color';
 
 export type ColorData = {
   colors: {
@@ -32,11 +33,11 @@ export async function loadColorData(): Promise<ColorData> {
     const colorName = uni.content.vari?.toLowerCase().trim();
     if (!colorName) continue;
 
-    const hex = uni.metadata?.hex;
-    if (hex) {
-      const match = hex.match(/#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3}/);
-      if (match && !colorHexMap.has(colorName)) {
-        colorHexMap.set(colorName, match[0]);
+    const rawHex = uni.metadata?.hex;
+    if (rawHex && !colorHexMap.has(colorName)) {
+      const parsed = parseHexFromMetadata(rawHex);
+      if (parsed) {
+        colorHexMap.set(colorName, parsed);
       }
     }
 
@@ -54,18 +55,7 @@ export async function loadColorData(): Promise<ColorData> {
     const variants = colorVariants.get(baseColor)!;
     const variantArray = Array.from(variants);
     const mainColorName = getMainColorName(baseColor);
-
-    let hexFromData = colorHexMap.get(mainColorName);
-    if (hexFromData === undefined) {
-      for (const variant of variantArray) {
-        const variantHex = colorHexMap.get(variant);
-        if (variantHex !== undefined) {
-          hexFromData = variantHex;
-          break;
-        }
-      }
-    }
-    const hex = hexFromData ?? getDefaultHex(baseColor);
+    const hex = colorHexMap.get(mainColorName) ?? getDefaultHex(baseColor);
 
     colors[baseColor] = {
       color: hex,
