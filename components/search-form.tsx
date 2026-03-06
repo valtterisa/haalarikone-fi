@@ -61,14 +61,30 @@ export default function SearchForm({
     value: string,
     type: 'color' | 'area' | 'field' | 'university',
   ): string => {
+    if (type === 'color') {
+      const baseToFiKey: Record<string, string> = {
+        white: 'valkoinen',
+        black: 'musta',
+        punainen: 'punainen',
+        sininen: 'sininen',
+        vihreä: 'vihreä',
+        keltainen: 'keltainen',
+        oranssi: 'oranssi',
+        violetti: 'violetti',
+        pinkki: 'pinkki',
+      };
+
+      const lookupKey = baseToFiKey[value] ?? value;
+      const translation = translations.colors[lookupKey];
+      return translation?.[locale] || value;
+    }
+
     const translationsMap =
-      type === 'color'
-        ? translations.colors
-        : type === 'area'
-          ? translations.areas
-          : type === 'field'
-            ? translations.fields
-            : translations.universities;
+      type === 'area'
+        ? translations.areas
+        : type === 'field'
+          ? translations.fields
+          : translations.universities;
 
     const translation = translationsMap[value];
     return translation?.[locale] || value;
@@ -76,11 +92,21 @@ export default function SearchForm({
 
   // Translate color options for display (colors need translation since colorData uses Finnish keys)
   const translatedColorOptions = useMemo(() => {
-    return Object.entries(colorData.colors).map(([colorKey, data]) => ({
-      key: colorKey,
-      displayName: translateEntity(colorKey, 'color'),
-      data,
-    }));
+    return Object.entries(colorData.colors).map(([colorKey, data]) => {
+      let displayColor = data.color;
+
+      if (colorKey === 'white') {
+        displayColor = '#FFFFFF';
+      } else if (colorKey === 'black') {
+        displayColor = '#000000';
+      }
+
+      return {
+        key: colorKey,
+        displayName: translateEntity(colorKey, 'color'),
+        color: displayColor,
+      };
+    });
   }, [locale, colorData.colors, translateEntity]);
 
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
@@ -278,7 +304,7 @@ export default function SearchForm({
                 )}
               </button>
             </CollapsibleTrigger>
-            <CollapsibleContent className="mt-2 sm:mt-3 pl-2 sm:pl-4 border-l border-muted/30 space-y-2 sm:space-y-3">
+            <CollapsibleContent className="mt-2 sm:mt-3 border-l border-muted/30 space-y-2 sm:space-y-3">
               <div className="space-y-1 sm:space-y-1.5">
                 <Label
                   htmlFor="color"
@@ -298,17 +324,17 @@ export default function SearchForm({
                     <SelectValue placeholder={t('selectColor')} />
                   </SelectTrigger>
                   <SelectContent className="bg-white">
-                    {translatedColorOptions.map(({ key, displayName, data }) => (
+                    {translatedColorOptions.map(({ key, displayName, color }) => (
                       <SelectItem
                         key={key}
                         value={key}
-                        className="text-xs sm:text-sm text-foreground"
+                        className="text-xs sm:text-sm text-foreground focus:bg-transparent focus:text-foreground"
                       >
                         <div className="flex items-center gap-1.5 sm:gap-2">
                           <div
                             className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded border"
                             style={{
-                              backgroundColor: data.color,
+                              backgroundColor: color,
                             }}
                           />
                           <span>{displayName}</span>
