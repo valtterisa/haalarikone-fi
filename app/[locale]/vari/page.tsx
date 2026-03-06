@@ -105,7 +105,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: t('colors.title'),
-    description: t('colors.pageDescription'),
+    description: t('colors.pageDescription', { count: colors.length }),
     numberOfItems: colors.length,
     itemListElement: colors.map((color, index) => ({
       '@type': 'ListItem',
