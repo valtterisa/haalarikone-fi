@@ -54,7 +54,17 @@ export async function loadColorData(): Promise<ColorData> {
     const variants = colorVariants.get(baseColor)!;
     const variantArray = Array.from(variants);
     const mainColorName = getMainColorName(baseColor);
-    const hex = getDefaultHex(baseColor);
+    let hexFromData = colorHexMap.get(mainColorName);
+    if (hexFromData === undefined) {
+      for (const variant of variantArray) {
+        const variantHex = colorHexMap.get(variant);
+        if (variantHex !== undefined) {
+          hexFromData = variantHex;
+          break;
+        }
+      }
+    }
+    const hex = hexFromData ?? getDefaultHex(baseColor);
 
     colors[baseColor] = {
       color: hex,
