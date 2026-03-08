@@ -22,7 +22,7 @@ Check out the live project at: [haalarikone.fi](https://haalarikone.fi)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS with Radix UI components (Shadcn/ui)
 - **Internationalization:** next-intl (Finnish, English, Swedish)
-- **Search:** AI-powered query understanding (Anthropic Claude) + deterministic filtering + semantic search (Upstash)
+- **Search:** AI-powered query understanding (Anthropic Claude) + deterministic filtering + in-memory keyword search
 - **AI/ML:** Vercel AI SDK with Anthropic Claude 3 Haiku
 - **Rate Limiting & Caching:** Upstash Redis
 - **Email:** Resend (for feedback forms)
@@ -134,7 +134,7 @@ flowchart TD
 
 3. **Semantic Search Fallback**
    - Only triggered when exact filters return 0 results
-   - Uses Upstash Search for vector/semantic search
+   - Uses in-memory keyword scoring against the local dataset
    - Applies same filters to semantic results
    - Ensures semantic results still match filter criteria
 

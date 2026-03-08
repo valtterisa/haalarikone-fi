@@ -1,78 +1,34 @@
-import { Search } from "@upstash/search";
-import type { University } from "@/types/university";
-
-export type UpstashSearchResult = {
-  id: string;
-  content: Record<string, unknown>;
-  metadata?: Record<string, unknown>;
-  score?: number;
-};
-
-function convertUpstashResultToUniversity(
-  result: UpstashSearchResult,
-  locale: 'fi' | 'en' | 'sv' = 'fi'
-): University {
-  const content = result.content;
-  const metadata = result.metadata || {};
-
-  const getLocalizedValue = (field: unknown): string => {
-    if (field === null || field === undefined) {
-      return '';
-    }
-    if (typeof field === 'object' && !Array.isArray(field)) {
-      const nested = field as Record<string, string>;
-      return nested[locale] || nested.fi || '';
-    }
-    if (typeof field === 'string') {
-      return field;
-    }
-    return '';
-  };
-
-  return {
-    id: parseInt(result.id, 10),
-    vari: getLocalizedValue(content.vari),
-    hex: (metadata.hex as string) || "",
-    alue: getLocalizedValue(content.alue),
-    ala: getLocalizedValue(content.ala) || null,
-    ainejärjestö: (content.ainejärjestö as string) || null,
-    oppilaitos: getLocalizedValue(content.oppilaitos),
-  };
-}
+import type { University } from '@/types/university';
+import { loadUniversities } from './load-universities';
 
 export async function semanticSearch(
   query: string,
   locale: 'fi' | 'en' | 'sv' = 'fi',
   limit: number = 100
 ): Promise<University[]> {
-  const url = process.env.UPSTASH_SEARCH_REST_URL;
-  const token = process.env.UPSTASH_SEARCH_REST_TOKEN;
+  if (!query.trim()) return [];
 
-  if (!url || !token) {
-    return [];
+  const allUniversities = await loadUniversities(locale);
+  const queryWords = query.toLowerCase().split(/\s+/).filter((w) => w.length > 2);
+
+  const scored = allUniversities
+    .map((uni) => ({ uni, score: scoreUni(uni, queryWords) }))
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map(({ uni }) => uni);
+
+  return scored;
+}
+
+function scoreUni(uni: University, words: string[]): number {
+  let score = 0;
+  for (const word of words) {
+    if (uni.ala?.toLowerCase().includes(word)) score += 10;
+    if (uni.oppilaitos.toLowerCase().includes(word)) score += 8;
+    if (uni.alue.toLowerCase().includes(word)) score += 5;
+    if (uni.ainejärjestö?.toLowerCase().includes(word)) score += 3;
+    if (uni.vari.toLowerCase().includes(word)) score += 2;
   }
-
-  try {
-    const search = new Search({ url, token });
-    const index = search.index("haalarikone-db");
-
-    const searchParams: Parameters<typeof index.search>[0] = {
-      query: query.trim(),
-      reranking: true,
-      limit,
-    };
-
-    const results = await index.search(searchParams);
-
-    if (!results || !Array.isArray(results)) {
-      return [];
-    }
-
-    return results.map((result) =>
-      convertUpstashResultToUniversity(result, locale)
-    );
-  } catch (error) {
-    console.error('Semantic search error:', error);
-    return [];
-  }
+  return score;
 }
