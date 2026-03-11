@@ -11,8 +11,8 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: { params: { locale: string } }) {
-  const { locale: localeRaw } = params;
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: localeRaw } = await params;
 
   if (!routing.locales.includes(localeRaw as (typeof routing.locales)[number])) {
     notFound();

@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { Link } from "@/i18n/routing";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { parseStyles } from "@/lib/utils";
-import { getSlugForEntity } from "@/lib/slug-translations";
-import { getFinnishName } from "@/lib/get-finnish-name";
-import type { University } from "@/types/university";
+import { Link } from '@/i18n/routing';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { parseStyles } from '@/lib/utils';
+import { getSlugForEntity } from '@/lib/slug-translations';
+import { getFinnishName } from '@/lib/get-finnish-name';
+import type { University } from '@/types/university';
 import { useLocale } from 'next-intl';
 import { useTranslations } from 'next-intl';
 import { useTranslatedRoutes } from '@/lib/use-translated-routes';
@@ -22,7 +22,7 @@ export default function UniversityCard({ uni }: UniversityCardProps) {
   const routes = useTranslatedRoutes();
 
   const oppilaitosFi = getFinnishName(uni.oppilaitos, locale, 'university');
-  const logoName = oppilaitosFi.startsWith("Aalto-yliopisto") ? "Aalto-yliopisto" : oppilaitosFi;
+  const logoName = oppilaitosFi.startsWith('Aalto-yliopisto') ? 'Aalto-yliopisto' : oppilaitosFi;
 
   return (
     <li
@@ -30,27 +30,29 @@ export default function UniversityCard({ uni }: UniversityCardProps) {
       onClick={() => router.push(routes.overall(String(uni.id)))}
     >
       <div className="flex">
-        <div 
-          className="flex-shrink-0 w-16 sm:w-20 flex items-center justify-center relative"
+        <div
+          className="flex-shrink-0 w-20 sm:w-28 relative"
           style={parseStyles(uni.hex)}
           title={`${t('color')}: ${uni.vari}`}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-black/5 to-transparent" />
-          <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-lg overflow-hidden bg-white/95 shadow-sm border border-white/20">
-            <Image
-              className="object-contain p-1"
-              src={`/logos/${logoName}.jpg`}
-              fill
-              alt={`${uni.oppilaitos} logo`}
-            />
-          </div>
         </div>
 
         <div className="flex-1 min-w-0 px-4 py-3.5">
-          <div className="flex items-start justify-between gap-3">
-            <h3 className="text-[15px] font-semibold text-foreground leading-snug tracking-tight">
-              {uni.ainejärjestö ?? t('unknownOrganization')}
-            </h3>
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex items-center gap-3 min-w-0">
+              <h3 className="text-[15px] font-semibold text-foreground leading-snug tracking-tight">
+                {uni.ainejärjestö ?? t('unknownOrganization')}
+              </h3>
+              <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-lg overflow-hidden bg-white/95 shadow-sm border border-border/40 flex-shrink-0">
+                <Image
+                  className="object-contain p-1.5 sm:p-2"
+                  src={`/logos/${logoName}.jpg`}
+                  fill
+                  alt={`${uni.oppilaitos} logo`}
+                />
+              </div>
+            </div>
             <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-0.5">
               <svg
                 className="w-4 h-4 text-muted-foreground"
@@ -73,33 +75,30 @@ export default function UniversityCard({ uni }: UniversityCardProps) {
             {uni.ala && (
               <>
                 <span className="text-border">•</span>
-                <span>{uni.ala.split(",")[0].trim()}</span>
+                <span>{uni.ala.split(',')[0].trim()}</span>
               </>
             )}
           </div>
 
-          <div
-            className="mt-2.5 flex flex-wrap gap-1.5"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="mt-2.5 flex flex-wrap gap-1.5" onClick={(e) => e.stopPropagation()}>
             <Link
               href={routes.colors(getSlugForEntity(uni.vari, locale, 'color'))}
               className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium transition-all duration-200 bg-secondary/80 text-foreground/70 hover:bg-green/15 hover:text-green"
               onClick={(e) => e.stopPropagation()}
             >
-              <span 
-                className="w-2 h-2 rounded-full ring-1 ring-black/10" 
+              <span
+                className="w-2 h-2 rounded-full ring-1 ring-black/10"
                 style={parseStyles(uni.hex)}
               />
               {uni.vari}
             </Link>
             {uni.alue && (
               <Link
-                href={routes.areas(getSlugForEntity(uni.alue.split(",")[0].trim(), locale, 'area'))}
+                href={routes.areas(getSlugForEntity(uni.alue.split(',')[0].trim(), locale, 'area'))}
                 className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium transition-all duration-200 bg-secondary/80 text-foreground/70 hover:bg-green/15 hover:text-green"
                 onClick={(e) => e.stopPropagation()}
               >
-                {uni.alue.split(",")[0].trim()}
+                {uni.alue.split(',')[0].trim()}
               </Link>
             )}
           </div>
