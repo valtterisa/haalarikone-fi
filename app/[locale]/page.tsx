@@ -173,6 +173,7 @@ export default async function Index({ params }: { params: Promise<{ locale: stri
           </div>
         </section>
 
+        {/*
         <section id="palaute" className="w-full border-t border-border/60 bg-[#f8faf3] mt-12">
           <div className="container mx-auto px-4 py-12">
             <div className="max-w-2xl mx-auto text-center flex flex-col gap-4">
@@ -191,6 +192,7 @@ export default async function Index({ params }: { params: Promise<{ locale: stri
             </div>
           </div>
         </section>
+        */}
       </div>
     </>
   );
