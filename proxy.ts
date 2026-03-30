@@ -1,6 +1,6 @@
 import createMiddleware from 'next-intl/middleware';
 import { routing } from './i18n/routing';
-import { NextRequest } from "next/server";
+import { NextRequest } from 'next/server';
 import { normalizeRouteSegment } from '@/lib/route-translations';
 
 const intlMiddleware = createMiddleware(routing);
@@ -51,8 +51,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/((?!api|_next|_vercel|.*\\..*).*)',
-    '/(fi|en|sv)/:path*'
-  ]
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)', '/(fi|en|sv)/:path*'],
 };
