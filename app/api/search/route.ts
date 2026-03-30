@@ -65,19 +65,21 @@ export async function POST(req: Request) {
         const filteredSemantic = semanticResults.filter((uni) => {
           if (qu.filters.color) {
             const colorLower = qu.filters.color.toLowerCase();
-            let colorMatched = false;
+            let matchedBaseColor: string | null = null;
 
-            for (const colorInfo of Object.values(colorData.colors)) {
+            for (const [baseKey, colorInfo] of Object.entries(colorData.colors)) {
               const allVariants = [...colorInfo.main, ...colorInfo.shades];
               if (allVariants.some((c) => c.toLowerCase() === colorLower)) {
-                if (allVariants.some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()))) {
-                  colorMatched = true;
-                  break;
-                }
+                matchedBaseColor = baseKey;
+                break;
               }
             }
 
-            if (!colorMatched) return false;
+            if (matchedBaseColor) {
+              if (!uni.variBase?.includes(matchedBaseColor)) return false;
+            } else {
+              if (!uni.vari.toLowerCase().includes(colorLower)) return false;
+            }
           }
           if (qu.filters.area) {
             if (!uni.alue.toLowerCase().includes(qu.filters.area.toLowerCase())) {

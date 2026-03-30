@@ -103,8 +103,8 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider key={locale} locale={locale} messages={messages}>
       <Header />
-      <main className="flex flex-col items-center">
-        <div className="flex-1 w-full flex flex-col items-center">
+      <main className="flex flex-col items-center bg-[#fffff9]">
+        <div className="flex-1 w-full flex flex-col items-center bg-[#fffff9]">
           {children}
           <Databuddy
             clientId="Uu3N9TuBuUAa3wAS4pHNw"

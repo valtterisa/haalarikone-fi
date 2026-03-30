@@ -34,7 +34,11 @@ function normalizeJsonToUniversity(
   const content = row.content || {};
   const metadata = row.metadata || {};
 
-  const vari = content.vari ?? '';
+  const rawVari = content.vari as { label?: string; base?: string[] } | null | undefined;
+  const variLabelRaw = rawVari?.label ?? '';
+  const normalizedVariBase = Array.from(
+    new Set((rawVari?.base ?? []).map((b) => String(b).toLowerCase().trim()).filter(Boolean)),
+  );
   const alue = content.alue ?? '';
   const ala = content.ala || null;
   const oppilaitos = content.oppilaitos ?? '';
@@ -56,9 +60,13 @@ function normalizeJsonToUniversity(
     return translation?.[locale] || value;
   };
 
+  const variLabel = variLabelRaw ? getLocalizedValue(variLabelRaw, 'color') : '';
+
   return {
     id: idNum,
-    vari: vari ? getLocalizedValue(vari, 'color') : '',
+    vari: variLabel,
+    variLabel,
+    variBase: normalizedVariBase,
     hex: metadata.hex ?? '',
     alue: alue ? getLocalizedValue(alue, 'area') : '',
     ala: ala

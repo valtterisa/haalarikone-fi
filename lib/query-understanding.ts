@@ -11,7 +11,9 @@ const QueryUnderstandingSchema = z.object({
       .string()
       .nullish()
       .transform((val) => val ?? undefined)
-      .describe('Color: valkoinen/musta/punainen/sininen/vihreä/keltainen/oranssi/violetti/pinkki'),
+      .describe(
+        'Color: valkoinen/musta/punainen/sininen/vihreä/keltainen/oranssi/violetti/pinkki/harmaa/ruskea/turkoosi',
+      ),
     area: z
       .string()
       .nullish()
@@ -117,7 +119,7 @@ export async function understandQuery(
   }
 
   const systemPrompt = `Extract filters from Finnish student overall queries:
-- color: valkoinen/musta/punainen/sininen/vihreä/keltainen/oranssi/violetti/pinkki (normalize: valkoiset->valkoinen, white->valkoinen)
+- color: valkoinen/musta/punainen/sininen/vihreä/keltainen/oranssi/violetti/pinkki/harmaa/ruskea/turkoosi (normalize: valkoiset->valkoinen, white->valkoinen)
 - area: cities (normalize: Tampereella->Tampere, Kuopion->Kuopio)
 - field: study fields (normalize: insinöörit->insinööri)
 - school: universities

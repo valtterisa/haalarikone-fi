@@ -20,6 +20,7 @@ export default function UniversityCard({ uni }: UniversityCardProps) {
   const locale = useLocale() as 'fi' | 'en' | 'sv';
   const t = useTranslations('overall');
   const routes = useTranslatedRoutes();
+  const primaryColorBase = uni.variBase?.[0] ?? uni.vari;
 
   const oppilaitosFi = getFinnishName(uni.oppilaitos, locale, 'university');
   const logoName = oppilaitosFi.startsWith('Aalto-yliopisto') ? 'Aalto-yliopisto' : oppilaitosFi;
@@ -82,7 +83,7 @@ export default function UniversityCard({ uni }: UniversityCardProps) {
 
           <div className="mt-2.5 flex flex-wrap gap-1.5" onClick={(e) => e.stopPropagation()}>
             <Link
-              href={routes.colors(getSlugForEntity(uni.vari, locale, 'color'))}
+              href={routes.colors(getSlugForEntity(primaryColorBase, locale, 'color'))}
               className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium transition-all duration-200 bg-secondary/80 text-foreground/70 hover:bg-green/15 hover:text-green"
               onClick={(e) => e.stopPropagation()}
             >

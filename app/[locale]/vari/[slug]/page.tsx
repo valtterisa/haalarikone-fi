@@ -7,6 +7,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { loadUniversities } from '@/lib/load-universities';
+import { loadColorData } from '@/lib/load-color-data';
 import { getUniversitiesByColor } from '@/lib/get-universities-by-criteria';
 import { getSlugForEntity, getEntityFromSlug, getEntityTranslation } from '@/lib/slug-translations';
 import { parseStyles, capitalizeFirstLetter } from '@/lib/utils';
@@ -26,7 +27,9 @@ type Props = {
 
 export async function generateStaticParams() {
   const universities = await loadUniversities('fi');
-  const uniqueColors = Array.from(new Set(universities.map((u) => u.vari)));
+  const uniqueColors = Array.from(
+    new Set(universities.flatMap((u) => (u.variBase?.length ? u.variBase : [u.vari]))),
+  );
 
   const params = [];
   for (const locale of routing.locales) {
@@ -43,7 +46,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const universities = await loadUniversities(locale);
-  const uniqueColors = Array.from(new Set(universities.map((u) => u.vari)));
+  const uniqueColors = Array.from(
+    new Set(universities.flatMap((u) => (u.variBase?.length ? u.variBase : [u.vari]))),
+  );
   const color = getEntityFromSlug(slug, locale, 'color', uniqueColors);
 
   if (!color) {
@@ -122,7 +127,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ColorPage({ params }: Props) {
   const { locale, slug } = await params;
   const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
-  const uniqueColors = Array.from(new Set(universities.map((u) => u.vari)));
+  const colorDataMap = await loadColorData();
+  const uniqueColors = Array.from(
+    new Set(universities.flatMap((u) => (u.variBase?.length ? u.variBase : [u.vari]))),
+  );
   const color = getEntityFromSlug(slug, locale as 'fi' | 'en' | 'sv', 'color', uniqueColors);
   const t = await getTranslations({ locale });
 
@@ -144,6 +152,10 @@ export default async function ColorPage({ params }: Props) {
   );
 
   const firstColorData = colorData[0];
+  const canonicalHex = colorDataMap.colors[color]?.color ?? null;
+  const swatchStyle = canonicalHex
+    ? ({ backgroundColor: canonicalHex } as const)
+    : parseStyles(firstColorData?.hex || null);
   const translatedColor = getEntityTranslation(color, locale as 'fi' | 'en' | 'sv', 'color');
   const capitalizedColor = capitalizeFirstLetter(translatedColor);
   const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
@@ -225,10 +237,7 @@ export default async function ColorPage({ params }: Props) {
             </BreadcrumbList>
           </Breadcrumb>
           <div className="flex items-center gap-4 mb-4">
-            <div
-              className="w-16 h-16 rounded-lg border-2 shadow-md"
-              style={parseStyles(firstColorData?.hex || null)}
-            />
+            <div className="w-16 h-16 rounded-lg border-2 shadow-md" style={swatchStyle} />
             <div>
               <h1 className="text-4xl font-bold">{capitalizedColor}</h1>
               <p className="text-lg text-gray-700">
