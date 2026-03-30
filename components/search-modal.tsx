@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Search as SearchIcon, X, Loader2, ChevronRight } from 'lucide-react';
@@ -13,6 +12,7 @@ import { useTranslations } from 'next-intl';
 import { getSlugForEntity } from '@/lib/slug-translations';
 import { useLocale } from 'next-intl';
 import { useTranslatedRoutes } from '@/lib/use-translated-routes';
+import { Button } from './ui/button';
 
 interface SearchModalProps {
   triggerLabel: string;
@@ -31,6 +31,7 @@ export function SearchModal({ triggerLabel, placeholder, modalTitle }: SearchMod
   const [results, setResults] = useState<University[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showAllHaalarit, setShowAllHaalarit] = useState(false);
+  const requestIdRef = useRef(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -43,22 +44,34 @@ export function SearchModal({ triggerLabel, placeholder, modalTitle }: SearchMod
 
   useEffect(() => {
     if (searchQuery.trim().length < 3) {
+      requestIdRef.current += 1;
       setResults([]);
+      setIsSearching(false);
       return;
     }
 
     setShowAllHaalarit(false);
+    const currentRequestId = requestIdRef.current + 1;
+    requestIdRef.current = currentRequestId;
     const timeoutId = setTimeout(() => {
       const runSearch = async () => {
         setIsSearching(true);
         try {
           const searchResults = await searchUniversitiesAPI(searchQuery.trim(), locale);
+          if (requestIdRef.current !== currentRequestId) {
+            return;
+          }
           setResults(searchResults);
         } catch (error) {
+          if (requestIdRef.current !== currentRequestId) {
+            return;
+          }
           console.error('Search failed:', error);
           setResults([]);
         } finally {
-          setIsSearching(false);
+          if (requestIdRef.current === currentRequestId) {
+            setIsSearching(false);
+          }
         }
       };
 
@@ -86,10 +99,11 @@ export function SearchModal({ triggerLabel, placeholder, modalTitle }: SearchMod
   const groupedByColor = useMemo(() => {
     const groups = new Map<string, { unis: University[]; hex: string | null }>();
     results.forEach((uni) => {
-      if (!groups.has(uni.vari)) {
-        groups.set(uni.vari, { unis: [], hex: null });
+      const primaryColorBase = uni.variBase?.[0] ?? uni.vari;
+      if (!groups.has(primaryColorBase)) {
+        groups.set(primaryColorBase, { unis: [], hex: null });
       }
-      const group = groups.get(uni.vari)!;
+      const group = groups.get(primaryColorBase)!;
       group.unis.push(uni);
       if (!group.hex && uni.hex) {
         group.hex = uni.hex;
@@ -113,10 +127,14 @@ export function SearchModal({ triggerLabel, placeholder, modalTitle }: SearchMod
 
   return (
     <div className="p-2">
-      <Button onClick={() => setOpen(true)} variant="outline" className="w-full sm:w-auto gap-2">
-        <SearchIcon className="h-4 w-4" />
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="relative w-full max-w-3xl h-12 sm:h-16 rounded-lg border-2 border-input bg-white text-left px-10 sm:px-16 pr-6 text-base sm:text-lg text-muted-foreground shadow-sm hover:shadow-md transition-shadow"
+      >
+        <SearchIcon className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4 sm:w-6 sm:h-6" />
         {triggerLabel}
-      </Button>
+      </button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           className={`max-w-2xl overflow-hidden flex flex-col p-0 rounded-2xl transition-all duration-300 ${
@@ -165,7 +183,7 @@ export function SearchModal({ triggerLabel, placeholder, modalTitle }: SearchMod
 
           {(results.length > 0 ||
             isSearching ||
-            (searchQuery.trim().length >= 2 && results.length === 0)) && (
+            (searchQuery.trim().length >= 3 && results.length === 0)) && (
             <div className="flex-1 overflow-y-auto p-4 transition-all duration-300 ease-in-out animate-in fade-in slide-in-from-top-2">
               {isSearching && (
                 <div className="flex items-center justify-center py-8">
@@ -173,7 +191,7 @@ export function SearchModal({ triggerLabel, placeholder, modalTitle }: SearchMod
                 </div>
               )}
 
-              {!isSearching && searchQuery.trim().length >= 2 && results.length === 0 && (
+              {!isSearching && searchQuery.trim().length >= 3 && results.length === 0 && (
                 <div className="py-8 text-center text-sm text-muted-foreground">
                   {t('noResults')} &quot;{searchQuery}&quot;
                 </div>

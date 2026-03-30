@@ -72,6 +72,9 @@ export default function SearchForm({
         oranssi: 'oranssi',
         violetti: 'violetti',
         pinkki: 'pinkki',
+        harmaa: 'harmaa',
+        ruskea: 'ruskea',
+        turkoosi: 'turkoosi',
       };
 
       const lookupKey = baseToFiKey[value] ?? value;

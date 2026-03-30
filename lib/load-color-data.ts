@@ -22,15 +22,103 @@ export async function loadColorData(): Promise<ColorData> {
   const jsonFilePath = path.join(process.cwd(), 'data', 'overall_colors_upstash.json');
   const json = await fs.readFile(jsonFilePath, 'utf-8');
   const universities = JSON.parse(json) as Array<{
-    content: { vari: string };
+    content: {
+      vari: string | { base?: string | string[]; label?: string };
+    };
     metadata?: { hex?: string };
   }>;
 
   const colorVariants = new Map<string, Set<string>>();
   const colorHexMap = new Map<string, string>();
 
+  const normalizeBaseColorKeyInline = (key: string): string | null => {
+    const k = key.toLowerCase().trim();
+    if (!k) return null;
+    if (k === 'valkoinen' || k === 'white') return 'white';
+    if (k === 'musta' || k === 'black') return 'black';
+    if (k === 'punainen' || k === 'red') return 'punainen';
+    if (k === 'sininen' || k === 'blue' || k === 'navy' || k === 'navy blue') return 'sininen';
+    if (k === 'vihreä' || k === 'green') return 'vihreä';
+    if (k === 'keltainen' || k === 'yellow') return 'keltainen';
+    if (k === 'oranssi' || k === 'orange') return 'oranssi';
+    if (k === 'violetti' || k === 'liila' || k === 'purple') return 'violetti';
+    if (k === 'pinkki' || k === 'pink') return 'pinkki';
+    if (k === 'harmaa' || k === 'gray' || k === 'grey') return 'harmaa';
+    if (k === 'ruskea' || k === 'brown') return 'ruskea';
+    if (k === 'turkoosi' || k === 'turquoise' || k === 'teal' || k === 'cyan') return 'turkoosi';
+    return null;
+  };
+
+  const inferBaseColorsFromLabelInline = (label: string): string[] => {
+    const s = label.toLowerCase();
+    if (!s.trim()) return [];
+    const out = new Set<string>();
+    const addIf = (token: string, base: string) => {
+      if (s.includes(token)) out.add(base);
+    };
+
+    addIf('valkoinen', 'white');
+    addIf('white', 'white');
+
+    addIf('musta', 'black');
+    addIf('black', 'black');
+
+    addIf('punainen', 'punainen');
+    addIf('red', 'punainen');
+
+    addIf('sininen', 'sininen');
+    addIf('blue', 'sininen');
+    addIf('navy', 'sininen');
+
+    addIf('vihreä', 'vihreä');
+    addIf('green', 'vihreä');
+
+    addIf('keltainen', 'keltainen');
+    addIf('yellow', 'keltainen');
+
+    addIf('oranssi', 'oranssi');
+    addIf('orange', 'oranssi');
+
+    addIf('violetti', 'violetti');
+    addIf('liila', 'violetti');
+    addIf('purple', 'violetti');
+
+    addIf('pinkki', 'pinkki');
+    addIf('pink', 'pinkki');
+
+    addIf('harmaa', 'harmaa');
+    addIf('gray', 'harmaa');
+    addIf('grey', 'harmaa');
+
+    addIf('ruskea', 'ruskea');
+    addIf('brown', 'ruskea');
+
+    addIf('turkoosi', 'turkoosi');
+    addIf('turquoise', 'turkoosi');
+    addIf('teal', 'turkoosi');
+    addIf('cyan', 'turkoosi');
+
+    return Array.from(out);
+  };
+
   for (const uni of universities) {
-    const colorName = uni.content.vari?.toLowerCase().trim();
+    const rawVari = uni.content.vari;
+
+    let label = '';
+    let bases: string[] = [];
+
+    if (typeof rawVari === 'string') {
+      label = rawVari;
+      bases = inferBaseColorsFromLabelInline(rawVari);
+    } else if (rawVari && typeof rawVari === 'object') {
+      label = rawVari.label ?? (typeof rawVari.base === 'string' ? rawVari.base : '') ?? '';
+      const baseRaw = rawVari.base;
+      if (typeof baseRaw === 'string') bases = [baseRaw];
+      else if (Array.isArray(baseRaw)) bases = baseRaw;
+      else bases = inferBaseColorsFromLabelInline(label);
+    }
+
+    const colorName = label.toLowerCase().trim();
     if (!colorName) continue;
 
     const rawHex = uni.metadata?.hex;
@@ -41,11 +129,20 @@ export async function loadColorData(): Promise<ColorData> {
       }
     }
 
-    const baseColor = getBaseColorKey(colorName);
-    if (!colorVariants.has(baseColor)) {
-      colorVariants.set(baseColor, new Set());
+    const normalizedBases = Array.from(
+      new Set(
+        bases
+          .map((b) => normalizeBaseColorKeyInline(String(b)))
+          .filter((b): b is string => Boolean(b)),
+      ),
+    );
+
+    for (const baseColor of normalizedBases) {
+      if (!colorVariants.has(baseColor)) {
+        colorVariants.set(baseColor, new Set());
+      }
+      colorVariants.get(baseColor)!.add(colorName);
     }
-    colorVariants.get(baseColor)!.add(colorName);
   }
 
   const colors: ColorData['colors'] = {};
@@ -68,28 +165,6 @@ export async function loadColorData(): Promise<ColorData> {
   return colorDataCache;
 }
 
-function getBaseColorKey(colorName: string): string {
-  const baseColors: Record<string, string> = {
-    valkoinen: 'white',
-    musta: 'black',
-    punainen: 'punainen',
-    sininen: 'sininen',
-    vihreä: 'vihreä',
-    keltainen: 'keltainen',
-    oranssi: 'oranssi',
-    violetti: 'violetti',
-    liila: 'violetti',
-    pinkki: 'pinkki',
-  };
-
-  for (const [key, value] of Object.entries(baseColors)) {
-    if (colorName.includes(key)) {
-      return value;
-    }
-  }
-  return colorName.split(/[\s-]+/)[0];
-}
-
 function getMainColorName(baseColorKey: string): string {
   const mainColors: Record<string, string> = {
     white: 'valkoinen',
@@ -100,6 +175,9 @@ function getMainColorName(baseColorKey: string): string {
     keltainen: 'keltainen',
     oranssi: 'oranssi',
     violetti: 'violetti',
+    harmaa: 'harmaa',
+    ruskea: 'ruskea',
+    turkoosi: 'turkoosi',
     pinkki: 'pinkki',
   };
   return mainColors[baseColorKey] || baseColorKey;
@@ -116,6 +194,9 @@ function getDefaultHex(colorKey: string): string {
     oranssi: '#FFAC1C',
     violetti: '#7F00FF',
     pinkki: '#FF69B4',
+    harmaa: '#A6A6A6',
+    ruskea: '#8B5A2B',
+    turkoosi: '#00CED1',
   };
   return defaults[colorKey] || '#CCCCCC';
 }

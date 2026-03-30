@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useLocale } from 'next-intl';
 import SearchForm from './search-form';
@@ -22,6 +22,9 @@ export type Criteria = {
     | 'oranssi'
     | 'violetti'
     | 'pinkki'
+    | 'harmaa'
+    | 'ruskea'
+    | 'turkoosi'
     | 'black'
     | 'white';
   area: string;
@@ -32,9 +35,18 @@ export type Criteria = {
 interface SearchContainerProps {
   initialUniversities: University[];
   colorData: ColorData;
+  initialInlineResultsCount?: number;
+  showResultsByDefault?: boolean;
+  showIdlePlaceholder?: boolean;
 }
 
-export default function SearchContainer({ initialUniversities, colorData }: SearchContainerProps) {
+export default function SearchContainer({
+  initialUniversities,
+  colorData,
+  initialInlineResultsCount,
+  showResultsByDefault = false,
+  showIdlePlaceholder = false,
+}: SearchContainerProps) {
   const locale = useLocale() as 'fi' | 'en' | 'sv';
   const [selectedCriteria, setSelectedCriteria] = useState<Criteria>({
     textSearch: '',
@@ -54,12 +66,36 @@ export default function SearchContainer({ initialUniversities, colorData }: Sear
   const [results, setResults] = useState<University[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const searchRequestIdRef = useRef(0);
+  const draftCountRequestIdRef = useRef(0);
+  const hasActiveQuery =
+    selectedCriteria.textSearch.trim().length >= 3 ||
+    Boolean(
+      selectedCriteria.color ||
+        selectedCriteria.area ||
+        selectedCriteria.field ||
+        selectedCriteria.school,
+    );
+  const sortedInitialUniversities = useMemo(
+    () =>
+      [...initialUniversities].sort((a, b) => {
+        if (a.oppilaitos === b.oppilaitos) {
+          if (!a.ainejärjestö && !b.ainejärjestö) return 0;
+          if (!a.ainejärjestö) return 1;
+          if (!b.ainejärjestö) return -1;
+          return a.ainejärjestö.localeCompare(b.ainejärjestö);
+        }
+        return a.oppilaitos.localeCompare(b.oppilaitos);
+      }),
+    [initialUniversities],
+  );
 
   const applyFilters = useCallback(
     (universities: University[]): University[] => {
       return universities.filter((uni) => {
         const colorMatch = selectedCriteria.color
-          ? [
+          ? (uni.variBase?.length ? uni.variBase.includes(selectedCriteria.color) : true) &&
+            [
               ...colorData.colors[selectedCriteria.color].main,
               ...colorData.colors[selectedCriteria.color].shades,
             ].some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()))
@@ -86,6 +122,8 @@ export default function SearchContainer({ initialUniversities, colorData }: Sear
   );
 
   const performSearch = useCallback(async () => {
+    const currentRequestId = searchRequestIdRef.current + 1;
+    searchRequestIdRef.current = currentRequestId;
     let searchResults: University[] = [];
 
     if (selectedCriteria.textSearch.trim().length >= 3) {
@@ -111,27 +149,13 @@ export default function SearchContainer({ initialUniversities, colorData }: Sear
       return a.oppilaitos.localeCompare(b.oppilaitos);
     });
 
+    if (searchRequestIdRef.current !== currentRequestId) {
+      return;
+    }
     setResults(orderedResults);
     setHasSearched(true);
     setIsSearching(false);
   }, [selectedCriteria, applyFilters, initialUniversities, locale]);
-
-  // Load all data on initial mount
-  useEffect(() => {
-    if (!hasSearched) {
-      const sortedResults = initialUniversities.sort((a, b) => {
-        if (a.oppilaitos === b.oppilaitos) {
-          if (!a.ainejärjestö && !b.ainejärjestö) return 0;
-          if (!a.ainejärjestö) return 1;
-          if (!b.ainejärjestö) return -1;
-          return a.ainejärjestö.localeCompare(b.ainejärjestö);
-        }
-        return a.oppilaitos.localeCompare(b.oppilaitos);
-      });
-      setResults(sortedResults);
-      setHasSearched(true);
-    }
-  }, [hasSearched, initialUniversities]);
 
   useEffect(() => {
     const hasTextSearch = selectedCriteria.textSearch.trim().length >= 3;
@@ -141,18 +165,14 @@ export default function SearchContainer({ initialUniversities, colorData }: Sear
       selectedCriteria.field ||
       selectedCriteria.school;
 
-    // If user clears everything, show all data again
+    // If user clears everything, either show defaults or hide
     if (hasSearched && !hasTextSearch && !hasFilters) {
-      const sortedResults = initialUniversities.sort((a, b) => {
-        if (a.oppilaitos === b.oppilaitos) {
-          if (!a.ainejärjestö && !b.ainejärjestö) return 0;
-          if (!a.ainejärjestö) return 1;
-          if (!b.ainejärjestö) return -1;
-          return a.ainejärjestö.localeCompare(b.ainejärjestö);
-        }
-        return a.oppilaitos.localeCompare(b.oppilaitos);
-      });
-      setResults(sortedResults);
+      if (showResultsByDefault) {
+        setResults(sortedInitialUniversities);
+      } else {
+        setResults([]);
+        setHasSearched(false);
+      }
       return;
     }
 
@@ -165,10 +185,22 @@ export default function SearchContainer({ initialUniversities, colorData }: Sear
 
       return () => {
         clearTimeout(timeoutId);
-        setIsSearching(false);
       };
     }
-  }, [performSearch, selectedCriteria, hasSearched, initialUniversities]);
+  }, [
+    performSearch,
+    selectedCriteria,
+    hasSearched,
+    showResultsByDefault,
+    sortedInitialUniversities,
+  ]);
+
+  useEffect(() => {
+    if (showResultsByDefault && !hasActiveQuery) {
+      setResults(sortedInitialUniversities);
+      setHasSearched(true);
+    }
+  }, [showResultsByDefault, hasActiveQuery, sortedInitialUniversities]);
 
   const handleTextSearchChange = useCallback((textSearch: string) => {
     setSelectedCriteria((prev) => ({ ...prev, textSearch }));
@@ -208,6 +240,8 @@ export default function SearchContainer({ initialUniversities, colorData }: Sear
 
   useEffect(() => {
     const calculateDraftFilterResultCount = async () => {
+      const currentRequestId = draftCountRequestIdRef.current + 1;
+      draftCountRequestIdRef.current = currentRequestId;
       let searchResults: University[] = [];
 
       if (selectedCriteria.textSearch.trim().length >= 3) {
@@ -223,7 +257,8 @@ export default function SearchContainer({ initialUniversities, colorData }: Sear
 
       const filteredResults = searchResults.filter((uni) => {
         const colorMatch = draftAdvancedFilters.color
-          ? [
+          ? (uni.variBase?.length ? uni.variBase.includes(draftAdvancedFilters.color) : true) &&
+            [
               ...colorData.colors[draftAdvancedFilters.color].main,
               ...colorData.colors[draftAdvancedFilters.color].shades,
             ].some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()))
@@ -240,6 +275,9 @@ export default function SearchContainer({ initialUniversities, colorData }: Sear
         return colorMatch && areaMatch && fieldMatch && schoolMatch;
       });
 
+      if (draftCountRequestIdRef.current !== currentRequestId) {
+        return;
+      }
       setDraftFilterResultCount(filteredResults.length);
     };
 
@@ -271,7 +309,8 @@ export default function SearchContainer({ initialUniversities, colorData }: Sear
       const colorMatch =
         ignore === 'color' || !draftAdvancedFilters.color
           ? true
-          : [
+          : (uni.variBase?.length ? uni.variBase.includes(draftAdvancedFilters.color) : true) &&
+            [
               ...colorData.colors[draftAdvancedFilters.color].main,
               ...colorData.colors[draftAdvancedFilters.color].shades,
             ].some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()));
@@ -330,23 +369,46 @@ export default function SearchContainer({ initialUniversities, colorData }: Sear
         isSearching={isSearching}
         colorData={colorData}
       />
-      {results.length > 0 && (
+      {hasActiveQuery && isSearching && (
+        <div className="max-w-3xl w-full mx-auto mb-4 sm:mb-8 px-2">
+          <div className="bg-white rounded-lg border border-border shadow-sm px-3 pt-4 pb-4 sm:px-6 sm:pt-8 sm:pb-8">
+            <div className="space-y-3 sm:space-y-4 animate-pulse">
+              <div className="h-4 w-40 bg-muted rounded" />
+              <div className="h-16 w-full bg-muted rounded" />
+              <div className="h-16 w-full bg-muted rounded" />
+              <div className="h-16 w-full bg-muted rounded" />
+              <div className="h-16 w-full bg-muted rounded" />
+              <div className="h-16 w-full bg-muted rounded" />
+            </div>
+          </div>
+        </div>
+      )}
+      {hasActiveQuery && !isSearching && results.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <ResultsDisplay results={results} />
+          <ResultsDisplay results={results} initialVisibleCount={initialInlineResultsCount} />
         </motion.div>
       )}
-      {hasSearched && results.length === 0 && (
+      {hasActiveQuery && hasSearched && !isSearching && results.length === 0 && (
         <div className="bg-gray-100 rounded-lg shadow-lg p-8 max-w-xl mx-auto text-center">
           <p className="text-gray-600 text-lg">
             Haku ei tuottanut tuloksia. Kokeile muokata hakuehtoja.
           </p>
         </div>
       )}
-      {!hasSearched && results.length === 0 && <PlaceholderDisplay />}
+      {!hasActiveQuery && !showResultsByDefault && showIdlePlaceholder && <PlaceholderDisplay />}
+      {!hasActiveQuery && showResultsByDefault && results.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <ResultsDisplay results={results} initialVisibleCount={initialInlineResultsCount} />
+        </motion.div>
+      )}
     </div>
   );
 }

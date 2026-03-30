@@ -2,7 +2,10 @@
   {
     "id": "1",
     "content": {
-      "vari": "metsänvihreä",
+      "vari": {
+        "label": "metsänvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Hattula",
       "ala": "hortonomi",
       "ainejärjestö": "LOK ry",
@@ -15,7 +18,10 @@
   {
     "id": "2",
     "content": {
-      "vari": "liila",
+      "vari": {
+        "label": "liila",
+        "base": ["violetti"]
+      },
       "alue": "Hyvinkää",
       "ala": "sairaanhoitaja, sosionomi, tradenomi",
       "ainejärjestö": "Laureamko",
@@ -28,7 +34,10 @@
   {
     "id": "3",
     "content": {
-      "vari": "pinkki",
+      "vari": {
+        "label": "pinkki",
+        "base": ["pinkki"]
+      },
       "alue": "Hämeenlinna, Forssa, Valkeakoski",
       "ala": "sairaanhoitaja, terveydenhoitaja, sosionomi",
       "ainejärjestö": "",
@@ -41,7 +50,10 @@
   {
     "id": "4",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Hämeenlinna, Forssa, Valkeakoski",
       "ala": "liiketalous, muotoilu, tietojenkäsittely, international business, computer applications, hevostalouden liiketoiminta",
       "ainejärjestö": "HÄTÄ ry",
@@ -54,7 +66,10 @@
   {
     "id": "5",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Hämeenlinna, Forssa, Valkeakoski",
       "ala": "insinööri, kestävä kehitys",
       "ainejärjestö": "HIOP ry, VARO ry",
@@ -67,7 +82,10 @@
   {
     "id": "6",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Iisalmi",
       "ala": "sairaanhoitaja",
       "ainejärjestö": "",
@@ -80,7 +98,10 @@
   {
     "id": "7",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Iisalmi",
       "ala": "sosiaaliala",
       "ainejärjestö": "",
@@ -93,7 +114,10 @@
   {
     "id": "8",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Iisalmi",
       "ala": "luonnonvara-ala",
       "ainejärjestö": "",
@@ -106,7 +130,10 @@
   {
     "id": "9",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Joensuu",
       "ala": "vieraat kielet, kääntäminen, yleinen kielitiede",
       "ainejärjestö": "Lingtwisti",
@@ -119,7 +146,10 @@
   {
     "id": "10",
     "content": {
-      "vari": "fuksianpunainen",
+      "vari": {
+        "label": "fuksianpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Joensuu",
       "ala": "fysioterapia",
       "ainejärjestö": "FYKO",
@@ -132,7 +162,10 @@
   {
     "id": "11",
     "content": {
-      "vari": "pinkki",
+      "vari": {
+        "label": "pinkki",
+        "base": ["pinkki"]
+      },
       "alue": "Joensuu",
       "ala": "sosionomi",
       "ainejärjestö": "JOS",
@@ -145,7 +178,10 @@
   {
     "id": "12",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Joensuu",
       "ala": "kemia",
       "ainejärjestö": "Bunsen",
@@ -158,7 +194,10 @@
   {
     "id": "13",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Joensuu",
       "ala": "venäjän kieli",
       "ainejärjestö": "Iskra",
@@ -171,7 +210,10 @@
   {
     "id": "14",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Joensuu",
       "ala": "varhaiskasvatus",
       "ainejärjestö": "Sulo",
@@ -184,7 +226,10 @@
   {
     "id": "15",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Joensuu",
       "ala": "sairaanhoitaja, terveydenhoitaja",
       "ainejärjestö": "HOKO",
@@ -197,7 +242,10 @@
   {
     "id": "16",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Joensuu",
       "ala": "saksan kieli",
       "ainejärjestö": "Ablaut",
@@ -210,7 +258,10 @@
   {
     "id": "17",
     "content": {
-      "vari": "bolognanpunainen",
+      "vari": {
+        "label": "bolognanpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Joensuu",
       "ala": "oikeustiede",
       "ainejärjestö": "Judica",
@@ -223,7 +274,10 @@
   {
     "id": "18",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Joensuu",
       "ala": "julkisoikeus",
       "ainejärjestö": "Legio Ostiensis",
@@ -236,7 +290,10 @@
   {
     "id": "19",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Joensuu",
       "ala": "opinto-ohjaaja",
       "ainejärjestö": "Opossumi",
@@ -249,7 +306,10 @@
   {
     "id": "20",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Joensuu",
       "ala": "historia",
       "ainejärjestö": "Varnitsa",
@@ -262,7 +322,10 @@
   {
     "id": "21",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Joensuu",
       "ala": "matkailu- ja ravitsemisala",
       "ainejärjestö": "REKO",
@@ -275,7 +338,10 @@
   {
     "id": "22",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Joensuu",
       "ala": "kansantaloustieteet",
       "ainejärjestö": "",
@@ -288,7 +354,10 @@
   {
     "id": "23",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Joensuu",
       "ala": "kotitalous- ja käsityöopettaja",
       "ainejärjestö": "Kotex",
@@ -301,7 +370,10 @@
   {
     "id": "24",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Joensuu",
       "ala": "kauppatieteet",
       "ainejärjestö": "Optimi",
@@ -314,7 +386,10 @@
   {
     "id": "25",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Joensuu",
       "ala": "liiketalous, international business, tietojenkäsittely",
       "ainejärjestö": "Joensuun Tradenomiopiskelijoiden Kilta",
@@ -327,7 +402,10 @@
   {
     "id": "26",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Joensuu",
       "ala": "ruotsin kieli",
       "ainejärjestö": "Godis",
@@ -340,7 +418,10 @@
   {
     "id": "27",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Joensuu",
       "ala": "biologia",
       "ainejärjestö": "Mikrovillus",
@@ -353,7 +434,10 @@
   {
     "id": "28",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Joensuu",
       "ala": "erityispedagogiikka",
       "ainejärjestö": "Poikkeus",
@@ -366,7 +450,10 @@
   {
     "id": "29",
     "content": {
-      "vari": "limenvihreä",
+      "vari": {
+        "label": "limenvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Joensuu",
       "ala": "maantiede, yhteiskuntamaantiede, ympäristöpolitiikka ja -oikeus",
       "ainejärjestö": "Tombolo",
@@ -379,7 +466,10 @@
   {
     "id": "30",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Joensuu",
       "ala": "energia- ja ympäristötekniikka",
       "ainejärjestö": "Joensuun Insinööriopiskelijat JoIO",
@@ -392,7 +482,10 @@
   {
     "id": "31",
     "content": {
-      "vari": "metsänvihreä",
+      "vari": {
+        "label": "metsänvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Joensuu",
       "ala": "metsätiede",
       "ainejärjestö": "Joensuun Metsäylioppilaat",
@@ -405,7 +498,10 @@
   {
     "id": "32",
     "content": {
-      "vari": "metsänvihreä",
+      "vari": {
+        "label": "metsänvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Joensuu",
       "ala": "metsätalousinsinööri",
       "ainejärjestö": "Jimpon opiskelijayhdistys",
@@ -418,7 +514,10 @@
   {
     "id": "33",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Joensuu",
       "ala": "psykologia",
       "ainejärjestö": "Oidipus",
@@ -431,7 +530,10 @@
   {
     "id": "34",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Joensuu",
       "ala": "luokanopettaja",
       "ainejärjestö": "Popsi",
@@ -444,7 +546,10 @@
   {
     "id": "35",
     "content": {
-      "vari": "Suomen lipun sininen",
+      "vari": {
+        "label": "Suomen lipun sininen",
+        "base": ["sininen"]
+      },
       "alue": "Joensuu",
       "ala": "suomen kieli, kirjallisuus",
       "ainejärjestö": "Täky",
@@ -457,7 +562,10 @@
   {
     "id": "36",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Joensuu",
       "ala": "kulttuuri- ja media-ala",
       "ainejärjestö": "Muuvi",
@@ -470,7 +578,10 @@
   {
     "id": "37",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Joensuu",
       "ala": "kasvatustiede",
       "ainejärjestö": "Kassos",
@@ -483,7 +594,10 @@
   {
     "id": "38",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Joensuu",
       "ala": "matematiikka, fysiikka",
       "ainejärjestö": "Epsilon",
@@ -496,7 +610,10 @@
   {
     "id": "39",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Joensuu",
       "ala": "läntinen teologia",
       "ainejärjestö": "Fides Ostiensis",
@@ -509,7 +626,10 @@
   {
     "id": "40",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Joensuu",
       "ala": "ortodoksinen teologia",
       "ainejärjestö": "Pistis",
@@ -522,7 +642,10 @@
   {
     "id": "41",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Joensuu",
       "ala": "tekniikka (paitsi energia- ja ympäristö-)",
       "ainejärjestö": "Joensuun Insinööriopiskelijat JoIO",
@@ -535,7 +658,10 @@
   {
     "id": "42",
     "content": {
-      "vari": "hopeanharmaa",
+      "vari": {
+        "label": "hopeanharmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Joensuu",
       "ala": "tietojenkäsittelytiede",
       "ainejärjestö": "Skripti",
@@ -548,7 +674,10 @@
   {
     "id": "43",
     "content": {
-      "vari": "tummanharmaa",
+      "vari": {
+        "label": "tummanharmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Joensuu",
       "ala": "kulttuuri",
       "ainejärjestö": "Nefa-Joensuu",
@@ -561,7 +690,10 @@
   {
     "id": "44",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Joensuu",
       "ala": "englannin kieli",
       "ainejärjestö": "Echo",
@@ -574,7 +706,10 @@
   {
     "id": "45",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Joensuu",
       "ala": "yhteiskuntapolitiikka, sosiologia, filosofia",
       "ainejärjestö": "Praxis",
@@ -587,7 +722,10 @@
   {
     "id": "46",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Jyväskylä",
       "ala": "kauppatieteet",
       "ainejärjestö": "Pörssi",
@@ -600,7 +738,10 @@
   {
     "id": "47",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Jyväskylä",
       "ala": "kemia",
       "ainejärjestö": "Radikaali",
@@ -613,7 +754,10 @@
   {
     "id": "48",
     "content": {
-      "vari": "vaaleanpuna-musta",
+      "vari": {
+        "label": "vaaleanpuna-musta",
+        "base": ["musta", "punainen"]
+      },
       "alue": "Jyväskylä",
       "ala": "tieto- ja ohjelmistotekniikka",
       "ainejärjestö": "Algo",
@@ -626,7 +770,10 @@
   {
     "id": "49",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Jyväskylä",
       "ala": "yhteisöpedagogi, kulttuurituottaja",
       "ainejärjestö": "HUMAKO",
@@ -639,7 +786,10 @@
   {
     "id": "50",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Jyväskylä",
       "ala": "tietojenkäsittely",
       "ainejärjestö": "Konkurssi",
@@ -652,7 +802,10 @@
   {
     "id": "51",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Jyväskylä",
       "ala": "englannin kieli",
       "ainejärjestö": "Magna Carta",
@@ -665,7 +818,10 @@
   {
     "id": "52",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Jyväskylä",
       "ala": "viestintä",
       "ainejärjestö": "Parku",
@@ -678,7 +834,10 @@
   {
     "id": "53",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Jyväskylä",
       "ala": "luokanopettaja",
       "ainejärjestö": "Pedago",
@@ -691,7 +850,10 @@
   {
     "id": "54",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Jyväskylä",
       "ala": "venäjän kieli",
       "ainejärjestö": "Sputnik",
@@ -704,7 +866,10 @@
   {
     "id": "55",
     "content": {
-      "vari": "puna-sininen",
+      "vari": {
+        "label": "puna-sininen",
+        "base": ["punainen", "sininen"]
+      },
       "alue": "Jyväskylä",
       "ala": "romaaninen filologia",
       "ainejärjestö": "Astérix",
@@ -717,7 +882,10 @@
   {
     "id": "56",
     "content": {
-      "vari": "puna-musta",
+      "vari": {
+        "label": "puna-musta",
+        "base": ["musta", "punainen"]
+      },
       "alue": "Jyväskylä",
       "ala": "historia",
       "ainejärjestö": "Tosine",
@@ -730,7 +898,10 @@
   {
     "id": "57",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Jyväskylä",
       "ala": "tekniikka, liikenne",
       "ainejärjestö": "Jyväskylän Insinööriopiskelijat JIO",
@@ -743,7 +914,10 @@
   {
     "id": "58",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Jyväskylä",
       "ala": "tietojärjestelmätiede, tietojenkäsittelytiede, kognitiotiede, kyberturvallisuus",
       "ainejärjestö": "Dumppi",
@@ -756,7 +930,10 @@
   {
     "id": "59",
     "content": {
-      "vari": "tummanruskea",
+      "vari": {
+        "label": "tummanruskea",
+        "base": ["ruskea"]
+      },
       "alue": "Jyväskylä",
       "ala": "luonnonvara-ala",
       "ainejärjestö": "Tarmo",
@@ -769,7 +946,10 @@
   {
     "id": "60",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Jyväskylä",
       "ala": "kasvatustiede, aikuiskasvatustiede",
       "ainejärjestö": "Emile",
@@ -782,7 +962,10 @@
   {
     "id": "61",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Jyväskylä",
       "ala": "psykologia",
       "ainejärjestö": "Stimulus",
@@ -795,7 +978,10 @@
   {
     "id": "62",
     "content": {
-      "vari": "kelta-sininen",
+      "vari": {
+        "label": "kelta-sininen",
+        "base": ["sininen", "keltainen"]
+      },
       "alue": "Jyväskylä",
       "ala": "ruotsin kieli",
       "ainejärjestö": "Svenska Klubben",
@@ -808,7 +994,10 @@
   {
     "id": "63",
     "content": {
-      "vari": "kelta-musta",
+      "vari": {
+        "label": "kelta-musta",
+        "base": ["musta", "keltainen"]
+      },
       "alue": "Jyväskylä",
       "ala": "musiikkikasvatus",
       "ainejärjestö": "Pedaali",
@@ -821,7 +1010,10 @@
   {
     "id": "64",
     "content": {
-      "vari": "kelta-musta",
+      "vari": {
+        "label": "kelta-musta",
+        "base": ["musta", "keltainen"]
+      },
       "alue": "Jyväskylä",
       "ala": "musiikkitiede",
       "ainejärjestö": "Trioli",
@@ -834,7 +1026,10 @@
   {
     "id": "65",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Jyväskylä",
       "ala": "liiketalous, hallinto, international business",
       "ainejärjestö": "Konkurssi",
@@ -847,7 +1042,10 @@
   {
     "id": "66",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Jyväskylä",
       "ala": "journalistiikka",
       "ainejärjestö": "Lööppi",
@@ -860,7 +1058,10 @@
   {
     "id": "67",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Jyväskylä",
       "ala": "Kulttuurit ja yhteisöt muuttuvassa maailmassa (KUMU), etnologia, antropologia, kulttuuripolitiikka",
       "ainejärjestö": "Nefa-Jyväskylä",
@@ -873,7 +1074,10 @@
   {
     "id": "68",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Jyväskylä",
       "ala": "bio- ja ympäristötieteet",
       "ainejärjestö": "Syrinx",
@@ -886,7 +1090,10 @@
   {
     "id": "69",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Jyväskylä",
       "ala": "varhaiskasvatus",
       "ainejärjestö": "Varkaat",
@@ -899,7 +1106,10 @@
   {
     "id": "70",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Jyväskylä",
       "ala": "erityispedagogiikka",
       "ainejärjestö": "Abakus",
@@ -912,7 +1122,10 @@
   {
     "id": "71",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Jyväskylä",
       "ala": "matkailu- ja palveluliiketoiminta",
       "ainejärjestö": "MatkaRaTa",
@@ -925,7 +1138,10 @@
   {
     "id": "72",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Jyväskylä",
       "ala": "suomen kieli",
       "ainejärjestö": "Sane",
@@ -938,7 +1154,10 @@
   {
     "id": "73",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Jyväskylä",
       "ala": "viittomakieli",
       "ainejärjestö": "Viito",
@@ -951,7 +1170,10 @@
   {
     "id": "74",
     "content": {
-      "vari": "sini-musta",
+      "vari": {
+        "label": "sini-musta",
+        "base": ["musta", "sininen"]
+      },
       "alue": "Jyväskylä",
       "ala": "tietotekniikka",
       "ainejärjestö": "Linkki",
@@ -964,7 +1186,10 @@
   {
     "id": "75",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Jyväskylä",
       "ala": "valtio-oppi",
       "ainejärjestö": "Puolue",
@@ -977,7 +1202,10 @@
   {
     "id": "76",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Jyväskylä",
       "ala": "matematiikka, fysiikka, tilastotiede",
       "ainejärjestö": "Ynnä",
@@ -990,7 +1218,10 @@
   {
     "id": "77",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Jyväskylä",
       "ala": "sosiaali- ja terveysala",
       "ainejärjestö": "Jasto",
@@ -1003,7 +1234,10 @@
   {
     "id": "78",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Jyväskylä",
       "ala": "kirjallisuus, museologia, taidehistoria, taidekasvatus",
       "ainejärjestö": "Corpus",
@@ -1016,7 +1250,10 @@
   {
     "id": "79",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Jyväskylä",
       "ala": "tilastotiede",
       "ainejärjestö": "Tiltti",
@@ -1029,7 +1266,10 @@
   {
     "id": "80",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Jyväskylä",
       "ala": "kulttuuri, musiikki",
       "ainejärjestö": "Jammaus",
@@ -1042,7 +1282,10 @@
   {
     "id": "81",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Jyväskylä",
       "ala": "yhteiskuntapolitiikka, sosiologia, sosiaalityö",
       "ainejärjestö": "Fokus",
@@ -1055,7 +1298,10 @@
   {
     "id": "82",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Jyväskylä",
       "ala": "filosofia",
       "ainejärjestö": "Mephisto",
@@ -1068,7 +1314,10 @@
   {
     "id": "83",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Jyväskylä",
       "ala": "liikunta- ja terveystieteet",
       "ainejärjestö": "Sporticus",
@@ -1081,7 +1330,10 @@
   {
     "id": "84",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Jyväskylä",
       "ala": "Saksan kieli ja kulttuuri",
       "ainejärjestö": "Sturm und Drang",
@@ -1094,7 +1346,10 @@
   {
     "id": "85",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Kokkola",
       "ala": "hoitotyö, sosiaaliala",
       "ainejärjestö": "",
@@ -1107,7 +1362,10 @@
   {
     "id": "86",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Kokkola",
       "ala": "musiikkipedagogi",
       "ainejärjestö": "",
@@ -1120,7 +1378,10 @@
   {
     "id": "87",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Kokkola",
       "ala": "tekniikka",
       "ainejärjestö": "",
@@ -1133,7 +1394,10 @@
   {
     "id": "88",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Kokkola",
       "ala": "yhteisöpedagogi",
       "ainejärjestö": "",
@@ -1146,7 +1410,10 @@
   {
     "id": "89",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Kokkola",
       "ala": "liiketalous",
       "ainejärjestö": "",
@@ -1159,7 +1426,10 @@
   {
     "id": "90",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Kotka",
       "ala": "sosiaali- ja terveysala",
       "ainejärjestö": "",
@@ -1172,7 +1442,10 @@
   {
     "id": "91",
     "content": {
-      "vari": "oliivinvihreä",
+      "vari": {
+        "label": "oliivinvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Kotka",
       "ala": "tradenomi",
       "ainejärjestö": "",
@@ -1185,7 +1458,10 @@
   {
     "id": "92",
     "content": {
-      "vari": "musta-viininpunainen",
+      "vari": {
+        "label": "musta-viininpunainen",
+        "base": ["musta", "punainen"]
+      },
       "alue": "Kotka",
       "ala": "insinööri",
       "ainejärjestö": "",
@@ -1198,7 +1474,10 @@
   {
     "id": "93",
     "content": {
-      "vari": "musta-sininen",
+      "vari": {
+        "label": "musta-sininen",
+        "base": ["musta", "sininen"]
+      },
       "alue": "Kotka",
       "ala": "merenkulku",
       "ainejärjestö": "",
@@ -1211,7 +1490,10 @@
   {
     "id": "94",
     "content": {
-      "vari": "pinkki",
+      "vari": {
+        "label": "pinkki",
+        "base": ["pinkki"]
+      },
       "alue": "Kouvola",
       "ala": "sosiaali- ja terveysala",
       "ainejärjestö": "",
@@ -1224,7 +1506,10 @@
   {
     "id": "95",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Kouvola",
       "ala": "liiketalous",
       "ainejärjestö": "",
@@ -1237,7 +1522,10 @@
   {
     "id": "96",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Kouvola",
       "ala": "muotoilu",
       "ainejärjestö": "",
@@ -1250,7 +1538,10 @@
   {
     "id": "97",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Kuopio",
       "ala": "tietojenkäsittelytiede",
       "ainejärjestö": "Serveri",
@@ -1263,7 +1554,10 @@
   {
     "id": "98",
     "content": {
-      "vari": "pinkki",
+      "vari": {
+        "label": "pinkki",
+        "base": ["pinkki"]
+      },
       "alue": "Kuopio",
       "ala": "liiketalous",
       "ainejärjestö": "KuoTra",
@@ -1276,7 +1570,10 @@
   {
     "id": "99",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Kuopio",
       "ala": "yhteisöpedagogi, tulkki",
       "ainejärjestö": "HUMAKO",
@@ -1289,7 +1586,10 @@
   {
     "id": "100",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Kuopio",
       "ala": "sovellettu fysiikka, ympäristötiede",
       "ainejärjestö": "Hyeena",
@@ -1302,7 +1602,10 @@
   {
     "id": "101",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Kuopio",
       "ala": "biolääketiede",
       "ainejärjestö": "Kulti",
@@ -1315,7 +1618,10 @@
   {
     "id": "102",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Kuopio",
       "ala": "kauppatiede",
       "ainejärjestö": "Preemio",
@@ -1328,7 +1634,10 @@
   {
     "id": "103",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Kuopio",
       "ala": "matkailu- ja ravitsemisala",
       "ainejärjestö": "KUREO",
@@ -1341,7 +1650,10 @@
   {
     "id": "104",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Kuopio",
       "ala": "tekniikka",
       "ainejärjestö": "KUTOP",
@@ -1354,7 +1666,10 @@
   {
     "id": "105",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Kuopio",
       "ala": "yhteiskuntatieteet",
       "ainejärjestö": "Socius",
@@ -1367,7 +1682,10 @@
   {
     "id": "106",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Kuopio",
       "ala": "rakennusarkkitehti",
       "ainejärjestö": "KuRA",
@@ -1380,7 +1698,10 @@
   {
     "id": "107",
     "content": {
-      "vari": "metsänvihreä",
+      "vari": {
+        "label": "metsänvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Kuopio",
       "ala": "ravitsemustiede",
       "ainejärjestö": "Retikka",
@@ -1393,7 +1714,10 @@
   {
     "id": "108",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Kuopio",
       "ala": "farmasia",
       "ainejärjestö": "Fortis",
@@ -1406,7 +1730,10 @@
   {
     "id": "109",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Kuopio",
       "ala": "terveystieteet",
       "ainejärjestö": "Terho",
@@ -1419,7 +1746,10 @@
   {
     "id": "110",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Kuopio",
       "ala": "musiikki ja tanssi",
       "ainejärjestö": "Tempo",
@@ -1432,7 +1762,10 @@
   {
     "id": "111",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Kuopio",
       "ala": "sosiaali- ja terveysala",
       "ainejärjestö": "Tertta",
@@ -1445,7 +1778,10 @@
   {
     "id": "112",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Kuopio",
       "ala": "lääketiede",
       "ainejärjestö": "KuoLO",
@@ -1458,7 +1794,10 @@
   {
     "id": "113",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Kuopio",
       "ala": "hammaslääketiede",
       "ainejärjestö": "Dentina",
@@ -1471,7 +1810,10 @@
   {
     "id": "114",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Kuopio",
       "ala": "muotoilu",
       "ainejärjestö": "Mutka",
@@ -1484,7 +1826,10 @@
   {
     "id": "115",
     "content": {
-      "vari": "fuksianpunainen",
+      "vari": {
+        "label": "fuksianpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Lahti",
       "ala": "insinööri",
       "ainejärjestö": "LIRO",
@@ -1497,7 +1842,10 @@
   {
     "id": "116",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Lahti",
       "ala": "sosiaali- ja terveysala",
       "ainejärjestö": "LASOLA",
@@ -1510,7 +1858,10 @@
   {
     "id": "117",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Lahti",
       "ala": "liiketalous",
       "ainejärjestö": "Lahden Tradenomiopiskelijat Linkki",
@@ -1523,7 +1874,10 @@
   {
     "id": "118",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Lahti",
       "ala": "restonomi",
       "ainejärjestö": "ReLa",
@@ -1536,7 +1890,10 @@
   {
     "id": "119",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Lappeenranta",
       "ala": "energiatekniikka",
       "ainejärjestö": "Armatuuri",
@@ -1549,7 +1906,10 @@
   {
     "id": "120",
     "content": {
-      "vari": "valko-musta",
+      "vari": {
+        "label": "valko-musta",
+        "base": ["valkoinen", "musta"]
+      },
       "alue": "Lappeenranta",
       "ala": "kuvataide",
       "ainejärjestö": "LaKu",
@@ -1562,7 +1922,10 @@
   {
     "id": "121",
     "content": {
-      "vari": "fuksianpunainen",
+      "vari": {
+        "label": "fuksianpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Lappeenranta",
       "ala": "laskennallinen tekniikka",
       "ainejärjestö": "Lateksii",
@@ -1575,7 +1938,10 @@
   {
     "id": "122",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Lappeenranta",
       "ala": "tietotekniikka",
       "ainejärjestö": "Cluster",
@@ -1588,7 +1954,10 @@
   {
     "id": "123",
     "content": {
-      "vari": "puna-musta",
+      "vari": {
+        "label": "puna-musta",
+        "base": ["musta", "punainen"]
+      },
       "alue": "Lappeenranta",
       "ala": "tekniikka",
       "ainejärjestö": "LapIO",
@@ -1601,7 +1970,10 @@
   {
     "id": "124",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Lappeenranta",
       "ala": "konetekniikka",
       "ainejärjestö": "Koneenrakennuskilta ry",
@@ -1614,7 +1986,10 @@
   {
     "id": "125",
     "content": {
-      "vari": "neonkeltainen",
+      "vari": {
+        "label": "neonkeltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Lappeenranta",
       "ala": "kauppatieteet",
       "ainejärjestö": "Enklaavi",
@@ -1627,7 +2002,10 @@
   {
     "id": "126",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Lappeenranta",
       "ala": "sähkötekniikka",
       "ainejärjestö": "Sätky",
@@ -1640,7 +2018,10 @@
   {
     "id": "127",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Lappeenranta",
       "ala": "sosiaali- ja terveysala",
       "ainejärjestö": "LaKOSTE",
@@ -1653,7 +2034,10 @@
   {
     "id": "128",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Lappeenranta",
       "ala": "restonomi",
       "ainejärjestö": "LaGeR",
@@ -1666,7 +2050,10 @@
   {
     "id": "129",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Lappeenranta",
       "ala": "tuotantotalous",
       "ainejärjestö": "Kaplaaki",
@@ -1679,7 +2066,10 @@
   {
     "id": "130",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Lappeenranta",
       "ala": "liiketalous",
       "ainejärjestö": "LapTOp",
@@ -1692,7 +2082,10 @@
   {
     "id": "131",
     "content": {
-      "vari": "harmaa",
+      "vari": {
+        "label": "harmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Lappeenranta",
       "ala": "ympäristötekniikka",
       "ainejärjestö": "Pelletti",
@@ -1705,7 +2098,10 @@
   {
     "id": "132",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Lappeenranta",
       "ala": "kemiantekniikka",
       "ainejärjestö": "KeTek",
@@ -1718,7 +2114,10 @@
   {
     "id": "133",
     "content": {
-      "vari": "liila",
+      "vari": {
+        "label": "liila",
+        "base": ["violetti"]
+      },
       "alue": "Lohja",
       "ala": "sairaanhoitaja, sosionomi, tradenomi",
       "ainejärjestö": "Laureamko",
@@ -1731,7 +2130,10 @@
   {
     "id": "134",
     "content": {
-      "vari": "Ahvenanmaan sininen",
+      "vari": {
+        "label": "Ahvenanmaan sininen",
+        "base": ["sininen"]
+      },
       "alue": "Maarianhamina",
       "ala": "(kaikki alat)",
       "ainejärjestö": "Studerandekåren Skåhla",
@@ -1744,7 +2146,10 @@
   {
     "id": "135",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Mikkeli",
       "ala": "insinööri",
       "ainejärjestö": "MIO",
@@ -1757,7 +2162,10 @@
   {
     "id": "136",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Mikkeli",
       "ala": "sairaanhoitaja, terveydenhoitaja, ensihoitaja",
       "ainejärjestö": "",
@@ -1770,7 +2178,10 @@
   {
     "id": "137",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Mikkeli",
       "ala": "yhteisöpedagogi",
       "ainejärjestö": "",
@@ -1783,7 +2194,10 @@
   {
     "id": "138",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Mikkeli",
       "ala": "tradenomi",
       "ainejärjestö": "MTO",
@@ -1796,7 +2210,10 @@
   {
     "id": "139",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Mikkeli",
       "ala": "metsätalousinsinööri",
       "ainejärjestö": "Nila",
@@ -1809,7 +2226,10 @@
   {
     "id": "140",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Mikkeli",
       "ala": "sosionomi",
       "ainejärjestö": "",
@@ -1822,7 +2242,10 @@
   {
     "id": "141",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Mikkeli",
       "ala": "restonomi",
       "ainejärjestö": "Mikro",
@@ -1835,7 +2258,10 @@
   {
     "id": "142",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Nurmijärvi",
       "ala": "yhteisöpedagogiikka",
       "ainejärjestö": "HUMAKO",
@@ -1848,7 +2274,10 @@
   {
     "id": "143",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Oulu",
       "ala": "sosiaali- ja terveysala",
       "ainejärjestö": "Osasto",
@@ -1861,7 +2290,10 @@
   {
     "id": "144",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Oulu",
       "ala": "arkkitehtuuri",
       "ainejärjestö": "Arkkitehtikilta",
@@ -1874,7 +2306,10 @@
   {
     "id": "145",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Oulu",
       "ala": "kasvatustiede",
       "ainejärjestö": "Motiva",
@@ -1887,7 +2322,10 @@
   {
     "id": "146",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Oulu",
       "ala": "lääketieteellinen tiedekunta (LTK)",
       "ainejärjestö": "",
@@ -1900,7 +2338,10 @@
   {
     "id": "147",
     "content": {
-      "vari": "puhtaanvalkoinen",
+      "vari": {
+        "label": "puhtaanvalkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Oulu",
       "ala": "prosessitekniikka",
       "ainejärjestö": "Oulun yliopiston prosessikilta",
@@ -1913,7 +2354,10 @@
   {
     "id": "148",
     "content": {
-      "vari": "fuksianpunainen",
+      "vari": {
+        "label": "fuksianpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Oulu",
       "ala": "varhaiskasvatus",
       "ainejärjestö": "Lastarit",
@@ -1926,7 +2370,10 @@
   {
     "id": "149",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Oulu",
       "ala": "konetekniikka",
       "ainejärjestö": "Oulun yliopiston koneinsinöörikilta",
@@ -1939,7 +2386,10 @@
   {
     "id": "150",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Oulu",
       "ala": "kulttuuri",
       "ainejärjestö": "Kultti",
@@ -1952,7 +2402,10 @@
   {
     "id": "151",
     "content": {
-      "vari": "tumman luumunpunainen",
+      "vari": {
+        "label": "tumman luumunpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Oulu",
       "ala": "maantiede",
       "ainejärjestö": "Atlas",
@@ -1965,7 +2418,10 @@
   {
     "id": "152",
     "content": {
-      "vari": "tummanpunainen",
+      "vari": {
+        "label": "tummanpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Oulu",
       "ala": "biokemia",
       "ainejärjestö": "Histoni",
@@ -1978,7 +2434,10 @@
   {
     "id": "153",
     "content": {
-      "vari": "tummanruskea",
+      "vari": {
+        "label": "tummanruskea",
+        "base": ["ruskea"]
+      },
       "alue": "Oulu",
       "ala": "arkeologia, kirjallisuus, kulttuuriantropologia",
       "ainejärjestö": "Kultu",
@@ -1991,7 +2450,10 @@
   {
     "id": "154",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Oulu",
       "ala": "erityispedagogiikka",
       "ainejärjestö": "Spessu",
@@ -2004,7 +2466,10 @@
   {
     "id": "155",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Oulu",
       "ala": "sosiaali-, terveys- ja kirkon alat, asioimistulkkaus",
       "ainejärjestö": "O’Diako",
@@ -2017,7 +2482,10 @@
   {
     "id": "156",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Oulu",
       "ala": "tekniikka",
       "ainejärjestö": "Ote",
@@ -2030,7 +2498,10 @@
   {
     "id": "157",
     "content": {
-      "vari": "neonkeltainen",
+      "vari": {
+        "label": "neonkeltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Oulu",
       "ala": "musiikkikasvatus",
       "ainejärjestö": "Mukava",
@@ -2043,7 +2514,10 @@
   {
     "id": "158",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Oulu",
       "ala": "kemia",
       "ainejärjestö": "Valenssi",
@@ -2056,7 +2530,10 @@
   {
     "id": "159",
     "content": {
-      "vari": "kelta-vihreä",
+      "vari": {
+        "label": "kelta-vihreä",
+        "base": ["vihreä", "keltainen"]
+      },
       "alue": "Oulu",
       "ala": "luonnonvara-ala",
       "ainejärjestö": "Luva",
@@ -2069,7 +2546,10 @@
   {
     "id": "160",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Oulu",
       "ala": "biologia",
       "ainejärjestö": "Syntaksis",
@@ -2082,7 +2562,10 @@
   {
     "id": "161",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Oulu",
       "ala": "vieraat kielet",
       "ainejärjestö": "Verba",
@@ -2095,7 +2578,10 @@
   {
     "id": "162",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Oulu",
       "ala": "liiketalous",
       "ainejärjestö": "Outo",
@@ -2108,7 +2594,10 @@
   {
     "id": "163",
     "content": {
-      "vari": "mintunvihreä",
+      "vari": {
+        "label": "mintunvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Oulu",
       "ala": "tuotantotalous",
       "ainejärjestö": "Optiem",
@@ -2121,7 +2610,10 @@
   {
     "id": "164",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Oulu",
       "ala": "vaihto-opiskelijat",
       "ainejärjestö": "Erasmus Student Network Oulu (ESN Oulu)",
@@ -2134,7 +2626,10 @@
   {
     "id": "165",
     "content": {
-      "vari": "sähkönsininen",
+      "vari": {
+        "label": "sähkönsininen",
+        "base": ["sininen"]
+      },
       "alue": "Oulu",
       "ala": "sähkötekniikka, elektroniikka, tietoliikenne",
       "ainejärjestö": "Sähköinsinöörikilta (SIK)",
@@ -2147,7 +2642,10 @@
   {
     "id": "166",
     "content": {
-      "vari": "sini-kelta-punainen",
+      "vari": {
+        "label": "sini-kelta-punainen",
+        "base": ["punainen", "sininen", "keltainen"]
+      },
       "alue": "Oulu",
       "ala": "rakennus- ja yhdyskuntatekniikka, ympäristötekniikka",
       "ainejärjestö": "Ympäristörakentajakilta",
@@ -2160,7 +2658,10 @@
   {
     "id": "167",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Oulu",
       "ala": "tietojenkäsittelytieteet",
       "ainejärjestö": "Blanko",
@@ -2173,7 +2674,10 @@
   {
     "id": "168",
     "content": {
-      "vari": "vaaleansininen",
+      "vari": {
+        "label": "vaaleansininen",
+        "base": ["sininen"]
+      },
       "alue": "Oulu",
       "ala": "psykologia",
       "ainejärjestö": "Defenssi ry",
@@ -2186,7 +2690,10 @@
   {
     "id": "169",
     "content": {
-      "vari": "vaaleanvioletti",
+      "vari": {
+        "label": "vaaleanvioletti",
+        "base": ["violetti"]
+      },
       "alue": "Oulu",
       "ala": "historia",
       "ainejärjestö": "Tiima",
@@ -2199,7 +2706,10 @@
   {
     "id": "170",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Oulu",
       "ala": "kauppatieteet",
       "ainejärjestö": "Finanssi",
@@ -2212,7 +2722,10 @@
   {
     "id": "171",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Oulu",
       "ala": "suomen kieli",
       "ainejärjestö": "Suma",
@@ -2225,7 +2738,10 @@
   {
     "id": "172",
     "content": {
-      "vari": "violetti-musta",
+      "vari": {
+        "label": "violetti-musta",
+        "base": ["musta", "violetti"]
+      },
       "alue": "Oulu",
       "ala": "matematiikka, fysikaaliset tieteet",
       "ainejärjestö": "Sigma-kilta",
@@ -2238,7 +2754,10 @@
   {
     "id": "173",
     "content": {
-      "vari": "betoninharmaa",
+      "vari": {
+        "label": "betoninharmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Oulu",
       "ala": "rakennusarkkitehti",
       "ainejärjestö": "Oulun rakennusarkkitehtiopiskelijat (Arkko)",
@@ -2251,7 +2770,10 @@
   {
     "id": "174",
     "content": {
-      "vari": "tummanharmaa",
+      "vari": {
+        "label": "tummanharmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Oulu",
       "ala": "saamen kieli, saamelainen kulttuuri",
       "ainejärjestö": "Gieku",
@@ -2264,7 +2786,10 @@
   {
     "id": "175",
     "content": {
-      "vari": "tummanharmaa-fuksia",
+      "vari": {
+        "label": "tummanharmaa-fuksia",
+        "base": ["harmaa"]
+      },
       "alue": "Oulu",
       "ala": "informaatiotutkimus",
       "ainejärjestö": "Index",
@@ -2277,7 +2802,10 @@
   {
     "id": "176",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Oulu",
       "ala": "logopedia",
       "ainejärjestö": "Communica",
@@ -2290,7 +2818,10 @@
   {
     "id": "177",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Oulu",
       "ala": "geotieteet",
       "ainejärjestö": "Nikoli",
@@ -2303,7 +2834,10 @@
   {
     "id": "178",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Oulu",
       "ala": "luokanopettaja",
       "ainejärjestö": "OLO",
@@ -2316,7 +2850,10 @@
   {
     "id": "179",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Oulu",
       "ala": "tietotekniikka, informaatioverkostot",
       "ainejärjestö": "Oulun Tietoteekkarit (OTiT)",
@@ -2329,7 +2866,10 @@
   {
     "id": "180",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Pieksämäki",
       "ala": "sosiaali-, terveys- ja kirkon alat, asioimistulkkaus",
       "ainejärjestö": "O’Diako",
@@ -2342,7 +2882,10 @@
   {
     "id": "181",
     "content": {
-      "vari": "vaaleansininen",
+      "vari": {
+        "label": "vaaleansininen",
+        "base": ["sininen"]
+      },
       "alue": "Pietarsaari",
       "ala": "kulttuuri",
       "ainejärjestö": "Skruvster",
@@ -2355,7 +2898,10 @@
   {
     "id": "182",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Pietarsaari",
       "ala": "liiketalous",
       "ainejärjestö": "",
@@ -2368,7 +2914,10 @@
   {
     "id": "183",
     "content": {
-      "vari": "puhtaanvalkoinen",
+      "vari": {
+        "label": "puhtaanvalkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Espoo",
       "ala": "sähkötekniikka",
       "ainejärjestö": "Sähköinsinöörikilta",
@@ -2381,7 +2930,10 @@
   {
     "id": "184",
     "content": {
-      "vari": "maalarinvalkoinen",
+      "vari": {
+        "label": "maalarinvalkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Espoo",
       "ala": "arkkitehtuuri",
       "ainejärjestö": "Arkkitehtikilta",
@@ -2394,7 +2946,10 @@
   {
     "id": "185",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Helsinki",
       "ala": "kauppatieteet",
       "ainejärjestö": "SHS",
@@ -2407,7 +2962,10 @@
   {
     "id": "186",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Helsinki",
       "ala": "hammaslääketiede",
       "ainejärjestö": "Hammaslääketieteenkandidaattiseura",
@@ -2420,7 +2978,10 @@
   {
     "id": "187",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Helsinki",
       "ala": "kognitiotiede",
       "ainejärjestö": "Intelligenzia",
@@ -2433,7 +2994,10 @@
   {
     "id": "188",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Helsinki",
       "ala": "kääntäminen, tulkkaus",
       "ainejärjestö": "KouKi",
@@ -2446,7 +3010,10 @@
   {
     "id": "189",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Helsinki",
       "ala": "lääketiede",
       "ainejärjestö": "Lääketieteenkandidaattiseura",
@@ -2459,7 +3026,10 @@
   {
     "id": "190",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Helsinki",
       "ala": "Sibelius-Akatemia",
       "ainejärjestö": "",
@@ -2472,7 +3042,10 @@
   {
     "id": "191",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Espoo",
       "ala": "tuotantotalous",
       "ainejärjestö": "Prodeko",
@@ -2485,7 +3058,10 @@
   {
     "id": "192",
     "content": {
-      "vari": "valko-oranssi",
+      "vari": {
+        "label": "valko-oranssi",
+        "base": ["valkoinen", "oranssi"]
+      },
       "alue": "Helsinki",
       "ala": "tekniikka (kaikki)",
       "ainejärjestö": "Uudenmaan Insinööriopiskelijat",
@@ -2498,7 +3074,10 @@
   {
     "id": "193",
     "content": {
-      "vari": "valko-merenvihreä",
+      "vari": {
+        "label": "valko-merenvihreä",
+        "base": ["valkoinen", "vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "sosiaali- ja terveysalat",
       "ainejärjestö": "MysteRy",
@@ -2511,7 +3090,10 @@
   {
     "id": "194",
     "content": {
-      "vari": "valko-harmaa takki",
+      "vari": {
+        "label": "valko-harmaa takki",
+        "base": ["valkoinen", "harmaa"]
+      },
       "alue": "Espoo",
       "ala": "kuvataidekasvatus",
       "ainejärjestö": "Kooma",
@@ -2524,7 +3106,10 @@
   {
     "id": "195",
     "content": {
-      "vari": "luonnonvalkoinen",
+      "vari": {
+        "label": "luonnonvalkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Espoo",
       "ala": "teknillinen fysiikka, matematiikka",
       "ainejärjestö": "Fyysikkokilta",
@@ -2537,7 +3122,10 @@
   {
     "id": "196",
     "content": {
-      "vari": "samppanjankultainen",
+      "vari": {
+        "label": "samppanjankultainen",
+        "base": ["keltainen"]
+      },
       "alue": "Helsinki",
       "ala": "arkeologia",
       "ainejärjestö": "Fibula",
@@ -2550,7 +3138,10 @@
   {
     "id": "197",
     "content": {
-      "vari": "vaaleanpunainen",
+      "vari": {
+        "label": "vaaleanpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Espoo",
       "ala": "kone- ja rakennustekniikka",
       "ainejärjestö": "Koneinsinöörikilta",
@@ -2563,7 +3154,10 @@
   {
     "id": "198",
     "content": {
-      "vari": "fuksianpunainen",
+      "vari": {
+        "label": "fuksianpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "fysikaaliset tieteet",
       "ainejärjestö": "Resonanssi",
@@ -2576,7 +3170,10 @@
   {
     "id": "199",
     "content": {
-      "vari": "aniliininpunainen",
+      "vari": {
+        "label": "aniliininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "matematiikka, fysiikka, kemia, tietojenkäsittelytiede (ruotsiksi)",
       "ainejärjestö": "Spektrum",
@@ -2589,7 +3186,10 @@
   {
     "id": "200",
     "content": {
-      "vari": "pinkki",
+      "vari": {
+        "label": "pinkki",
+        "base": ["pinkki"]
+      },
       "alue": "Vantaa",
       "ala": "estenomi",
       "ainejärjestö": "",
@@ -2602,7 +3202,10 @@
   {
     "id": "201",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Espoo",
       "ala": "kemia",
       "ainejärjestö": "Kemistikilta",
@@ -2615,7 +3218,10 @@
   {
     "id": "202",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "media",
       "ainejärjestö": "Commedia",
@@ -2628,7 +3234,10 @@
   {
     "id": "203",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "filosofia",
       "ainejärjestö": "Dilemma",
@@ -2641,7 +3250,10 @@
   {
     "id": "204",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "aineenopettaja",
       "ainejärjestö": "HAO",
@@ -2654,7 +3266,10 @@
   {
     "id": "205",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "valtiotiede",
       "ainejärjestö": "Kannunvalajat",
@@ -2667,7 +3282,10 @@
   {
     "id": "206",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "käsityönopettaja, käsityötiede",
       "ainejärjestö": "Käsitys",
@@ -2680,7 +3298,10 @@
   {
     "id": "207",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "metsätieteet",
       "ainejärjestö": "Metsäylioppilaat",
@@ -2693,7 +3314,10 @@
   {
     "id": "208",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "pohjoismaiset kielet",
       "ainejärjestö": "Saga",
@@ -2706,7 +3330,10 @@
   {
     "id": "209",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "englannin kieli",
       "ainejärjestö": "SUB",
@@ -2719,7 +3346,10 @@
   {
     "id": "210",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "aluetutkimus, kulttuuriala",
       "ainejärjestö": "HUMAKO",
@@ -2732,7 +3362,10 @@
   {
     "id": "211",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "tilastotiede",
       "ainejärjestö": "Moodi",
@@ -2745,7 +3378,10 @@
   {
     "id": "212",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "matematiikka",
       "ainejärjestö": "Matrix",
@@ -2758,7 +3394,10 @@
   {
     "id": "213",
     "content": {
-      "vari": "puna-keltainen",
+      "vari": {
+        "label": "puna-keltainen",
+        "base": ["punainen", "keltainen"]
+      },
       "alue": "Helsinki",
       "ala": "iberoromaaniset kielet: espanja",
       "ainejärjestö": "Setenta",
@@ -2771,7 +3410,10 @@
   {
     "id": "214",
     "content": {
-      "vari": "puna-vihreä",
+      "vari": {
+        "label": "puna-vihreä",
+        "base": ["punainen", "vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "iberoromaaniset kielet: portugali",
       "ainejärjestö": "Setenta",
@@ -2784,7 +3426,10 @@
   {
     "id": "215",
     "content": {
-      "vari": "tekniikanpunainen",
+      "vari": {
+        "label": "tekniikanpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Espoo",
       "ala": "",
       "ainejärjestö": "Teknologföreningen (osakunta)",
@@ -2797,7 +3442,10 @@
   {
     "id": "216",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "biotekniikka",
       "ainejärjestö": "BOA",
@@ -2810,7 +3458,10 @@
   {
     "id": "217",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "balttilaiset kielet ja kulttuurit",
       "ainejärjestö": "Daina",
@@ -2823,7 +3474,10 @@
   {
     "id": "218",
     "content": {
-      "vari": "juriströd (pykälänpunainen)",
+      "vari": {
+        "label": "juriströd (pykälänpunainen)",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "oikeustiede (ruotsiksi)",
       "ainejärjestö": "Juristklubben Codex",
@@ -2836,7 +3490,10 @@
   {
     "id": "219",
     "content": {
-      "vari": "pykälänpunainen",
+      "vari": {
+        "label": "pykälänpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "oikeustiede",
       "ainejärjestö": "Pykälä",
@@ -2849,7 +3506,10 @@
   {
     "id": "220",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "slavistiikka, baltologia",
       "ainejärjestö": "Rupla",
@@ -2862,7 +3522,10 @@
   {
     "id": "221",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "klassillinen filologia",
       "ainejärjestö": "Symposion",
@@ -2875,7 +3538,10 @@
   {
     "id": "222",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Helsinki",
       "ala": "kulttuuriala",
       "ainejärjestö": "Demoni",
@@ -2888,7 +3554,10 @@
   {
     "id": "223",
     "content": {
-      "vari": "punaruskea",
+      "vari": {
+        "label": "punaruskea",
+        "base": ["ruskea"]
+      },
       "alue": "Espoo",
       "ala": "bioinformaatioteknologia",
       "ainejärjestö": "Inkubio",
@@ -2901,7 +3570,10 @@
   {
     "id": "224",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Helsinki",
       "ala": "musiikkitiede",
       "ainejärjestö": "Synkooppi",
@@ -2914,7 +3586,10 @@
   {
     "id": "225",
     "content": {
-      "vari": "oranssi-vihreä",
+      "vari": {
+        "label": "oranssi-vihreä",
+        "base": ["vihreä", "oranssi"]
+      },
       "alue": "Helsinki",
       "ala": "rakennusala",
       "ainejärjestö": "Myro",
@@ -2927,7 +3602,10 @@
   {
     "id": "226",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Espoo",
       "ala": "Puunjalostustekniikka",
       "ainejärjestö": "Puunjalostajakilta",
@@ -2940,7 +3618,10 @@
   {
     "id": "227",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Helsinki",
       "ala": "liiketalous, kansainvälinen liiketoiminta, turismi",
       "ainejärjestö": "HanSe SF",
@@ -2953,7 +3634,10 @@
   {
     "id": "228",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Helsinki",
       "ala": "sosiaali- ja terveysala, tulkkaus",
       "ainejärjestö": "O’Diako",
@@ -2966,7 +3650,10 @@
   {
     "id": "229",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Helsinki",
       "ala": "alue- ja kulttuuritutkimus",
       "ainejärjestö": "Origo",
@@ -2979,7 +3666,10 @@
   {
     "id": "230",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Helsinki",
       "ala": "kotitalouspedagogiikka",
       "ainejärjestö": "Kopeda",
@@ -2992,7 +3682,10 @@
   {
     "id": "231",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Helsinki",
       "ala": "meteorologia",
       "ainejärjestö": "Synop",
@@ -3005,7 +3698,10 @@
   {
     "id": "232",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Helsinki",
       "ala": "tietojenkäsittelytiede",
       "ainejärjestö": "TKO-äly",
@@ -3018,7 +3714,10 @@
   {
     "id": "233",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Helsinki",
       "ala": "yhteiskuntatieteet (ruotsiksi)",
       "ainejärjestö": "StudOrg",
@@ -3031,7 +3730,10 @@
   {
     "id": "234",
     "content": {
-      "vari": "neonkeltainen",
+      "vari": {
+        "label": "neonkeltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Helsinki",
       "ala": "optometria",
       "ainejärjestö": "OJO",
@@ -3044,7 +3746,10 @@
   {
     "id": "235",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "Suomen kieli ja kulttuuri",
       "ainejärjestö": "Aksentti",
@@ -3057,7 +3762,10 @@
   {
     "id": "236",
     "content": {
-      "vari": "vaaleanvihreä",
+      "vari": {
+        "label": "vaaleanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "maataloustieteet",
       "ainejärjestö": "Sampsa",
@@ -3070,7 +3778,10 @@
   {
     "id": "237",
     "content": {
-      "vari": "vaaleanvihreä",
+      "vari": {
+        "label": "vaaleanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "suomen kieli, suomalais-ugrilaiset kielet",
       "ainejärjestö": "Siula",
@@ -3083,7 +3794,10 @@
   {
     "id": "238",
     "content": {
-      "vari": "vaaleanvihreä",
+      "vari": {
+        "label": "vaaleanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "maatalous- ja metsätiede (ruotsiksi)",
       "ainejärjestö": "Svenska Studenters Agro-Forst Förening",
@@ -3096,7 +3810,10 @@
   {
     "id": "239",
     "content": {
-      "vari": "viher-musta",
+      "vari": {
+        "label": "viher-musta",
+        "base": ["musta", "vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "kotimainen kirjallisuus",
       "ainejärjestö": "Putkinotko",
@@ -3109,7 +3826,10 @@
   {
     "id": "240",
     "content": {
-      "vari": "viher-musta",
+      "vari": {
+        "label": "viher-musta",
+        "base": ["musta", "vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "suomen kieli, suomalais-ugrilaiset kielet",
       "ainejärjestö": "Siula",
@@ -3122,7 +3842,10 @@
   {
     "id": "241",
     "content": {
-      "vari": "viher-valko-punainen",
+      "vari": {
+        "label": "viher-valko-punainen",
+        "base": ["valkoinen", "punainen", "vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "italialainen filologia",
       "ainejärjestö": "Divina Compagnia",
@@ -3135,7 +3858,10 @@
   {
     "id": "242",
     "content": {
-      "vari": "oliivinvihreä",
+      "vari": {
+        "label": "oliivinvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "sotatieteet",
       "ainejärjestö": "Kadettitoverikunta",
@@ -3148,7 +3874,10 @@
   {
     "id": "243",
     "content": {
-      "vari": "metsänvihreä",
+      "vari": {
+        "label": "metsänvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Espoo",
       "ala": "informaatioverkostot",
       "ainejärjestö": "Athene",
@@ -3161,7 +3890,10 @@
   {
     "id": "244",
     "content": {
-      "vari": "dollarinvihreä",
+      "vari": {
+        "label": "dollarinvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Espoo",
       "ala": "kauppatieteet",
       "ainejärjestö": "Aalto-yliopiston kauppatieteiden ylioppilaat KY",
@@ -3174,7 +3906,10 @@
   {
     "id": "245",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Espoo",
       "ala": "terveys- ja hoitoala",
       "ainejärjestö": "TXO",
@@ -3187,7 +3922,10 @@
   {
     "id": "246",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "terveys, hyvinvointi",
       "ainejärjestö": "HoSK",
@@ -3200,7 +3938,10 @@
   {
     "id": "247",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "eläinlääketiede",
       "ainejärjestö": "Eläinlääketieteen kandidaattiyhdistys",
@@ -3213,7 +3954,10 @@
   {
     "id": "248",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "maantiede",
       "ainejärjestö": "MaO",
@@ -3226,7 +3970,10 @@
   {
     "id": "249",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "uskontotiede",
       "ainejärjestö": "Mythos",
@@ -3239,7 +3986,10 @@
   {
     "id": "250",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "kansatiede, folkloristiikka",
       "ainejärjestö": "Nefa-Helsinki",
@@ -3252,7 +4002,10 @@
   {
     "id": "251",
     "content": {
-      "vari": "metsänvihreä",
+      "vari": {
+        "label": "metsänvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "biologia",
       "ainejärjestö": "Symbioosi",
@@ -3265,7 +4018,10 @@
   {
     "id": "252",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "ympäristöekonomia",
       "ainejärjestö": "Vuorovaikeutus",
@@ -3278,7 +4034,10 @@
   {
     "id": "253",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "ympäristötieteet",
       "ainejärjestö": "MYY",
@@ -3291,7 +4050,10 @@
   {
     "id": "254",
     "content": {
-      "vari": "tummanvihreä-musta",
+      "vari": {
+        "label": "tummanvihreä-musta",
+        "base": ["musta", "vihreä"]
+      },
       "alue": "Helsinki",
       "ala": "farmasia",
       "ainejärjestö": "Yliopiston farmasiakunta",
@@ -3304,7 +4066,10 @@
   {
     "id": "255",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Helsinki",
       "ala": "kulttuurintuottaja",
       "ainejärjestö": "Kult",
@@ -3317,7 +4082,10 @@
   {
     "id": "256",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Helsinki",
       "ala": "aikuiskasvatus",
       "ainejärjestö": "Aikuiskasvatuksen Kilta",
@@ -3330,7 +4098,10 @@
   {
     "id": "257",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Helsinki",
       "ala": "estetiikka",
       "ainejärjestö": "Aistimus",
@@ -3343,7 +4114,10 @@
   {
     "id": "258",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Helsinki",
       "ala": "luokanopettaja, kasvatus- ja aikuiskasvatustiede (ruotsiksi)",
       "ainejärjestö": "Didacta",
@@ -3356,7 +4130,10 @@
   {
     "id": "259",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Helsinki",
       "ala": "elintarviketiede",
       "ainejärjestö": "Lipidi",
@@ -3369,7 +4146,10 @@
   {
     "id": "260",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Helsinki",
       "ala": "kasvatustiede, luokanopettaja",
       "ainejärjestö": "Peduca",
@@ -3382,7 +4162,10 @@
   {
     "id": "261",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Helsinki",
       "ala": "kasvatuspsykologia",
       "ainejärjestö": "Phenomena",
@@ -3395,7 +4178,10 @@
   {
     "id": "262",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Helsinki",
       "ala": "elintarviketieteet",
       "ainejärjestö": "Viri Lactis",
@@ -3408,7 +4194,10 @@
   {
     "id": "263",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Vantaa",
       "ala": "liiketalous",
       "ainejärjestö": "Trombi",
@@ -3421,7 +4210,10 @@
   {
     "id": "264",
     "content": {
-      "vari": "kaljakorin­sininen",
+      "vari": {
+        "label": "kaljakorin­sininen",
+        "base": ["sininen"]
+      },
       "alue": "Espoo",
       "ala": "materiaalitekniikka",
       "ainejärjestö": "Vuorimieskilta",
@@ -3434,7 +4226,10 @@
   {
     "id": "265",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Helsinki",
       "ala": "tekniikka",
       "ainejärjestö": "TLK",
@@ -3447,7 +4242,10 @@
   {
     "id": "266",
     "content": {
-      "vari": "petroolinsininen",
+      "vari": {
+        "label": "petroolinsininen",
+        "base": ["sininen"]
+      },
       "alue": "Helsinki",
       "ala": "kulttuuri, liiketalous, matkailu",
       "ainejärjestö": "Helga",
@@ -3460,7 +4258,10 @@
   {
     "id": "267",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Helsinki",
       "ala": "varhaiskasvatus",
       "ainejärjestö": "Ebe",
@@ -3473,7 +4274,10 @@
   {
     "id": "268",
     "content": {
-      "vari": "vaaleansininen",
+      "vari": {
+        "label": "vaaleansininen",
+        "base": ["sininen"]
+      },
       "alue": "Helsinki",
       "ala": "lääketiede",
       "ainejärjestö": "Medicinarklubben Thorax",
@@ -3486,7 +4290,10 @@
   {
     "id": "269",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Espoo",
       "ala": "prosessitekniikka",
       "ainejärjestö": "Prosessiteekkarit",
@@ -3499,7 +4306,10 @@
   {
     "id": "270",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Helsinki",
       "ala": "yleinen kielitiede, kieliteknologia",
       "ainejärjestö": "Aspekti",
@@ -3512,7 +4322,10 @@
   {
     "id": "271",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Helsinki",
       "ala": "erityispedagogiikka",
       "ainejärjestö": "Erikeepperi",
@@ -3525,7 +4338,10 @@
   {
     "id": "272",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Helsinki",
       "ala": "historia (ruotsiksi)",
       "ainejärjestö": "Historicus",
@@ -3538,7 +4354,10 @@
   {
     "id": "273",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Helsinki",
       "ala": "historia",
       "ainejärjestö": "Kronos",
@@ -3551,7 +4370,10 @@
   {
     "id": "274",
     "content": {
-      "vari": "yönsininen",
+      "vari": {
+        "label": "yönsininen",
+        "base": ["sininen"]
+      },
       "alue": "Helsinki",
       "ala": "tähtitiede",
       "ainejärjestö": "Meridiaani",
@@ -3564,7 +4386,10 @@
   {
     "id": "275",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Helsinki",
       "ala": "biologia, ympäristötiede (ruotsiksi)",
       "ainejärjestö": "Svenska Naturvetarklubben",
@@ -3577,7 +4402,10 @@
   {
     "id": "276",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Helsinki",
       "ala": "ympäristö- ja elintarviketalous",
       "ainejärjestö": "Viikin Taloustieteilijät",
@@ -3590,7 +4418,10 @@
   {
     "id": "277",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Espoo",
       "ala": "rakennustekniikka",
       "ainejärjestö": "Rakennusinsinöörikilta IK",
@@ -3603,7 +4434,10 @@
   {
     "id": "278",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Espoo",
       "ala": "tekniikka (Karamalmin kampus)",
       "ainejärjestö": "Kama",
@@ -3616,7 +4450,10 @@
   {
     "id": "279",
     "content": {
-      "vari": "tummansini-valko-punainen",
+      "vari": {
+        "label": "tummansini-valko-punainen",
+        "base": ["valkoinen", "punainen", "sininen"]
+      },
       "alue": "Helsinki",
       "ala": "ranskalainen filologia",
       "ainejärjestö": "Bouffe",
@@ -3629,7 +4466,10 @@
   {
     "id": "280",
     "content": {
-      "vari": "liila",
+      "vari": {
+        "label": "liila",
+        "base": ["violetti"]
+      },
       "alue": "Helsinki",
       "ala": "psykologia",
       "ainejärjestö": "Kompleksi",
@@ -3642,7 +4482,10 @@
   {
     "id": "281",
     "content": {
-      "vari": "liila",
+      "vari": {
+        "label": "liila",
+        "base": ["violetti"]
+      },
       "alue": "Espoo",
       "ala": "sairaanhoitaja, terveydenhoitaja, fysioterapeutti, sosionomi, tradenomi, restonomi, tietojenkäsittely, turvallisuus",
       "ainejärjestö": "Laureamko",
@@ -3655,7 +4498,10 @@
   {
     "id": "282",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Helsinki",
       "ala": "logopedia",
       "ainejärjestö": "Foni",
@@ -3668,7 +4514,10 @@
   {
     "id": "283",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Helsinki",
       "ala": "kuluttajaekonomia, ravitsemustiede",
       "ainejärjestö": "Oikos",
@@ -3681,7 +4530,10 @@
   {
     "id": "284",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Helsinki",
       "ala": "teologia",
       "ainejärjestö": "Teologian ylioppilaiden tiedekuntayhdistys",
@@ -3694,7 +4546,10 @@
   {
     "id": "285",
     "content": {
-      "vari": "liila",
+      "vari": {
+        "label": "liila",
+        "base": ["violetti"]
+      },
       "alue": "Vantaa",
       "ala": "estenomi, sairaanhoitaja, terveydenhoitaja, sosionomi, rikosseuraamusalan sosionomi, tradenomi",
       "ainejärjestö": "Laureamko",
@@ -3707,7 +4562,10 @@
   {
     "id": "286",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Espoo",
       "ala": "automaatio- ja systeemitekniikka",
       "ainejärjestö": "Automaatio- ja systeemitekniikan kilta",
@@ -3720,7 +4578,10 @@
   {
     "id": "287",
     "content": {
-      "vari": "harmaa",
+      "vari": {
+        "label": "harmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Helsinki",
       "ala": "taidehistoria",
       "ainejärjestö": "Eidos",
@@ -3733,7 +4594,10 @@
   {
     "id": "288",
     "content": {
-      "vari": "harmaa",
+      "vari": {
+        "label": "harmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Helsinki",
       "ala": "pohjoismainen kirjallisuus",
       "ainejärjestö": "Lycksalighetens ö",
@@ -3746,7 +4610,10 @@
   {
     "id": "289",
     "content": {
-      "vari": "harmaa",
+      "vari": {
+        "label": "harmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Helsinki",
       "ala": "geologia",
       "ainejärjestö": "Vasara",
@@ -3759,7 +4626,10 @@
   {
     "id": "290",
     "content": {
-      "vari": "tummanharmaa",
+      "vari": {
+        "label": "tummanharmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Helsinki",
       "ala": "alue- ja kulttuuritutkimus",
       "ainejärjestö": "Origo",
@@ -3772,7 +4642,10 @@
   {
     "id": "291",
     "content": {
-      "vari": "tummanharmaa",
+      "vari": {
+        "label": "tummanharmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Helsinki",
       "ala": "kulttuurien tutkimuksen kandiohjelma",
       "ainejärjestö": "Konteksti",
@@ -3785,7 +4658,10 @@
   {
     "id": "292",
     "content": {
-      "vari": "vihreänharmaa",
+      "vari": {
+        "label": "vihreänharmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Helsinki",
       "ala": "geofysiikka",
       "ainejärjestö": "Geysir",
@@ -3798,7 +4674,10 @@
   {
     "id": "293",
     "content": {
-      "vari": "kiiltävänmusta",
+      "vari": {
+        "label": "kiiltävänmusta",
+        "base": ["musta"]
+      },
       "alue": "Espoo",
       "ala": "tietotekniikka",
       "ainejärjestö": "Tietokilta",
@@ -3811,7 +4690,10 @@
   {
     "id": "294",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Helsinki",
       "ala": "taidehistoria",
       "ainejärjestö": "Eidos",
@@ -3824,7 +4706,10 @@
   {
     "id": "295",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Helsinki",
       "ala": "biokemia, solu- ja molekyylibiologia",
       "ainejärjestö": "Helix",
@@ -3837,7 +4722,10 @@
   {
     "id": "296",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Helsinki",
       "ala": "kemia",
       "ainejärjestö": "Helsingin Yliopiston Kemistit",
@@ -3850,7 +4738,10 @@
   {
     "id": "297",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Helsinki",
       "ala": "Aasian ja Afrikan kielet ja kulttuurit",
       "ainejärjestö": "Karavaani",
@@ -3863,7 +4754,10 @@
   {
     "id": "298",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Helsinki",
       "ala": "yleinen kirjallisuustiede",
       "ainejärjestö": "Katharsis",
@@ -3876,7 +4770,10 @@
   {
     "id": "299",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Helsinki",
       "ala": "Kumpulan kampuksen aineet (matematiikka, fysikaaliset tieteet, kemia, maantiede, geologia, tietojenkäsittelytiede)",
       "ainejärjestö": "Limes",
@@ -3889,7 +4786,10 @@
   {
     "id": "300",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Helsinki",
       "ala": "kotimainen kirjallisuus",
       "ainejärjestö": "Putkinotko",
@@ -3902,7 +4802,10 @@
   {
     "id": "301",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Helsinki",
       "ala": "teatteritiede",
       "ainejärjestö": "Repliikki",
@@ -3915,7 +4818,10 @@
   {
     "id": "302",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Helsinki",
       "ala": "markkinointi",
       "ainejärjestö": "Voluntas",
@@ -3928,7 +4834,10 @@
   {
     "id": "303",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Helsinki",
       "ala": "maanmittaustekniikka",
       "ainejärjestö": "Gooni ry",
@@ -3941,7 +4850,10 @@
   {
     "id": "304",
     "content": {
-      "vari": "mattamusta",
+      "vari": {
+        "label": "mattamusta",
+        "base": ["musta"]
+      },
       "alue": "Espoo",
       "ala": "rakennettu ympäristö, kiinteistötalous ja geoinformatiikka, kestävät yhdyskunnat",
       "ainejärjestö": "Maanmittarikilta",
@@ -3954,7 +4866,10 @@
   {
     "id": "305",
     "content": {
-      "vari": "mattamusta",
+      "vari": {
+        "label": "mattamusta",
+        "base": ["musta"]
+      },
       "alue": "Espoo",
       "ala": "kiinteistötalous",
       "ainejärjestö": "Maanmittarikilta",
@@ -3967,7 +4882,10 @@
   {
     "id": "306",
     "content": {
-      "vari": "mattamusta",
+      "vari": {
+        "label": "mattamusta",
+        "base": ["musta"]
+      },
       "alue": "Espoo",
       "ala": "geomatiikka",
       "ainejärjestö": "Maanmittarikilta",
@@ -3980,7 +4898,10 @@
   {
     "id": "307",
     "content": {
-      "vari": "kiiltävänmusta",
+      "vari": {
+        "label": "kiiltävänmusta",
+        "base": ["musta"]
+      },
       "alue": "Espoo",
       "ala": "tietojenkäsittelytiede (englanniksi)",
       "ainejärjestö": "Data Guild",
@@ -3993,7 +4914,10 @@
   {
     "id": "308",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Helsinki",
       "ala": "germaaninen filologia",
       "ainejärjestö": "Umlaut",
@@ -4006,7 +4930,10 @@
   {
     "id": "309",
     "content": {
-      "vari": "musta-valkoinen",
+      "vari": {
+        "label": "musta-valkoinen",
+        "base": ["musta"]
+      },
       "alue": "Helsinki",
       "ala": "translationaalinen lääketiede",
       "ainejärjestö": "Impactus",
@@ -4019,7 +4946,10 @@
   {
     "id": "310",
     "content": {
-      "vari": "”vapputakki”",
+      "vari": {
+        "label": "”vapputakki”",
+        "base": ["valkoinen"]
+      },
       "alue": "Espoo",
       "ala": "muotoilu",
       "ainejärjestö": "NuDe (Nuoret Designerit)",
@@ -4032,7 +4962,10 @@
   {
     "id": "311",
     "content": {
-      "vari": "takki",
+      "vari": {
+        "label": "takki",
+        "base": []
+      },
       "alue": "Espoo",
       "ala": "visuaalisen viestinnän muotoilu",
       "ainejärjestö": "GRRR",
@@ -4043,61 +4976,12 @@
     }
   },
   {
-    "id": "312",
-    "content": {
-      "vari": "ei haalaria",
-      "alue": "Espoo",
-      "ala": "",
-      "ainejärjestö": "Taiteiden ja suunnittelun ylioppilaat TOKYO",
-      "oppilaitos": "Aalto-yliopisto"
-    },
-    "metadata": {
-      "hex": ""
-    }
-  },
-  {
-    "id": "313",
-    "content": {
-      "vari": "ei haalaria",
-      "alue": "Helsinki",
-      "ala": "Urban studies and planning",
-      "ainejärjestö": "Mesta",
-      "oppilaitos": "Helsingin yliopisto"
-    },
-    "metadata": {
-      "hex": ""
-    }
-  },
-  {
-    "id": "314",
-    "content": {
-      "vari": "ei haalaria",
-      "alue": "Helsinki",
-      "ala": "Venäjän ja Itä-Euroopan tutkimus",
-      "ainejärjestö": "Vietti",
-      "oppilaitos": "Helsingin yliopisto"
-    },
-    "metadata": {
-      "hex": ""
-    }
-  },
-  {
-    "id": "315",
-    "content": {
-      "vari": "ei haalaria",
-      "alue": "Helsinki",
-      "ala": "Teatterikorkeakoulu, Kuvataideakatemia",
-      "ainejärjestö": "",
-      "oppilaitos": "Taideyliopisto"
-    },
-    "metadata": {
-      "hex": ""
-    }
-  },
-  {
     "id": "316",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Pori",
       "ala": "kulttuurituotanto, maisemantutkimus",
       "ainejärjestö": "Kulma",
@@ -4110,7 +4994,10 @@
   {
     "id": "317",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Pori",
       "ala": "",
       "ainejärjestö": "Utopia",
@@ -4123,7 +5010,10 @@
   {
     "id": "318",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Pori",
       "ala": "sosiaali-, terveys- ja kirkon alat",
       "ainejärjestö": "O’Diako",
@@ -4136,7 +5026,10 @@
   {
     "id": "319",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Pori",
       "ala": "kauppatieteet",
       "ainejärjestö": "Porin kylterit (PorKy)",
@@ -4149,7 +5042,10 @@
   {
     "id": "320",
     "content": {
-      "vari": "tummanharmaa",
+      "vari": {
+        "label": "tummanharmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Pori",
       "ala": "tietotekniikka, tuotantotalous",
       "ainejärjestö": "Porin Teekkarit",
@@ -4162,7 +5058,10 @@
   {
     "id": "321",
     "content": {
-      "vari": "petroolinsininen",
+      "vari": {
+        "label": "petroolinsininen",
+        "base": ["sininen"]
+      },
       "alue": "Porvoo",
       "ala": "liiketalous, matkailu",
       "ainejärjestö": "Helga",
@@ -4175,7 +5074,10 @@
   {
     "id": "322",
     "content": {
-      "vari": "liila",
+      "vari": {
+        "label": "liila",
+        "base": ["violetti"]
+      },
       "alue": "Porvoo",
       "ala": "sairaanhoitaja, sosionomi",
       "ainejärjestö": "Laureamko",
@@ -4188,7 +5090,10 @@
   {
     "id": "323",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Raasepori",
       "ala": "metsätalous",
       "ainejärjestö": "Spiritus Forstis",
@@ -4201,7 +5106,10 @@
   {
     "id": "324",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Raasepori",
       "ala": "maatalous",
       "ainejärjestö": "Skuffis",
@@ -4214,7 +5122,10 @@
   {
     "id": "325",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Raasepori",
       "ala": "",
       "ainejärjestö": "Ekenäs Kåravdelning EKA",
@@ -4227,7 +5138,10 @@
   {
     "id": "326",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Rauma",
       "ala": "luokanopettaja",
       "ainejärjestö": "Opekas",
@@ -4240,7 +5154,10 @@
   {
     "id": "327",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Riihimäki",
       "ala": "insinööri",
       "ainejärjestö": "Riihimäen insinööriopiskelijat RINO",
@@ -4253,7 +5170,10 @@
   {
     "id": "328",
     "content": {
-      "vari": "fuksianpunainen",
+      "vari": {
+        "label": "fuksianpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Rovaniemi",
       "ala": "taideaineet",
       "ainejärjestö": "TAO",
@@ -4266,7 +5186,10 @@
   {
     "id": "329",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Rovaniemi",
       "ala": "sosiaalityö, kuntoutus",
       "ainejärjestö": "Lyhty",
@@ -4279,7 +5202,10 @@
   {
     "id": "330",
     "content": {
-      "vari": "bolognanpunainen",
+      "vari": {
+        "label": "bolognanpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Rovaniemi",
       "ala": "oikeustiede",
       "ainejärjestö": "Artikla",
@@ -4292,7 +5218,10 @@
   {
     "id": "331",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Rovaniemi",
       "ala": "kasvatus- ja aikauskasvatustiede, mediakasvatus",
       "ainejärjestö": "Lastu",
@@ -4305,7 +5234,10 @@
   {
     "id": "332",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Rovaniemi",
       "ala": "politiikan tutkimus, sosiologia",
       "ainejärjestö": "Kosmos Buran",
@@ -4318,7 +5250,10 @@
   {
     "id": "333",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Rovaniemi",
       "ala": "luokanopettaja",
       "ainejärjestö": "Lapikas",
@@ -4331,7 +5266,10 @@
   {
     "id": "334",
     "content": {
-      "vari": "poliisinsininen",
+      "vari": {
+        "label": "poliisinsininen",
+        "base": ["sininen"]
+      },
       "alue": "Rovaniemi",
       "ala": "matkailututkimus",
       "ainejärjestö": "Jalot Villit",
@@ -4344,7 +5282,10 @@
   {
     "id": "335",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Rovaniemi",
       "ala": "hallintotieteet, johtaminen, julkisoikeus, soveltava psykologia",
       "ainejärjestö": "Remburssi",
@@ -4357,7 +5298,10 @@
   {
     "id": "336",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Salo",
       "ala": "",
       "ainejärjestö": "",
@@ -4370,7 +5314,10 @@
   {
     "id": "337",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Savonlinna",
       "ala": "insinööri",
       "ainejärjestö": "",
@@ -4383,7 +5330,10 @@
   {
     "id": "338",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Savonlinna",
       "ala": "sairaanhoitaja",
       "ainejärjestö": "",
@@ -4396,7 +5346,10 @@
   {
     "id": "339",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Savonlinna",
       "ala": "liikunnanohjaaja",
       "ainejärjestö": "",
@@ -4409,7 +5362,10 @@
   {
     "id": "340",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Savonlinna",
       "ala": "jalkaterapeutti",
       "ainejärjestö": "",
@@ -4422,7 +5378,10 @@
   {
     "id": "341",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Savonlinna",
       "ala": "fysioterapeutti",
       "ainejärjestö": "",
@@ -4435,7 +5394,10 @@
   {
     "id": "342",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Seinäjoki",
       "ala": "restonomi",
       "ainejärjestö": "",
@@ -4448,7 +5410,10 @@
   {
     "id": "343",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Seinäjoki",
       "ala": "liiketalous",
       "ainejärjestö": "",
@@ -4461,7 +5426,10 @@
   {
     "id": "344",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Seinäjoki",
       "ala": "geronomi",
       "ainejärjestö": "",
@@ -4474,7 +5442,10 @@
   {
     "id": "345",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Seinäjoki",
       "ala": "sosionomi",
       "ainejärjestö": "",
@@ -4487,7 +5458,10 @@
   {
     "id": "346",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Seinäjoki",
       "ala": "terveysala",
       "ainejärjestö": "",
@@ -4500,7 +5474,10 @@
   {
     "id": "347",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Seinäjoki",
       "ala": "kirjasto- ja tietopalveluala",
       "ainejärjestö": "",
@@ -4513,7 +5490,10 @@
   {
     "id": "348",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Seinäjoki",
       "ala": "insinööri",
       "ainejärjestö": "",
@@ -4526,7 +5506,10 @@
   {
     "id": "349",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Seinäjoki",
       "ala": "kulttuuri",
       "ainejärjestö": "",
@@ -4539,7 +5522,10 @@
   {
     "id": "350",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Tampere",
       "ala": "tuotantotalous",
       "ainejärjestö": "Indecs",
@@ -4552,7 +5538,10 @@
   {
     "id": "351",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Tampere",
       "ala": "sosiaalityö",
       "ainejärjestö": "SOS",
@@ -4565,7 +5554,10 @@
   {
     "id": "352",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Tampere",
       "ala": "lääketiede",
       "ainejärjestö": "Tampereen Lääketieteen Kandidaattiseura",
@@ -4578,7 +5570,10 @@
   {
     "id": "353",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Tampere",
       "ala": "biotuote- ja prosessitekniikka",
       "ainejärjestö": "",
@@ -4591,7 +5586,10 @@
   {
     "id": "354",
     "content": {
-      "vari": "samppanjankultainen",
+      "vari": {
+        "label": "samppanjankultainen",
+        "base": []
+      },
       "alue": "Tampere",
       "ala": "biotekniikka",
       "ainejärjestö": "Bioner",
@@ -4604,7 +5602,10 @@
   {
     "id": "355",
     "content": {
-      "vari": "vaaleanpunainen",
+      "vari": {
+        "label": "vaaleanpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Tampere",
       "ala": "energiamurros",
       "ainejärjestö": "Energiamurroskilta ry EMU",
@@ -4617,7 +5618,10 @@
   {
     "id": "356",
     "content": {
-      "vari": "fuksianpunainen",
+      "vari": {
+        "label": "fuksianpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Tampere",
       "ala": "sairaanhoitaja",
       "ainejärjestö": "Pirate",
@@ -4630,7 +5634,10 @@
   {
     "id": "357",
     "content": {
-      "vari": "fuksianpunainen",
+      "vari": {
+        "label": "fuksianpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Tampere",
       "ala": "hoitotiede, kansanterveystiede",
       "ainejärjestö": "Salus",
@@ -4643,7 +5650,10 @@
   {
     "id": "358",
     "content": {
-      "vari": "fuksianpunainen",
+      "vari": {
+        "label": "fuksianpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Tampere",
       "ala": "terveydenhoitaja",
       "ainejärjestö": "Pirate",
@@ -4656,7 +5666,10 @@
   {
     "id": "359",
     "content": {
-      "vari": "fuksianpunainen",
+      "vari": {
+        "label": "fuksianpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Tampere",
       "ala": "ensihoitaja",
       "ainejärjestö": "Pirate",
@@ -4669,7 +5682,10 @@
   {
     "id": "360",
     "content": {
-      "vari": "fuksianpunainen",
+      "vari": {
+        "label": "fuksianpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Tampere",
       "ala": "bioanalyytikko",
       "ainejärjestö": "Pirate",
@@ -4682,7 +5698,10 @@
   {
     "id": "361",
     "content": {
-      "vari": "fuksianpunainen",
+      "vari": {
+        "label": "fuksianpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Tampere",
       "ala": "röntgenhoitaja",
       "ainejärjestö": "Pirate",
@@ -4695,7 +5714,10 @@
   {
     "id": "362",
     "content": {
-      "vari": "fuksianpunainen",
+      "vari": {
+        "label": "fuksianpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Tampere",
       "ala": "fysioterapeutti",
       "ainejärjestö": "Pirate",
@@ -4708,7 +5730,10 @@
   {
     "id": "363",
     "content": {
-      "vari": "fuksianpunainen",
+      "vari": {
+        "label": "fuksianpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Tampere",
       "ala": "kätilö",
       "ainejärjestö": "Pirate",
@@ -4721,7 +5746,10 @@
   {
     "id": "364",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Tampere",
       "ala": "international business",
       "ainejärjestö": "",
@@ -4734,7 +5762,10 @@
   {
     "id": "365",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Tampere",
       "ala": "psykologia",
       "ainejärjestö": "Cortex",
@@ -4747,7 +5778,10 @@
   {
     "id": "366",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Tampere",
       "ala": "konetekniikka",
       "ainejärjestö": "Koneenrakentajakilta",
@@ -4760,7 +5794,10 @@
   {
     "id": "367",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Tampere",
       "ala": "vieraat kielet",
       "ainejärjestö": "Lexica",
@@ -4773,7 +5810,10 @@
   {
     "id": "368",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Tampere",
       "ala": "materiaalitekniikka",
       "ainejärjestö": "Materiaali-insinöörikilta",
@@ -4786,7 +5826,10 @@
   {
     "id": "369",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Tampere",
       "ala": "historia",
       "ainejärjestö": "Patina",
@@ -4799,7 +5842,10 @@
   {
     "id": "370",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Tampere",
       "ala": "robotiikka",
       "ainejärjestö": "Robo",
@@ -4812,7 +5858,10 @@
   {
     "id": "371",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Tampere",
       "ala": "journalistiikka",
       "ainejärjestö": "Vostok",
@@ -4825,7 +5874,10 @@
   {
     "id": "372",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Tampere",
       "ala": "automaatiotekniikka",
       "ainejärjestö": "Automaatiotekniikan kilta",
@@ -4838,7 +5890,10 @@
   {
     "id": "373",
     "content": {
-      "vari": "metsänvihreä",
+      "vari": {
+        "label": "metsänvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Tampere",
       "ala": "ympäristötekniikka",
       "ainejärjestö": "Ympäristöteekkarikilta",
@@ -4851,7 +5906,10 @@
   {
     "id": "374",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Tampere",
       "ala": "environmental engineering, metsätalous",
       "ainejärjestö": "Tampio",
@@ -4864,7 +5922,10 @@
   {
     "id": "375",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Tampere",
       "ala": "politiikan tutkimus",
       "ainejärjestö": "Iltakoulu",
@@ -4877,7 +5938,10 @@
   {
     "id": "376",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Tampere",
       "ala": "varhaiskasvatus",
       "ainejärjestö": "ITU",
@@ -4890,7 +5954,10 @@
   {
     "id": "377",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Tampere",
       "ala": "elinikäinen oppiminen ja kasvatus",
       "ainejärjestö": "Mentor",
@@ -4903,7 +5970,10 @@
   {
     "id": "378",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Tampere",
       "ala": "hallintotieteet",
       "ainejärjestö": "Staabi",
@@ -4916,7 +5986,10 @@
   {
     "id": "379",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Tampere",
       "ala": "informaatiotutkimus, mediatutkimus",
       "ainejärjestö": "UDK",
@@ -4929,7 +6002,10 @@
   {
     "id": "380",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Tampere",
       "ala": "palveluliiketoiminta",
       "ainejärjestö": "TaRe",
@@ -4942,7 +6018,10 @@
   {
     "id": "381",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Tampere",
       "ala": "yhteiskuntatutkimus",
       "ainejärjestö": "Interaktio",
@@ -4955,7 +6034,10 @@
   {
     "id": "382",
     "content": {
-      "vari": "tummanturkoosi",
+      "vari": {
+        "label": "tummanturkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Tampere",
       "ala": "logopedia",
       "ainejärjestö": "Ääni",
@@ -4968,7 +6050,10 @@
   {
     "id": "383",
     "content": {
-      "vari": "vaaleansininen",
+      "vari": {
+        "label": "vaaleansininen",
+        "base": ["sininen"]
+      },
       "alue": "Tampere",
       "ala": "sustainable urban development",
       "ainejärjestö": "Urbanum",
@@ -4981,7 +6066,10 @@
   {
     "id": "384",
     "content": {
-      "vari": "sähkönsininen",
+      "vari": {
+        "label": "sähkönsininen",
+        "base": ["sininen"]
+      },
       "alue": "Tampere",
       "ala": "sähkötekniikka",
       "ainejärjestö": "Sähkökilta",
@@ -4994,7 +6082,10 @@
   {
     "id": "385",
     "content": {
-      "vari": "sini-valkoinen",
+      "vari": {
+        "label": "sini-valkoinen",
+        "base": ["valkoinen", "sininen"]
+      },
       "alue": "Tampere",
       "ala": "vaihto-opiskelijat",
       "ainejärjestö": "",
@@ -5007,7 +6098,10 @@
   {
     "id": "386",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Tampere",
       "ala": "sosiaaliala",
       "ainejärjestö": "Sopu",
@@ -5020,7 +6114,10 @@
   {
     "id": "387",
     "content": {
-      "vari": "laivastonsininen",
+      "vari": {
+        "label": "laivastonsininen",
+        "base": ["sininen"]
+      },
       "alue": "Tampere",
       "ala": "kauppatieteet",
       "ainejärjestö": "Boomi",
@@ -5033,7 +6130,10 @@
   {
     "id": "388",
     "content": {
-      "vari": "Suomen lipun sininen",
+      "vari": {
+        "label": "Suomen lipun sininen",
+        "base": ["sininen"]
+      },
       "alue": "Tampere",
       "ala": "suomen kieli",
       "ainejärjestö": "Kopula",
@@ -5046,7 +6146,10 @@
   {
     "id": "389",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Tampere",
       "ala": "luokanopettaja",
       "ainejärjestö": "OKA",
@@ -5059,7 +6162,10 @@
   {
     "id": "390",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Tampere",
       "ala": "rakennustekniikka",
       "ainejärjestö": "Tampereen Rakentajakilta",
@@ -5072,7 +6178,10 @@
   {
     "id": "391",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Tampere",
       "ala": "liiketalous",
       "ainejärjestö": "TTO",
@@ -5085,7 +6194,10 @@
   {
     "id": "392",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Tampere",
       "ala": "bioteknologia",
       "ainejärjestö": "Biopsi",
@@ -5098,7 +6210,10 @@
   {
     "id": "393",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Tampere",
       "ala": "teknis-luonnontieteellinen koulutusohjelma",
       "ainejärjestö": "Hiukkanen",
@@ -5111,7 +6226,10 @@
   {
     "id": "394",
     "content": {
-      "vari": "piinharmaa",
+      "vari": {
+        "label": "piinharmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Tampere",
       "ala": "matematiikka, tilastotiede, tietojenkäsittelytieteet",
       "ainejärjestö": "Luuppi",
@@ -5124,7 +6242,10 @@
   {
     "id": "395",
     "content": {
-      "vari": "harmaa",
+      "vari": {
+        "label": "harmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Tampere",
       "ala": "tietojohtaminen",
       "ainejärjestö": "Man@ger",
@@ -5137,7 +6258,10 @@
   {
     "id": "396",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Tampere",
       "ala": "musiikki",
       "ainejärjestö": "MusTa",
@@ -5150,7 +6274,10 @@
   {
     "id": "397",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Tampere",
       "ala": "media-ala",
       "ainejärjestö": "Tarina",
@@ -5163,7 +6290,10 @@
   {
     "id": "398",
     "content": {
-      "vari": "yökerhonmusta",
+      "vari": {
+        "label": "yökerhonmusta",
+        "base": ["musta"]
+      },
       "alue": "Tampere",
       "ala": "tietojenkäsittely",
       "ainejärjestö": "",
@@ -5176,7 +6306,10 @@
   {
     "id": "399",
     "content": {
-      "vari": "Filosofinvalkoinen",
+      "vari": {
+        "label": "Filosofinvalkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Tampere",
       "ala": "filosofia",
       "ainejärjestö": "Aatos",
@@ -5189,7 +6322,10 @@
   {
     "id": "400",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Tampere",
       "ala": "puheviestintä",
       "ainejärjestö": "Reettorit",
@@ -5202,7 +6338,10 @@
   {
     "id": "401",
     "content": {
-      "vari": "iloisen musta",
+      "vari": {
+        "label": "iloisen musta",
+        "base": ["musta"]
+      },
       "alue": "Tampere",
       "ala": "arkkitehtuuri",
       "ainejärjestö": "Tampereen Arkkitehtikilta",
@@ -5215,7 +6354,10 @@
   {
     "id": "402",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Tampere",
       "ala": "kirjallisuustiede",
       "ainejärjestö": "Teema",
@@ -5228,7 +6370,10 @@
   {
     "id": "403",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Tampere",
       "ala": "tietotekniikka",
       "ainejärjestö": "TiTe",
@@ -5241,7 +6386,10 @@
   {
     "id": "404",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Tampere",
       "ala": "käännöstiede",
       "ainejärjestö": "Transla",
@@ -5251,23 +6399,14 @@
       "hex": "background: black; color: white;"
     }
   },
-  {
-    "id": "405",
-    "content": {
-      "vari": "ei haalaria",
-      "alue": "Tampere",
-      "ala": "poliisi",
-      "ainejärjestö": "",
-      "oppilaitos": "Poliisi-AMK"
-    },
-    "metadata": {
-      "hex": ""
-    }
-  },
+
   {
     "id": "406",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Turku",
       "ala": "merenkulku",
       "ainejärjestö": "ENÅ",
@@ -5280,7 +6419,10 @@
   {
     "id": "407",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Turku",
       "ala": "suomen kieli",
       "ainejärjestö": "Kanta",
@@ -5293,7 +6435,10 @@
   {
     "id": "408",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Turku",
       "ala": "kotimainen kirjallisuus",
       "ainejärjestö": "Muusa",
@@ -5306,7 +6451,10 @@
   {
     "id": "409",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Turku",
       "ala": "luokanopettaja",
       "ainejärjestö": "Opex",
@@ -5319,7 +6467,10 @@
   {
     "id": "410",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Turku",
       "ala": "farmasia",
       "ainejärjestö": "Ex Tempore",
@@ -5332,7 +6483,10 @@
   {
     "id": "411",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Turku",
       "ala": "tietojenkäsittelytiede",
       "ainejärjestö": "Infå",
@@ -5345,7 +6499,10 @@
   {
     "id": "412",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Turku",
       "ala": "Lääketieteellinen tekniikka ja terveysteknologia",
       "ainejärjestö": "Asklepio",
@@ -5358,7 +6515,10 @@
   {
     "id": "413",
     "content": {
-      "vari": "vaaleanpunainen",
+      "vari": {
+        "label": "vaaleanpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "etnologia, folkloristiikka",
       "ainejärjestö": "Kulturisten",
@@ -5371,7 +6531,10 @@
   {
     "id": "414",
     "content": {
-      "vari": "vaaleanpunainen",
+      "vari": {
+        "label": "vaaleanpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "kätilö",
       "ainejärjestö": "",
@@ -5384,7 +6547,10 @@
   {
     "id": "415",
     "content": {
-      "vari": "vaaleanpunainen",
+      "vari": {
+        "label": "vaaleanpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "",
       "ainejärjestö": "Åbo kåravdelning ÅKA",
@@ -5397,7 +6563,10 @@
   {
     "id": "416",
     "content": {
-      "vari": "vaaleanpunainen",
+      "vari": {
+        "label": "vaaleanpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "taloustiede (valtiotieteet)",
       "ainejärjestö": "T-Klubi",
@@ -5410,7 +6579,10 @@
   {
     "id": "417",
     "content": {
-      "vari": "vaaleanpunainen",
+      "vari": {
+        "label": "vaaleanpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "sukupuolentutkimus",
       "ainejärjestö": "Judith",
@@ -5423,7 +6595,10 @@
   {
     "id": "418",
     "content": {
-      "vari": "pinkki",
+      "vari": {
+        "label": "pinkki",
+        "base": ["pinkki"]
+      },
       "alue": "Turku",
       "ala": "konetekniikka",
       "ainejärjestö": "Machina",
@@ -5436,7 +6611,10 @@
   {
     "id": "419",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "yhteisöpedagogi, kulttuurituottaja",
       "ainejärjestö": "HUMAKO",
@@ -5449,7 +6627,10 @@
   {
     "id": "420",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "kasvatustiede",
       "ainejärjestö": "Katko",
@@ -5462,7 +6643,10 @@
   {
     "id": "421",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "espanjan kieli ja kääntäminen",
       "ainejärjestö": "Mañana",
@@ -5475,7 +6659,10 @@
   {
     "id": "422",
     "content": {
-      "vari": "kemistinpunainen",
+      "vari": {
+        "label": "kemistinpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "kemia, biokemia",
       "ainejärjestö": "Turun Yliopiston Kemistit TYK",
@@ -5488,7 +6675,10 @@
   {
     "id": "423",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "valtiotiede",
       "ainejärjestö": "SF-klubben",
@@ -5501,7 +6691,10 @@
   {
     "id": "424",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "terveysalat",
       "ainejärjestö": "TSTS",
@@ -5514,7 +6707,10 @@
   {
     "id": "425",
     "content": {
-      "vari": "punaiset housut",
+      "vari": {
+        "label": "punaiset housut",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "ensihoitaja",
       "ainejärjestö": "",
@@ -5527,7 +6723,10 @@
   {
     "id": "426",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "sosionomi",
       "ainejärjestö": "Tasokas",
@@ -5540,7 +6739,10 @@
   {
     "id": "427",
     "content": {
-      "vari": "bolognanpunainen",
+      "vari": {
+        "label": "bolognanpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "oikeustiede",
       "ainejärjestö": "Lex",
@@ -5553,7 +6755,10 @@
   {
     "id": "428",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "oikeustiede",
       "ainejärjestö": "Stadga",
@@ -5566,7 +6771,10 @@
   {
     "id": "429",
     "content": {
-      "vari": "Pantone 690C / viininpunainen",
+      "vari": {
+        "label": "Pantone 690C / viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "fysiikka",
       "ainejärjestö": "Quantum",
@@ -5579,7 +6787,10 @@
   {
     "id": "430",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "ruotsin kieli",
       "ainejärjestö": "Östsvea",
@@ -5592,7 +6803,10 @@
   {
     "id": "431",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Turku",
       "ala": "prosessi- ja materiaalitekniikka",
       "ainejärjestö": "Elba",
@@ -5605,7 +6819,10 @@
   {
     "id": "432",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Turku",
       "ala": "tilastotiede",
       "ainejärjestö": "Statistika",
@@ -5618,7 +6835,10 @@
   {
     "id": "433",
     "content": {
-      "vari": "oranssi",
+      "vari": {
+        "label": "oranssi",
+        "base": ["oranssi"]
+      },
       "alue": "Turku",
       "ala": "matematiikka",
       "ainejärjestö": "Sigma",
@@ -5631,7 +6851,10 @@
   {
     "id": "434",
     "content": {
-      "vari": "oranssi-musta",
+      "vari": {
+        "label": "oranssi-musta",
+        "base": ["musta", "oranssi"]
+      },
       "alue": "Turku",
       "ala": "historia",
       "ainejärjestö": "Kleio",
@@ -5644,7 +6867,10 @@
   {
     "id": "435",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Turku",
       "ala": "viittomakieli, tulkkaus, asioimistulkkaus",
       "ainejärjestö": "O’Diako",
@@ -5657,7 +6883,10 @@
   {
     "id": "436",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Turku",
       "ala": "liiketalous",
       "ainejärjestö": "Trade",
@@ -5670,7 +6899,10 @@
   {
     "id": "437",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Turku",
       "ala": "biolääketiede",
       "ainejärjestö": "In Vitro Aboensis",
@@ -5683,7 +6915,10 @@
   {
     "id": "438",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Turku",
       "ala": "kauppatieteet",
       "ainejärjestö": "Merkantila Klubben",
@@ -5696,7 +6931,10 @@
   {
     "id": "439",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Turku",
       "ala": "terveysala",
       "ainejärjestö": "TSTS",
@@ -5709,7 +6947,10 @@
   {
     "id": "440",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Turku",
       "ala": "tietojenkäsittelytiede",
       "ainejärjestö": "Asteriski",
@@ -5722,7 +6963,10 @@
   {
     "id": "441",
     "content": {
-      "vari": "limenvihreä",
+      "vari": {
+        "label": "limenvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Turku",
       "ala": "sosiaalitieteet",
       "ainejärjestö": "Sosiaalitieteiden klubi",
@@ -5735,7 +6979,10 @@
   {
     "id": "442",
     "content": {
-      "vari": "vaaleanvihreä",
+      "vari": {
+        "label": "vaaleanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Turku",
       "ala": "kemiantekniikka",
       "ainejärjestö": "Kemistklubben",
@@ -5748,7 +6995,10 @@
   {
     "id": "443",
     "content": {
-      "vari": "maastonvihreä",
+      "vari": {
+        "label": "maastonvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Turku",
       "ala": "biologia, maantiede",
       "ainejärjestö": "Synapsi",
@@ -5761,7 +7011,10 @@
   {
     "id": "444",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Turku",
       "ala": "hoitotiede",
       "ainejärjestö": "Adaptus",
@@ -5774,7 +7027,10 @@
   {
     "id": "445",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Turku",
       "ala": "klassilliset kielet ja antiikin kulttuuri",
       "ainejärjestö": "Palladion",
@@ -5787,7 +7043,10 @@
   {
     "id": "446",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Turku",
       "ala": "italian kieli",
       "ainejärjestö": "Pappagallo",
@@ -5800,7 +7059,10 @@
   {
     "id": "447",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Turku",
       "ala": "pohjoismaiset kielet",
       "ainejärjestö": "Skandica",
@@ -5813,7 +7075,10 @@
   {
     "id": "448",
     "content": {
-      "vari": "tummanvihreä",
+      "vari": {
+        "label": "tummanvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Turku",
       "ala": "taidehistoria",
       "ainejärjestö": "Eikon",
@@ -5826,7 +7091,10 @@
   {
     "id": "449",
     "content": {
-      "vari": "viher-valkoinen",
+      "vari": {
+        "label": "viher-valkoinen",
+        "base": ["valkoinen", "vihreä"]
+      },
       "alue": "Turku",
       "ala": "biotieteet",
       "ainejärjestö": "Biologica",
@@ -5839,7 +7107,10 @@
   {
     "id": "450",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Turku",
       "ala": "suuhygienisti, hammasteknikko",
       "ainejärjestö": "Suukko",
@@ -5852,7 +7123,10 @@
   {
     "id": "451",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Turku",
       "ala": "logopedia",
       "ainejärjestö": "Putex",
@@ -5865,7 +7139,10 @@
   {
     "id": "452",
     "content": {
-      "vari": "turkoosi",
+      "vari": {
+        "label": "turkoosi",
+        "base": ["turkoosi"]
+      },
       "alue": "Turku",
       "ala": "venäjän kieli",
       "ainejärjestö": "Slava",
@@ -5878,7 +7155,10 @@
   {
     "id": "453",
     "content": {
-      "vari": "baby blue",
+      "vari": {
+        "label": "baby blue",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "materiaalitekniikka",
       "ainejärjestö": "Adamas",
@@ -5891,7 +7171,10 @@
   {
     "id": "454",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "vaihto-opiskelijat",
       "ainejärjestö": "ESN-IAC",
@@ -5904,7 +7187,10 @@
   {
     "id": "455",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "laskentatoimi, rahoitus, yritysjuridiikka",
       "ainejärjestö": "Aktiiva",
@@ -5917,7 +7203,10 @@
   {
     "id": "456",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "tulevaisuudentutkimus",
       "ainejärjestö": "Black Swans",
@@ -5930,7 +7219,10 @@
   {
     "id": "457",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "taloustiede (kauppatieteet)",
       "ainejärjestö": "Kartelli",
@@ -5943,7 +7235,10 @@
   {
     "id": "458",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "kansainvälinen liiketoiminta",
       "ainejärjestö": "KKOY",
@@ -5956,7 +7251,10 @@
   {
     "id": "459",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "toimitusketjujen johtaminen, logistiikka",
       "ainejärjestö": "Kolmas Osapuoli",
@@ -5969,7 +7267,10 @@
   {
     "id": "460",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "liikesaksa",
       "ainejärjestö": "KY-Hansa",
@@ -5982,7 +7283,10 @@
   {
     "id": "461",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "Venäjän kieli, kauppa ja kulttuuri",
       "ainejärjestö": "KY-Perestroika",
@@ -5995,7 +7299,10 @@
   {
     "id": "462",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "liikeranska",
       "ainejärjestö": "KY-Tricolore",
@@ -6008,7 +7315,10 @@
   {
     "id": "463",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "markkinointi",
       "ainejärjestö": "M-klubi",
@@ -6021,7 +7331,10 @@
   {
     "id": "464",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "biotekniikan ja elintarvikekehityksen DI",
       "ainejärjestö": "Nucleus",
@@ -6034,7 +7347,10 @@
   {
     "id": "465",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "tietojärjestelmätiede",
       "ainejärjestö": "TuKYData",
@@ -6047,7 +7363,10 @@
   {
     "id": "466",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "uskontotiede",
       "ainejärjestö": "Gnosis",
@@ -6060,7 +7379,10 @@
   {
     "id": "467",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "englannin kieli",
       "ainejärjestö": "Anglica",
@@ -6073,7 +7395,10 @@
   {
     "id": "468",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "ranskan ja romanian kieli",
       "ainejärjestö": "Forum Romanum",
@@ -6086,7 +7411,10 @@
   {
     "id": "469",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "käännöstiede",
       "ainejärjestö": "Kääntöpiiri",
@@ -6099,7 +7427,10 @@
   {
     "id": "470",
     "content": {
-      "vari": "navy blue",
+      "vari": {
+        "label": "navy blue",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "poliittinen historia, valtio-oppi",
       "ainejärjestö": "P-klubi",
@@ -6112,7 +7443,10 @@
   {
     "id": "471",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "kauppatiede",
       "ainejärjestö": "Turun KY",
@@ -6125,7 +7459,10 @@
   {
     "id": "472",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "psykologia",
       "ainejärjestö": "Impuls",
@@ -6138,7 +7475,10 @@
   {
     "id": "473",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "kirjallisuustiede",
       "ainejärjestö": "Prosa",
@@ -6151,7 +7491,10 @@
   {
     "id": "474",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Turku",
       "ala": "logopedia",
       "ainejärjestö": "Vocalis",
@@ -6164,7 +7507,10 @@
   {
     "id": "475",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Turku",
       "ala": "matematiikka, fysiikka",
       "ainejärjestö": "Delta",
@@ -6177,7 +7523,10 @@
   {
     "id": "476",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Turku",
       "ala": "taidehistoria",
       "ainejärjestö": "Kuvatus",
@@ -6190,7 +7539,10 @@
   {
     "id": "477",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Turku",
       "ala": "ranskan kieli",
       "ainejärjestö": "Astérix",
@@ -6203,7 +7555,10 @@
   {
     "id": "478",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Turku",
       "ala": "englannin kieli",
       "ainejärjestö": "Britannica",
@@ -6216,7 +7571,10 @@
   {
     "id": "479",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Turku",
       "ala": "venäjän kieli",
       "ainejärjestö": "Druzjba",
@@ -6229,7 +7587,10 @@
   {
     "id": "480",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Turku",
       "ala": "saksan kieli",
       "ainejärjestö": "Eszett",
@@ -6242,7 +7603,10 @@
   {
     "id": "481",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Turku",
       "ala": "luokanopettaja",
       "ainejärjestö": "FSLF",
@@ -6255,7 +7619,10 @@
   {
     "id": "482",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Turku",
       "ala": "teologia",
       "ainejärjestö": "TSF",
@@ -6268,7 +7635,10 @@
   {
     "id": "483",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Turku",
       "ala": "suomen kieli",
       "ainejärjestö": "Välkky",
@@ -6281,7 +7651,10 @@
   {
     "id": "484",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Turku",
       "ala": "tekniikka",
       "ainejärjestö": "TIO",
@@ -6294,7 +7667,10 @@
   {
     "id": "485",
     "content": {
-      "vari": "violetti-musta",
+      "vari": {
+        "label": "violetti-musta",
+        "base": ["musta", "violetti"]
+      },
       "alue": "Turku",
       "ala": "psykologia",
       "ainejärjestö": "Fobia",
@@ -6307,7 +7683,10 @@
   {
     "id": "486",
     "content": {
-      "vari": "harmaa",
+      "vari": {
+        "label": "harmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Turku",
       "ala": "geologia",
       "ainejärjestö": "Pulterit",
@@ -6320,7 +7699,10 @@
   {
     "id": "487",
     "content": {
-      "vari": "harmaa",
+      "vari": {
+        "label": "harmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Turku",
       "ala": "maantiede",
       "ainejärjestö": "Pulterit",
@@ -6333,7 +7715,10 @@
   {
     "id": "488",
     "content": {
-      "vari": "harmaa",
+      "vari": {
+        "label": "harmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Turku",
       "ala": "muotoilu",
       "ainejärjestö": "Tom",
@@ -6346,7 +7731,10 @@
   {
     "id": "489",
     "content": {
-      "vari": "harmaa",
+      "vari": {
+        "label": "harmaa",
+        "base": ["harmaa"]
+      },
       "alue": "Turku",
       "ala": "folkloristiikka, kansatiede, uskontotiede",
       "ainejärjestö": "Kutu",
@@ -6359,7 +7747,10 @@
   {
     "id": "490",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Turku",
       "ala": "IB-tradenomi",
       "ainejärjestö": "",
@@ -6372,7 +7763,10 @@
   {
     "id": "491",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Turku",
       "ala": "filosofia",
       "ainejärjestö": "Dialectica",
@@ -6385,7 +7779,10 @@
   {
     "id": "492",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Turku",
       "ala": "tieto- ja viestintätekniikan DI",
       "ainejärjestö": "Digit",
@@ -6398,7 +7795,10 @@
   {
     "id": "493",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Turku",
       "ala": "mediatutkimus",
       "ainejärjestö": "Hurma",
@@ -6411,7 +7811,10 @@
   {
     "id": "494",
     "content": {
-      "vari": "musta viitta",
+      "vari": {
+        "label": "musta viitta",
+        "base": ["musta"]
+      },
       "alue": "Turku",
       "ala": "historia",
       "ainejärjestö": "Kritiikki",
@@ -6424,7 +7827,10 @@
   {
     "id": "495",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Turku",
       "ala": "suomalais-ugrilainen kielentutkimus",
       "ainejärjestö": "Sugri",
@@ -6437,7 +7843,10 @@
   {
     "id": "496",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Turku",
       "ala": "hammaslääketiede",
       "ainejärjestö": "THLKS (Turun hammaslääketieteen kandidaattiseura)",
@@ -6450,7 +7859,10 @@
   {
     "id": "497",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Turku",
       "ala": "lääketiede",
       "ainejärjestö": "TLKS (Turun Lääketieteenkandidaattiseura)",
@@ -6463,7 +7875,10 @@
   {
     "id": "498",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Turku",
       "ala": "musiikkitiede",
       "ainejärjestö": "Tritonus",
@@ -6476,7 +7891,10 @@
   {
     "id": "499",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Turku",
       "ala": "arkeologia",
       "ainejärjestö": "Vare",
@@ -6489,7 +7907,10 @@
   {
     "id": "500",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Turku",
       "ala": "tietotekniikka",
       "ainejärjestö": "DaTe",
@@ -6502,7 +7923,10 @@
   {
     "id": "501",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Turku",
       "ala": "musiikkitiede",
       "ainejärjestö": "Otto",
@@ -6515,7 +7939,10 @@
   {
     "id": "502",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Turku",
       "ala": "filosofia",
       "ainejärjestö": "Warum",
@@ -6528,7 +7955,10 @@
   {
     "id": "503",
     "content": {
-      "vari": "musta-viininpunainen",
+      "vari": {
+        "label": "musta-viininpunainen",
+        "base": ["musta", "punainen"]
+      },
       "alue": "Turku",
       "ala": "fonetiikka",
       "ainejärjestö": "Foneemi",
@@ -6541,7 +7971,10 @@
   {
     "id": "504",
     "content": {
-      "vari": "musta-neonkeltainen",
+      "vari": {
+        "label": "musta-neonkeltainen",
+        "base": ["musta", "keltainen"]
+      },
       "alue": "Turku",
       "ala": "rakennusala",
       "ainejärjestö": "Trok",
@@ -6554,7 +7987,10 @@
   {
     "id": "505",
     "content": {
-      "vari": "musta-turkoosi",
+      "vari": {
+        "label": "musta-turkoosi",
+        "base": ["musta", "turkoosi"]
+      },
       "alue": "Turku",
       "ala": "Taideakatemia",
       "ainejärjestö": "TOY",
@@ -6567,7 +8003,10 @@
   {
     "id": "506",
     "content": {
-      "vari": "musta-puna-keltainen",
+      "vari": {
+        "label": "musta-puna-keltainen",
+        "base": ["musta", "punainen", "keltainen"]
+      },
       "alue": "Turku",
       "ala": "saksan kieli",
       "ainejärjestö": "Germanica",
@@ -6577,88 +8016,14 @@
       "hex": "background: black; background-image: linear-gradient(120deg, black 32%, red 34%, red 65%, yellow 67%);"
     }
   },
-  {
-    "id": "507",
-    "content": {
-      "vari": "ei haalaria",
-      "alue": "Turku",
-      "ala": "sukupuolentutkimus",
-      "ainejärjestö": "F-piste",
-      "oppilaitos": "Turun yliopisto"
-    },
-    "metadata": {
-      "hex": ""
-    }
-  },
-  {
-    "id": "508",
-    "content": {
-      "vari": "ei haalaria",
-      "alue": "Turku",
-      "ala": "luova kirjoittaminen",
-      "ainejärjestö": "Kammio",
-      "oppilaitos": "Turun yliopisto"
-    },
-    "metadata": {
-      "hex": ""
-    }
-  },
-  {
-    "id": "509",
-    "content": {
-      "vari": "ei haalaria",
-      "alue": "Turku",
-      "ala": "museologia",
-      "ainejärjestö": "Museion",
-      "oppilaitos": "Turun yliopisto"
-    },
-    "metadata": {
-      "hex": ""
-    }
-  },
-  {
-    "id": "510",
-    "content": {
-      "vari": "ei haalaria",
-      "alue": "Turku",
-      "ala": "yleinen kirjallisuustiede",
-      "ainejärjestö": "Prometheus",
-      "oppilaitos": "Turun yliopisto"
-    },
-    "metadata": {
-      "hex": ""
-    }
-  },
-  {
-    "id": "511",
-    "content": {
-      "vari": "ei haalaria",
-      "alue": "Turku",
-      "ala": "Itä-Aasian tutkimus (maisteri)",
-      "ainejärjestö": "Taotao",
-      "oppilaitos": "Turun yliopisto"
-    },
-    "metadata": {
-      "hex": ""
-    }
-  },
-  {
-    "id": "512",
-    "content": {
-      "vari": "ei haalaria",
-      "alue": "Turku",
-      "ala": "aineenopettaja",
-      "ainejärjestö": "Turun Auskultantit (Turaus)",
-      "oppilaitos": "Turun yliopisto"
-    },
-    "metadata": {
-      "hex": ""
-    }
-  },
+
   {
     "id": "513",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Vaasa",
       "ala": "kauppatieteet",
       "ainejärjestö": "SHS",
@@ -6671,7 +8036,10 @@
   {
     "id": "514",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Vaasa",
       "ala": "kätilö, sairaanhoitaja, terveydenhoitaja; sosionomi, estenomi",
       "ainejärjestö": "N.U.D.",
@@ -6684,7 +8052,10 @@
   {
     "id": "515",
     "content": {
-      "vari": "valkoinen",
+      "vari": {
+        "label": "valkoinen",
+        "base": ["valkoinen"]
+      },
       "alue": "Vaasa",
       "ala": "hoitoala",
       "ainejärjestö": "VOSU",
@@ -6697,7 +8068,10 @@
   {
     "id": "516",
     "content": {
-      "vari": "vaaleanpunainen",
+      "vari": {
+        "label": "vaaleanpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Vaasa",
       "ala": "pedagogiikka",
       "ainejärjestö": "Pedactus",
@@ -6710,7 +8084,10 @@
   {
     "id": "517",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Vaasa",
       "ala": "kaikki alat",
       "ainejärjestö": "VYY",
@@ -6723,7 +8100,10 @@
   {
     "id": "518",
     "content": {
-      "vari": "punainen",
+      "vari": {
+        "label": "punainen",
+        "base": ["punainen"]
+      },
       "alue": "Vaasa",
       "ala": "varhaiskasvatus",
       "ainejärjestö": "StuBi",
@@ -6736,7 +8116,10 @@
   {
     "id": "519",
     "content": {
-      "vari": "tummanpunainen",
+      "vari": {
+        "label": "tummanpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Vaasa",
       "ala": "oikeustiede",
       "ainejärjestö": "Justus",
@@ -6749,7 +8132,10 @@
   {
     "id": "520",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Vaasa",
       "ala": "",
       "ainejärjestö": "Filicia",
@@ -6762,7 +8148,10 @@
   {
     "id": "521",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Vaasa",
       "ala": "sosiaaliala",
       "ainejärjestö": "VOSU",
@@ -6775,7 +8164,10 @@
   {
     "id": "522",
     "content": {
-      "vari": "keltainen",
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
       "alue": "Vaasa",
       "ala": "energiatekniikka",
       "ainejärjestö": "EnTech",
@@ -6788,7 +8180,10 @@
   {
     "id": "523",
     "content": {
-      "vari": "vihreä",
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Vaasa",
       "ala": "liiketalous",
       "ainejärjestö": "Vaasan tradenomiopiskelijat VATO",
@@ -6801,7 +8196,10 @@
   {
     "id": "524",
     "content": {
-      "vari": "suonvihreä",
+      "vari": {
+        "label": "suonvihreä",
+        "base": ["vihreä"]
+      },
       "alue": "Vaasa",
       "ala": "sosionomi, estenomi",
       "ainejärjestö": "N.U.D.",
@@ -6814,7 +8212,10 @@
   {
     "id": "525",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Vaasa",
       "ala": "sosiaalitieteet, kehityspsykologia",
       "ainejärjestö": "Katharsis",
@@ -6827,7 +8228,10 @@
   {
     "id": "526",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Vaasa",
       "ala": "valtiotiede",
       "ainejärjestö": "Politivas",
@@ -6840,7 +8244,10 @@
   {
     "id": "527",
     "content": {
-      "vari": "tummansininen",
+      "vari": {
+        "label": "tummansininen",
+        "base": ["sininen"]
+      },
       "alue": "Vaasa",
       "ala": "tekniikka",
       "ainejärjestö": "Vaasan Insinööriopiskelijat VIO",
@@ -6853,7 +8260,10 @@
   {
     "id": "528",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Vaasa",
       "ala": "käsityötiede",
       "ainejärjestö": "Arte",
@@ -6866,7 +8276,10 @@
   {
     "id": "529",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Vaasa",
       "ala": "kotitaloustiede",
       "ainejärjestö": "Gastro",
@@ -6879,7 +8292,10 @@
   {
     "id": "530",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Vaasa",
       "ala": "erityispedagogiikka",
       "ainejärjestö": "SPirre",
@@ -6892,7 +8308,10 @@
   {
     "id": "531",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Vaasa",
       "ala": "tekniikka",
       "ainejärjestö": "Vaasan Insinööriopiskelijat VIO",
@@ -6905,7 +8324,10 @@
   {
     "id": "532",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Varkaus",
       "ala": "insinööri",
       "ainejärjestö": "WAIO",
@@ -6918,7 +8340,10 @@
   {
     "id": "533",
     "content": {
-      "vari": "petroolinsininen",
+      "vari": {
+        "label": "petroolinsininen",
+        "base": ["sininen"]
+      },
       "alue": "Vierumäki",
       "ala": "liikunta ja vapaa-aika",
       "ainejärjestö": "Helga",
@@ -6931,7 +8356,10 @@
   {
     "id": "534",
     "content": {
-      "vari": "viininpunainen",
+      "vari": {
+        "label": "viininpunainen",
+        "base": ["punainen"]
+      },
       "alue": "Ylivieska",
       "ala": "sosiaaliala",
       "ainejärjestö": "",
@@ -6944,7 +8372,10 @@
   {
     "id": "535",
     "content": {
-      "vari": "sininen",
+      "vari": {
+        "label": "sininen",
+        "base": ["sininen"]
+      },
       "alue": "Ylivieska",
       "ala": "yhteisöpedagogi",
       "ainejärjestö": "",
@@ -6957,7 +8388,10 @@
   {
     "id": "536",
     "content": {
-      "vari": "violetti",
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
       "alue": "Ylivieska",
       "ala": "tekniikka",
       "ainejärjestö": "",
@@ -6970,7 +8404,10 @@
   {
     "id": "537",
     "content": {
-      "vari": "musta",
+      "vari": {
+        "label": "musta",
+        "base": ["musta"]
+      },
       "alue": "Ylivieska",
       "ala": "liiketalous",
       "ainejärjestö": "",

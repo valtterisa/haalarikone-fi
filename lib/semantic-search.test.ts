@@ -1,93 +1,90 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import type { UpstashSearchResult } from './semantic-search';
+import { describe, it, expect, vi } from 'vitest';
+import type { University } from '@/types/university';
 
-const searchMock = vi.fn<() => Promise<UpstashSearchResult[] | unknown>>();
+const { mockUniversities } = vi.hoisted(() => {
+  const list: University[] = [
+    {
+      id: 1,
+      vari: 'punainen',
+      variLabel: 'punainen',
+      variBase: ['punainen'],
+      hex: '#ff0000',
+      alue: 'Helsinki',
+      ala: 'fysiikka',
+      ainejärjestö: 'Fyysikkokilta',
+      oppilaitos: 'Helsingin yliopisto',
+    },
+    {
+      id: 2,
+      vari: 'sininen',
+      variLabel: 'sininen',
+      variBase: ['sininen'],
+      hex: '#0000ff',
+      alue: 'Tampere',
+      ala: 'tietotekniikka',
+      ainejärjestö: null,
+      oppilaitos: 'Tampereen yliopisto',
+    },
+    {
+      id: 3,
+      vari: 'vihreä',
+      variLabel: 'vihreä',
+      variBase: ['vihrea'],
+      hex: '#00ff00',
+      alue: 'Oulu',
+      ala: null,
+      ainejärjestö: null,
+      oppilaitos: 'Oulun yliopisto',
+    },
+  ];
+  return { mockUniversities: list };
+});
 
-vi.mock('@upstash/search', () => ({
-  Search: class {
-    constructor(_config: { url: string; token: string }) {}
-
-    index(_name: string) {
-      return {
-        search: searchMock,
-      };
-    }
-  },
+vi.mock('./load-universities', () => ({
+  loadUniversities: vi.fn().mockResolvedValue(mockUniversities),
 }));
 
 import { semanticSearch } from './semantic-search';
 
-const originalEnv = { ...process.env };
-
-beforeEach(() => {
-  process.env = { ...originalEnv };
-  searchMock.mockReset();
-});
-
 describe('semanticSearch', () => {
-  it('returns an empty array when Upstash env vars are missing', async () => {
-    delete process.env.UPSTASH_SEARCH_REST_URL;
-    delete process.env.UPSTASH_SEARCH_REST_TOKEN;
-
-    const result = await semanticSearch('test', 'fi', 10);
-
+  it('returns an empty array for an empty query', async () => {
+    const result = await semanticSearch('', 'fi', 10);
     expect(result).toEqual([]);
-    expect(searchMock).not.toHaveBeenCalled();
   });
 
-  it('calls Upstash search with trimmed query and maps results to universities', async () => {
-    process.env.UPSTASH_SEARCH_REST_URL = 'https://example.com';
-    process.env.UPSTASH_SEARCH_REST_TOKEN = 'token';
-
-    const upstashResults: UpstashSearchResult[] = [
-      {
-        id: '1',
-        content: {
-          vari: { fi: 'Punainen', en: 'Red' },
-          alue: 'Helsinki',
-          ala: { fi: 'fysiikka' },
-          ainejärjestö: 'Fyysikkokilta',
-          oppilaitos: { fi: 'Helsingin yliopisto' },
-        },
-        metadata: {
-          hex: '#ff0000',
-        },
-        score: 0.9,
-      },
-    ];
-
-    searchMock.mockResolvedValueOnce(upstashResults);
-
-    const result = await semanticSearch('  Helsinki  ', 'fi', 5);
-
-    expect(searchMock).toHaveBeenCalledTimes(1);
-    expect(searchMock).toHaveBeenCalledWith({
-      query: 'Helsinki',
-      reranking: true,
-      limit: 5,
-    });
-
-    expect(result).toEqual([
-      {
-        id: 1,
-        vari: 'Punainen',
-        hex: '#ff0000',
-        alue: 'Helsinki',
-        ala: 'fysiikka',
-        ainejärjestö: 'Fyysikkokilta',
-        oppilaitos: 'Helsingin yliopisto',
-      },
-    ]);
+  it('returns an empty array for a whitespace-only query', async () => {
+    const result = await semanticSearch('   ', 'fi', 10);
+    expect(result).toEqual([]);
   });
 
-  it('returns an empty array when Upstash search returns an invalid payload', async () => {
-    process.env.UPSTASH_SEARCH_REST_URL = 'https://example.com';
-    process.env.UPSTASH_SEARCH_REST_TOKEN = 'token';
+  it('returns scored and sorted results based on keyword matching', async () => {
+    const result = await semanticSearch('Helsinki fysiikka', 'fi', 10);
 
-    searchMock.mockResolvedValueOnce(null as unknown);
+    expect(result.length).toBeGreaterThan(0);
+    expect(result[0].id).toBe(1);
+  });
 
-    const result = await semanticSearch('query', 'fi', 10);
+  it('scores ala matches highest', async () => {
+    const result = await semanticSearch('tietotekniikka', 'fi', 10);
 
+    expect(result.length).toBe(1);
+    expect(result[0].id).toBe(2);
+  });
+
+  it('respects the limit parameter', async () => {
+    const result = await semanticSearch('yliopisto', 'fi', 2);
+
+    expect(result.length).toBeLessThanOrEqual(2);
+  });
+
+  it('returns all scored results when limit is Infinity', async () => {
+    const result = await semanticSearch('yliopisto', 'fi', Number.POSITIVE_INFINITY);
+
+    expect(result.length).toBe(3);
+  });
+
+  it('returns empty array when no universities match', async () => {
+    const result = await semanticSearch('zzznomatch', 'fi', 10);
     expect(result).toEqual([]);
   });
 });

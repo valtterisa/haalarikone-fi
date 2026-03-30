@@ -10,9 +10,10 @@ import { Link } from '@/i18n/routing';
 import Script from 'next/script';
 import { Metadata } from 'next';
 import { loadUniversities } from '@/lib/load-universities';
+import { loadColorData } from '@/lib/load-color-data';
 import { getUniqueColors } from '@/lib/get-unique-values';
 import { getSlugForEntity } from '@/lib/slug-translations';
-import { SearchWithDivider } from '@/components/search-with-divider';
+import VariSearchSection from '@/components/vari-search-section';
 import { getTranslations } from 'next-intl/server';
 
 export const revalidate = 3600;
@@ -78,6 +79,7 @@ export async function generateMetadata({
 export default async function ColorIndexPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
+  const colorData = await loadColorData();
   const colors = getUniqueColors(universities).sort((a, b) => a.localeCompare(b, 'fi'));
   const t = await getTranslations({ locale });
 
@@ -105,7 +107,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: t('colors.title'),
-    description: t('colors.pageDescription'),
+    description: t('colors.pageDescription', { count: colors.length }),
     numberOfItems: colors.length,
     itemListElement: colors.map((color, index) => ({
       '@type': 'ListItem',
@@ -130,7 +132,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
-      <div className="container mx-auto px-4 py-16 max-w-4xl">
+      <div className="container mx-auto px-4 py-16 max-w-3xl">
         <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -150,18 +152,20 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
           {t('colors.pageDescription', { count: colors.length })}
         </p>
 
-        <SearchWithDivider section="colors" />
+        <VariSearchSection universities={universities} colorData={colorData} />
 
-        <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3">
-          {colors.map((color) => (
-            <Link
-              key={color}
-              href={`/vari/${getSlugForEntity(color, locale as 'fi' | 'en' | 'sv', 'color')}`}
-              className="rounded-lg border px-4 py-3 font-medium text-green hover:bg-green/5 transition"
-            >
-              {color}
-            </Link>
-          ))}
+        <div className="max-w-3xl w-full mx-auto px-2">
+          <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3">
+            {colors.map((color) => (
+              <Link
+                key={color}
+                href={`/vari/${getSlugForEntity(color, locale as 'fi' | 'en' | 'sv', 'color')}`}
+                className="rounded-lg border px-4 py-3 font-medium text-green hover:bg-green/5 transition"
+              >
+                {color}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </>

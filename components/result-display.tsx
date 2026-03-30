@@ -6,29 +6,34 @@ import { useTranslations } from 'next-intl';
 
 interface ResultsDisplayProps {
   results: University[];
+  initialVisibleCount?: number;
 }
 
-export default function ResultsDisplay({ results }: ResultsDisplayProps) {
+export default function ResultsDisplay({ results, initialVisibleCount }: ResultsDisplayProps) {
   const t = useTranslations('search');
   const tCommon = useTranslations('common');
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [showAll, setShowAll] = useState(false);
   const resultsPerPage = 15;
   const resultsDivRef = useRef<HTMLDivElement>(null);
   const prevPageRef = useRef(1);
+  const hasPreviewMode = typeof initialVisibleCount === 'number' && initialVisibleCount > 0;
+  const shouldShowPreview = hasPreviewMode && !showAll;
+  const visiblePreviewCount = initialVisibleCount ?? 0;
 
   // Calculate the total number of pages
   const totalPages = Math.ceil(results.length / resultsPerPage);
 
   // Slice the results based on the current page and results per page
-  const paginatedResults = results.slice(
-    (currentPage - 1) * resultsPerPage,
-    currentPage * resultsPerPage,
-  );
+  const paginatedResults = shouldShowPreview
+    ? results.slice(0, visiblePreviewCount)
+    : results.slice((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage);
 
   // When results change, reset pagination (don't scroll)
   useEffect(() => {
     setCurrentPage(1);
+    setShowAll(false);
     prevPageRef.current = 1;
   }, [results]);
 
@@ -87,8 +92,19 @@ export default function ResultsDisplay({ results }: ResultsDisplayProps) {
           </ul>
         )}
 
-        {/* Pagination Controls */}
-        {results.length > 0 && (
+        {shouldShowPreview && results.length > visiblePreviewCount && (
+          <div className="mt-4 sm:mt-6 p-3 sm:p-4 border-t border-border flex justify-center items-center">
+            <button
+              type="button"
+              onClick={() => setShowAll(true)}
+              className="h-9 sm:h-10 px-4 text-xs sm:text-sm bg-green hover:bg-green/90 text-white rounded-md transition-colors"
+            >
+              {t('showAll')} ({results.length})
+            </button>
+          </div>
+        )}
+
+        {!shouldShowPreview && results.length > 0 && (
           <div className="mt-4 sm:mt-6 p-3 sm:p-4 border-t border-border flex justify-center items-center">
             <div className="flex gap-2 sm:gap-3 items-center">
               <button

@@ -98,7 +98,12 @@ export default async function Index({ params }: { params: Promise<{ locale: stri
 
           <p className="text-center max-w-2xl mx-auto px-4 mt-6 mb-4">{t('home.description')}</p>
         </div>
-        <SearchContainer initialUniversities={universities} colorData={colorData} />
+        <SearchContainer
+          initialUniversities={universities}
+          colorData={colorData}
+          showResultsByDefault
+          showIdlePlaceholder
+        />
 
         <section className="w-full border-t border-border/60 mt-12">
           <div className="container mx-auto px-4 py-12">
@@ -168,31 +173,26 @@ export default async function Index({ params }: { params: Promise<{ locale: stri
           </div>
         </section>
 
-        {/* <section
-                    id="palaute"
-                    className="w-full border-t border-border/60 bg-[#f8faf3] mt-12"
-                >
-                    <div className="container mx-auto px-4 py-12">
-                        <div className="max-w-2xl mx-auto text-center flex flex-col gap-4">
-                            <h3 className="text-2xl font-bold">
-                                {t('home.feedbackTitle')}
-                            </h3>
-                            <p className="text-muted-foreground">
-                                {t('home.feedbackDescription')}
-                            </p>
-                            <FeedbackModal
-                                triggerLabel={t('home.feedbackButton')}
-                                triggerClassName="bg-green text-white hover:bg-green/90 self-center"
-                                triggerSize="lg"
-                                title={t('home.feedbackTitle')}
-                                description={t('home.feedbackDescription')}
-                                submitLabel={t('feedback.submit')}
-                                messageLabel={t('feedback.message')}
-                                messagePlaceholder={t('feedback.messagePlaceholder')}
-                            />
-                        </div>
-                    </div>
-                </section> */}
+        {/*
+        <section id="palaute" className="w-full border-t border-border/60 bg-[#f8faf3] mt-12">
+          <div className="container mx-auto px-4 py-12">
+            <div className="max-w-2xl mx-auto text-center flex flex-col gap-4">
+              <h3 className="text-2xl font-bold">{t('home.feedbackTitle')}</h3>
+              <p className="text-muted-foreground">{t('home.feedbackDescription')}</p>
+              <FeedbackModal
+                triggerLabel={t('home.feedbackButton')}
+                triggerClassName="bg-green text-white hover:bg-green/90 self-center"
+                triggerSize="lg"
+                title={t('home.feedbackTitle')}
+                description={t('home.feedbackDescription')}
+                submitLabel={t('feedback.submit')}
+                messageLabel={t('feedback.message')}
+                messagePlaceholder={t('feedback.messagePlaceholder')}
+              />
+            </div>
+          </div>
+        </section>
+        */}
       </div>
     </>
   );
