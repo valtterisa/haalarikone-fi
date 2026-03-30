@@ -1,6 +1,5 @@
 import { understandQuery } from '@/lib/query-understanding';
 import { filterUniversities } from '@/lib/deterministic-filter';
-import { rankSemantically } from '@/lib/semantic-ranking';
 import { semanticSearch } from '@/lib/semantic-search';
 import { loadColorData } from '@/lib/load-color-data';
 import { NextResponse } from 'next/server';
@@ -55,11 +54,11 @@ export async function POST(req: Request) {
     const filteredResults = await filterUniversities(qu, locale);
     const exactCount = filteredResults.length;
 
-    let finalResults: University[] = filteredResults;
+    let candidates: University[] = filteredResults;
     let totalCount = exactCount;
 
     if (exactCount === 0) {
-      const semanticResults = await semanticSearch(query.trim(), locale, 100);
+      const semanticResults = await semanticSearch(query.trim(), locale, Number.POSITIVE_INFINITY);
 
       if (semanticResults.length > 0) {
         const colorData = await loadColorData();
@@ -99,28 +98,23 @@ export async function POST(req: Request) {
         });
 
         if (filteredSemantic.length > 0) {
-          finalResults = filteredSemantic;
+          candidates = filteredSemantic;
           totalCount = filteredSemantic.length;
         } else {
-          finalResults = [];
+          candidates = [];
           totalCount = 0;
         }
+      }
+    }
 
-        if (qu.semanticQuery && finalResults.length > 0) {
-          finalResults = await rankSemantically(finalResults, qu.semanticQuery);
+    let finalResults: University[] = candidates;
+    if (finalResults.length > 0 && exactCount > 0) {
+      finalResults.sort((a, b) => {
+        if (a.oppilaitos !== b.oppilaitos) {
+          return a.oppilaitos.localeCompare(b.oppilaitos);
         }
-      }
-    } else {
-      if (qu.semanticQuery && filteredResults.length > 0) {
-        finalResults = await rankSemantically(filteredResults, qu.semanticQuery);
-      } else {
-        finalResults.sort((a, b) => {
-          if (a.oppilaitos !== b.oppilaitos) {
-            return a.oppilaitos.localeCompare(b.oppilaitos);
-          }
-          return (a.ala || '').localeCompare(b.ala || '');
-        });
-      }
+        return (a.ala || '').localeCompare(b.ala || '');
+      });
     }
 
     return NextResponse.json({

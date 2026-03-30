@@ -4,21 +4,24 @@ import { loadUniversities } from './load-universities';
 export async function semanticSearch(
   query: string,
   locale: 'fi' | 'en' | 'sv' = 'fi',
-  limit: number = 100
+  limit: number = 100,
 ): Promise<University[]> {
   if (!query.trim()) return [];
 
   const allUniversities = await loadUniversities(locale);
-  const queryWords = query.toLowerCase().split(/\s+/).filter((w) => w.length > 2);
+  const queryWords = query
+    .toLowerCase()
+    .split(/\s+/)
+    .filter((w) => w.length > 2);
 
   const scored = allUniversities
     .map((uni) => ({ uni, score: scoreUni(uni, queryWords) }))
     .filter(({ score }) => score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, limit)
-    .map(({ uni }) => uni);
+    .sort((a, b) => b.score - a.score);
 
-  return scored;
+  const limited = Number.isFinite(limit) && limit >= 0 ? scored.slice(0, limit) : scored;
+
+  return limited.map(({ uni }) => uni);
 }
 
 function scoreUni(uni: University, words: string[]): number {

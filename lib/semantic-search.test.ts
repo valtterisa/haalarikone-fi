@@ -68,6 +68,12 @@ describe('semanticSearch', () => {
     expect(result.length).toBeLessThanOrEqual(2);
   });
 
+  it('returns all scored results when limit is Infinity', async () => {
+    const result = await semanticSearch('yliopisto', 'fi', Number.POSITIVE_INFINITY);
+
+    expect(result.length).toBe(3);
+  });
+
   it('returns empty array when no universities match', async () => {
     const result = await semanticSearch('zzznomatch', 'fi', 10);
     expect(result).toEqual([]);
