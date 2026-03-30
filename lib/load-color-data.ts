@@ -1,6 +1,5 @@
-import { promises as fs } from 'fs';
-import path from 'path';
 import { parseHexFromMetadata } from '@/utils/color';
+import universitiesData from '@/data/overall_colors_upstash.json';
 
 export type ColorData = {
   colors: {
@@ -19,9 +18,7 @@ export async function loadColorData(): Promise<ColorData> {
     return colorDataCache;
   }
 
-  const jsonFilePath = path.join(process.cwd(), 'data', 'overall_colors_upstash.json');
-  const json = await fs.readFile(jsonFilePath, 'utf-8');
-  const universities = JSON.parse(json) as Array<{
+  const universities = universitiesData as Array<{
     content: {
       vari: string | { base?: string | string[]; label?: string };
     };

@@ -8,8 +8,6 @@ import {
   getUniqueAreas,
 } from '@/lib/get-unique-values';
 import { getSlugForEntity } from '@/lib/slug-translations';
-import { promises as fs } from 'fs';
-import path from 'path';
 import { routing } from '@/i18n/routing';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -17,15 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const universities = await loadUniversities('fi');
   const blogPosts = await loadBlogPosts();
 
-  const jsonFilePath = path.join(process.cwd(), 'data', 'overall_colors_upstash.json');
-
   let dataLastModified = new Date();
-  try {
-    const stats = await fs.stat(jsonFilePath);
-    if (stats) {
-      dataLastModified = stats.mtime;
-    }
-  } catch {}
 
   const entries: MetadataRoute.Sitemap = [];
 

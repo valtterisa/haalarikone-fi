@@ -1,6 +1,6 @@
-import { promises as fs } from 'fs';
-import path from 'path';
 import type { University } from '@/types/university';
+import translationsData from '@/data/translations.json';
+import universitiesData from '@/data/overall_colors_upstash.json';
 
 type Translations = {
   fields: Record<string, { fi: string; en: string; sv: string }>;
@@ -16,9 +16,7 @@ async function loadTranslations(): Promise<Translations> {
     return translationsCache;
   }
 
-  const filePath = path.join(process.cwd(), 'data', 'translations.json');
-  const fileContents = await fs.readFile(filePath, 'utf-8');
-  translationsCache = JSON.parse(fileContents) as Translations;
+  translationsCache = translationsData as Translations;
   return translationsCache;
 }
 
@@ -84,12 +82,9 @@ function normalizeJsonToUniversity(
 }
 
 export async function loadUniversities(locale: 'fi' | 'en' | 'sv' = 'fi'): Promise<University[]> {
-  const jsonFilePath = path.join(process.cwd(), 'data', 'overall_colors_upstash.json');
-
   try {
     const translations = await loadTranslations();
-    const json = await fs.readFile(jsonFilePath, 'utf-8');
-    const universities = (JSON.parse(json) as any[])
+    const universities = (universitiesData as any[])
       .map((row) => normalizeJsonToUniversity(row, locale, translations))
       .filter(Boolean) as University[];
     return universities;
