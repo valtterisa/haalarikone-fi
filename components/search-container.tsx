@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useLocale } from 'next-intl';
 import SearchForm from './search-form';
@@ -66,6 +66,8 @@ export default function SearchContainer({
   const [results, setResults] = useState<University[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const searchRequestIdRef = useRef(0);
+  const draftCountRequestIdRef = useRef(0);
   const hasActiveQuery =
     selectedCriteria.textSearch.trim().length >= 3 ||
     Boolean(
@@ -120,6 +122,8 @@ export default function SearchContainer({
   );
 
   const performSearch = useCallback(async () => {
+    const currentRequestId = searchRequestIdRef.current + 1;
+    searchRequestIdRef.current = currentRequestId;
     let searchResults: University[] = [];
 
     if (selectedCriteria.textSearch.trim().length >= 3) {
@@ -145,6 +149,9 @@ export default function SearchContainer({
       return a.oppilaitos.localeCompare(b.oppilaitos);
     });
 
+    if (searchRequestIdRef.current !== currentRequestId) {
+      return;
+    }
     setResults(orderedResults);
     setHasSearched(true);
     setIsSearching(false);
@@ -178,7 +185,6 @@ export default function SearchContainer({
 
       return () => {
         clearTimeout(timeoutId);
-        setIsSearching(false);
       };
     }
   }, [
@@ -234,6 +240,8 @@ export default function SearchContainer({
 
   useEffect(() => {
     const calculateDraftFilterResultCount = async () => {
+      const currentRequestId = draftCountRequestIdRef.current + 1;
+      draftCountRequestIdRef.current = currentRequestId;
       let searchResults: University[] = [];
 
       if (selectedCriteria.textSearch.trim().length >= 3) {
@@ -267,6 +275,9 @@ export default function SearchContainer({
         return colorMatch && areaMatch && fieldMatch && schoolMatch;
       });
 
+      if (draftCountRequestIdRef.current !== currentRequestId) {
+        return;
+      }
       setDraftFilterResultCount(filteredResults.length);
     };
 
