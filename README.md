@@ -51,7 +51,7 @@ student-overall-app/
 │   │   ├── oppilaitos/    # University pages
 │   │   ├── vari/          # Color pages
 │   │   └── page.tsx       # Home page
-│   ├── api/               # API routes (search, upsert)
+│   ├── api/               # API routes (search)
 ├── components/            # React components
 │   ├── ui/                # Reusable UI components (Radix UI)
 │   ├── search-modal.tsx   # Search functionality
@@ -69,7 +69,7 @@ student-overall-app/
 │   ├── translate-path-client.ts  # Client-side path translation
 │   ├── query-understanding.ts  # AI-powered query parsing
 │   ├── deterministic-filter.ts  # Exact filter matching
-│   ├── semantic-search.ts      # Vector/semantic search fallback
+│   ├── semantic-search.ts      # In-memory keyword scoring fallback
 │   ├── semantic-ranking.ts     # Result ranking by relevance
 │   ├── load-color-data.ts      # Dynamic color data from JSON
 │   └── ...                # Other utilities
@@ -91,7 +91,7 @@ student-overall-app/
 
 ## Search Architecture
 
-The search system uses a hybrid approach combining AI-powered query understanding with deterministic filtering and semantic search fallback.
+The search system uses a hybrid approach combining AI-powered query understanding with deterministic filtering and an in-memory keyword scoring fallback.
 
 ### How It Works
 
@@ -104,8 +104,8 @@ flowchart TD
     E --> F[Apply Deterministic Filters]
     F --> G{Exact Matches Found?}
     G -->|Yes| H[Return Exact Results]
-    G -->|No| I[Semantic Search Fallback]
-    I --> J[Filter Semantic Results]
+    G -->|No| I[Keyword Search Fallback]
+    I --> J[Filter Keyword Results]
     J --> K{Filtered Results?}
     K -->|Yes| L[Return Filtered Semantic Results]
     K -->|No| M[Return Empty]
@@ -132,11 +132,11 @@ flowchart TD
    - Filters by: color (with variant matching), area, field, school
    - Fast in-memory filtering with caching
 
-3. **Semantic Search Fallback**
+3. **Keyword Search Fallback**
    - Only triggered when exact filters return 0 results
    - Uses in-memory keyword scoring against the local dataset
-   - Applies same filters to semantic results
-   - Ensures semantic results still match filter criteria
+   - Applies the same filters to keyword candidates
+   - Ensures fallback results still match filter criteria
 
 4. **Ranking**
    - If semantic query exists, ranks results by keyword relevance
