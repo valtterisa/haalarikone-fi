@@ -1,12 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-let rateLimitAllowed = true;
-
-const understandQueryMock = vi.fn();
-const filterUniversitiesMock = vi.fn();
-const semanticSearchMock = vi.fn();
-const loadColorDataMock = vi.fn();
-const limitMock = vi.fn(async () => ({ success: rateLimitAllowed }));
+const hoisted = vi.hoisted(() => {
+  return {
+    rateLimitAllowed: true,
+    understandQueryMock: vi.fn(),
+    filterUniversitiesMock: vi.fn(),
+    semanticSearchMock: vi.fn(),
+    loadColorDataMock: vi.fn(),
+    limitMock: vi.fn(async () => ({ success: hoisted.rateLimitAllowed })),
+  };
+});
 
 vi.mock('@upstash/redis', () => ({
   Redis: {
@@ -17,50 +20,50 @@ vi.mock('@upstash/redis', () => ({
 vi.mock('@upstash/ratelimit', () => ({
   Ratelimit: class {
     static slidingWindow = vi.fn();
-    limit = limitMock;
+    limit = hoisted.limitMock;
     constructor() {}
   },
 }));
 
 vi.mock('@/lib/query-understanding', () => ({
-  understandQuery: understandQueryMock,
+  understandQuery: hoisted.understandQueryMock,
 }));
 
 vi.mock('@/lib/deterministic-filter', () => ({
-  filterUniversities: filterUniversitiesMock,
+  filterUniversities: hoisted.filterUniversitiesMock,
 }));
 
 vi.mock('@/lib/semantic-search', () => ({
-  semanticSearch: semanticSearchMock,
+  semanticSearch: hoisted.semanticSearchMock,
 }));
 
 vi.mock('@/lib/load-color-data', () => ({
-  loadColorData: loadColorDataMock,
+  loadColorData: hoisted.loadColorDataMock,
 }));
 
 import { POST } from './route';
 
 describe('/api/search route', () => {
   beforeEach(() => {
-    rateLimitAllowed = true;
-    limitMock.mockClear();
-    understandQueryMock.mockReset();
-    filterUniversitiesMock.mockReset();
-    semanticSearchMock.mockReset();
-    loadColorDataMock.mockReset();
+    hoisted.rateLimitAllowed = true;
+    hoisted.limitMock.mockClear();
+    hoisted.understandQueryMock.mockReset();
+    hoisted.filterUniversitiesMock.mockReset();
+    hoisted.semanticSearchMock.mockReset();
+    hoisted.loadColorDataMock.mockReset();
 
-    understandQueryMock.mockResolvedValue({
+    hoisted.understandQueryMock.mockResolvedValue({
       isGibberish: false,
       filters: {},
       semanticQuery: '',
     });
-    filterUniversitiesMock.mockResolvedValue([]);
-    semanticSearchMock.mockResolvedValue([]);
-    loadColorDataMock.mockResolvedValue({ colors: {} });
+    hoisted.filterUniversitiesMock.mockResolvedValue([]);
+    hoisted.semanticSearchMock.mockResolvedValue([]);
+    hoisted.loadColorDataMock.mockResolvedValue({ colors: {} });
   });
 
   it('falls back to fi locale when locale is invalid', async () => {
-    filterUniversitiesMock.mockResolvedValue([
+    hoisted.filterUniversitiesMock.mockResolvedValue([
       {
         id: 1,
         vari: 'Punainen',
@@ -84,7 +87,7 @@ describe('/api/search route', () => {
     const body = await res.json();
 
     expect(res.status).toBe(200);
-    expect(understandQueryMock).toHaveBeenCalledWith('helsinki', 'fi');
+    expect(hoisted.understandQueryMock).toHaveBeenCalledWith('helsinki', 'fi');
     expect(Array.isArray(body.results)).toBe(true);
     expect(body.results.length).toBe(1);
   });
@@ -101,7 +104,7 @@ describe('/api/search route', () => {
 
     expect(res.status).toBe(400);
     expect(body).toEqual({ success: false, error: 'Query too long' });
-    expect(understandQueryMock).not.toHaveBeenCalled();
+    expect(hoisted.understandQueryMock).not.toHaveBeenCalled();
   });
 
   it('handles malformed json body safely', async () => {
@@ -116,11 +119,11 @@ describe('/api/search route', () => {
 
     expect(res.status).toBe(200);
     expect(body).toEqual({ results: [], totalCount: 0 });
-    expect(understandQueryMock).not.toHaveBeenCalled();
+    expect(hoisted.understandQueryMock).not.toHaveBeenCalled();
   });
 
   it('returns consistent rate-limit response shape', async () => {
-    rateLimitAllowed = false;
+    hoisted.rateLimitAllowed = false;
 
     const req = new Request('http://localhost/api/search', {
       method: 'POST',
@@ -133,6 +136,6 @@ describe('/api/search route', () => {
 
     expect(res.status).toBe(429);
     expect(body).toEqual({ success: false, error: 'Unable to process at this time' });
-    expect(understandQueryMock).not.toHaveBeenCalled();
+    expect(hoisted.understandQueryMock).not.toHaveBeenCalled();
   });
 });

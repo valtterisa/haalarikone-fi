@@ -1,57 +1,63 @@
-import { describe, it, expect, vi } from "vitest";
-import type { University } from "@/types/university";
-import type { QueryUnderstanding } from "./query-understanding";
+import { describe, it, expect, vi } from 'vitest';
+import type { University } from '@/types/university';
+import type { QueryUnderstanding } from './query-understanding';
 
 const mockUniversities: University[] = [
   {
     id: 1,
-    vari: "Punainen",
-    hex: "#ff0000",
-    alue: "Helsinki",
-    ala: "fysiikka",
-    ainejärjestö: "Fyysikkokilta",
-    oppilaitos: "Helsingin yliopisto",
+    vari: 'Punainen',
+    variLabel: 'Punainen',
+    variBase: ['punainen'],
+    hex: '#ff0000',
+    alue: 'Helsinki',
+    ala: 'fysiikka',
+    ainejärjestö: 'Fyysikkokilta',
+    oppilaitos: 'Helsingin yliopisto',
   },
   {
     id: 2,
-    vari: "Vihreä",
-    hex: "#00ff00",
-    alue: "Tampere",
-    ala: "insinööri",
+    vari: 'Vihreä',
+    variLabel: 'Vihreä',
+    variBase: ['vihrea'],
+    hex: '#00ff00',
+    alue: 'Tampere',
+    ala: 'insinööri',
     ainejärjestö: null,
-    oppilaitos: "Tampereen yliopisto",
+    oppilaitos: 'Tampereen yliopisto',
   },
   {
     id: 3,
-    vari: "Sininen",
-    hex: "#0000ff",
-    alue: "Kuopio",
-    ala: "lääketiede",
+    vari: 'Sininen',
+    variLabel: 'Sininen',
+    variBase: ['sininen'],
+    hex: '#0000ff',
+    alue: 'Kuopio',
+    ala: 'lääketiede',
     ainejärjestö: null,
-    oppilaitos: "Itä-Suomen yliopisto",
+    oppilaitos: 'Itä-Suomen yliopisto',
   },
 ];
 
-vi.mock("./load-universities", () => ({
+vi.mock('./load-universities', () => ({
   loadUniversities: async () => mockUniversities,
 }));
 
-vi.mock("./load-color-data", () => ({
+vi.mock('./load-color-data', () => ({
   loadColorData: async () => ({
     colors: {
       punainen: {
-        main: ["Punainen"],
-        shades: ["tummanpunainen"],
+        main: ['Punainen'],
+        shades: ['tummanpunainen'],
       },
       vihrea: {
-        main: ["Vihreä"],
+        main: ['Vihreä'],
         shades: [],
       },
     },
   }),
 }));
 
-import { filterUniversities } from "./deterministic-filter";
+import { filterUniversities } from './deterministic-filter';
 
 const baseQu: QueryUnderstanding = {
   isGibberish: false,
@@ -61,52 +67,51 @@ const baseQu: QueryUnderstanding = {
     field: undefined,
     school: undefined,
   },
-  semanticQuery: "",
+  semanticQuery: '',
 };
 
-describe("filterUniversities", () => {
-  it("returns an empty list when the query is marked as gibberish", async () => {
+describe('filterUniversities', () => {
+  it('returns an empty list when the query is marked as gibberish', async () => {
     const result = await filterUniversities(
       {
         ...baseQu,
         isGibberish: true,
       },
-      "fi",
+      'fi',
     );
 
     expect(result).toEqual([]);
   });
 
-  it("filters by normalized color using color data variants", async () => {
+  it('filters by normalized color using color data variants', async () => {
     const result = await filterUniversities(
       {
         ...baseQu,
         filters: {
           ...baseQu.filters,
-          color: "punainen",
+          color: 'punainen',
         },
       },
-      "fi",
+      'fi',
     );
 
     expect(result.map((u) => u.id)).toEqual([1]);
   });
 
-  it("filters by area, field, and school case-insensitively", async () => {
+  it('filters by area, field, and school case-insensitively', async () => {
     const result = await filterUniversities(
       {
         ...baseQu,
         filters: {
           color: undefined,
-          area: "helsinki",
-          field: "FYSIIKKA",
-          school: "helsingin yliopisto",
+          area: 'helsinki',
+          field: 'FYSIIKKA',
+          school: 'helsingin yliopisto',
         },
       },
-      "fi",
+      'fi',
     );
 
     expect(result.map((u) => u.id)).toEqual([1]);
   });
 });
-

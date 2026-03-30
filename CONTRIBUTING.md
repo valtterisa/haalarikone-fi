@@ -66,16 +66,13 @@ Feature requests are welcome! Use the [Feature Request template](.github/ISSUE_T
    ```
 
 6. **Open a Draft Pull Request (recommended for ongoing work)** using the [PR template](.github/PULL_REQUEST_TEMPLATE.md)
-
    - Use **Draft** while the work is in progress and you still plan to make changes.
    - Keep pushing commits to the same branch; the Draft PR stays up to date automatically.
 
 7. **When ready, mark the PR as "Ready for review"**
-
    - Only mark it ready when the change is stable and you want feedback.
 
 8. **Check and address CodeRabbit feedback**
-
    - CodeRabbit will leave automated review comments on your PR.
    - Read all CodeRabbit comments and either implement the suggested change or reply with a clear reason why you are not applying it.
    - Resolve CodeRabbit threads before requesting final approval / merging.
@@ -262,12 +259,12 @@ When you call `/api/upsert`, the system automatically:
 1. **Reads the JSON file**: Loads all entries from `data/overall_colors_upstash.json`
 2. **Fetches existing data**: Retrieves current documents from Upstash Search index `haalarikone-db` (for merging)
 3. **Merges data**: Combines new entries with existing ones, preserving existing data
-4. **Enriches with translations**: Converts Finnish strings to multi-language objects using `data/translations.json`
+4. **Enriches with translations**: Converts Finnish strings to multi-language objects using `data/translations.json` (implementation may change over time)
 5. **Uploads in batches**: Uploads documents in batches of 100 to Upstash Search for efficient processing
 
 ### Data Enrichment Details
 
-The enrichment process (`lib/enrich-search-data.ts`) automatically converts fields:
+The enrichment process automatically converts fields:
 
 - **`vari`** → `{fi: "metsänvihreä", en: "forest green", sv: "skogsgrön"}` using `translations.colors`
 - **`alue`** → `{fi: "Hattula", en: "Hattula", sv: "Hattula"}` using `translations.areas`
@@ -356,7 +353,6 @@ After upload, the data in Upstash Search will have this structure:
 
 - `data/overall_colors_upstash.json` - Source data file edited by contributors
 - `app/api/upsert/route.ts` - API endpoint that handles uploads
-- `lib/enrich-search-data.ts` - Function that enriches documents with translations
 - `data/translations.json` - Translation mappings for colors, areas, fields, and universities
 
 ## Coding Standards

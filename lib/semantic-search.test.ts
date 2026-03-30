@@ -1,35 +1,44 @@
 import { describe, it, expect, vi } from 'vitest';
 import type { University } from '@/types/university';
 
-const mockUniversities: University[] = [
-  {
-    id: 1,
-    vari: 'punainen',
-    hex: '#ff0000',
-    alue: 'Helsinki',
-    ala: 'fysiikka',
-    ainejärjestö: 'Fyysikkokilta',
-    oppilaitos: 'Helsingin yliopisto',
-  },
-  {
-    id: 2,
-    vari: 'sininen',
-    hex: '#0000ff',
-    alue: 'Tampere',
-    ala: 'tietotekniikka',
-    ainejärjestö: null,
-    oppilaitos: 'Tampereen yliopisto',
-  },
-  {
-    id: 3,
-    vari: 'vihreä',
-    hex: '#00ff00',
-    alue: 'Oulu',
-    ala: null,
-    ainejärjestö: null,
-    oppilaitos: 'Oulun yliopisto',
-  },
-];
+const { mockUniversities } = vi.hoisted(() => {
+  const list: University[] = [
+    {
+      id: 1,
+      vari: 'punainen',
+      variLabel: 'punainen',
+      variBase: ['punainen'],
+      hex: '#ff0000',
+      alue: 'Helsinki',
+      ala: 'fysiikka',
+      ainejärjestö: 'Fyysikkokilta',
+      oppilaitos: 'Helsingin yliopisto',
+    },
+    {
+      id: 2,
+      vari: 'sininen',
+      variLabel: 'sininen',
+      variBase: ['sininen'],
+      hex: '#0000ff',
+      alue: 'Tampere',
+      ala: 'tietotekniikka',
+      ainejärjestö: null,
+      oppilaitos: 'Tampereen yliopisto',
+    },
+    {
+      id: 3,
+      vari: 'vihreä',
+      variLabel: 'vihreä',
+      variBase: ['vihrea'],
+      hex: '#00ff00',
+      alue: 'Oulu',
+      ala: null,
+      ainejärjestö: null,
+      oppilaitos: 'Oulun yliopisto',
+    },
+  ];
+  return { mockUniversities: list };
+});
 
 vi.mock('./load-universities', () => ({
   loadUniversities: vi.fn().mockResolvedValue(mockUniversities),
