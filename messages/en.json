@@ -94,8 +94,8 @@
     "title": "Overall Colors",
     "description": "Select an overall color to see all related overalls and institutions.",
     "notFound": "Color not found",
-    "pageTitle": "Haalarikone | List of Finnish student overall colors",
-    "pageDescription": "List of Finnish student overall colors. Find overall colors by institution, field, or color.",
+    "pageTitle": "Haalarikone | Search engine for Finnish student overall colors",
+    "pageDescription": "All Finnish student overall colors. Select a color to see related overalls at different universities and UAS.",
     "relatedTopics": "Related topics",
     "overallCount": "different overalls",
     "schoolCount": "different institutions"

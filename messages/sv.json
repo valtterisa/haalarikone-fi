@@ -94,8 +94,8 @@
     "title": "Overallfärger",
     "description": "Välj en overallfärg för att se alla relaterade overallar och institutioner.",
     "notFound": "Färg hittades inte",
-    "pageTitle": "Haalarikone | Lista över finländska studentoverallfärger",
-    "pageDescription": "Lista över finländska studentoverallfärger. Hitta overallfärger efter institution, studieområde eller färg.",
+    "pageTitle": "Haalarikone | Sökverktyg för finländska studentoverallfärger",
+    "pageDescription": "Alla finländska studentoverallfärger. Välj en färg för att se relaterade overaller vid olika universitet och yrkeshögskolor.",
     "relatedTopics": "Relaterade ämnen",
     "overallCount": "olika overallar",
     "schoolCount": "olika institutioner"
