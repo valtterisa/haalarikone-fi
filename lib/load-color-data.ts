@@ -1,5 +1,6 @@
 import { parseHexFromMetadata } from '@/utils/color';
 import universitiesData from '@/data/overall_colors_upstash.json';
+import translationsData from '@/data/translations.json';
 
 export type ColorData = {
   colors: {
@@ -9,6 +10,7 @@ export type ColorData = {
       shades: string[];
     };
   };
+  hexByAlias?: Record<string, string>;
 };
 
 let colorDataCache: ColorData | null = null;
@@ -27,6 +29,11 @@ export async function loadColorData(): Promise<ColorData> {
 
   const colorVariants = new Map<string, Set<string>>();
   const colorHexMap = new Map<string, string>();
+  const aliasHexMap = new Map<string, string>();
+  const translations = translationsData as {
+    colors: Record<string, { fi: string; en: string; sv: string }>;
+  };
+  const colorTranslations = translations.colors;
 
   const normalizeBaseColorKeyInline = (key: string): string | null => {
     const k = key.toLowerCase().trim();
@@ -150,6 +157,26 @@ export async function loadColorData(): Promise<ColorData> {
     const variantArray = Array.from(variants);
     const mainColorName = getMainColorName(baseColor);
     const hex = colorHexMap.get(mainColorName) ?? getDefaultHex(baseColor);
+    const aliases = new Set<string>([baseColor, mainColorName, ...variantArray]);
+    const expandedAliases = new Set<string>();
+
+    aliases.forEach((alias) => {
+      const normalizedAlias = alias.toLowerCase().trim();
+      if (!normalizedAlias) return;
+      expandedAliases.add(normalizedAlias);
+      const translation = colorTranslations[normalizedAlias];
+      if (translation) {
+        expandedAliases.add(translation.fi.toLowerCase().trim());
+        expandedAliases.add(translation.en.toLowerCase().trim());
+        expandedAliases.add(translation.sv.toLowerCase().trim());
+      }
+    });
+
+    expandedAliases.forEach((alias) => {
+      if (!aliasHexMap.has(alias)) {
+        aliasHexMap.set(alias, hex);
+      }
+    });
 
     colors[baseColor] = {
       color: hex,
@@ -158,7 +185,7 @@ export async function loadColorData(): Promise<ColorData> {
     };
   }
 
-  colorDataCache = { colors };
+  colorDataCache = { colors, hexByAlias: Object.fromEntries(aliasHexMap.entries()) };
   return colorDataCache;
 }
 

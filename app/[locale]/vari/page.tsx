@@ -12,10 +12,9 @@ import { Metadata } from 'next';
 import { loadUniversities } from '@/lib/load-universities';
 import { loadColorData } from '@/lib/load-color-data';
 import { getUniqueColors } from '@/lib/get-unique-values';
-import { getSlugForEntity } from '@/lib/slug-translations';
+import { getEntityTranslation, getSlugForEntity } from '@/lib/slug-translations';
 import VariSearchSection from '@/components/vari-search-section';
 import { getTranslations } from 'next-intl/server';
-import { parseHexFromMetadata } from '@/utils/color';
 
 export const revalidate = 3600;
 
@@ -82,15 +81,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
   const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
   const colorData = await loadColorData();
   const colors = getUniqueColors(universities).sort((a, b) => a.localeCompare(b, 'fi'));
-  const colorHexByName = new Map<string, string>();
-  for (const university of universities) {
-    const colorName = university.variLabel.toLowerCase().trim();
-    if (!colorName || colorHexByName.has(colorName)) continue;
-    const parsedHex = parseHexFromMetadata(university.hex);
-    if (parsedHex) {
-      colorHexByName.set(colorName, parsedHex);
-    }
-  }
+  const colorHexByAnyName = colorData.hexByAlias ?? {};
   const t = await getTranslations({ locale });
 
   const breadcrumbSchema = {
@@ -166,20 +157,36 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
 
         <div className="max-w-3xl w-full mx-auto px-2">
           <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3">
-            {colors.map((color) => (
-              <Link
-                key={color}
-                href={`/vari/${getSlugForEntity(color, locale as 'fi' | 'en' | 'sv', 'color')}`}
-                className="rounded-lg border px-4 py-4 text-base font-medium text-green hover:bg-green/5 transition flex items-center gap-3"
-              >
-                <span
-                  className="h-5 w-5 rounded-full border border-gray-300 shrink-0"
-                  style={{ backgroundColor: colorHexByName.get(color.toLowerCase()) ?? '#D1D5DB' }}
-                  aria-hidden="true"
-                />
-                {color}
-              </Link>
-            ))}
+            {colors.map((color) =>
+              (() => {
+                const translatedColor = getEntityTranslation(
+                  color,
+                  locale as 'fi' | 'en' | 'sv',
+                  'color',
+                );
+                const colorKey = color.toLowerCase();
+                const translatedColorKey = translatedColor.toLowerCase();
+                return (
+                  <Link
+                    key={color}
+                    href={`/vari/${getSlugForEntity(color, locale as 'fi' | 'en' | 'sv', 'color')}`}
+                    className="rounded-lg border px-4 py-4 text-base font-medium text-green hover:bg-green/5 transition flex items-center gap-3"
+                  >
+                    <span
+                      className="h-5 w-5 rounded-full border border-gray-300 shrink-0"
+                      style={{
+                        backgroundColor:
+                          colorHexByAnyName[colorKey] ??
+                          colorHexByAnyName[translatedColorKey] ??
+                          '#D1D5DB',
+                      }}
+                      aria-hidden="true"
+                    />
+                    {translatedColor}
+                  </Link>
+                );
+              })(),
+            )}
           </div>
         </div>
       </div>
