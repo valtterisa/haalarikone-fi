@@ -36,7 +36,7 @@ export async function generateMetadata({
     keywords: [
       'haalarivärit',
       'opiskelijahaalarivärit',
-      'haalarivärit 2026',
+      'haalari värit',
       'kaikki haalarivärit',
       'opiskelijan haalariväri',
       'yliopiston haalarivärit',

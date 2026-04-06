@@ -94,8 +94,8 @@
     "title": "Overall Colors",
     "description": "Select an overall color to see all related overalls and institutions.",
     "notFound": "Color not found",
-    "pageTitle": "Overall Colors – Find which color each field wears | Overall Machine",
-    "pageDescription": "Search overall colors by field, institution or color. Over {count} colors – get your answer fast.",
+    "pageTitle": "Haalarikone | List of Finnish student overall colors",
+    "pageDescription": "List of Finnish student overall colors. Find overall colors by institution, field, or color.",
     "relatedTopics": "Related topics",
     "overallCount": "different overalls",
     "schoolCount": "different institutions"
@@ -206,4 +206,3 @@
     "overall": "overall"
   }
 }
-
