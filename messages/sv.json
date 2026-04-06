@@ -92,7 +92,7 @@
   },
   "colors": {
     "title": "Overallfärger",
-    "description": "Välj en overallfärg för att se alla relaterade overallar och institutioner.",
+    "description": "Lista för färg {color}. Totalt {count} olika overaller vid {schoolCount} olika institutioner.",
     "notFound": "Färg hittades inte",
     "pageTitle": "Haalarikone | Sökverktyg för finländska studentoverallfärger",
     "pageDescription": "Alla finländska studentoverallfärger. Välj en färg för att se relaterade overaller vid olika universitet och yrkeshögskolor.",
@@ -102,7 +102,7 @@
   },
   "universities": {
     "title": "Institutioner",
-    "description": "Välj en institution för att se dess overallfärger och studentorganisationsinformation.",
+    "description": "Lista för institution {university}. Totalt {count} olika overaller.",
     "notFound": "Institution hittades inte",
     "pageTitle": "Institutioner | Universitet och yrkeshögskolor i Finland | Overallmaskinen",
     "pageDescription": "Alla universitet och yrkeshögskolor i Finland. Välj en institution för att se dess overallfärger och studentorganisationsinformation.",
@@ -112,7 +112,7 @@
   "areas": {
     "title": "Områden",
     "notFound": "Område hittades inte",
-    "description": "Här är alla {area} områdets overallfärger i studentkulturen. Totalt {count} olika overallar vid {schoolCount} olika institutioner.",
+    "description": "Lista för område {area}. Totalt {count} olika overaller vid {schoolCount} olika institutioner.",
     "relatedTopics": "Relaterade ämnen",
     "overallCount": "olika overallar",
     "schoolCount": "olika institutioner"

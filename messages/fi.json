@@ -92,7 +92,7 @@
   },
   "colors": {
     "title": "Haalarivärit",
-    "description": "Selvitä missä oppilaitoksissa käytetään {color} haalaria. Tietokanta sisältää {count} eri haalaria {schoolCount} eri oppilaitoksella.",
+    "description": "Luettelo haalariväristä {color}. Yhteensä {count} eri haalaria {schoolCount} eri oppilaitoksessa.",
     "notFound": "Väri ei löytynyt",
     "pageTitle": "Haalarikone | Hakukone suomalaisten opiskelijahaalarien väreille",
     "pageDescription": "Kaikki suomalaisten opiskelijahaalarien värit. Valitse väri nähdäksesi siihen liittyvät haalarit eri yliopistoissa ja AMK:issa.",
@@ -102,7 +102,7 @@
   },
   "universities": {
     "title": "Oppilaitokset",
-    "description": "Selvitä kaikki {university} haalarivärit. Tietokanta sisältää {count} eri haalaria eri aloille ja ainejärjestöille.",
+    "description": "Luettelo oppilaitoksesta {university}. Yhteensä {count} eri haalaria.",
     "notFound": "Oppilaitos ei löytynyt",
     "pageTitle": "Oppilaitokset | Yliopistot ja AMK:t Suomessa | Haalarikone",
     "pageDescription": "Kaikki Suomen yliopistot ja ammattikorkeakoulut. Valitse oppilaitos nähdäksesi sen haalarivärit ja ainejärjestötiedot.",
@@ -112,7 +112,7 @@
   "areas": {
     "title": "Alueet",
     "notFound": "Alue ei löytynyt",
-    "description": "Tässä ovat kaikki {area} alueen haalarivärit opiskelijakulttuurissa. Yhteensä {count} eri haalaria {schoolCount} eri oppilaitoksella.",
+    "description": "Luettelo alueesta {area}. Yhteensä {count} eri haalaria {schoolCount} eri oppilaitoksessa.",
     "relatedTopics": "Liittyvät aiheet",
     "overallCount": "eri haalaria",
     "schoolCount": "eri oppilaitoksella"

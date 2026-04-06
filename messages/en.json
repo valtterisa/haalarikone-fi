@@ -92,7 +92,7 @@
   },
   "colors": {
     "title": "Overall Colors",
-    "description": "Select an overall color to see all related overalls and institutions.",
+    "description": "List for color {color}. A total of {count} different overalls at {schoolCount} different institutions.",
     "notFound": "Color not found",
     "pageTitle": "Haalarikone | Search engine for Finnish student overall colors",
     "pageDescription": "All Finnish student overall colors. Select a color to see related overalls at different universities and UAS.",
@@ -102,7 +102,7 @@
   },
   "universities": {
     "title": "Institutions",
-    "description": "Select an institution to see its overall colors and student organization information.",
+    "description": "List for institution {university}. A total of {count} different overalls.",
     "notFound": "Institution not found",
     "pageTitle": "Institutions | Universities and UAS in Finland | Overall Machine",
     "pageDescription": "All universities and universities of applied sciences in Finland. Select an institution to see its overall colors and student organization information.",
@@ -112,7 +112,7 @@
   "areas": {
     "title": "Areas",
     "notFound": "Area not found",
-    "description": "Here are all {area} area overall colors in student culture. Total {count} different overalls at {schoolCount} different institutions.",
+    "description": "List for area {area}. A total of {count} different overalls at {schoolCount} different institutions.",
     "relatedTopics": "Related topics",
     "overallCount": "different overalls",
     "schoolCount": "different institutions"
