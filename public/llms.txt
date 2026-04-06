@@ -1,0 +1,30 @@
+# Haalarikone Documentation
+
+## Site
+- [Home](https://haalarikone.fi/)
+- [Sitemap XML](https://haalarikone.fi/sitemap.xml)
+- [Robots](https://haalarikone.fi/robots.txt)
+
+## Locales
+- [Finnish (default)](https://haalarikone.fi/)
+- [English](https://haalarikone.fi/en)
+- [Swedish](https://haalarikone.fi/sv)
+
+## Main Sections
+- [Blog](https://haalarikone.fi/blog)
+- [Universities](https://haalarikone.fi/oppilaitos)
+- [Fields](https://haalarikone.fi/ala)
+- [Colors](https://haalarikone.fi/vari)
+
+## URL Patterns
+- `/{locale?}/blog/{slug}`
+- `/{locale?}/oppilaitos/{slug}`
+- `/{locale?}/ala/{slug}`
+- `/{locale?}/vari/{slug}`
+- `/{locale?}/alue/{slug}`
+- `/{locale?}/haalari/{id}`
+
+## Agent Crawl Guidance
+- Follow `robots.txt` directives.
+- Use `sitemap.xml` for discovery.
+- Prefer canonical public content pages.
