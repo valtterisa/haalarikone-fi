@@ -4959,22 +4959,7 @@
       "hex": ""
     }
   },
-  {
-    "id": "311",
-    "content": {
-      "vari": {
-        "label": "takki",
-        "base": []
-      },
-      "alue": "Espoo",
-      "ala": "visuaalisen viestinnän muotoilu",
-      "ainejärjestö": "GRRR",
-      "oppilaitos": "Aalto-yliopisto"
-    },
-    "metadata": {
-      "hex": ""
-    }
-  },
+
   {
     "id": "316",
     "content": {

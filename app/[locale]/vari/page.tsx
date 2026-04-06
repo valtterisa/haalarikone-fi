@@ -15,6 +15,7 @@ import { getUniqueColors } from '@/lib/get-unique-values';
 import { getSlugForEntity } from '@/lib/slug-translations';
 import VariSearchSection from '@/components/vari-search-section';
 import { getTranslations } from 'next-intl/server';
+import { parseHexFromMetadata } from '@/utils/color';
 
 export const revalidate = 3600;
 
@@ -81,6 +82,15 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
   const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
   const colorData = await loadColorData();
   const colors = getUniqueColors(universities).sort((a, b) => a.localeCompare(b, 'fi'));
+  const colorHexByName = new Map<string, string>();
+  for (const university of universities) {
+    const colorName = university.variLabel.toLowerCase().trim();
+    if (!colorName || colorHexByName.has(colorName)) continue;
+    const parsedHex = parseHexFromMetadata(university.hex);
+    if (parsedHex) {
+      colorHexByName.set(colorName, parsedHex);
+    }
+  }
   const t = await getTranslations({ locale });
 
   const breadcrumbSchema = {
@@ -160,8 +170,13 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
               <Link
                 key={color}
                 href={`/vari/${getSlugForEntity(color, locale as 'fi' | 'en' | 'sv', 'color')}`}
-                className="rounded-lg border px-4 py-3 font-medium text-green hover:bg-green/5 transition"
+                className="rounded-lg border px-4 py-4 text-base font-medium text-green hover:bg-green/5 transition flex items-center gap-3"
               >
+                <span
+                  className="h-5 w-5 rounded-full border border-gray-300 shrink-0"
+                  style={{ backgroundColor: colorHexByName.get(color.toLowerCase()) ?? '#D1D5DB' }}
+                  aria-hidden="true"
+                />
                 {color}
               </Link>
             ))}
