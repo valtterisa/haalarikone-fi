@@ -97,34 +97,38 @@ The search system uses a hybrid approach combining AI-powered query understandin
 
 ```mermaid
 flowchart TD
-    A[User Query] --> B[Query Understanding AI]
-    B --> C{Is Gibberish?}
-    C -->|Yes| D[Return Empty Results]
-    C -->|No| E[Extract Filters]
-    E --> F[Apply Deterministic Filters]
-    F --> G{Exact Matches Found?}
-    G -->|Yes| H[Return Exact Results]
-    G -->|No| I[Keyword Search Fallback]
-    I --> J[Filter Keyword Results]
-    J --> K{Filtered Results?}
-    K -->|Yes| L[Return Filtered Semantic Results]
-    K -->|No| M[Return Empty]
-    H --> N{Semantic Query?}
-    N -->|Yes| O[Rank by Semantic Relevance]
-    N -->|No| P[Sort Deterministically]
-    O --> Q[Return Final Results]
-    P --> Q
-    L --> Q
+    A[User Query] --> B[Check Redis Cache]
+    B -->|Cache Hit| G
+    B -->|Cache Miss| C{Simple Color Query?}
+    C -->|Yes| D[Parse Directly - no AI]
+    C -->|No| E[AI Query Understanding]
+    D --> F[Cache Result]
+    E --> F
+    F --> G{Is Gibberish?}
+    G -->|Yes| H[Return Empty Results]
+    G -->|No| I[Apply Deterministic Filters]
+    I --> J{Exact Matches Found?}
+    J -->|Yes| K[Sort by School then Field]
+    K --> L[Return Final Results]
+    J -->|No| M[Keyword Search Fallback]
+    M --> N{Keyword Results?}
+    N -->|No| O[Return Empty]
+    N -->|Yes| P[Filter Keyword Results]
+    P --> Q{Filtered Results?}
+    Q -->|Yes| R[Return Filtered Keyword Results]
+    Q -->|No| O
+    R --> L
 ```
 
 ### Search Flow
 
-1. **Query Understanding (AI)**
-   - Uses Anthropic Claude 3 Haiku to parse natural language queries
+1. **Query Understanding**
+   - First checks Redis cache for previously-seen queries (TTL: 1 hour)
+   - For simple 1–2 word queries that contain a recognizable color, parses directly without calling the AI
+   - Otherwise uses Anthropic Claude 3 Haiku to parse natural language queries
    - Extracts structured filters: color, area, field, school
    - Handles Finnish morphology (plural forms, case endings, genitive case)
    - Detects gibberish queries for early exit
-   - Returns remaining semantic query text for ranking
 
 2. **Deterministic Filtering**
    - Applies exact filters on local JSON dataset (~6000 records)
@@ -138,10 +142,9 @@ flowchart TD
    - Applies the same filters to keyword candidates
    - Ensures fallback results still match filter criteria
 
-4. **Ranking**
-   - If semantic query exists, ranks results by keyword relevance
-   - Otherwise, sorts deterministically (by school, then field)
-   - Exact matches are always prioritized
+4. **Sorting**
+   - Exact filter matches are always sorted deterministically (by school, then field)
+   - Keyword fallback results are returned in keyword-score order (highest relevance first)
 
 ### Key Benefits
 
