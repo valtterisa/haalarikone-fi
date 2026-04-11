@@ -36,6 +36,17 @@ const mockUniversities: University[] = [
     ainejärjestö: null,
     oppilaitos: 'Itä-Suomen yliopisto',
   },
+  {
+    id: 100,
+    vari: 'Hopeanharmaa',
+    variLabel: 'Hopeanharmaa',
+    variBase: ['harmaa'],
+    hex: '#c0c0c0',
+    alue: 'Joensuu',
+    ala: 'tietojenkäsittelytiede',
+    ainejärjestö: 'Skripti',
+    oppilaitos: 'Itä-Suomen yliopisto',
+  },
 ];
 
 vi.mock('./load-universities', () => ({
@@ -66,6 +77,7 @@ const baseQu: QueryUnderstanding = {
     area: undefined,
     field: undefined,
     school: undefined,
+    organization: undefined,
   },
   semanticQuery: '',
 };
@@ -107,11 +119,58 @@ describe('filterUniversities', () => {
           area: 'helsinki',
           field: 'FYSIIKKA',
           school: 'helsingin yliopisto',
+          organization: undefined,
         },
       },
       'fi',
     );
 
     expect(result.map((u) => u.id)).toEqual([1]);
+  });
+
+  it('filters by student organization (ainejärjestö) case-insensitively', async () => {
+    const result = await filterUniversities(
+      {
+        ...baseQu,
+        filters: {
+          ...baseQu.filters,
+          organization: 'fyysikko',
+        },
+      },
+      'fi',
+    );
+
+    expect(result.map((u) => u.id)).toEqual([1]);
+  });
+
+  it('returns no matches when organization filter does not match any row', async () => {
+    const result = await filterUniversities(
+      {
+        ...baseQu,
+        filters: {
+          ...baseQu.filters,
+          organization: 'Indecs',
+        },
+      },
+      'fi',
+    );
+
+    expect(result.map((u) => u.id)).toEqual([]);
+  });
+
+  it('drops a bogus field filter when organization matches but field would exclude all rows', async () => {
+    const result = await filterUniversities(
+      {
+        ...baseQu,
+        filters: {
+          ...baseQu.filters,
+          field: 'skri',
+          organization: 'Skripti',
+        },
+      },
+      'fi',
+    );
+
+    expect(result.map((u) => u.id)).toEqual([100]);
   });
 });

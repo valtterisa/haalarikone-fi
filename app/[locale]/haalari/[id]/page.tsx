@@ -13,7 +13,6 @@ import Script from 'next/script';
 import { parseStyles } from '@/lib/utils';
 import { getSlugForEntity } from '@/lib/slug-translations';
 import Image from 'next/image';
-import { FeedbackModal } from '@/components/feedback-modal';
 import { getTranslations } from 'next-intl/server';
 
 export const revalidate = 3600;
@@ -372,13 +371,14 @@ export default async function OverallPage({ params }: Props) {
           </div>
         )}
 
+        {/*
         <div className="bg-white rounded-xl border border-border/60 p-6 sm:p-8 mt-10">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
             <div className="flex-1">
               <h3 className="text-lg font-semibold text-foreground">{t('overall.errorTitle')}</h3>
               <p className="text-muted-foreground mt-1 text-sm">{t('overall.errorDescription')}</p>
             </div>
-            {/* <FeedbackModal
+            <FeedbackModal
               triggerLabel={t('overall.errorButton')}
               triggerClassName="bg-green text-white hover:bg-green/90 flex-shrink-0"
               triggerSize="default"
@@ -389,9 +389,10 @@ export default async function OverallPage({ params }: Props) {
               sourceName={`${overall.vari} - ${overall.oppilaitos}`}
               messageLabel={t('overall.errorLabel')}
               messagePlaceholder={t('overall.errorPlaceholder')}
-            /> */}
+            />
           </div>
         </div>
+        */}
       </div>
     </>
   );

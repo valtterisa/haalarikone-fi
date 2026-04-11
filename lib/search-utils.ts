@@ -1,4 +1,4 @@
-import type { University } from "@/types/university";
+import type { University } from '@/types/university';
 
 export type SearchResponse = {
   results: University[];
@@ -8,22 +8,23 @@ export type SearchResponse = {
     area?: string;
     field?: string;
     school?: string;
+    organization?: string;
   };
   semanticQuery?: string;
 };
 
 export async function searchUniversitiesAPI(
   query: string,
-  locale: 'fi' | 'en' | 'sv' = 'fi'
+  locale: 'fi' | 'en' | 'sv' = 'fi',
 ): Promise<University[]> {
   if (!query || query.trim().length < 3) {
     return [];
   }
 
   try {
-    const res = await fetch("/api/search", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const res = await fetch('/api/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query, locale }),
     });
 
@@ -31,7 +32,7 @@ export async function searchUniversitiesAPI(
       return [];
     }
 
-    const data = await res.json() as SearchResponse;
+    const data = (await res.json()) as SearchResponse;
     return data.results || [];
   } catch (error) {
     console.error('Search API error:', error);

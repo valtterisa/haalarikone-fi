@@ -2,6 +2,7 @@ import type { University } from '@/types/university';
 import { loadUniversities } from './load-universities';
 import type { QueryUnderstanding } from './query-understanding';
 import { loadColorData } from './load-color-data';
+import { filterUniversitiesWithFieldRelaxationWhenOrganizationSet } from './structured-search-filters';
 
 let universitiesCache: Map<string, University[]> = new Map();
 
@@ -25,47 +26,5 @@ export async function filterUniversities(
 
   const colorData = await loadColorData();
 
-  return allUniversities.filter((uni) => {
-    if (qu.filters.color) {
-      const colorLower = qu.filters.color.toLowerCase();
-      let matchedBaseColor: string | null = null;
-
-      for (const [baseKey, colorInfo] of Object.entries(colorData.colors)) {
-        const allVariants = [...colorInfo.main, ...colorInfo.shades];
-        if (allVariants.some((c) => c.toLowerCase() === colorLower)) {
-          matchedBaseColor = baseKey;
-          break;
-        }
-      }
-
-      if (matchedBaseColor) {
-        if (!uni.variBase?.includes(matchedBaseColor)) return false;
-      } else {
-        if (!uni.vari.toLowerCase().includes(colorLower)) return false;
-      }
-    }
-
-    if (qu.filters.area) {
-      const areaLower = qu.filters.area.toLowerCase();
-      if (!uni.alue.toLowerCase().includes(areaLower)) {
-        return false;
-      }
-    }
-
-    if (qu.filters.field) {
-      const fieldLower = qu.filters.field.toLowerCase();
-      if (!uni.ala?.toLowerCase().includes(fieldLower)) {
-        return false;
-      }
-    }
-
-    if (qu.filters.school) {
-      const schoolLower = qu.filters.school.toLowerCase();
-      if (!uni.oppilaitos.toLowerCase().includes(schoolLower)) {
-        return false;
-      }
-    }
-
-    return true;
-  });
+  return filterUniversitiesWithFieldRelaxationWhenOrganizationSet(allUniversities, qu, colorData);
 }

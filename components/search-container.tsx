@@ -11,6 +11,8 @@ import type { ColorData } from '@/lib/load-color-data';
 import { getUniqueAreas, getUniqueFields, getUniqueUniversities } from '@/lib/get-unique-values';
 import type { University } from '@/types/university';
 
+const TEXT_SEARCH_DEBOUNCE_MS = 1000;
+
 export type Criteria = {
   textSearch: string;
   color:
@@ -63,11 +65,14 @@ export default function SearchContainer({
     school: '',
   });
 
-  const [results, setResults] = useState<University[]>([]);
+  const [searchSourceUniversities, setSearchSourceUniversities] = useState<University[]>(
+    () => initialUniversities,
+  );
   const [hasSearched, setHasSearched] = useState(false);
+  const hasSearchedRef = useRef(hasSearched);
+  hasSearchedRef.current = hasSearched;
   const [isSearching, setIsSearching] = useState(false);
   const searchRequestIdRef = useRef(0);
-  const draftCountRequestIdRef = useRef(0);
   const hasActiveQuery =
     selectedCriteria.textSearch.trim().length >= 3 ||
     Boolean(
@@ -89,6 +94,24 @@ export default function SearchContainer({
       }),
     [initialUniversities],
   );
+
+  const [debouncedTextSearch, setDebouncedTextSearch] = useState('');
+
+  useEffect(() => {
+    const raw = selectedCriteria.textSearch;
+    const trimmed = raw.trim();
+    if (trimmed.length < 3) {
+      setDebouncedTextSearch(raw);
+      return undefined;
+    }
+    const timeoutId = setTimeout(() => {
+      setDebouncedTextSearch(raw);
+    }, TEXT_SEARCH_DEBOUNCE_MS);
+    return () => {
+      clearTimeout(timeoutId);
+      searchRequestIdRef.current += 1;
+    };
+  }, [selectedCriteria.textSearch]);
 
   const applyFilters = useCallback(
     (universities: University[]): University[] => {
@@ -124,22 +147,83 @@ export default function SearchContainer({
   const performSearch = useCallback(async () => {
     const currentRequestId = searchRequestIdRef.current + 1;
     searchRequestIdRef.current = currentRequestId;
-    let searchResults: University[] = [];
+    setIsSearching(true);
+    try {
+      let searchResults: University[] = [];
 
-    if (selectedCriteria.textSearch.trim().length >= 3) {
-      try {
-        searchResults = await searchUniversitiesAPI(selectedCriteria.textSearch.trim(), locale);
-      } catch (error) {
-        console.error('Search failed', error);
-        searchResults = [];
+      if (debouncedTextSearch.trim().length >= 3) {
+        try {
+          searchResults = await searchUniversitiesAPI(debouncedTextSearch.trim(), locale);
+        } catch (error) {
+          console.error('Search failed', error);
+          searchResults = [];
+        }
+      } else {
+        searchResults = initialUniversities;
       }
-    } else {
-      searchResults = initialUniversities;
+
+      if (searchRequestIdRef.current !== currentRequestId) {
+        return;
+      }
+      setSearchSourceUniversities(searchResults);
+      setHasSearched(true);
+    } finally {
+      if (searchRequestIdRef.current === currentRequestId) {
+        setIsSearching(false);
+      }
+    }
+  }, [debouncedTextSearch, initialUniversities, locale]);
+
+  const performSearchRef = useRef(performSearch);
+  performSearchRef.current = performSearch;
+
+  useEffect(() => {
+    const hasTextSearchLive = selectedCriteria.textSearch.trim().length >= 3;
+    const hasFilters =
+      selectedCriteria.color ||
+      selectedCriteria.area ||
+      selectedCriteria.field ||
+      selectedCriteria.school;
+    const hasTextSearchDebounced = debouncedTextSearch.trim().length >= 3;
+
+    if (hasSearchedRef.current && !hasTextSearchLive && !hasFilters) {
+      if (showResultsByDefault) {
+        setSearchSourceUniversities(sortedInitialUniversities);
+      } else {
+        setSearchSourceUniversities([]);
+        setHasSearched(false);
+      }
+      setIsSearching(false);
+      return undefined;
     }
 
-    const filteredResults = applyFilters(searchResults);
+    if (hasTextSearchDebounced || hasFilters) {
+      void performSearchRef.current();
+      return undefined;
+    }
 
-    const orderedResults = filteredResults.sort((a, b) => {
+    return undefined;
+  }, [
+    debouncedTextSearch,
+    selectedCriteria.textSearch,
+    selectedCriteria.color,
+    selectedCriteria.area,
+    selectedCriteria.field,
+    selectedCriteria.school,
+    showResultsByDefault,
+    sortedInitialUniversities,
+  ]);
+
+  useEffect(() => {
+    if (showResultsByDefault && !hasActiveQuery) {
+      setSearchSourceUniversities(sortedInitialUniversities);
+      setHasSearched(true);
+    }
+  }, [showResultsByDefault, hasActiveQuery, sortedInitialUniversities]);
+
+  const results = useMemo(() => {
+    const filtered = applyFilters(searchSourceUniversities);
+    return [...filtered].sort((a, b) => {
       if (a.oppilaitos === b.oppilaitos) {
         if (!a.ainejärjestö && !b.ainejärjestö) return 0;
         if (!a.ainejärjestö) return 1;
@@ -148,59 +232,7 @@ export default function SearchContainer({
       }
       return a.oppilaitos.localeCompare(b.oppilaitos);
     });
-
-    if (searchRequestIdRef.current !== currentRequestId) {
-      return;
-    }
-    setResults(orderedResults);
-    setHasSearched(true);
-    setIsSearching(false);
-  }, [selectedCriteria, applyFilters, initialUniversities, locale]);
-
-  useEffect(() => {
-    const hasTextSearch = selectedCriteria.textSearch.trim().length >= 3;
-    const hasFilters =
-      selectedCriteria.color ||
-      selectedCriteria.area ||
-      selectedCriteria.field ||
-      selectedCriteria.school;
-
-    // If user clears everything, either show defaults or hide
-    if (hasSearched && !hasTextSearch && !hasFilters) {
-      if (showResultsByDefault) {
-        setResults(sortedInitialUniversities);
-      } else {
-        setResults([]);
-        setHasSearched(false);
-      }
-      return;
-    }
-
-    // Only perform search if user has entered text or applied filters
-    if (hasTextSearch || hasFilters) {
-      setIsSearching(true);
-      const timeoutId = setTimeout(() => {
-        void performSearch();
-      }, 1000);
-
-      return () => {
-        clearTimeout(timeoutId);
-      };
-    }
-  }, [
-    performSearch,
-    selectedCriteria,
-    hasSearched,
-    showResultsByDefault,
-    sortedInitialUniversities,
-  ]);
-
-  useEffect(() => {
-    if (showResultsByDefault && !hasActiveQuery) {
-      setResults(sortedInitialUniversities);
-      setHasSearched(true);
-    }
-  }, [showResultsByDefault, hasActiveQuery, sortedInitialUniversities]);
+  }, [searchSourceUniversities, applyFilters]);
 
   const handleTextSearchChange = useCallback((textSearch: string) => {
     setSelectedCriteria((prev) => ({ ...prev, textSearch }));
@@ -235,60 +267,6 @@ export default function SearchContainer({
       school: '',
     });
   }, []);
-
-  const [draftFilterResultCount, setDraftFilterResultCount] = useState(0);
-
-  useEffect(() => {
-    const calculateDraftFilterResultCount = async () => {
-      const currentRequestId = draftCountRequestIdRef.current + 1;
-      draftCountRequestIdRef.current = currentRequestId;
-      let searchResults: University[] = [];
-
-      if (selectedCriteria.textSearch.trim().length >= 3) {
-        try {
-          searchResults = await searchUniversitiesAPI(selectedCriteria.textSearch.trim(), locale);
-        } catch (error) {
-          console.error('API search failed in draftFilterResultCount:', error);
-          searchResults = [];
-        }
-      } else {
-        searchResults = initialUniversities;
-      }
-
-      const filteredResults = searchResults.filter((uni) => {
-        const colorMatch = draftAdvancedFilters.color
-          ? (uni.variBase?.length ? uni.variBase.includes(draftAdvancedFilters.color) : true) &&
-            [
-              ...colorData.colors[draftAdvancedFilters.color].main,
-              ...colorData.colors[draftAdvancedFilters.color].shades,
-            ].some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()))
-          : true;
-        const areaMatch =
-          !draftAdvancedFilters.area ||
-          uni.alue.toLowerCase().includes(draftAdvancedFilters.area.toLowerCase());
-        const fieldMatch =
-          !draftAdvancedFilters.field ||
-          uni.ala?.toLowerCase().includes(draftAdvancedFilters.field.toLowerCase());
-        const schoolMatch =
-          !draftAdvancedFilters.school ||
-          uni.oppilaitos.toLowerCase().includes(draftAdvancedFilters.school.toLowerCase());
-        return colorMatch && areaMatch && fieldMatch && schoolMatch;
-      });
-
-      if (draftCountRequestIdRef.current !== currentRequestId) {
-        return;
-      }
-      setDraftFilterResultCount(filteredResults.length);
-    };
-
-    void calculateDraftFilterResultCount();
-  }, [
-    selectedCriteria.textSearch,
-    draftAdvancedFilters,
-    initialUniversities,
-    locale,
-    colorData.colors,
-  ]);
 
   useEffect(() => {
     setDraftAdvancedFilters({
@@ -333,6 +311,11 @@ export default function SearchContainer({
       return colorMatch && areaMatch && fieldMatch && schoolMatch;
     },
     [draftAdvancedFilters, colorData.colors],
+  );
+
+  const draftFilterResultCount = useMemo(
+    () => searchSourceUniversities.filter((uni) => matchesDraftFilters(uni)).length,
+    [searchSourceUniversities, matchesDraftFilters],
   );
 
   const areaOptions = useMemo(

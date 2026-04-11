@@ -2,6 +2,7 @@ import { understandQuery } from '@/lib/query-understanding';
 import { filterUniversities } from '@/lib/deterministic-filter';
 import { semanticSearch } from '@/lib/semantic-search';
 import { loadColorData } from '@/lib/load-color-data';
+import { filterUniversitiesWithFieldRelaxationWhenOrganizationSet } from '@/lib/structured-search-filters';
 import { NextResponse } from 'next/server';
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
@@ -82,46 +83,17 @@ export async function POST(req: Request) {
     let totalCount = exactCount;
 
     if (exactCount === 0) {
-      const semanticResults = await semanticSearch(query, locale, Number.POSITIVE_INFINITY);
+      const semanticResults = await semanticSearch(query, locale, Number.POSITIVE_INFINITY, {
+        organization: qu.filters.organization,
+      });
 
       if (semanticResults.length > 0) {
         const colorData = await loadColorData();
-        const filteredSemantic = semanticResults.filter((uni) => {
-          if (qu.filters.color) {
-            const colorLower = qu.filters.color.toLowerCase();
-            let matchedBaseColor: string | null = null;
-
-            for (const [baseKey, colorInfo] of Object.entries(colorData.colors)) {
-              const allVariants = [...colorInfo.main, ...colorInfo.shades];
-              if (allVariants.some((c) => c.toLowerCase() === colorLower)) {
-                matchedBaseColor = baseKey;
-                break;
-              }
-            }
-
-            if (matchedBaseColor) {
-              if (!uni.variBase?.includes(matchedBaseColor)) return false;
-            } else {
-              if (!uni.vari.toLowerCase().includes(colorLower)) return false;
-            }
-          }
-          if (qu.filters.area) {
-            if (!uni.alue.toLowerCase().includes(qu.filters.area.toLowerCase())) {
-              return false;
-            }
-          }
-          if (qu.filters.field) {
-            if (!uni.ala?.toLowerCase().includes(qu.filters.field.toLowerCase())) {
-              return false;
-            }
-          }
-          if (qu.filters.school) {
-            if (!uni.oppilaitos.toLowerCase().includes(qu.filters.school.toLowerCase())) {
-              return false;
-            }
-          }
-          return true;
-        });
+        const filteredSemantic = filterUniversitiesWithFieldRelaxationWhenOrganizationSet(
+          semanticResults,
+          qu,
+          colorData,
+        );
 
         if (filteredSemantic.length > 0) {
           candidates = filteredSemantic;

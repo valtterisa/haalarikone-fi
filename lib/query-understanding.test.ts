@@ -1,7 +1,7 @@
-import { describe, it, expect, vi } from "vitest";
-import type { QueryUnderstanding } from "./query-understanding";
+import { describe, it, expect, vi } from 'vitest';
+import type { QueryUnderstanding } from './query-understanding';
 
-vi.mock("@upstash/redis", () => {
+vi.mock('@upstash/redis', () => {
   const store = new Map<string, QueryUnderstanding>();
 
   return {
@@ -16,22 +16,22 @@ vi.mock("@upstash/redis", () => {
   };
 });
 
-vi.mock("./load-color-data", () => ({
+vi.mock('./load-color-data', () => ({
   loadColorData: async () => ({
     colors: {
       vihrea: {
-        main: ["vihreä"],
-        shades: ["tummanvihreä"],
+        main: ['vihreä'],
+        shades: ['tummanvihreä'],
       },
     },
   }),
 }));
 
-vi.mock("ai", () => ({
+vi.mock('ai', () => ({
   generateText: async (options: { prompt?: string }) => {
-    const prompt = String(options.prompt ?? "");
+    const prompt = String(options.prompt ?? '');
 
-    if (prompt.includes("asdf")) {
+    if (prompt.includes('asdf')) {
       return {
         output: {
           isGibberish: true,
@@ -40,8 +40,9 @@ vi.mock("ai", () => ({
             area: undefined,
             field: undefined,
             school: undefined,
+            organization: undefined,
           },
-          semanticQuery: "",
+          semanticQuery: '',
         },
       };
     }
@@ -51,11 +52,12 @@ vi.mock("ai", () => ({
         isGibberish: false,
         filters: {
           color: undefined,
-          area: "Tampere",
-          field: "insinööri",
+          area: 'Tampere',
+          field: 'insinööri',
           school: undefined,
+          organization: undefined,
         },
-        semanticQuery: "insinööri Tampere",
+        semanticQuery: 'insinööri Tampere',
       },
     };
   },
@@ -64,41 +66,42 @@ vi.mock("ai", () => ({
   },
 }));
 
-vi.mock("@ai-sdk/anthropic", () => ({
-  anthropic: () => "anthropic-mocked-model",
+vi.mock('@ai-sdk/anthropic', () => ({
+  anthropic: () => 'anthropic-mocked-model',
 }));
 
-import { understandQuery } from "./query-understanding";
+import { understandQuery } from './query-understanding';
 
-describe("understandQuery", () => {
-  it("extracts a color filter from simple color queries without treating them as gibberish", async () => {
-    const result = await understandQuery("  vihreä  ", "fi");
+describe('understandQuery', () => {
+  it('extracts a color filter from simple color queries without treating them as gibberish', async () => {
+    const result = await understandQuery('  vihreä  ', 'fi');
 
     expect(result.isGibberish).toBe(false);
-    expect(result.filters.color).toBe("vihreä");
+    expect(result.filters.color).toBe('vihreä');
     expect(result.filters.area).toBeUndefined();
     expect(result.filters.field).toBeUndefined();
     expect(result.filters.school).toBeUndefined();
+    expect(result.filters.organization).toBeUndefined();
   });
 
-  it("uses the AI pipeline to extract filters and semantic query for more complex queries", async () => {
-    const result = await understandQuery("insinöörit Tampereella", "fi");
+  it('uses the AI pipeline to extract filters and semantic query for more complex queries', async () => {
+    const result = await understandQuery('insinöörit Tampereella', 'fi');
 
     expect(result.isGibberish).toBe(false);
-    expect(result.filters.area).toBe("Tampere");
-    expect(result.filters.field).toBe("insinööri");
-    expect(result.semanticQuery).toBe("insinööri Tampere");
+    expect(result.filters.area).toBe('Tampere');
+    expect(result.filters.field).toBe('insinööri');
+    expect(result.semanticQuery).toBe('insinööri Tampere');
   });
 
-  it("marks clearly meaningless queries as gibberish", async () => {
-    const result = await understandQuery("asdf qwer zxcv", "fi");
+  it('marks clearly meaningless queries as gibberish', async () => {
+    const result = await understandQuery('asdf qwer zxcv', 'fi');
 
     expect(result.isGibberish).toBe(true);
     expect(result.filters.color).toBeUndefined();
     expect(result.filters.area).toBeUndefined();
     expect(result.filters.field).toBeUndefined();
     expect(result.filters.school).toBeUndefined();
-    expect(result.semanticQuery).toBe("");
+    expect(result.filters.organization).toBeUndefined();
+    expect(result.semanticQuery).toBe('');
   });
 });
-

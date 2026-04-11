@@ -1,18 +1,30 @@
 import type { University } from '@/types/university';
 import { loadUniversities } from './load-universities';
 
+export type SemanticSearchFilterContext = {
+  organization?: string;
+};
+
 export async function semanticSearch(
   query: string,
   locale: 'fi' | 'en' | 'sv' = 'fi',
   limit: number = 100,
+  filterContext?: SemanticSearchFilterContext,
 ): Promise<University[]> {
   if (!query.trim()) return [];
 
   const allUniversities = await loadUniversities(locale);
-  const queryWords = query
+  const baseWords = query
     .toLowerCase()
     .split(/\s+/)
     .filter((w) => w.length > 2);
+
+  const orgHint = filterContext?.organization?.trim().toLowerCase();
+  const queryWordsSet = new Set(baseWords);
+  if (orgHint && orgHint.length > 2) {
+    queryWordsSet.add(orgHint);
+  }
+  const queryWords = [...queryWordsSet];
 
   const scored = allUniversities
     .map((uni) => ({ uni, score: scoreUni(uni, queryWords) }))

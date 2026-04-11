@@ -36,6 +36,17 @@ const { mockUniversities } = vi.hoisted(() => {
       ainejärjestö: null,
       oppilaitos: 'Oulun yliopisto',
     },
+    {
+      id: 4,
+      vari: 'harmaa',
+      variLabel: 'harmaa',
+      variBase: ['harmaa'],
+      hex: '#ccc',
+      alue: 'Joensuu',
+      ala: 'tietojenkäsittelytiede',
+      ainejärjestö: 'Skripti',
+      oppilaitos: 'Itä-Suomen yliopisto',
+    },
   ];
   return { mockUniversities: list };
 });
@@ -80,11 +91,17 @@ describe('semanticSearch', () => {
   it('returns all scored results when limit is Infinity', async () => {
     const result = await semanticSearch('yliopisto', 'fi', Number.POSITIVE_INFINITY);
 
-    expect(result.length).toBe(3);
+    expect(result.length).toBe(4);
   });
 
   it('returns empty array when no universities match', async () => {
     const result = await semanticSearch('zzznomatch', 'fi', 10);
     expect(result).toEqual([]);
+  });
+
+  it('uses organization from filter context as an extra scoring token', async () => {
+    const result = await semanticSearch('xx', 'fi', 10, { organization: 'Skripti' });
+
+    expect(result.some((u) => u.id === 4)).toBe(true);
   });
 });

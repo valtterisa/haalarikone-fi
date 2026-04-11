@@ -2,33 +2,38 @@ import { generateText, Output } from 'ai';
 import { anthropic } from '@ai-sdk/anthropic';
 import { Redis } from '@upstash/redis';
 import { loadColorData } from './load-color-data';
+import { loadUniversities } from './load-universities';
+import { reconcileFieldOrganizationFilters } from './reconcile-field-organization';
 import { z } from 'zod';
+
+function trimmedFilterString(desc: string) {
+  return z
+    .string()
+    .nullish()
+    .transform((val) => {
+      if (val == null) return undefined;
+      const t = val.trim();
+      return t === '' ? undefined : t;
+    })
+    .describe(desc);
+}
 
 const QueryUnderstandingSchema = z.object({
   isGibberish: z.boolean().default(false).describe('True if query is meaningless or spam'),
   filters: z.object({
-    color: z
-      .string()
-      .nullish()
-      .transform((val) => val ?? undefined)
-      .describe(
-        'Color: valkoinen/musta/punainen/sininen/vihreä/keltainen/oranssi/violetti/pinkki/harmaa/ruskea/turkoosi',
-      ),
-    area: z
-      .string()
-      .nullish()
-      .transform((val) => val ?? undefined)
-      .describe('City/region: normalize case endings (Tampereella->Tampere, Kuopion->Kuopio)'),
-    field: z
-      .string()
-      .nullish()
-      .transform((val) => val ?? undefined)
-      .describe('Field: normalize plural (insinöörit->insinööri)'),
-    school: z
-      .string()
-      .nullish()
-      .transform((val) => val ?? undefined)
-      .describe('School/university name'),
+    color: trimmedFilterString(
+      'Color: valkoinen/musta/punainen/sininen/vihreä/keltainen/oranssi/violetti/pinkki/harmaa/ruskea/turkoosi',
+    ),
+    area: trimmedFilterString(
+      'City/region: normalize case endings (Tampereella->Tampere, Kuopion->Kuopio)',
+    ),
+    field: trimmedFilterString(
+      'Broad study discipline only (insinööri, lääketiede, fysiikka). Never guild/ainejärjestö brand names (Skripti, Indecs, *kilta) — those go in organization',
+    ),
+    school: trimmedFilterString('School/university name'),
+    organization: trimmedFilterString(
+      'Student subject organization / guild (ainejärjestö, kilta): e.g. Fyysikkokilta, Indecs; not the university name',
+    ),
   }),
   semanticQuery: z.string().default('').describe('Remaining text after extraction'),
 });
@@ -66,6 +71,7 @@ async function parseSimpleQuery(query: string): Promise<QueryUnderstanding | nul
         area: undefined,
         field: undefined,
         school: undefined,
+        organization: undefined,
       },
       semanticQuery: words.length === 2 ? words.find((w) => w !== detectedColor) || '' : '',
     };
@@ -118,13 +124,14 @@ export async function understandQuery(
     return simple;
   }
 
-  const systemPrompt = `Extract filters from Finnish student overall queries:
+  const systemPrompt = `Extract filters from student overall (haalari) queries (Finnish/English/Swedish):
 - color: valkoinen/musta/punainen/sininen/vihreä/keltainen/oranssi/violetti/pinkki/harmaa/ruskea/turkoosi (normalize: valkoiset->valkoinen, white->valkoinen)
 - area: cities (normalize: Tampereella->Tampere, Kuopion->Kuopio)
-- field: study fields (normalize: insinöörit->insinööri)
-- school: universities
+- field: ONLY generic academic disciplines (insinööri, lääketiede, oikeustiede, fysiikka, tietotekniikka). Normalize plural (insinöörit->insinööri). NEVER put subject-guild names, abbreviations, or coined org names here (e.g. Skripti, Indecs, PoRa, *kilta names).
+- school: universities (oppilaitos)
+- organization: student subject guild / ainejärjestö (e.g. Fyysikkokilta, Skripti, Indecs). If the user names something that is a guild rather than a broad discipline, use organization and leave field empty. Never set field to a short fragment of the query or of the guild name (e.g. query "skri" + org Skripti → field must stay empty).
 
-Return JSON: {isGibberish: boolean, filters: {color?, area?, field?, school?}, semanticQuery: string}`;
+Return JSON: {isGibberish: boolean, filters: {color?, area?, field?, school?, organization?}, semanticQuery: string}`;
 
   try {
     const result = await generateText({
@@ -141,24 +148,26 @@ Return JSON: {isGibberish: boolean, filters: {color?, area?, field?, school?}, s
     }
 
     const parsed = QueryUnderstandingSchema.parse(result.output);
+    const universities = await loadUniversities(locale);
+    const reconciled = reconcileFieldOrganizationFilters(parsed, universities);
 
     if (process.env.NODE_ENV !== 'test') {
       console.debug('[query-understanding]', {
         query: query.trim(),
         locale,
-        isGibberish: parsed.isGibberish,
-        filters: parsed.filters,
-        semanticQuery: parsed.semanticQuery,
+        isGibberish: reconciled.isGibberish,
+        filters: reconciled.filters,
+        semanticQuery: reconciled.semanticQuery,
       });
     }
 
     try {
-      await redis.setex(cacheKey, CACHE_TTL, parsed);
+      await redis.setex(cacheKey, CACHE_TTL, reconciled);
     } catch (error) {
       console.error('Cache write error:', error);
     }
 
-    return parsed;
+    return reconciled;
   } catch (error) {
     console.error('Query understanding error:', error);
     throw error;

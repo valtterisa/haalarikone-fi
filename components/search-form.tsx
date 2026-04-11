@@ -116,7 +116,6 @@ export default function SearchForm({
   const [commandOpen, setCommandOpen] = useState(false);
   const [localSearchValue, setLocalSearchValue] = useState(selectedCriteria.textSearch);
   const lastTrackedSearchRef = useRef<string>('');
-  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setLocalSearchValue(selectedCriteria.textSearch);
@@ -169,11 +168,7 @@ export default function SearchForm({
   }, [commandOpen]);
 
   useEffect(() => {
-    if (debounceTimeoutRef.current) {
-      clearTimeout(debounceTimeoutRef.current);
-    }
-
-    debounceTimeoutRef.current = setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       const wasEmpty = !lastTrackedSearchRef.current;
       const isEmpty = !localSearchValue.trim();
 
@@ -186,19 +181,14 @@ export default function SearchForm({
       } else if (isEmpty) {
         lastTrackedSearchRef.current = '';
       }
-
-      onTextSearchChange(localSearchValue);
     }, 300);
 
-    return () => {
-      if (debounceTimeoutRef.current) {
-        clearTimeout(debounceTimeoutRef.current);
-      }
-    };
-  }, [localSearchValue, onTextSearchChange]);
+    return () => clearTimeout(timeoutId);
+  }, [localSearchValue]);
 
   const handleTextSearchChange = (value: string) => {
     setLocalSearchValue(value);
+    onTextSearchChange(value);
   };
 
   const handleDraftChange = (field: 'color' | 'area' | 'field' | 'school', value: string) => {
