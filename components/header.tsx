@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { Link } from "@/i18n/routing";
-import { useState } from "react";
-import { Menu, X, Palette, Layers, GraduationCap, ChevronDown, Github } from "lucide-react";
-import Logo from "@/components/logo";
+import { Link } from '@/i18n/routing';
+import { useState } from 'react';
+import { Menu, X, Palette, Layers, GraduationCap, ChevronDown, Github } from 'lucide-react';
+import Logo from '@/components/logo';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from './language-switcher';
 import { useTranslatedRoutes } from '@/lib/use-translated-routes';
@@ -69,11 +69,8 @@ export default function Header() {
                 {dropdownLinks.map((link) => {
                   const Icon = link.icon;
                   return (
-                    <DropdownMenuItem key={`kategoriat-${link.href}`} asChild>
-                      <Link
-                        href={link.href}
-                        className="flex items-center gap-3 cursor-pointer"
-                      >
+                    <DropdownMenuItem key={`kategoriat-${link.label}`} asChild>
+                      <Link href={link.href} className="flex items-center gap-3 cursor-pointer">
                         <Icon className="h-4 w-4 text-muted-foreground" />
                         <span className="flex-1">{link.label}</span>
                       </Link>
@@ -84,7 +81,7 @@ export default function Header() {
             </DropdownMenu>
             {navLinks.map((link) => (
               <Link
-                key={link.href}
+                key={link.label}
                 href={link.href}
                 className="hover:text-green transition-colors"
               >
@@ -120,11 +117,7 @@ export default function Header() {
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen((prev) => !prev)}
             >
-              {mobileOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
+              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </nav>
@@ -137,16 +130,14 @@ export default function Header() {
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                       {tNav('navigate')}
                     </p>
-                    <p className="text-sm text-muted-foreground">
-                      {tNav('navigateDescription')}
-                    </p>
+                    <p className="text-sm text-muted-foreground">{tNav('navigateDescription')}</p>
                   </div>
                   <div className="grid gap-3">
                     {dropdownLinks.map((link) => {
                       const Icon = link.icon;
                       return (
                         <Link
-                          key={`mobile-dropdown-${link.href}`}
+                          key={`mobile-dropdown-${link.label}`}
                           href={link.href}
                           className="flex items-center justify-between rounded-2xl border border-border/60 bg-muted/30 px-4 py-3 text-foreground transition hover:border-green hover:bg-green/10"
                           onClick={closeMobileMenu}
@@ -156,17 +147,13 @@ export default function Header() {
                               <Icon className="h-4 w-4" />
                             </div>
                             <div className="flex flex-col">
-                              <span className="text-sm font-semibold">
-                                {link.label}
-                              </span>
+                              <span className="text-sm font-semibold">{link.label}</span>
                               <span className="text-xs text-muted-foreground">
                                 {link.description}
                               </span>
                             </div>
                           </div>
-                          <span className="text-lg text-muted-foreground">
-                            ↗
-                          </span>
+                          <span className="text-lg text-muted-foreground">↗</span>
                         </Link>
                       );
                     })}

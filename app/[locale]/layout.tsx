@@ -4,8 +4,9 @@ import { Databuddy } from '@databuddy/sdk/react';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { routing } from '@/i18n/routing';
+import { getPathname, routing } from '@/i18n/routing';
 import { getTranslations } from 'next-intl/server';
+import { SITE_ORIGIN } from '@/lib/site-url';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -22,8 +23,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
   const t = await getTranslations({ locale, namespace: 'meta' });
 
+  const absoluteHome = (loc: typeof locale) =>
+    `${SITE_ORIGIN}${getPathname({ locale: loc, href: '/' })}`;
+
   return {
-    metadataBase: new URL('https://haalarikone.fi'),
+    metadataBase: new URL(SITE_ORIGIN),
     title: t('defaultTitle'),
     description: t('defaultDescription'),
     keywords: [
@@ -64,7 +68,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       type: 'website',
       siteName: t('siteName'),
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: `https://haalarikone.fi${locale === 'fi' ? '' : `/${locale}`}`,
+      url: absoluteHome(locale),
     },
     twitter: {
       card: 'summary_large_image',
@@ -73,11 +77,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: `https://haalarikone.fi${locale === 'fi' ? '' : `/${locale}`}`,
+      canonical: absoluteHome(locale),
       languages: {
-        fi: 'https://haalarikone.fi',
-        en: 'https://haalarikone.fi/en',
-        sv: 'https://haalarikone.fi/sv',
+        fi: absoluteHome('fi'),
+        en: absoluteHome('en'),
+        sv: absoluteHome('sv'),
       },
     },
   };

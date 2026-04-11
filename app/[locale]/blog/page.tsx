@@ -11,6 +11,11 @@ import {
 import Script from 'next/script';
 import { loadBlogPosts } from '@/lib/load-blog-posts';
 import { getTranslations } from 'next-intl/server';
+import {
+  absoluteTranslatedRoute,
+  alternateLanguageUrls,
+  routeHref,
+} from '@/lib/use-translated-routes';
 
 export const revalidate = 86400;
 
@@ -21,8 +26,6 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'blog' });
-  const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
-
   return {
     title: t('pageTitle'),
     description: t('pageDescription'),
@@ -40,15 +43,11 @@ export async function generateMetadata({
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: `${baseUrl}/blog`,
+      url: absoluteTranslatedRoute('blog', locale),
     },
     alternates: {
-      canonical: `${baseUrl}/blog`,
-      languages: {
-        fi: 'https://haalarikone.fi/blog',
-        en: 'https://haalarikone.fi/en/blog',
-        sv: 'https://haalarikone.fi/sv/blog',
-      },
+      canonical: absoluteTranslatedRoute('blog', locale),
+      languages: alternateLanguageUrls('blog'),
     },
   };
 }
@@ -67,14 +66,13 @@ export default async function BlogPage({
   const { locale } = await params;
   const posts = await loadBlogPosts(locale);
   const t = await getTranslations({ locale });
-  const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
 
   const collectionPageSchema = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: t('blog.pageTitle'),
     description: t('blog.pageDescription'),
-    url: `${baseUrl}/blog`,
+    url: absoluteTranslatedRoute('blog', locale),
   };
 
   const breadcrumbSchema = {
@@ -85,13 +83,13 @@ export default async function BlogPage({
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: baseUrl,
+        item: absoluteTranslatedRoute('overall', locale),
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: t('blog.title'),
-        item: `${baseUrl}/blog`,
+        item: absoluteTranslatedRoute('blog', locale),
       },
     ],
   };
@@ -163,7 +161,7 @@ export default async function BlogPage({
                   key={post.slug}
                   className="border rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition"
                 >
-                  <Link href={`/blog/${post.slug}`}>
+                  <Link href={routeHref('blog', post.slug)}>
                     <h2 className="text-2xl font-bold mb-2 hover:text-green transition">
                       {titleString}
                     </h2>
@@ -190,7 +188,7 @@ export default async function BlogPage({
                     </span>
                   </div>
                   <Link
-                    href={`/blog/${post.slug}`}
+                    href={routeHref('blog', post.slug)}
                     className="inline-block mt-4 text-green hover:underline font-medium"
                   >
                     {t('common.readMore')} →

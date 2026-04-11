@@ -5,7 +5,9 @@ import FAQSchema from '@/components/faq-schema';
 import Script from 'next/script';
 import { FeedbackModal } from '@/components/feedback-modal';
 import { getTranslations } from 'next-intl/server';
-import { Link } from '@/i18n/routing';
+import { getPathname, Link } from '@/i18n/routing';
+import { SITE_ORIGIN } from '@/lib/site-url';
+import type { Locale } from '@/lib/slug-translations';
 import { Palette, Layers, GraduationCap, BookOpen } from 'lucide-react';
 
 export const revalidate = 86400;
@@ -25,18 +27,20 @@ export default async function Index({ params }: { params: Promise<{ locale: stri
   const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
   const colorData = await loadColorData();
   const t = await getTranslations({ locale });
+  const loc = locale as Locale;
+  const homeUrl = `${SITE_ORIGIN}${getPathname({ locale: loc, href: '/' })}`;
 
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: t('meta.siteName'),
-    url: 'https://haalarikone.fi',
+    url: homeUrl,
     description: t('home.description'),
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `https://haalarikone.fi${locale === 'fi' ? '' : `/${locale}`}?search={search_term_string}`,
+        urlTemplate: `${homeUrl}?search={search_term_string}`,
       },
       'query-input': 'required name=search_term_string',
     },
@@ -46,11 +50,11 @@ export default async function Index({ params }: { params: Promise<{ locale: stri
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: t('meta.siteName'),
-    url: 'https://haalarikone.fi',
+    url: SITE_ORIGIN,
     description: t('home.description'),
     logo: {
       '@type': 'ImageObject',
-      url: 'https://haalarikone.fi/haalarikone-og.png',
+      url: `${SITE_ORIGIN}/haalarikone-og.png`,
       width: 1200,
       height: 630,
     },

@@ -15,17 +15,22 @@ import { getUniqueUniversities } from '@/lib/get-unique-values';
 import { getSlugForEntity } from '@/lib/slug-translations';
 import UniversitySearchSection from '@/components/university-search-section';
 import { getTranslations } from 'next-intl/server';
+import type { Locale } from '@/lib/slug-translations';
+import {
+  absoluteTranslatedRoute,
+  alternateLanguageUrls,
+  routeHref,
+} from '@/lib/use-translated-routes';
 
 export const revalidate = 86400;
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'universities' });
-  const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
 
   return {
     title: t('pageTitle'),
@@ -53,7 +58,7 @@ export async function generateMetadata({
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: `${baseUrl}/oppilaitos`,
+      url: absoluteTranslatedRoute('universities', locale),
     },
     twitter: {
       card: 'summary_large_image',
@@ -62,12 +67,8 @@ export async function generateMetadata({
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: `${baseUrl}/oppilaitos`,
-      languages: {
-        fi: 'https://haalarikone.fi/oppilaitos',
-        en: 'https://haalarikone.fi/en/oppilaitos',
-        sv: 'https://haalarikone.fi/sv/oppilaitos',
-      },
+      canonical: absoluteTranslatedRoute('universities', locale),
+      languages: alternateLanguageUrls('universities'),
     },
   };
 }
@@ -75,10 +76,10 @@ export async function generateMetadata({
 export default async function UniversityIndexPage({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: Locale }>;
 }) {
   const { locale } = await params;
-  const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
+  const universities = await loadUniversities(locale);
   const colorData = await loadColorData();
   const unique = getUniqueUniversities(universities).sort((a, b) => a.localeCompare(b, 'fi'));
   const t = await getTranslations({ locale });
@@ -91,16 +92,13 @@ export default async function UniversityIndexPage({
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`,
+        item: absoluteTranslatedRoute('overall', locale),
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: t('universities.title'),
-        item:
-          locale === 'fi'
-            ? 'https://haalarikone.fi/oppilaitos'
-            : `https://haalarikone.fi/${locale}/oppilaitos`,
+        item: absoluteTranslatedRoute('universities', locale),
       },
     ],
   };
@@ -115,10 +113,11 @@ export default async function UniversityIndexPage({
       '@type': 'ListItem',
       position: index + 1,
       name: uni,
-      url:
-        locale === 'fi'
-          ? `https://haalarikone.fi/oppilaitos/${getSlugForEntity(uni, 'fi', 'university')}`
-          : `https://haalarikone.fi/${locale}/oppilaitos/${getSlugForEntity(uni, locale as 'fi' | 'en' | 'sv', 'university')}`,
+      url: absoluteTranslatedRoute(
+        'universities',
+        locale,
+        getSlugForEntity(uni, locale, 'university'),
+      ),
     })),
   };
 
@@ -158,7 +157,7 @@ export default async function UniversityIndexPage({
             {unique.map((uni) => (
               <Link
                 key={uni}
-                href={`/oppilaitos/${getSlugForEntity(uni, locale as 'fi' | 'en' | 'sv', 'university')}`}
+                href={routeHref('universities', getSlugForEntity(uni, locale, 'university'))}
                 className="rounded-lg border px-4 py-3 font-medium text-green hover:bg-green/5"
               >
                 {uni}

@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { SITE_ORIGIN } from '@/lib/site-url';
 
 export default function robots(): MetadataRoute.Robots {
   const disallow = ['/protected/', '/auth/', '/api/'];
@@ -20,7 +21,7 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: 'PerplexityBot', allow: '/', disallow },
       { userAgent: 'Applebot-Extended', allow: '/', disallow },
     ],
-    sitemap: ['https://haalarikone.fi/sitemap.xml'],
-    host: 'https://haalarikone.fi',
+    sitemap: [`${SITE_ORIGIN}/sitemap.xml`],
+    host: SITE_ORIGIN,
   };
 }

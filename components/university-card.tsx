@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { parseStyles } from '@/lib/utils';
 import { getFinnishName } from '@/lib/get-finnish-name';
 import type { University } from '@/types/university';
+import type { Locale } from '@/lib/slug-translations';
 import { useLocale } from 'next-intl';
 import { useTranslations } from 'next-intl';
 import { useTranslatedRoutes } from '@/lib/use-translated-routes';
@@ -14,7 +15,7 @@ interface UniversityCardProps {
 }
 
 export default function UniversityCard({ uni }: UniversityCardProps) {
-  const locale = useLocale() as 'fi' | 'en' | 'sv';
+  const locale: Locale = useLocale() as Locale;
   const t = useTranslations('overall');
   const routes = useTranslatedRoutes();
 

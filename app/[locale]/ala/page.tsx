@@ -15,17 +15,22 @@ import { getUniqueFields, getUniqueUniversities } from '@/lib/get-unique-values'
 import { getSlugForEntity, getEntityTranslation } from '@/lib/slug-translations';
 import FieldSearchSection from '@/components/field-search-section';
 import { getTranslations } from 'next-intl/server';
+import type { Locale } from '@/lib/slug-translations';
+import {
+  absoluteTranslatedRoute,
+  alternateLanguageUrls,
+  routeHref,
+} from '@/lib/use-translated-routes';
 
 export const revalidate = 86400;
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'fields' });
-  const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
 
   return {
     title: t('pageTitle'),
@@ -53,7 +58,7 @@ export async function generateMetadata({
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: `${baseUrl}/ala`,
+      url: absoluteTranslatedRoute('fields', locale),
     },
     twitter: {
       card: 'summary_large_image',
@@ -62,25 +67,21 @@ export async function generateMetadata({
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: `${baseUrl}/ala`,
-      languages: {
-        fi: 'https://haalarikone.fi/ala',
-        en: 'https://haalarikone.fi/en/ala',
-        sv: 'https://haalarikone.fi/sv/ala',
-      },
+      canonical: absoluteTranslatedRoute('fields', locale),
+      languages: alternateLanguageUrls('fields'),
     },
   };
 }
 
-export default async function FieldIndexPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function FieldIndexPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
-  const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
+  const universities = await loadUniversities(locale);
   const colorData = await loadColorData();
   const uniqueFields = getUniqueFields(universities);
   const fieldsWithTranslations = uniqueFields
     .map((field) => ({
       finnishName: field,
-      translatedName: getEntityTranslation(field, locale as 'fi' | 'en' | 'sv', 'field'),
+      translatedName: getEntityTranslation(field, locale, 'field'),
     }))
     .sort((a, b) => a.translatedName.localeCompare(b.translatedName, locale));
   const t = await getTranslations({ locale });
@@ -97,14 +98,13 @@ export default async function FieldIndexPage({ params }: { params: Promise<{ loc
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`,
+        item: absoluteTranslatedRoute('overall', locale),
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: t('fields.title'),
-        item:
-          locale === 'fi' ? 'https://haalarikone.fi/ala' : `https://haalarikone.fi/${locale}/ala`,
+        item: absoluteTranslatedRoute('fields', locale),
       },
     ],
   };
@@ -119,10 +119,11 @@ export default async function FieldIndexPage({ params }: { params: Promise<{ loc
       '@type': 'ListItem',
       position: index + 1,
       name: field.translatedName,
-      url:
-        locale === 'fi'
-          ? `https://haalarikone.fi/ala/${getSlugForEntity(field.finnishName, 'fi', 'field')}`
-          : `https://haalarikone.fi/${locale}/ala/${getSlugForEntity(field.finnishName, locale as 'fi' | 'en' | 'sv', 'field')}`,
+      url: absoluteTranslatedRoute(
+        'fields',
+        locale,
+        getSlugForEntity(field.finnishName, locale, 'field'),
+      ),
     })),
   };
 
@@ -164,7 +165,7 @@ export default async function FieldIndexPage({ params }: { params: Promise<{ loc
             {fieldsWithTranslations.map((field) => (
               <Link
                 key={field.finnishName}
-                href={`/ala/${getSlugForEntity(field.finnishName, locale as 'fi' | 'en' | 'sv', 'field')}`}
+                href={routeHref('fields', getSlugForEntity(field.finnishName, locale, 'field'))}
                 className="rounded-lg border px-4 py-3 font-medium text-green hover:bg-green/5"
               >
                 {field.translatedName}

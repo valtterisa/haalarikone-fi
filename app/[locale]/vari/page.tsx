@@ -15,18 +15,23 @@ import { getUniqueColors } from '@/lib/get-unique-values';
 import { getEntityTranslation, getSlugForEntity } from '@/lib/slug-translations';
 import VariSearchSection from '@/components/vari-search-section';
 import { getTranslations } from 'next-intl/server';
+import type { Locale } from '@/lib/slug-translations';
+import {
+  absoluteTranslatedRoute,
+  alternateLanguageUrls,
+  routeHref,
+} from '@/lib/use-translated-routes';
 
 export const revalidate = 86400;
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'colors' });
-  const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
-  const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
+  const universities = await loadUniversities(locale);
   const colorCount = getUniqueColors(universities).length;
   const description = t('pageDescription', { count: colorCount });
 
@@ -57,7 +62,7 @@ export async function generateMetadata({
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: `${baseUrl}/vari`,
+      url: absoluteTranslatedRoute('colors', locale),
     },
     twitter: {
       card: 'summary_large_image',
@@ -66,19 +71,15 @@ export async function generateMetadata({
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: `${baseUrl}/vari`,
-      languages: {
-        fi: 'https://haalarikone.fi/vari',
-        en: 'https://haalarikone.fi/en/vari',
-        sv: 'https://haalarikone.fi/sv/vari',
-      },
+      canonical: absoluteTranslatedRoute('colors', locale),
+      languages: alternateLanguageUrls('colors'),
     },
   };
 }
 
-export default async function ColorIndexPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function ColorIndexPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
-  const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
+  const universities = await loadUniversities(locale);
   const colorData = await loadColorData();
   const colors = getUniqueColors(universities).sort((a, b) => a.localeCompare(b, 'fi'));
   const colorHexByAnyName = colorData.hexByAlias ?? {};
@@ -92,14 +93,13 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`,
+        item: absoluteTranslatedRoute('overall', locale),
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: t('colors.title'),
-        item:
-          locale === 'fi' ? 'https://haalarikone.fi/vari' : `https://haalarikone.fi/${locale}/vari`,
+        item: absoluteTranslatedRoute('colors', locale),
       },
     ],
   };
@@ -114,10 +114,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
       '@type': 'ListItem',
       position: index + 1,
       name: color,
-      url:
-        locale === 'fi'
-          ? `https://haalarikone.fi/vari/${getSlugForEntity(color, 'fi', 'color')}`
-          : `https://haalarikone.fi/${locale}/vari/${getSlugForEntity(color, locale as 'fi' | 'en' | 'sv', 'color')}`,
+      url: absoluteTranslatedRoute('colors', locale, getSlugForEntity(color, locale, 'color')),
     })),
   };
 
@@ -159,17 +156,13 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
           <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3">
             {colors.map((color) =>
               (() => {
-                const translatedColor = getEntityTranslation(
-                  color,
-                  locale as 'fi' | 'en' | 'sv',
-                  'color',
-                );
+                const translatedColor = getEntityTranslation(color, locale, 'color');
                 const colorKey = color.toLowerCase();
                 const translatedColorKey = translatedColor.toLowerCase();
                 return (
                   <Link
                     key={color}
-                    href={`/vari/${getSlugForEntity(color, locale as 'fi' | 'en' | 'sv', 'color')}`}
+                    href={routeHref('colors', getSlugForEntity(color, locale, 'color'))}
                     className="rounded-lg border px-4 py-4 text-base font-medium text-green hover:bg-green/5 transition flex items-center gap-3"
                   >
                     <span

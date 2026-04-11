@@ -16,7 +16,8 @@ import Script from 'next/script';
 import UniversityCard from '@/components/university-card';
 import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
-import { getTranslatedRoute } from '@/lib/use-translated-routes';
+import { getTranslatedRoute, routeHref } from '@/lib/use-translated-routes';
+import { localeSiteBaseUrl } from '@/lib/site-url';
 
 export const revalidate = 86400;
 
@@ -63,7 +64,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale });
   const translatedUniversity = getEntityTranslation(university, locale, 'university');
   const capitalizedUniversity = capitalizeFirstLetter(translatedUniversity);
-  const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
+  const baseUrl = localeSiteBaseUrl(locale);
+  const universitySlug = getSlugForEntity(university, locale, 'university');
 
   return {
     title: `${capitalizedUniversity} - ${t('colors.title')} | Haalarikone`,
@@ -97,7 +99,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: `${baseUrl}/oppilaitos/${getSlugForEntity(university, locale as 'fi' | 'en' | 'sv', 'university')}`,
+      url: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('universities', locale, universitySlug)}`,
     },
     twitter: {
       card: 'summary_large_image',
@@ -109,11 +111,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: `${baseUrl}/oppilaitos/${getSlugForEntity(university, locale as 'fi' | 'en' | 'sv', 'university')}`,
+      canonical: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('universities', locale, universitySlug)}`,
       languages: {
-        fi: `https://haalarikone.fi/oppilaitos/${getSlugForEntity(university, 'fi', 'university')}`,
-        en: `https://haalarikone.fi/en/oppilaitos/${getSlugForEntity(university, 'en', 'university')}`,
-        sv: `https://haalarikone.fi/sv/oppilaitos/${getSlugForEntity(university, 'sv', 'university')}`,
+        fi: `${localeSiteBaseUrl('fi')}${getTranslatedRoute('universities', 'fi', getSlugForEntity(university, 'fi', 'university'))}`,
+        en: `${localeSiteBaseUrl('en')}${getTranslatedRoute('universities', 'en', getSlugForEntity(university, 'en', 'university'))}`,
+        sv: `${localeSiteBaseUrl('sv')}${getTranslatedRoute('universities', 'sv', getSlugForEntity(university, 'sv', 'university'))}`,
       },
     },
   };
@@ -154,7 +156,7 @@ export default async function UniversityPage({ params }: Props) {
     'university',
   );
   const capitalizedUniversity = capitalizeFirstLetter(translatedUniversity);
-  const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
+  const baseUrl = localeSiteBaseUrl(locale);
 
   const organizationSchema = {
     '@context': 'https://schema.org',
@@ -164,7 +166,7 @@ export default async function UniversityPage({ params }: Props) {
       university: capitalizedUniversity,
       count: universityData.length,
     }),
-    url: `${baseUrl}/oppilaitos/${getSlugForEntity(university, locale as 'fi' | 'en' | 'sv', 'university')}`,
+    url: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('universities', locale, getSlugForEntity(university, locale, 'university'))}`,
   };
 
   const itemListSchema = {
@@ -179,7 +181,7 @@ export default async function UniversityPage({ params }: Props) {
     itemListElement: universityData.slice(0, 50).map((uni, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      item: `${baseUrl}${getTranslatedRoute('overall', locale as 'fi' | 'en' | 'sv', uni.slug)}`,
+      item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('overall', locale, uni.slug)}`,
     })),
   };
 
@@ -197,7 +199,7 @@ export default async function UniversityPage({ params }: Props) {
         '@type': 'ListItem',
         position: 2,
         name: capitalizedUniversity,
-        item: `${baseUrl}/oppilaitos/${slug}`,
+        item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('universities', locale, slug)}`,
       },
     ],
   };
@@ -268,7 +270,7 @@ export default async function UniversityPage({ params }: Props) {
             {fields.slice(0, 10).map((field) => (
               <Link
                 key={field}
-                href={`/ala/${getSlugForEntity(field, locale as 'fi' | 'en' | 'sv', 'field')}`}
+                href={routeHref('fields', getSlugForEntity(field, locale, 'field'))}
                 className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition"
               >
                 {field}
@@ -277,7 +279,7 @@ export default async function UniversityPage({ params }: Props) {
             {colors.slice(0, 5).map((color) => (
               <Link
                 key={color}
-                href={`/vari/${getSlugForEntity(color, locale as 'fi' | 'en' | 'sv', 'color')}`}
+                href={routeHref('colors', getSlugForEntity(color, locale, 'color'))}
                 className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition"
               >
                 {color}

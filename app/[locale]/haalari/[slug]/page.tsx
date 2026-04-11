@@ -14,13 +14,14 @@ import { parseStyles } from '@/lib/utils';
 import { getSlugForEntity } from '@/lib/slug-translations';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
-import { getTranslatedRoute } from '@/lib/use-translated-routes';
+import { getTranslatedRoute, routeHref } from '@/lib/use-translated-routes';
 import type { Locale } from '@/lib/slug-translations';
+import { localeSiteBaseUrl } from '@/lib/site-url';
 
 export const revalidate = 86400;
 
 type Props = {
-  params: Promise<{ locale: string; slug: string }>;
+  params: Promise<{ locale: Locale; slug: string }>;
 };
 
 export async function generateStaticParams() {
@@ -39,7 +40,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const universities = await loadUniversities(locale as Locale);
+  const universities = await loadUniversities(locale);
   const overall = universities.find((u) => u.slug === slug);
 
   if (!overall) {
@@ -50,9 +51,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const t = await getTranslations({ locale });
-  const loc = locale as Locale;
-  const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
-  const path = getTranslatedRoute('overall', loc, overall.slug);
+  const baseUrl = localeSiteBaseUrl(locale);
+  const overallPageUrl = `${localeSiteBaseUrl(locale)}${getTranslatedRoute('overall', locale, overall.slug)}`;
 
   const keywords = [
     `${overall.vari} haalari`,
@@ -97,7 +97,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: `${baseUrl}${path}`,
+      url: overallPageUrl,
     },
     twitter: {
       card: 'summary_large_image',
@@ -106,11 +106,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: `${baseUrl}${path}`,
+      canonical: overallPageUrl,
       languages: {
-        fi: `https://haalarikone.fi${getTranslatedRoute('overall', 'fi', overall.slug)}`,
-        en: `https://haalarikone.fi${getTranslatedRoute('overall', 'en', overall.slug)}`,
-        sv: `https://haalarikone.fi${getTranslatedRoute('overall', 'sv', overall.slug)}`,
+        fi: `${localeSiteBaseUrl('fi')}${getTranslatedRoute('overall', 'fi', overall.slug)}`,
+        en: `${localeSiteBaseUrl('en')}${getTranslatedRoute('overall', 'en', overall.slug)}`,
+        sv: `${localeSiteBaseUrl('sv')}${getTranslatedRoute('overall', 'sv', overall.slug)}`,
       },
     },
   };
@@ -118,10 +118,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function OverallPage({ params }: Props) {
   const { locale, slug } = await params;
-  const universities = await loadUniversities(locale as Locale);
+  const universities = await loadUniversities(locale);
   const overall = universities.find((u) => u.slug === slug);
   const t = await getTranslations({ locale });
-  const loc = locale as Locale;
 
   if (!overall) {
     return (
@@ -138,8 +137,7 @@ export default async function OverallPage({ params }: Props) {
     .filter((u) => u.oppilaitos === overall.oppilaitos && u.id !== overall.id)
     .slice(0, 5);
 
-  const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
-  const overallPath = getTranslatedRoute('overall', loc, overall.slug);
+  const baseUrl = localeSiteBaseUrl(locale);
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -155,13 +153,13 @@ export default async function OverallPage({ params }: Props) {
         '@type': 'ListItem',
         position: 2,
         name: overall.oppilaitos,
-        item: `${baseUrl}/oppilaitos/${getSlugForEntity(overall.oppilaitos, loc, 'university')}`,
+        item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('universities', locale, getSlugForEntity(overall.oppilaitos, locale, 'university'))}`,
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: `${overall.vari} haalari`,
-        item: `${baseUrl}${overallPath}`,
+        item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('overall', locale, overall.slug)}`,
       },
     ],
   };
@@ -186,14 +184,17 @@ export default async function OverallPage({ params }: Props) {
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href="/oppilaitos">{t('universities.title')}</Link>
+                <Link href={routeHref('universities')}>{t('universities.title')}</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
                 <Link
-                  href={`/oppilaitos/${getSlugForEntity(overall.oppilaitos, loc, 'university')}`}
+                  href={routeHref(
+                    'universities',
+                    getSlugForEntity(overall.oppilaitos, locale, 'university'),
+                  )}
                 >
                   {overall.oppilaitos}
                 </Link>
@@ -247,7 +248,7 @@ export default async function OverallPage({ params }: Props) {
             <div className="mt-6 sm:mt-8 grid gap-5 sm:gap-6">
               <div className="flex flex-wrap gap-2">
                 <Link
-                  href={`/vari/${getSlugForEntity(overall.vari, loc, 'color')}`}
+                  href={routeHref('colors', getSlugForEntity(overall.vari, locale, 'color'))}
                   className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-secondary text-foreground hover:bg-green/15 hover:text-green border border-border/50 hover:border-green/30"
                 >
                   <span
@@ -257,7 +258,10 @@ export default async function OverallPage({ params }: Props) {
                   {overall.vari}
                 </Link>
                 <Link
-                  href={`/oppilaitos/${getSlugForEntity(overall.oppilaitos, loc, 'university')}`}
+                  href={routeHref(
+                    'universities',
+                    getSlugForEntity(overall.oppilaitos, locale, 'university'),
+                  )}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-secondary text-foreground hover:bg-green/15 hover:text-green border border-border/50 hover:border-green/30"
                 >
                   <svg
@@ -279,7 +283,7 @@ export default async function OverallPage({ params }: Props) {
                   overall.alue.split(', ').map((area) => (
                     <Link
                       key={area}
-                      href={`/alue/${getSlugForEntity(area.trim(), loc, 'area')}`}
+                      href={routeHref('areas', getSlugForEntity(area.trim(), locale, 'area'))}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-secondary text-foreground hover:bg-green/15 hover:text-green border border-border/50 hover:border-green/30"
                     >
                       <svg
@@ -315,7 +319,7 @@ export default async function OverallPage({ params }: Props) {
                     {overall.ala.split(', ').map((field) => (
                       <Link
                         key={field}
-                        href={`/ala/${getSlugForEntity(field.trim(), loc, 'field')}`}
+                        href={routeHref('fields', getSlugForEntity(field.trim(), locale, 'field'))}
                         className="px-3 py-1.5 bg-green/10 text-green rounded-lg text-sm font-medium hover:bg-green/20 transition border border-green/20"
                       >
                         {field.trim()}
@@ -337,7 +341,7 @@ export default async function OverallPage({ params }: Props) {
               {relatedOveralls.map((rel) => (
                 <Link
                   key={rel.id}
-                  href={getTranslatedRoute('overall', loc, rel.slug)}
+                  href={routeHref('overall', rel.slug)}
                   className="group bg-white rounded-xl border border-border/60 hover:border-border overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)]"
                 >
                   <div className="flex">

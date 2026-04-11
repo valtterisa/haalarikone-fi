@@ -4,6 +4,12 @@ import { loadBlogPosts, loadBlogPost } from '@/lib/load-blog-posts';
 import Script from 'next/script';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
+import { localeSiteBaseUrl, SITE_ORIGIN } from '@/lib/site-url';
+import {
+  absoluteTranslatedRoute,
+  alternateLanguageUrls,
+  getTranslatedRoute,
+} from '@/lib/use-translated-routes';
 
 export const revalidate = 86400;
 
@@ -51,7 +57,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ? post.author
       : post.author[locale as keyof typeof post.author] || post.author.en || post.author.fi || '';
   const category = 'Opiskelijakulttuuri';
-  const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
 
   return {
     title: `${titleString} | Haalarikone`,
@@ -82,7 +87,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       authors: [authorString],
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: `${baseUrl}/blog/${slug}`,
+      url: absoluteTranslatedRoute('blog', locale, slug),
     },
     twitter: {
       card: 'summary_large_image',
@@ -91,12 +96,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: `${baseUrl}/blog/${slug}`,
-      languages: {
-        fi: `https://haalarikone.fi/blog/${slug}`,
-        en: `https://haalarikone.fi/en/blog/${slug}`,
-        sv: `https://haalarikone.fi/sv/blog/${slug}`,
-      },
+      canonical: absoluteTranslatedRoute('blog', locale, slug),
+      languages: alternateLanguageUrls('blog', slug),
     },
     other: {
       'article:author': authorString,
@@ -137,7 +138,7 @@ export default async function BlogPostPage({ params }: Props) {
       : post.author[locale as keyof typeof post.author] || post.author.en || post.author.fi || '';
   const wordCount = contentString.replace(/<[^>]*>/g, '').split(/\s+/).length;
   const timeRequired = post.readingTime ? `PT${post.readingTime}M` : undefined;
-  const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
+  const baseUrl = localeSiteBaseUrl(locale);
 
   const blogPostingSchema = {
     '@context': 'https://schema.org',
@@ -146,32 +147,32 @@ export default async function BlogPostPage({ params }: Props) {
     description: descriptionString,
     image: {
       '@type': 'ImageObject',
-      url: 'https://haalarikone.fi/haalarikone-og.png',
+      url: `${SITE_ORIGIN}/haalarikone-og.png`,
       width: 1200,
       height: 630,
     },
     author: {
       '@type': 'Person',
       name: authorString,
-      url: 'https://haalarikone.fi',
+      url: SITE_ORIGIN,
     },
     publisher: {
       '@type': 'Organization',
       name: 'Haalarikone',
-      url: 'https://haalarikone.fi',
+      url: SITE_ORIGIN,
       logo: {
         '@type': 'ImageObject',
-        url: 'https://haalarikone.fi/haalarikone-og.png',
+        url: `${SITE_ORIGIN}/haalarikone-og.png`,
         width: 1200,
         height: 630,
       },
     },
     datePublished: post.publishDate,
     dateModified: post.publishDate,
-    url: `${baseUrl}/blog/${slug}`,
+    url: `${baseUrl}${getTranslatedRoute('blog', locale, slug)}`,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${baseUrl}/blog/${slug}`,
+      '@id': `${baseUrl}${getTranslatedRoute('blog', locale, slug)}`,
     },
     articleSection: 'Opiskelijakulttuuri',
     wordCount: wordCount,
@@ -192,13 +193,13 @@ export default async function BlogPostPage({ params }: Props) {
         '@type': 'ListItem',
         position: 2,
         name: t('blog.title'),
-        item: `${baseUrl}/blog`,
+        item: `${baseUrl}${getTranslatedRoute('blog', locale)}`,
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: titleString,
-        item: `${baseUrl}/blog/${slug}`,
+        item: `${baseUrl}${getTranslatedRoute('blog', locale, slug)}`,
       },
     ],
   };

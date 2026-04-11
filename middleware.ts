@@ -1,53 +1,18 @@
 import createMiddleware from 'next-intl/middleware';
+import { type NextRequest, NextResponse } from 'next/server';
 import { routing } from './i18n/routing';
-import { NextRequest } from 'next/server';
-import { normalizeRouteSegment } from '@/lib/route-translations';
+import { resolveOverallLegacyRedirectPath } from './lib/overall-legacy-redirect';
 
 const intlMiddleware = createMiddleware(routing);
 
-function translateRoute(request: NextRequest): NextRequest | null {
-  const url = request.nextUrl.clone();
-  const pathname = url.pathname;
-
-  const pathSegments = pathname.split('/').filter(Boolean);
-
-  if (pathSegments.length === 0) {
-    return null;
+export default function middleware(request: NextRequest) {
+  const target = resolveOverallLegacyRedirectPath(request.nextUrl.pathname);
+  if (target) {
+    const url = request.nextUrl.clone();
+    url.pathname = target;
+    return NextResponse.redirect(url, 308);
   }
-
-  let localeIndex = 0;
-  let locale = pathSegments[0];
-  const isLocaleSegment = routing.locales.includes(locale as any);
-
-  if (!isLocaleSegment) {
-    locale = routing.defaultLocale;
-    localeIndex = -1;
-  }
-
-  const routeSegmentIndex = isLocaleSegment ? 1 : 0;
-
-  if (pathSegments.length <= routeSegmentIndex) {
-    return null;
-  }
-
-  const routeSegment = pathSegments[routeSegmentIndex];
-  const normalizedSegment = normalizeRouteSegment(routeSegment);
-
-  if (normalizedSegment === routeSegment) {
-    return null;
-  }
-
-  pathSegments[routeSegmentIndex] = normalizedSegment;
-  url.pathname = '/' + pathSegments.join('/');
-
-  return new NextRequest(url, request);
-}
-
-export async function middleware(request: NextRequest) {
-  const translatedRequest = translateRoute(request);
-  const requestToUse = translatedRequest || request;
-
-  return intlMiddleware(requestToUse);
+  return intlMiddleware(request);
 }
 
 export const config = {
