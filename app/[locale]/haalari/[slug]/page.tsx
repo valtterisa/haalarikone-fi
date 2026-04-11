@@ -14,11 +14,13 @@ import { parseStyles } from '@/lib/utils';
 import { getSlugForEntity } from '@/lib/slug-translations';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
+import { getTranslatedRoute } from '@/lib/use-translated-routes';
+import type { Locale } from '@/lib/slug-translations';
 
 export const revalidate = 86400;
 
 type Props = {
-  params: Promise<{ locale: string; id: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 };
 
 export async function generateStaticParams() {
@@ -28,7 +30,7 @@ export async function generateStaticParams() {
     for (const locale of ['fi', 'en', 'sv'] as const) {
       params.push({
         locale,
-        id: uni.id.toString(),
+        slug: uni.slug,
       });
     }
   }
@@ -36,9 +38,9 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale, id } = await params;
-  const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
-  const overall = universities.find((u) => u.id.toString() === id);
+  const { locale, slug } = await params;
+  const universities = await loadUniversities(locale as Locale);
+  const overall = universities.find((u) => u.slug === slug);
 
   if (!overall) {
     const t = await getTranslations({ locale, namespace: 'overall' });
@@ -48,7 +50,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const t = await getTranslations({ locale });
+  const loc = locale as Locale;
   const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
+  const path = getTranslatedRoute('overall', loc, overall.slug);
 
   const keywords = [
     `${overall.vari} haalari`,
@@ -67,15 +71,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     });
   }
 
-  if (overall.ainejärjestö) {
-    keywords.push(`${overall.ainejärjestö} haalari`);
+  if (overall.ainejarjesto) {
+    keywords.push(`${overall.ainejarjesto} haalari`);
   }
 
   return {
     title: `${overall.vari} - ${overall.oppilaitos} | Haalarikone`,
     description: `${overall.vari} haalari ${overall.oppilaitos} ${
       overall.ala ? `- ${overall.ala}` : ''
-    } ${overall.ainejärjestö ? `(${overall.ainejärjestö})` : ''}`,
+    } ${overall.ainejarjesto ? `(${overall.ainejarjesto})` : ''}`,
     keywords,
     openGraph: {
       title: `${overall.vari} - ${overall.oppilaitos}`,
@@ -93,7 +97,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: `${baseUrl}/haalari/${id}`,
+      url: `${baseUrl}${path}`,
     },
     twitter: {
       card: 'summary_large_image',
@@ -102,21 +106,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: `${baseUrl}/haalari/${id}`,
+      canonical: `${baseUrl}${path}`,
       languages: {
-        fi: `https://haalarikone.fi/haalari/${id}`,
-        en: `https://haalarikone.fi/en/haalari/${id}`,
-        sv: `https://haalarikone.fi/sv/haalari/${id}`,
+        fi: `https://haalarikone.fi${getTranslatedRoute('overall', 'fi', overall.slug)}`,
+        en: `https://haalarikone.fi${getTranslatedRoute('overall', 'en', overall.slug)}`,
+        sv: `https://haalarikone.fi${getTranslatedRoute('overall', 'sv', overall.slug)}`,
       },
     },
   };
 }
 
 export default async function OverallPage({ params }: Props) {
-  const { locale, id } = await params;
-  const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
-  const overall = universities.find((u) => u.id.toString() === id);
+  const { locale, slug } = await params;
+  const universities = await loadUniversities(locale as Locale);
+  const overall = universities.find((u) => u.slug === slug);
   const t = await getTranslations({ locale });
+  const loc = locale as Locale;
 
   if (!overall) {
     return (
@@ -134,6 +139,7 @@ export default async function OverallPage({ params }: Props) {
     .slice(0, 5);
 
   const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
+  const overallPath = getTranslatedRoute('overall', loc, overall.slug);
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -149,13 +155,13 @@ export default async function OverallPage({ params }: Props) {
         '@type': 'ListItem',
         position: 2,
         name: overall.oppilaitos,
-        item: `${baseUrl}/oppilaitos/${getSlugForEntity(overall.oppilaitos, locale as 'fi' | 'en' | 'sv', 'university')}`,
+        item: `${baseUrl}/oppilaitos/${getSlugForEntity(overall.oppilaitos, loc, 'university')}`,
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: `${overall.vari} haalari`,
-        item: `${baseUrl}/haalari/${id}`,
+        item: `${baseUrl}${overallPath}`,
       },
     ],
   };
@@ -163,7 +169,7 @@ export default async function OverallPage({ params }: Props) {
   return (
     <>
       <Script
-        id={`breadcrumb-schema-${id}`}
+        id={`breadcrumb-schema-${overall.slug}`}
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbSchema),
@@ -187,7 +193,7 @@ export default async function OverallPage({ params }: Props) {
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
                 <Link
-                  href={`/oppilaitos/${getSlugForEntity(overall.oppilaitos, locale as 'fi' | 'en' | 'sv', 'university')}`}
+                  href={`/oppilaitos/${getSlugForEntity(overall.oppilaitos, loc, 'university')}`}
                 >
                   {overall.oppilaitos}
                 </Link>
@@ -230,10 +236,10 @@ export default async function OverallPage({ params }: Props) {
 
               <div className="flex-1 pt-2 sm:pt-4">
                 <h1 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">
-                  {overall.ainejärjestö ?? overall.oppilaitos}
+                  {overall.ainejarjesto ?? overall.oppilaitos}
                 </h1>
                 <p className="text-muted-foreground mt-1 text-sm sm:text-base">
-                  {overall.ainejärjestö ? overall.oppilaitos : ''}
+                  {overall.ainejarjesto ? overall.oppilaitos : ''}
                 </p>
               </div>
             </div>
@@ -241,7 +247,7 @@ export default async function OverallPage({ params }: Props) {
             <div className="mt-6 sm:mt-8 grid gap-5 sm:gap-6">
               <div className="flex flex-wrap gap-2">
                 <Link
-                  href={`/vari/${getSlugForEntity(overall.vari, locale as 'fi' | 'en' | 'sv', 'color')}`}
+                  href={`/vari/${getSlugForEntity(overall.vari, loc, 'color')}`}
                   className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-secondary text-foreground hover:bg-green/15 hover:text-green border border-border/50 hover:border-green/30"
                 >
                   <span
@@ -251,7 +257,7 @@ export default async function OverallPage({ params }: Props) {
                   {overall.vari}
                 </Link>
                 <Link
-                  href={`/oppilaitos/${getSlugForEntity(overall.oppilaitos, locale as 'fi' | 'en' | 'sv', 'university')}`}
+                  href={`/oppilaitos/${getSlugForEntity(overall.oppilaitos, loc, 'university')}`}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-secondary text-foreground hover:bg-green/15 hover:text-green border border-border/50 hover:border-green/30"
                 >
                   <svg
@@ -273,7 +279,7 @@ export default async function OverallPage({ params }: Props) {
                   overall.alue.split(', ').map((area) => (
                     <Link
                       key={area}
-                      href={`/alue/${getSlugForEntity(area.trim(), locale as 'fi' | 'en' | 'sv', 'area')}`}
+                      href={`/alue/${getSlugForEntity(area.trim(), loc, 'area')}`}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-secondary text-foreground hover:bg-green/15 hover:text-green border border-border/50 hover:border-green/30"
                     >
                       <svg
@@ -309,7 +315,7 @@ export default async function OverallPage({ params }: Props) {
                     {overall.ala.split(', ').map((field) => (
                       <Link
                         key={field}
-                        href={`/ala/${getSlugForEntity(field.trim(), locale as 'fi' | 'en' | 'sv', 'field')}`}
+                        href={`/ala/${getSlugForEntity(field.trim(), loc, 'field')}`}
                         className="px-3 py-1.5 bg-green/10 text-green rounded-lg text-sm font-medium hover:bg-green/20 transition border border-green/20"
                       >
                         {field.trim()}
@@ -331,7 +337,7 @@ export default async function OverallPage({ params }: Props) {
               {relatedOveralls.map((rel) => (
                 <Link
                   key={rel.id}
-                  href={`/haalari/${rel.id}`}
+                  href={getTranslatedRoute('overall', loc, rel.slug)}
                   className="group bg-white rounded-xl border border-border/60 hover:border-border overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)]"
                 >
                   <div className="flex">
@@ -340,12 +346,12 @@ export default async function OverallPage({ params }: Props) {
                       <div className="flex items-center justify-between gap-3">
                         <div>
                           <h3 className="font-semibold text-foreground">{rel.vari}</h3>
-                          {rel.ainejärjestö && (
+                          {rel.ainejarjesto && (
                             <p className="text-muted-foreground text-sm mt-0.5">
-                              {rel.ainejärjestö}
+                              {rel.ainejarjesto}
                             </p>
                           )}
-                          {rel.ala && !rel.ainejärjestö && (
+                          {rel.ala && !rel.ainejarjesto && (
                             <p className="text-muted-foreground text-sm mt-0.5">{rel.ala}</p>
                           )}
                         </div>

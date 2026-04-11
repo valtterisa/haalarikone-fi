@@ -16,6 +16,7 @@ import Script from 'next/script';
 import UniversityCard from '@/components/university-card';
 import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
+import { getTranslatedRoute } from '@/lib/use-translated-routes';
 
 export const revalidate = 86400;
 
@@ -178,7 +179,7 @@ export default async function UniversityPage({ params }: Props) {
     itemListElement: universityData.slice(0, 50).map((uni, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      item: `${baseUrl}/haalari/${uni.id}`,
+      item: `${baseUrl}${getTranslatedRoute('overall', locale as 'fi' | 'en' | 'sv', uni.slug)}`,
     })),
   };
 

@@ -85,10 +85,10 @@ export default function SearchContainer({
     () =>
       [...initialUniversities].sort((a, b) => {
         if (a.oppilaitos === b.oppilaitos) {
-          if (!a.ainejärjestö && !b.ainejärjestö) return 0;
-          if (!a.ainejärjestö) return 1;
-          if (!b.ainejärjestö) return -1;
-          return a.ainejärjestö.localeCompare(b.ainejärjestö);
+          if (!a.ainejarjesto && !b.ainejarjesto) return 0;
+          if (!a.ainejarjesto) return 1;
+          if (!b.ainejarjesto) return -1;
+          return a.ainejarjesto.localeCompare(b.ainejarjesto);
         }
         return a.oppilaitos.localeCompare(b.oppilaitos);
       }),
@@ -228,10 +228,10 @@ export default function SearchContainer({
     const filtered = applyFilters(searchSourceUniversities);
     return [...filtered].sort((a, b) => {
       if (a.oppilaitos === b.oppilaitos) {
-        if (!a.ainejärjestö && !b.ainejärjestö) return 0;
-        if (!a.ainejärjestö) return 1;
-        if (!b.ainejärjestö) return -1;
-        return a.ainejärjestö.localeCompare(b.ainejärjestö);
+        if (!a.ainejarjesto && !b.ainejarjesto) return 0;
+        if (!a.ainejarjesto) return 1;
+        if (!b.ainejarjesto) return -1;
+        return a.ainejarjesto.localeCompare(b.ainejarjesto);
       }
       return a.oppilaitos.localeCompare(b.oppilaitos);
     });

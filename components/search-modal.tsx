@@ -92,7 +92,7 @@ export function SearchModal({
   }, [searchQuery, locale, clientSearchContext]);
 
   const handleSelect = (uni: University) => {
-    router.push(routes.overall(String(uni.id)));
+    router.push(routes.overall(uni.slug));
     setOpen(false);
   };
 
@@ -226,7 +226,7 @@ export function SearchModal({
                           />
                           <div className="flex-1 min-w-0">
                             <div className="font-medium text-sm">
-                              {uni.ainejärjestö || uni.ala || tOverall('unknownOrganization')}
+                              {uni.ainejarjesto || uni.ala || tOverall('unknownOrganization')}
                             </div>
                             <div className="text-xs text-muted-foreground">
                               {uni.oppilaitos} • {uni.vari}

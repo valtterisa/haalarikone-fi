@@ -11,7 +11,8 @@ const { mockUniversities } = vi.hoisted(() => {
       hex: '#ff0000',
       alue: 'Helsinki',
       ala: 'fysiikka',
-      ainejärjestö: 'Fyysikkokilta',
+      ainejarjesto: 'Fyysikkokilta',
+      slug: 'fyysikkokilta',
       oppilaitos: 'Helsingin yliopisto',
     },
     {
@@ -22,7 +23,8 @@ const { mockUniversities } = vi.hoisted(() => {
       hex: '#0000ff',
       alue: 'Tampere',
       ala: 'tietotekniikka',
-      ainejärjestö: null,
+      ainejarjesto: null,
+      slug: 'u-2',
       oppilaitos: 'Tampereen yliopisto',
     },
     {
@@ -33,7 +35,8 @@ const { mockUniversities } = vi.hoisted(() => {
       hex: '#00ff00',
       alue: 'Oulu',
       ala: null,
-      ainejärjestö: null,
+      ainejarjesto: null,
+      slug: 'u-3',
       oppilaitos: 'Oulun yliopisto',
     },
     {
@@ -44,7 +47,8 @@ const { mockUniversities } = vi.hoisted(() => {
       hex: '#ccc',
       alue: 'Joensuu',
       ala: 'tietojenkäsittelytiede',
-      ainejärjestö: 'Skripti',
+      ainejarjesto: 'Skripti',
+      slug: 'skripti',
       oppilaitos: 'Itä-Suomen yliopisto',
     },
   ];

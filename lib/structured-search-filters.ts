@@ -49,7 +49,7 @@ export function universityMatchesStructuredSearchFilters(
 
   if (qu.filters.organization) {
     const orgLower = qu.filters.organization.toLowerCase();
-    if (!uni.ainejärjestö?.toLowerCase().includes(orgLower)) {
+    if (!uni.ainejarjesto?.toLowerCase().includes(orgLower)) {
       return false;
     }
   }

@@ -59,6 +59,8 @@ function normalizeJsonToUniversity(
   };
 
   const variLabel = variLabelRaw ? getLocalizedValue(variLabelRaw, 'color') : '';
+  const slug = String(content.ainejarjestoSlug ?? '').trim();
+  if (!slug) return null;
 
   return {
     id: idNum,
@@ -76,7 +78,8 @@ function normalizeJsonToUniversity(
           })
           .join(', ')
       : null,
-    ainejärjestö: content.ainejärjestö || null,
+    ainejarjesto: content.ainejarjesto || null,
+    slug,
     oppilaitos: oppilaitos ? getLocalizedValue(oppilaitos, 'university') : '',
   };
 }

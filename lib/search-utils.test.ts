@@ -27,7 +27,9 @@ describe('searchUniversitiesAPI', () => {
         variBase: ['punainen'],
         alue: 'Helsinki',
         ala: 'fysiikka',
-        ainejärjestö: 'Fyysikkokilta',
+        ainejarjesto: 'Fyysikkokilta',
+        variLabel: 'Punainen',
+        slug: 'fyysikkokilta',
         oppilaitos: 'Helsingin yliopisto',
       },
     ];
@@ -58,7 +60,10 @@ describe('searchUniversitiesAPI', () => {
         hex: '#ff0000',
         alue: 'Helsinki',
         ala: 'fysiikka',
-        ainejärjestö: 'Fyysikkokilta',
+        ainejarjesto: 'Fyysikkokilta',
+        variLabel: 'Punainen',
+        variBase: ['punainen'],
+        slug: 'fyysikkokilta',
         oppilaitos: 'Helsingin yliopisto',
       },
     ];

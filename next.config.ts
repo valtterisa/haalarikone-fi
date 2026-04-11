@@ -1,9 +1,13 @@
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
+import { buildOverallRedirects } from './lib/overall-redirects';
 
 const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return buildOverallRedirects();
+  },
   images: {
     unoptimized: process.env.DEPLOYMENT_PLACE === 'cloudflare' ? true : false,
     formats: ['image/avif', 'image/webp'],

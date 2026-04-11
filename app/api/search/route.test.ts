@@ -74,7 +74,8 @@ describe('/api/search route', () => {
         hex: '#ff0000',
         alue: 'Helsinki',
         ala: 'fysiikka',
-        ainejärjestö: 'Fyysikkokilta',
+        ainejarjesto: 'Fyysikkokilta',
+        slug: 'fyysikkokilta',
         oppilaitos: 'Helsingin yliopisto',
       },
     ]);

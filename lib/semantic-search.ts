@@ -57,7 +57,7 @@ function scoreUni(uni: University, words: string[]): number {
     if (uni.ala?.toLowerCase().includes(word)) score += 10;
     if (uni.oppilaitos.toLowerCase().includes(word)) score += 8;
     if (uni.alue.toLowerCase().includes(word)) score += 5;
-    if (uni.ainejärjestö?.toLowerCase().includes(word)) score += 3;
+    if (uni.ainejarjesto?.toLowerCase().includes(word)) score += 3;
     if (uni.vari.toLowerCase().includes(word)) score += 2;
   }
   return score;

@@ -172,7 +172,7 @@ export default async function FieldPage({ params }: Props) {
     itemListElement: fieldData.slice(0, 50).map((uni, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      item: `${baseUrl}${getTranslatedRoute('overall', locale as 'fi' | 'en' | 'sv', String(uni.id))}`,
+      item: `${baseUrl}${getTranslatedRoute('overall', locale as 'fi' | 'en' | 'sv', uni.slug)}`,
     })),
   };
 

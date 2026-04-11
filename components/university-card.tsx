@@ -2,9 +2,7 @@
 
 import { Link } from '@/i18n/routing';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { parseStyles } from '@/lib/utils';
-import { getSlugForEntity } from '@/lib/slug-translations';
 import { getFinnishName } from '@/lib/get-finnish-name';
 import type { University } from '@/types/university';
 import { useLocale } from 'next-intl';
@@ -16,21 +14,19 @@ interface UniversityCardProps {
 }
 
 export default function UniversityCard({ uni }: UniversityCardProps) {
-  const router = useRouter();
   const locale = useLocale() as 'fi' | 'en' | 'sv';
   const t = useTranslations('overall');
   const routes = useTranslatedRoutes();
-  const primaryColorBase = uni.variBase?.[0] ?? uni.vari;
 
   const oppilaitosFi = getFinnishName(uni.oppilaitos, locale, 'university');
   const logoName = oppilaitosFi.startsWith('Aalto-yliopisto') ? 'Aalto-yliopisto' : oppilaitosFi;
 
   return (
-    <li
-      className="group relative overflow-hidden bg-white rounded-xl border border-border/60 hover:border-border transition-all duration-300 cursor-pointer hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)]"
-      onClick={() => router.push(routes.overall(String(uni.id)))}
-    >
-      <div className="flex">
+    <li>
+      <Link
+        href={routes.overall(uni.slug)}
+        className="group flex relative overflow-hidden bg-white rounded-xl border border-border/60 hover:border-border transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green focus-visible:ring-offset-0"
+      >
         <div
           className="flex-shrink-0 w-20 sm:w-28 relative"
           style={parseStyles(uni.hex)}
@@ -43,7 +39,7 @@ export default function UniversityCard({ uni }: UniversityCardProps) {
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
               <h3 className="text-[15px] font-semibold text-foreground leading-snug tracking-tight">
-                {uni.ainejärjestö ?? t('unknownOrganization')}
+                {uni.ainejarjesto ?? t('unknownOrganization')}
               </h3>
               <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-lg overflow-hidden bg-white/95 shadow-sm border border-border/40 flex-shrink-0">
                 <Image
@@ -81,30 +77,22 @@ export default function UniversityCard({ uni }: UniversityCardProps) {
             )}
           </div>
 
-          <div className="mt-2.5 flex flex-wrap gap-1.5" onClick={(e) => e.stopPropagation()}>
-            <Link
-              href={routes.colors(getSlugForEntity(primaryColorBase, locale, 'color'))}
-              className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium transition-all duration-200 bg-secondary/80 text-foreground/70 hover:bg-green/15 hover:text-green"
-              onClick={(e) => e.stopPropagation()}
-            >
+          <div className="mt-2.5 flex flex-wrap gap-1.5">
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium bg-secondary/80 text-foreground/70">
               <span
                 className="w-2 h-2 rounded-full ring-1 ring-black/10"
                 style={parseStyles(uni.hex)}
               />
               {uni.vari}
-            </Link>
+            </span>
             {uni.alue && (
-              <Link
-                href={routes.areas(getSlugForEntity(uni.alue.split(',')[0].trim(), locale, 'area'))}
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium transition-all duration-200 bg-secondary/80 text-foreground/70 hover:bg-green/15 hover:text-green"
-                onClick={(e) => e.stopPropagation()}
-              >
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-secondary/80 text-foreground/70">
                 {uni.alue.split(',')[0].trim()}
-              </Link>
+              </span>
             )}
           </div>
         </div>
-      </div>
+      </Link>
     </li>
   );
 }

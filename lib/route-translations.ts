@@ -33,26 +33,27 @@ const routeTranslations: Record<RouteType, Record<Locale, string>> = {
   overall: {
     fi: 'haalari',
     en: 'overall',
-    sv: 'overall',
+    sv: 'overaller',
   },
 };
 
 const reverseRouteMap: Record<string, RouteType> = {
-  'ala': 'fields',
-  'fields': 'fields',
-  'omraden': 'fields',
-  'vari': 'colors',
-  'colors': 'colors',
-  'farger': 'colors',
-  'oppilaitos': 'universities',
-  'institutions': 'universities',
-  'institutioner': 'universities',
-  'alue': 'areas',
-  'areas': 'areas',
-  'blog': 'blog',
-  'blogg': 'blog',
-  'haalari': 'overall',
-  'overall': 'overall',
+  ala: 'fields',
+  fields: 'fields',
+  omraden: 'fields',
+  vari: 'colors',
+  colors: 'colors',
+  farger: 'colors',
+  oppilaitos: 'universities',
+  institutions: 'universities',
+  institutioner: 'universities',
+  alue: 'areas',
+  areas: 'areas',
+  blog: 'blog',
+  blogg: 'blog',
+  haalari: 'overall',
+  overall: 'overall',
+  overaller: 'overall',
 };
 
 export function getRouteSegment(routeType: RouteType, locale: Locale): string {
@@ -68,7 +69,11 @@ export function getRouteTypeFromSegment(segment: string): RouteType | null {
   return reverseRouteMap[segment] || null;
 }
 
-export function translateRouteSegment(segment: string, fromLocale: Locale, toLocale: Locale): string {
+export function translateRouteSegment(
+  segment: string,
+  fromLocale: Locale,
+  toLocale: Locale,
+): string {
   const routeType = getRouteTypeFromSegment(segment);
   if (!routeType) {
     return segment;
@@ -83,6 +88,3 @@ export function normalizeRouteSegment(segment: string): string {
   }
   return routeTranslations[routeType]['fi'];
 }
-
-
-

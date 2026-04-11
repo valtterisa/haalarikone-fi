@@ -9,6 +9,7 @@ import {
 } from '@/lib/get-unique-values';
 import { getSlugForEntity } from '@/lib/slug-translations';
 import { routing } from '@/i18n/routing';
+import { getTranslatedRoute } from '@/lib/use-translated-routes';
 
 export const revalidate = 86400;
 
@@ -104,7 +105,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     universities.forEach((uni) => {
       entries.push({
-        url: `${baseUrl}${localePrefix}/haalari/${uni.id}`,
+        url: `${baseUrl}${localePrefix}${getTranslatedRoute('overall', locale, uni.slug)}`,
         lastModified: dataLastModified,
         changeFrequency: 'yearly',
         priority: 0.4,
