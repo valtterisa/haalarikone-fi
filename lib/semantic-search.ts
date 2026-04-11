@@ -20,11 +20,17 @@ export async function semanticSearch(
     .filter((w) => w.length > 2);
 
   const orgHint = filterContext?.organization?.trim().toLowerCase();
-  const queryWordsSet = new Set(baseWords);
-  if (orgHint && orgHint.length > 2) {
-    queryWordsSet.add(orgHint);
+  const seen = new Set<string>();
+  const queryWords: string[] = [];
+  for (const w of baseWords) {
+    if (!seen.has(w)) {
+      seen.add(w);
+      queryWords.push(w);
+    }
   }
-  const queryWords = [...queryWordsSet];
+  if (orgHint && orgHint.length > 2 && !seen.has(orgHint)) {
+    queryWords.push(orgHint);
+  }
 
   const scored = allUniversities
     .map((uni) => ({ uni, score: scoreUni(uni, queryWords) }))

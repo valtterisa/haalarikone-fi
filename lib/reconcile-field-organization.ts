@@ -39,11 +39,15 @@ export function reconcileFieldOrganizationFilters(
     return qu;
   }
 
-  const orgNames = [
-    ...new Set(
-      universities.map((u) => u.ainejärjestö).filter((n): n is string => Boolean(n?.trim())),
-    ),
-  ];
+  const seen = new Set<string>();
+  const orgNames: string[] = [];
+  for (const u of universities) {
+    const n = u.ainejärjestö?.trim();
+    if (n && !seen.has(n)) {
+      seen.add(n);
+      orgNames.push(n);
+    }
+  }
   if (orgNames.length === 0) {
     return qu;
   }
