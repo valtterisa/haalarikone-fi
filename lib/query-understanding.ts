@@ -4,6 +4,7 @@ import { Redis } from '@upstash/redis';
 import { loadColorData } from './load-color-data';
 import { loadUniversities } from './load-universities';
 import { reconcileFieldOrganizationFilters } from './reconcile-field-organization';
+import { parseSimpleQueryWithColorData } from './parse-simple-query';
 import { z } from 'zod';
 
 function trimmedFilterString(desc: string) {
@@ -43,43 +44,6 @@ export type QueryUnderstanding = z.infer<typeof QueryUnderstandingSchema>;
 const redis = Redis.fromEnv();
 const CACHE_TTL = 3600;
 
-async function parseSimpleQuery(query: string): Promise<QueryUnderstanding | null> {
-  const lower = query.toLowerCase().trim();
-  const words = lower.split(/\s+/).filter((w) => w.length > 1);
-
-  if (words.length === 0 || words.length > 2) return null;
-
-  const colorData = await loadColorData();
-  let detectedColor: string | null = null;
-
-  for (const word of words) {
-    for (const colorInfo of Object.values(colorData.colors)) {
-      const allVariants = [...colorInfo.main, ...colorInfo.shades];
-      if (allVariants.some((c) => c.toLowerCase() === word)) {
-        detectedColor = word;
-        break;
-      }
-    }
-    if (detectedColor) break;
-  }
-
-  if (detectedColor && words.length <= 2) {
-    return {
-      isGibberish: false,
-      filters: {
-        color: detectedColor,
-        area: undefined,
-        field: undefined,
-        school: undefined,
-        organization: undefined,
-      },
-      semanticQuery: words.length === 2 ? words.find((w) => w !== detectedColor) || '' : '',
-    };
-  }
-
-  return null;
-}
-
 export async function understandQuery(
   query: string,
   locale: 'fi' | 'en' | 'sv' = 'fi',
@@ -105,7 +69,8 @@ export async function understandQuery(
     console.error('Cache read error:', error);
   }
 
-  const simple = await parseSimpleQuery(query);
+  const colorDataForSimple = await loadColorData();
+  const simple = parseSimpleQueryWithColorData(query, colorDataForSimple);
   if (simple) {
     try {
       if (process.env.NODE_ENV !== 'test') {

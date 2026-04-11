@@ -16,7 +16,7 @@ import { getEntityTranslation, getSlugForEntity } from '@/lib/slug-translations'
 import VariSearchSection from '@/components/vari-search-section';
 import { getTranslations } from 'next-intl/server';
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 export async function generateMetadata({
   params,

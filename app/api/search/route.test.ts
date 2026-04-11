@@ -1,19 +1,23 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const hoisted = vi.hoisted(() => {
+  const redisStub = {
+    get: vi.fn().mockResolvedValue(null),
+    setex: vi.fn().mockResolvedValue(undefined),
+  };
   return {
     rateLimitAllowed: true,
     understandQueryMock: vi.fn(),
-    filterUniversitiesMock: vi.fn(),
-    semanticSearchMock: vi.fn(),
+    loadUniversitiesMock: vi.fn(),
     loadColorDataMock: vi.fn(),
     limitMock: vi.fn(async () => ({ success: hoisted.rateLimitAllowed })),
+    redisStub,
   };
 });
 
 vi.mock('@upstash/redis', () => ({
   Redis: {
-    fromEnv: vi.fn(() => ({})),
+    fromEnv: vi.fn(() => hoisted.redisStub),
   },
 }));
 
@@ -29,12 +33,8 @@ vi.mock('@/lib/query-understanding', () => ({
   understandQuery: hoisted.understandQueryMock,
 }));
 
-vi.mock('@/lib/deterministic-filter', () => ({
-  filterUniversities: hoisted.filterUniversitiesMock,
-}));
-
-vi.mock('@/lib/semantic-search', () => ({
-  semanticSearch: hoisted.semanticSearchMock,
+vi.mock('@/lib/load-universities', () => ({
+  loadUniversities: hoisted.loadUniversitiesMock,
 }));
 
 vi.mock('@/lib/load-color-data', () => ({
@@ -48,22 +48,24 @@ describe('/api/search route', () => {
     hoisted.rateLimitAllowed = true;
     hoisted.limitMock.mockClear();
     hoisted.understandQueryMock.mockReset();
-    hoisted.filterUniversitiesMock.mockReset();
-    hoisted.semanticSearchMock.mockReset();
+    hoisted.loadUniversitiesMock.mockReset();
     hoisted.loadColorDataMock.mockReset();
+    hoisted.redisStub.get.mockReset();
+    hoisted.redisStub.get.mockResolvedValue(null);
+    hoisted.redisStub.setex.mockReset();
+    hoisted.redisStub.setex.mockResolvedValue(undefined);
 
     hoisted.understandQueryMock.mockResolvedValue({
       isGibberish: false,
       filters: {},
       semanticQuery: '',
     });
-    hoisted.filterUniversitiesMock.mockResolvedValue([]);
-    hoisted.semanticSearchMock.mockResolvedValue([]);
+    hoisted.loadUniversitiesMock.mockResolvedValue([]);
     hoisted.loadColorDataMock.mockResolvedValue({ colors: {} });
   });
 
   it('falls back to fi locale when locale is invalid', async () => {
-    hoisted.filterUniversitiesMock.mockResolvedValue([
+    hoisted.loadUniversitiesMock.mockResolvedValue([
       {
         id: 1,
         vari: 'Punainen',
@@ -137,5 +139,29 @@ describe('/api/search route', () => {
     expect(res.status).toBe(429);
     expect(body).toEqual({ success: false, error: 'Unable to process at this time' });
     expect(hoisted.understandQueryMock).not.toHaveBeenCalled();
+  });
+
+  it('returns cached body without calling understandQuery', async () => {
+    const cached = {
+      results: [],
+      totalCount: 0,
+      filters: {},
+      semanticQuery: '',
+    };
+    hoisted.redisStub.get.mockResolvedValueOnce(cached);
+
+    const req = new Request('http://localhost/api/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: 'cached-query', locale: 'fi' }),
+    });
+
+    const res = await POST(req);
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(body).toEqual(cached);
+    expect(hoisted.understandQueryMock).not.toHaveBeenCalled();
+    expect(hoisted.redisStub.setex).not.toHaveBeenCalled();
   });
 });

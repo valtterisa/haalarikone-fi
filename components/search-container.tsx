@@ -153,7 +153,10 @@ export default function SearchContainer({
 
       if (debouncedTextSearch.trim().length >= 3) {
         try {
-          searchResults = await searchUniversitiesAPI(debouncedTextSearch.trim(), locale);
+          searchResults = await searchUniversitiesAPI(debouncedTextSearch.trim(), locale, {
+            universities: initialUniversities,
+            colorData,
+          });
         } catch (error) {
           console.error('Search failed', error);
           searchResults = [];
@@ -172,7 +175,7 @@ export default function SearchContainer({
         setIsSearching(false);
       }
     }
-  }, [debouncedTextSearch, initialUniversities, locale]);
+  }, [debouncedTextSearch, initialUniversities, locale, colorData]);
 
   const performSearchRef = useRef(performSearch);
   performSearchRef.current = performSearch;

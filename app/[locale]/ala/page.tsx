@@ -16,7 +16,7 @@ import { getSlugForEntity, getEntityTranslation } from '@/lib/slug-translations'
 import FieldSearchSection from '@/components/field-search-section';
 import { getTranslations } from 'next-intl/server';
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 export async function generateMetadata({
   params,

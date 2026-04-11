@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Search as SearchIcon, X, Loader2, ChevronRight } from 'lucide-react';
-import { searchUniversitiesAPI } from '@/lib/search-utils';
+import { searchUniversitiesAPI, type ClientSearchContext } from '@/lib/search-utils';
 import { parseStyles } from '@/lib/utils';
 import type { University } from '@/types/university';
 import { useTranslations } from 'next-intl';
@@ -18,9 +18,15 @@ interface SearchModalProps {
   triggerLabel: string;
   placeholder: string;
   modalTitle: string;
+  clientSearchContext?: ClientSearchContext;
 }
 
-export function SearchModal({ triggerLabel, placeholder, modalTitle }: SearchModalProps) {
+export function SearchModal({
+  triggerLabel,
+  placeholder,
+  modalTitle,
+  clientSearchContext,
+}: SearchModalProps) {
   const t = useTranslations('search');
   const tCommon = useTranslations('common');
   const tOverall = useTranslations('overall');
@@ -57,7 +63,11 @@ export function SearchModal({ triggerLabel, placeholder, modalTitle }: SearchMod
       const runSearch = async () => {
         setIsSearching(true);
         try {
-          const searchResults = await searchUniversitiesAPI(searchQuery.trim(), locale);
+          const searchResults = await searchUniversitiesAPI(
+            searchQuery.trim(),
+            locale,
+            clientSearchContext,
+          );
           if (requestIdRef.current !== currentRequestId) {
             return;
           }
@@ -79,7 +89,7 @@ export function SearchModal({ triggerLabel, placeholder, modalTitle }: SearchMod
     }, 1000);
 
     return () => clearTimeout(timeoutId);
-  }, [searchQuery, locale]);
+  }, [searchQuery, locale, clientSearchContext]);
 
   const handleSelect = (uni: University) => {
     router.push(routes.overall(String(uni.id)));

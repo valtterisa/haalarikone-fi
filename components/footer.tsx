@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { Github, Mail } from "lucide-react";
-import { Link } from "@/i18n/routing";
-import Logo from "@/components/logo";
+import { Github, Mail } from 'lucide-react';
+import { Link } from '@/i18n/routing';
+import Logo from '@/components/logo';
 import { useTranslations } from 'next-intl';
-import DiscordLogo from "./discord-logo";
+import DiscordLogo from './discord-logo';
 
 export default function Footer() {
   const t = useTranslations('footer');
@@ -15,9 +15,7 @@ export default function Footer() {
           <div className="mx-auto max-w-xl md:mx-0 w-full flex flex-col items-center md:items-start">
             <Logo />
 
-            <p className="mt-3 max-w-sm text-sm text-muted-foreground">
-              {t('description')}
-            </p>
+            <p className="mt-3 max-w-sm text-sm text-muted-foreground">{t('description')}</p>
           </div>
           <div className="flex gap-8 pt-6 md:pt-0">
             <div className="w-auto">
@@ -26,22 +24,22 @@ export default function Footer() {
               </p>
               <ul className="mt-4 space-y-2 text-sm text-muted-foreground text-left">
                 <li>
-                  <Link href="/" className="transition hover:text-green">
+                  <Link href="/" prefetch={false} className="transition hover:text-green">
                     {t('home')}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/blog" className="transition hover:text-green">
+                  <Link href="/blog" prefetch={false} className="transition hover:text-green">
                     {t('blog')}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/vari" className="transition hover:text-green">
+                  <Link href="/vari" prefetch={false} className="transition hover:text-green">
                     {t('colors')}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/ala" className="transition hover:text-green">
+                  <Link href="/ala" prefetch={false} className="transition hover:text-green">
                     {t('fields')}
                   </Link>
                 </li>
@@ -82,7 +80,6 @@ export default function Footer() {
                     aria-label="Join Discord"
                     className="flex items-center gap-2 transition hover:text-green"
                   >
-
                     <DiscordLogo className="h-4 w-4" />
                     Discord
                   </Link>
@@ -93,7 +90,7 @@ export default function Footer() {
         </div>
         <div className="flex justify-center border-t border-border/60 pt-4 text-center text-xs text-muted-foreground md:flex-row md:items-center ">
           <p>
-            {t('builtBy')}{" "}
+            {t('builtBy')}{' '}
             <Link
               href="https://valtterisavonen.fi"
               target="_blank"

@@ -10,6 +10,8 @@ import {
 import { getSlugForEntity } from '@/lib/slug-translations';
 import { routing } from '@/i18n/routing';
 
+export const revalidate = 86400;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://haalarikone.fi';
   const universities = await loadUniversities('fi');

@@ -15,7 +15,7 @@ import { getSlugForEntity } from '@/lib/slug-translations';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 type Props = {
   params: Promise<{ locale: string; id: string }>;

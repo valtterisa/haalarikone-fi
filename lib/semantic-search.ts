@@ -5,15 +5,14 @@ export type SemanticSearchFilterContext = {
   organization?: string;
 };
 
-export async function semanticSearch(
+export function semanticSearchWithUniversities(
   query: string,
-  locale: 'fi' | 'en' | 'sv' = 'fi',
-  limit: number = 100,
-  filterContext?: SemanticSearchFilterContext,
-): Promise<University[]> {
+  limit: number,
+  filterContext: SemanticSearchFilterContext | undefined,
+  allUniversities: University[],
+): University[] {
   if (!query.trim()) return [];
 
-  const allUniversities = await loadUniversities(locale);
   const baseWords = query
     .toLowerCase()
     .split(/\s+/)
@@ -40,6 +39,16 @@ export async function semanticSearch(
   const limited = Number.isFinite(limit) && limit >= 0 ? scored.slice(0, limit) : scored;
 
   return limited.map(({ uni }) => uni);
+}
+
+export async function semanticSearch(
+  query: string,
+  locale: 'fi' | 'en' | 'sv' = 'fi',
+  limit: number = 100,
+  filterContext?: SemanticSearchFilterContext,
+): Promise<University[]> {
+  const allUniversities = await loadUniversities(locale);
+  return semanticSearchWithUniversities(query, limit, filterContext, allUniversities);
 }
 
 function scoreUni(uni: University, words: string[]): number {

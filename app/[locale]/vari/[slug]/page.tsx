@@ -19,7 +19,7 @@ import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 import { getTranslatedRoute } from '@/lib/use-translated-routes';
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 type Props = {
   params: Promise<{ locale: 'fi' | 'en' | 'sv'; slug: string }>;
