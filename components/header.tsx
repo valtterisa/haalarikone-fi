@@ -13,7 +13,12 @@ import {
 import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from './language-switcher';
-import { useTranslatedRoutes } from '@/lib/use-translated-routes';
+import { useTranslatedRoutes, type InternalHref } from '@/lib/use-translated-routes';
+
+function internalHrefKey(href: InternalHref): string {
+  if (typeof href === 'string') return href;
+  return `${href.pathname}:${href.params.slug}`;
+}
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -69,7 +74,7 @@ export default function Header() {
                 {dropdownLinks.map((link) => {
                   const Icon = link.icon;
                   return (
-                    <DropdownMenuItem key={`kategoriat-${link.label}`} asChild>
+                    <DropdownMenuItem key={`kategoriat-${internalHrefKey(link.href)}`} asChild>
                       <Link href={link.href} className="flex items-center gap-3 cursor-pointer">
                         <Icon className="h-4 w-4 text-muted-foreground" />
                         <span className="flex-1">{link.label}</span>
@@ -81,7 +86,7 @@ export default function Header() {
             </DropdownMenu>
             {navLinks.map((link) => (
               <Link
-                key={link.label}
+                key={internalHrefKey(link.href)}
                 href={link.href}
                 className="hover:text-green transition-colors"
               >
@@ -137,7 +142,7 @@ export default function Header() {
                       const Icon = link.icon;
                       return (
                         <Link
-                          key={`mobile-dropdown-${link.label}`}
+                          key={`mobile-nav-${internalHrefKey(link.href)}`}
                           href={link.href}
                           className="flex items-center justify-between rounded-2xl border border-border/60 bg-muted/30 px-4 py-3 text-foreground transition hover:border-green hover:bg-green/10"
                           onClick={closeMobileMenu}
@@ -166,7 +171,7 @@ export default function Header() {
                       <div className="flex flex-wrap gap-2">
                         {navLinks.map((link) => (
                           <Link
-                            key={`mobile-nav-${link.href}`}
+                            key={`mobile-nav-${internalHrefKey(link.href)}`}
                             href={link.href}
                             className="rounded-full border border-border/60 px-4 py-2 text-sm font-semibold text-muted-foreground transition hover:border-green hover:bg-green/10 hover:text-green"
                             onClick={closeMobileMenu}

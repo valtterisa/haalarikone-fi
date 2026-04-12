@@ -1,11 +1,10 @@
-import { useLocale } from 'next-intl';
 import { getPathname } from '@/i18n/routing';
 import { SITE_ORIGIN } from '@/lib/site-url';
 import type { Locale } from './slug-translations';
 
 export type RouteType = 'fields' | 'colors' | 'universities' | 'areas' | 'blog' | 'overall';
 
-type InternalHref =
+export type InternalHref =
   | '/'
   | '/ala'
   | '/vari'
@@ -37,8 +36,6 @@ export function routeHref(routeType: RouteType, slug?: string): InternalHref {
 }
 
 export function useTranslatedRoutes() {
-  const locale: Locale = useLocale() as Locale;
-
   return {
     fields: (slug?: string) => routeHref('fields', slug),
     colors: (slug?: string) => routeHref('colors', slug),
@@ -50,7 +47,10 @@ export function useTranslatedRoutes() {
 }
 
 export function getTranslatedRoute(routeType: RouteType, locale: Locale, slug?: string): string {
-  return getPathname({ locale, href: routeHref(routeType, slug) as never });
+  return getPathname({
+    locale,
+    href: routeHref(routeType, slug) as never, // next-intl getPathname typings are stricter than routeHref; this href is valid for localized resolution.
+  });
 }
 
 export function absoluteTranslatedRoute(

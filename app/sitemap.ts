@@ -33,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     entries.push({
-      url: `${siteBase}/blog`,
+      url: `${siteBase}${getTranslatedRoute('blog', locale)}`,
       lastModified:
         blogPosts.length > 0
           ? new Date(Math.max(...blogPosts.map((p) => new Date(p.publishDate).getTime())))
@@ -43,7 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     entries.push({
-      url: `${siteBase}/oppilaitos`,
+      url: `${siteBase}${getTranslatedRoute('universities', locale)}`,
       lastModified: dataLastModified,
       changeFrequency: 'weekly',
       priority: 0.9,
@@ -52,7 +52,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const uniqueUniversities = getUniqueUniversities(universities);
     uniqueUniversities.forEach((uni) => {
       entries.push({
-        url: `${siteBase}/oppilaitos/${getSlugForEntity(uni, locale, 'university')}`,
+        url: `${siteBase}${getTranslatedRoute('universities', locale, getSlugForEntity(uni, locale, 'university'))}`,
         lastModified: dataLastModified,
         changeFrequency: 'monthly',
         priority: 0.7,
@@ -60,7 +60,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     entries.push({
-      url: `${siteBase}/ala`,
+      url: `${siteBase}${getTranslatedRoute('fields', locale)}`,
       lastModified: dataLastModified,
       changeFrequency: 'weekly',
       priority: 0.9,
@@ -69,7 +69,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const uniqueFields = getUniqueFields(universities);
     uniqueFields.forEach((field) => {
       entries.push({
-        url: `${siteBase}/ala/${getSlugForEntity(field, locale, 'field')}`,
+        url: `${siteBase}${getTranslatedRoute('fields', locale, getSlugForEntity(field, locale, 'field'))}`,
         lastModified: dataLastModified,
         changeFrequency: 'monthly',
         priority: 0.7,
@@ -77,7 +77,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     entries.push({
-      url: `${siteBase}/vari`,
+      url: `${siteBase}${getTranslatedRoute('colors', locale)}`,
       lastModified: dataLastModified,
       changeFrequency: 'weekly',
       priority: 0.9,
@@ -86,7 +86,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const uniqueColors = getUniqueColors(universities);
     uniqueColors.forEach((color) => {
       entries.push({
-        url: `${siteBase}/vari/${getSlugForEntity(color, locale, 'color')}`,
+        url: `${siteBase}${getTranslatedRoute('colors', locale, getSlugForEntity(color, locale, 'color'))}`,
         lastModified: dataLastModified,
         changeFrequency: 'monthly',
         priority: 0.7,
@@ -96,7 +96,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const uniqueAreas = getUniqueAreas(universities);
     uniqueAreas.forEach((area) => {
       entries.push({
-        url: `${siteBase}/alue/${getSlugForEntity(area, locale, 'area')}`,
+        url: `${siteBase}${getTranslatedRoute('areas', locale, getSlugForEntity(area, locale, 'area'))}`,
         lastModified: dataLastModified,
         changeFrequency: 'yearly',
         priority: 0.5,
@@ -114,7 +114,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     blogPosts.forEach((post) => {
       entries.push({
-        url: `${siteBase}/blog/${post.slug}`,
+        url: `${siteBase}${getTranslatedRoute('blog', locale, post.slug)}`,
         lastModified: new Date(post.publishDate),
         changeFrequency: 'monthly',
         priority: 0.6,

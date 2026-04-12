@@ -40,7 +40,7 @@ describe('reconcileFieldOrganizationFilters', () => {
     semanticQuery: '',
   });
 
-  it('moves field to organization when field matches a known ainejärjestö', () => {
+  it('moves field to organization when field matches a known ainejarjesto', () => {
     const list = [uni({ id: 1, ainejarjesto: 'Skripti', ala: 'tietotekniikka' })];
     const qu = baseQu({
       color: undefined,

@@ -11,13 +11,15 @@ type Translations = {
 
 let translationsCache: Translations | null = null;
 
-async function loadTranslations(): Promise<Translations> {
-  if (translationsCache) {
-    return translationsCache;
+function getTranslationsSync(): Translations {
+  if (!translationsCache) {
+    translationsCache = translationsData as Translations;
   }
-
-  translationsCache = translationsData as Translations;
   return translationsCache;
+}
+
+async function loadTranslations(): Promise<Translations> {
+  return getTranslationsSync();
 }
 
 function normalizeJsonToUniversity(
@@ -60,7 +62,9 @@ function normalizeJsonToUniversity(
 
   const variLabel = variLabelRaw ? getLocalizedValue(variLabelRaw, 'color') : '';
   const slug = String(content.ainejarjestoSlug ?? '').trim();
-  if (!slug) return null;
+  if (!slug) {
+    throw new Error(`Missing ainejarjestoSlug for university id ${idNum}`);
+  }
 
   return {
     id: idNum,
@@ -84,15 +88,16 @@ function normalizeJsonToUniversity(
   };
 }
 
+export function loadUniversitiesSync(locale: 'fi' | 'en' | 'sv' = 'fi'): University[] {
+  const translations = getTranslationsSync();
+  return (universitiesData as unknown[])
+    .map((row) => normalizeJsonToUniversity(row, locale, translations))
+    .filter((u): u is University => u !== null);
+}
+
 export async function loadUniversities(locale: 'fi' | 'en' | 'sv' = 'fi'): Promise<University[]> {
-  try {
-    const translations = await loadTranslations();
-    const universities = (universitiesData as any[])
-      .map((row) => normalizeJsonToUniversity(row, locale, translations))
-      .filter(Boolean) as University[];
-    return universities;
-  } catch (error) {
-    console.error('Failed to load universities:', error);
-    return [];
-  }
+  const translations = await loadTranslations();
+  return (universitiesData as unknown[])
+    .map((row) => normalizeJsonToUniversity(row, locale, translations))
+    .filter((u): u is University => u !== null);
 }

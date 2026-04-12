@@ -49,6 +49,8 @@
     "description": "Inspiraatiota, värejä ja perinteitä opiskelijahaalareihin. Pidä kulttuuri helposti löydettävänä.",
     "sendEmail": "Lähetä sähköpostia",
     "openGithub": "Avaa GitHub",
+    "discord": "Discord",
+    "discordJoin": "Liity Discordiin",
     "builtBy": "Built by"
   },
   "search": {

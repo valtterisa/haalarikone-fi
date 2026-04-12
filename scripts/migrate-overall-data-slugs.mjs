@@ -23,7 +23,8 @@ const sorted = [...rows].sort((a, b) => Number(a.id) - Number(b.id));
 const used = new Set();
 
 for (const row of sorted) {
-  const c = row.content || {};
+  if (!row.content) row.content = {};
+  const c = row.content;
   if ('ainejärjestö' in c) {
     c.ainejarjesto = c['ainejärjestö'];
     delete c['ainejärjestö'];
@@ -47,12 +48,12 @@ for (const row of sorted) {
   c.ainejarjestoSlug = slug;
 }
 
-writeFileSync(dataPath, JSON.stringify(rows, null, 2) + '\n', 'utf8');
-
 const slugs = sorted.map((r) => r.content.ainejarjestoSlug);
 const dup = slugs.filter((s, i) => slugs.indexOf(s) !== i);
 if (dup.length) {
   console.error('Duplicate slugs:', [...new Set(dup)]);
   process.exit(1);
 }
+
+writeFileSync(dataPath, JSON.stringify(rows, null, 2) + '\n', 'utf8');
 console.log('Migrated', rows.length, 'rows; unique slugs OK');

@@ -102,7 +102,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('colors', locale, colorSlug)}`,
+      url: `${baseUrl}${getTranslatedRoute('colors', locale, colorSlug)}`,
     },
     twitter: {
       card: 'summary_large_image',
@@ -115,7 +115,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('colors', locale, colorSlug)}`,
+      canonical: `${baseUrl}${getTranslatedRoute('colors', locale, colorSlug)}`,
       languages: {
         fi: `${localeSiteBaseUrl('fi')}${getTranslatedRoute('colors', 'fi', getSlugForEntity(color, 'fi', 'color'))}`,
         en: `${localeSiteBaseUrl('en')}${getTranslatedRoute('colors', 'en', getSlugForEntity(color, 'en', 'color'))}`,

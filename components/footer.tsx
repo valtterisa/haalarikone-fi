@@ -77,11 +77,11 @@ export default function Footer() {
                     href="https://discord.gg/mNNYxtHSVr"
                     target="_blank"
                     rel="noreferrer"
-                    aria-label="Join Discord"
+                    aria-label={t('discordJoin')}
                     className="flex items-center gap-2 transition hover:text-green"
                   >
                     <DiscordLogo className="h-4 w-4" />
-                    Discord
+                    {t('discord')}
                   </a>
                 </li>
               </ul>
