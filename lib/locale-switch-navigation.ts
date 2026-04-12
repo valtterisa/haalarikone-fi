@@ -7,6 +7,7 @@ import {
   getUniqueUniversities,
 } from '@/lib/get-unique-values';
 import { getEntityFromSlug, getSlugForEntity, type Locale } from '@/lib/slug-translations';
+import { routing } from '@/i18n/routing';
 
 type DynamicRouteDef = {
   routeType: RouteType;
@@ -14,21 +15,34 @@ type DynamicRouteDef = {
   firstSeg: Record<Locale, string>;
 };
 
+type LocalizedPath = { fi: string; en: string; sv: string };
+
+function firstSegment(path: string): string {
+  return path.split('/').filter(Boolean)[0] ?? '';
+}
+
+function segmentsFor(
+  key: '/ala' | '/vari' | '/oppilaitos' | '/alue' | '/blog' | '/haalari/[slug]',
+): Record<Locale, string> {
+  const v = routing.pathnames[key];
+  if (v === null || typeof v !== 'object' || Array.isArray(v)) {
+    throw new Error(`Expected localized path object for ${key}`);
+  }
+  const loc = v as LocalizedPath;
+  return {
+    fi: firstSegment(loc.fi),
+    en: firstSegment(loc.en),
+    sv: firstSegment(loc.sv),
+  };
+}
+
 const DYNAMIC_ROUTES: DynamicRouteDef[] = [
-  { routeType: 'fields', kind: 'taxonomy', firstSeg: { fi: 'ala', en: 'fields', sv: 'omraden' } },
-  { routeType: 'colors', kind: 'taxonomy', firstSeg: { fi: 'vari', en: 'colors', sv: 'farger' } },
-  {
-    routeType: 'universities',
-    kind: 'taxonomy',
-    firstSeg: { fi: 'oppilaitos', en: 'institutions', sv: 'institutioner' },
-  },
-  { routeType: 'areas', kind: 'taxonomy', firstSeg: { fi: 'alue', en: 'areas', sv: 'regioner' } },
-  { routeType: 'blog', kind: 'blog', firstSeg: { fi: 'blog', en: 'blog', sv: 'blogg' } },
-  {
-    routeType: 'overall',
-    kind: 'overall',
-    firstSeg: { fi: 'haalari', en: 'overall', sv: 'overaller' },
-  },
+  { routeType: 'fields', kind: 'taxonomy', firstSeg: segmentsFor('/ala') },
+  { routeType: 'colors', kind: 'taxonomy', firstSeg: segmentsFor('/vari') },
+  { routeType: 'universities', kind: 'taxonomy', firstSeg: segmentsFor('/oppilaitos') },
+  { routeType: 'areas', kind: 'taxonomy', firstSeg: segmentsFor('/alue') },
+  { routeType: 'blog', kind: 'blog', firstSeg: segmentsFor('/blog') },
+  { routeType: 'overall', kind: 'overall', firstSeg: segmentsFor('/haalari/[slug]') },
 ];
 
 let universitiesFiCache: ReturnType<typeof loadUniversitiesSync> | null = null;
@@ -66,21 +80,40 @@ export function resolveLocaleSwitchHref(
   fromLocale: Locale,
   toLocale: Locale,
 ): InternalHref | null {
-  const slug =
+  const normalized = pathname.replace(/\/$/, '') || '/';
+  const parts = normalized.split('/').filter(Boolean);
+
+  const slugFromParams =
     typeof params.slug === 'string'
       ? params.slug
       : Array.isArray(params.slug)
         ? params.slug[0]
         : undefined;
-  if (!slug) return null;
+  const slugFromPath = parts.length >= 2 ? parts[1] : undefined;
+  const slug = slugFromParams ?? slugFromPath;
 
-  const normalized = pathname.replace(/\/$/, '') || '/';
-  const parts = normalized.split('/').filter(Boolean);
-  if (parts.length !== 2) return null;
+  if (parts.length === 0) {
+    return null;
+  }
+
+  if (parts.length === 1) {
+    const first = parts[0];
+    const def = DYNAMIC_ROUTES.find((d) => d.firstSeg[fromLocale] === first);
+    if (!def) return null;
+    return routeHref(def.routeType);
+  }
+
+  if (parts.length !== 2) {
+    return null;
+  }
 
   const [first] = parts;
   const def = DYNAMIC_ROUTES.find((d) => d.firstSeg[fromLocale] === first);
   if (!def) return null;
+
+  if (!slug) {
+    return null;
+  }
 
   if (def.kind === 'overall' || def.kind === 'blog') {
     return routeHref(def.routeType, slug);

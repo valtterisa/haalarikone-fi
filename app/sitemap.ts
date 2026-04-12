@@ -10,7 +10,7 @@ import {
 import { getSlugForEntity } from '@/lib/slug-translations';
 import { routing } from '@/i18n/routing';
 import { localeSiteBaseUrl } from '@/lib/site-url';
-import { getTranslatedRoute } from '@/lib/use-translated-routes';
+import { absoluteTranslatedRoute } from '@/lib/use-translated-routes';
 
 export const revalidate = 86400;
 
@@ -33,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     entries.push({
-      url: `${siteBase}${getTranslatedRoute('blog', locale)}`,
+      url: absoluteTranslatedRoute('blog', locale),
       lastModified:
         blogPosts.length > 0
           ? new Date(Math.max(...blogPosts.map((p) => new Date(p.publishDate).getTime())))
@@ -43,7 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     entries.push({
-      url: `${siteBase}${getTranslatedRoute('universities', locale)}`,
+      url: absoluteTranslatedRoute('universities', locale),
       lastModified: dataLastModified,
       changeFrequency: 'weekly',
       priority: 0.9,
@@ -52,7 +52,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const uniqueUniversities = getUniqueUniversities(universities);
     uniqueUniversities.forEach((uni) => {
       entries.push({
-        url: `${siteBase}${getTranslatedRoute('universities', locale, getSlugForEntity(uni, locale, 'university'))}`,
+        url: absoluteTranslatedRoute(
+          'universities',
+          locale,
+          getSlugForEntity(uni, locale, 'university'),
+        ),
         lastModified: dataLastModified,
         changeFrequency: 'monthly',
         priority: 0.7,
@@ -60,7 +64,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     entries.push({
-      url: `${siteBase}${getTranslatedRoute('fields', locale)}`,
+      url: absoluteTranslatedRoute('fields', locale),
       lastModified: dataLastModified,
       changeFrequency: 'weekly',
       priority: 0.9,
@@ -69,7 +73,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const uniqueFields = getUniqueFields(universities);
     uniqueFields.forEach((field) => {
       entries.push({
-        url: `${siteBase}${getTranslatedRoute('fields', locale, getSlugForEntity(field, locale, 'field'))}`,
+        url: absoluteTranslatedRoute('fields', locale, getSlugForEntity(field, locale, 'field')),
         lastModified: dataLastModified,
         changeFrequency: 'monthly',
         priority: 0.7,
@@ -77,7 +81,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     entries.push({
-      url: `${siteBase}${getTranslatedRoute('colors', locale)}`,
+      url: absoluteTranslatedRoute('colors', locale),
       lastModified: dataLastModified,
       changeFrequency: 'weekly',
       priority: 0.9,
@@ -86,7 +90,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const uniqueColors = getUniqueColors(universities);
     uniqueColors.forEach((color) => {
       entries.push({
-        url: `${siteBase}${getTranslatedRoute('colors', locale, getSlugForEntity(color, locale, 'color'))}`,
+        url: absoluteTranslatedRoute('colors', locale, getSlugForEntity(color, locale, 'color')),
         lastModified: dataLastModified,
         changeFrequency: 'monthly',
         priority: 0.7,
@@ -96,7 +100,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const uniqueAreas = getUniqueAreas(universities);
     uniqueAreas.forEach((area) => {
       entries.push({
-        url: `${siteBase}${getTranslatedRoute('areas', locale, getSlugForEntity(area, locale, 'area'))}`,
+        url: absoluteTranslatedRoute('areas', locale, getSlugForEntity(area, locale, 'area')),
         lastModified: dataLastModified,
         changeFrequency: 'yearly',
         priority: 0.5,
@@ -105,7 +109,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     universities.forEach((uni) => {
       entries.push({
-        url: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('overall', locale, uni.slug)}`,
+        url: absoluteTranslatedRoute('overall', locale, uni.slug),
         lastModified: dataLastModified,
         changeFrequency: 'yearly',
         priority: 0.4,
@@ -114,7 +118,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     blogPosts.forEach((post) => {
       entries.push({
-        url: `${siteBase}${getTranslatedRoute('blog', locale, post.slug)}`,
+        url: absoluteTranslatedRoute('blog', locale, post.slug),
         lastModified: new Date(post.publishDate),
         changeFrequency: 'monthly',
         priority: 0.6,
