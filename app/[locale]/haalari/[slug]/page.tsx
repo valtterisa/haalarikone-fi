@@ -158,7 +158,7 @@ export default async function OverallPage({ params }: Props) {
       {
         '@type': 'ListItem',
         position: 3,
-        name: `${overall.vari} haalari`,
+        name: overall.ainejarjesto ?? `${overall.vari} haalari`,
         item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('overall', locale, overall.slug)}`,
       },
     ],
@@ -202,7 +202,7 @@ export default async function OverallPage({ params }: Props) {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>{overall.vari} haalari</BreadcrumbPage>
+              <BreadcrumbPage>{overall.ainejarjesto ?? `${overall.vari} haalari`}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -248,7 +248,10 @@ export default async function OverallPage({ params }: Props) {
             <div className="mt-6 sm:mt-8 grid gap-5 sm:gap-6">
               <div className="flex flex-wrap gap-2">
                 <Link
-                  href={routeHref('colors', getSlugForEntity(overall.vari, locale, 'color'))}
+                  href={routeHref(
+                    'colors',
+                    getSlugForEntity(overall.variBase?.[0] ?? overall.vari, locale, 'color'),
+                  )}
                   className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-secondary text-foreground hover:bg-green/15 hover:text-green border border-border/50 hover:border-green/30"
                 >
                   <span
@@ -349,11 +352,11 @@ export default async function OverallPage({ params }: Props) {
                     <div className="flex-1 px-4 py-3">
                       <div className="flex items-center justify-between gap-3">
                         <div>
-                          <h3 className="font-semibold text-foreground">{rel.vari}</h3>
+                          <h3 className="font-semibold text-foreground">
+                            {rel.ainejarjesto ?? rel.vari}
+                          </h3>
                           {rel.ainejarjesto && (
-                            <p className="text-muted-foreground text-sm mt-0.5">
-                              {rel.ainejarjesto}
-                            </p>
+                            <p className="text-muted-foreground text-sm mt-0.5">{rel.vari}</p>
                           )}
                           {rel.ala && !rel.ainejarjesto && (
                             <p className="text-muted-foreground text-sm mt-0.5">{rel.ala}</p>
