@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
 
 export default withNextIntl(nextConfig);
 
+// Dev-only OpenNext Cloudflare adapter when targeting Workers; no-op in other environments.
 if (process.env.DEPLOYMENT_PLACE === 'cloudflare') {
   import('@opennextjs/cloudflare').then((m) => m.initOpenNextCloudflareForDev());
 }

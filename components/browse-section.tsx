@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import { Link } from "@/i18n/routing";
-import { getSlugForEntity } from "@/lib/slug-translations";
-import type { University } from "@/types/university";
+import { Link } from '@/i18n/routing';
+import { getSlugForEntity } from '@/lib/slug-translations';
+import type { University } from '@/types/university';
 import {
   getUniqueUniversities,
   getUniqueFields,
   getUniqueColors,
   getUniqueAreas,
-} from "@/lib/get-unique-values";
-import { useTranslatedRoutes } from "@/lib/use-translated-routes";
-import { useLocale } from "next-intl";
+} from '@/lib/get-unique-values';
+import { createTranslatedRouteHelpers } from '@/lib/use-translated-routes';
+import { useLocale } from 'next-intl';
 
 interface BrowseSectionProps {
   universities: University[];
 }
 
 export default function BrowseSection({ universities }: BrowseSectionProps) {
-  const routes = useTranslatedRoutes();
+  const routes = createTranslatedRouteHelpers();
   const locale = useLocale() as 'fi' | 'en' | 'sv';
   const uniqueUniversities = getUniqueUniversities(universities);
   const uniqueFields = getUniqueFields(universities);
@@ -31,12 +31,10 @@ export default function BrowseSection({ universities }: BrowseSectionProps) {
 
   return (
     <div className="w-full max-w-6xl px-4 py-12">
-      <h2 className="text-3xl font-bold text-center mb-8">
-        Selaa haalarivärejä
-      </h2>
+      <h2 className="text-3xl font-bold text-center mb-8">Selaa haalarivärejä</h2>
       <p className="text-center text-gray-700 mb-12 max-w-2xl mx-auto">
-        Tutustu haalariväreihin selaamalla yliopistoa, alaa, väriä tai aluetta.
-        Voit myös käyttää hakua löytääksesi tarkemmat tiedot.
+        Tutustu haalariväreihin selaamalla yliopistoa, alaa, väriä tai aluetta. Voit myös käyttää
+        hakua löytääksesi tarkemmat tiedot.
       </p>
 
       <div className="grid md:grid-cols-2 gap-8">
@@ -55,8 +53,7 @@ export default function BrowseSection({ universities }: BrowseSectionProps) {
           </div>
           {uniqueUniversities.length > popularUniversities.length && (
             <p className="text-sm text-gray-600 mt-4">
-              + {uniqueUniversities.length - popularUniversities.length} muuta
-              oppilaitosta
+              + {uniqueUniversities.length - popularUniversities.length} muuta oppilaitosta
             </p>
           )}
         </div>

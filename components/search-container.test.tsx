@@ -22,7 +22,7 @@ vi.mock('@/components/university-card', () => ({
 }));
 
 vi.mock('@/lib/search-utils', () => ({
-  searchUniversitiesAPI: vi.fn(async () => []),
+  searchUniversitiesAPI: vi.fn(async () => ({ ok: true as const, results: [] })),
 }));
 
 const universities: University[] = [

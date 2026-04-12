@@ -68,6 +68,7 @@
     "field": "Field of study",
     "school": "Institution",
     "noResults": "No results for search",
+    "searchError": "Search failed. Please try again in a moment.",
     "results": "Search results",
     "result": "result",
     "resultsCount": "results",

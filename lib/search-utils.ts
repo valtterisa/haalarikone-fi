@@ -21,13 +21,17 @@ export type ClientSearchContext = {
   colorData: ColorData;
 };
 
+export type SearchUniversitiesAPIResult =
+  | { ok: true; results: University[] }
+  | { ok: false; error: 'request_failed' };
+
 export async function searchUniversitiesAPI(
   query: string,
   locale: 'fi' | 'en' | 'sv' = 'fi',
   clientContext?: ClientSearchContext,
-): Promise<University[]> {
+): Promise<SearchUniversitiesAPIResult> {
   if (!query || query.trim().length < 3) {
-    return [];
+    return { ok: true, results: [] };
   }
 
   const trimmed = query.trim();
@@ -40,7 +44,7 @@ export async function searchUniversitiesAPI(
         clientContext.universities,
         clientContext.colorData,
       );
-      return body.results;
+      return { ok: true, results: body.results };
     }
   }
 
@@ -52,13 +56,13 @@ export async function searchUniversitiesAPI(
     });
 
     if (!res.ok) {
-      return [];
+      return { ok: false, error: 'request_failed' };
     }
 
     const data = (await res.json()) as SearchResponse;
-    return data.results || [];
+    return { ok: true, results: data.results || [] };
   } catch (error) {
     console.error('Search API error:', error);
-    return [];
+    return { ok: false, error: 'request_failed' };
   }
 }

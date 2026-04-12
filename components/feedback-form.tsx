@@ -4,7 +4,7 @@ import { useId, useRef, useState, FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils';
 import { sendFeedbackEmail } from '@/lib/send-feedback-email';
 
 type FeedbackStatus =
@@ -91,7 +91,10 @@ export function FeedbackForm({
         message: 'Kiitos palautteesta!',
       });
       formRef.current.reset();
-    } catch {
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error(error);
+      }
       setStatus({
         type: 'error',
         message: 'Palautteen lähetys epäonnistui, yritä hetken päästä uudelleen.',

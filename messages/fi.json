@@ -68,6 +68,7 @@
     "field": "Opiskeluala",
     "school": "Oppilaitos",
     "noResults": "Ei tuloksia haulle",
+    "searchError": "Haku epäonnistui. Yritä hetken päästä uudelleen.",
     "results": "Haun tulokset",
     "result": "tulos",
     "resultsCount": "tulosta",

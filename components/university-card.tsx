@@ -8,7 +8,7 @@ import type { University } from '@/types/university';
 import type { Locale } from '@/lib/slug-translations';
 import { useLocale } from 'next-intl';
 import { useTranslations } from 'next-intl';
-import { useTranslatedRoutes } from '@/lib/use-translated-routes';
+import { createTranslatedRouteHelpers } from '@/lib/use-translated-routes';
 
 interface UniversityCardProps {
   uni: University;
@@ -17,7 +17,7 @@ interface UniversityCardProps {
 export default function UniversityCard({ uni }: UniversityCardProps) {
   const locale: Locale = useLocale() as Locale;
   const t = useTranslations('overall');
-  const routes = useTranslatedRoutes();
+  const routes = createTranslatedRouteHelpers();
 
   const oppilaitosFi = getFinnishName(uni.oppilaitos, locale, 'university');
   const logoName = oppilaitosFi.startsWith('Aalto-yliopisto') ? 'Aalto-yliopisto' : oppilaitosFi;

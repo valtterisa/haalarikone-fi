@@ -68,6 +68,7 @@
     "field": "Studieområde",
     "school": "Institution",
     "noResults": "Inga resultat för sökningen",
+    "searchError": "Sökningen misslyckades. Försök igen om en stund.",
     "results": "Sökresultat",
     "result": "resultat",
     "resultsCount": "resultat",

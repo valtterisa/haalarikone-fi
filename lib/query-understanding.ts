@@ -44,6 +44,11 @@ export type QueryUnderstanding = z.infer<typeof QueryUnderstandingSchema>;
 const redis = Redis.fromEnv();
 const CACHE_TTL = 3600;
 
+function shouldLogQueryUnderstandingDebug() {
+  if (process.env.NODE_ENV === 'test') return false;
+  return process.env.NODE_ENV === 'development' || process.env.DEBUG_QUERY === '1';
+}
+
 export async function understandQuery(
   query: string,
   locale: 'fi' | 'en' | 'sv' = 'fi',
@@ -54,7 +59,7 @@ export async function understandQuery(
   try {
     const cached = await redis.get<QueryUnderstanding>(cacheKey);
     if (cached) {
-      if (process.env.NODE_ENV !== 'test') {
+      if (shouldLogQueryUnderstandingDebug()) {
         console.debug('[query-understanding][cache-hit]', {
           query: query.trim(),
           locale,
@@ -73,7 +78,7 @@ export async function understandQuery(
   const simple = parseSimpleQueryWithColorData(query, colorDataForSimple);
   if (simple) {
     try {
-      if (process.env.NODE_ENV !== 'test') {
+      if (shouldLogQueryUnderstandingDebug()) {
         console.debug('[query-understanding][simple-parse]', {
           query: query.trim(),
           locale,
@@ -116,7 +121,7 @@ Return JSON: {isGibberish: boolean, filters: {color?, area?, field?, school?, or
     const universities = await loadUniversities(locale);
     const reconciled = reconcileFieldOrganizationFilters(parsed, universities);
 
-    if (process.env.NODE_ENV !== 'test') {
+    if (shouldLogQueryUnderstandingDebug()) {
       console.debug('[query-understanding]', {
         query: query.trim(),
         locale,

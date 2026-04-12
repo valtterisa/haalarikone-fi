@@ -14,7 +14,7 @@ describe('searchUniversitiesAPI', () => {
   it('returns an empty array and does not call the API for short queries', async () => {
     const result = await searchUniversitiesAPI('ab', 'fi');
 
-    expect(result).toEqual([]);
+    expect(result).toEqual({ ok: true, results: [] });
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
@@ -49,7 +49,7 @@ describe('searchUniversitiesAPI', () => {
     });
 
     expect(fetchMock).not.toHaveBeenCalled();
-    expect(result).toEqual(universities);
+    expect(result).toEqual({ ok: true, results: universities });
   });
 
   it('returns results when the API responds successfully', async () => {
@@ -80,10 +80,10 @@ describe('searchUniversitiesAPI', () => {
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(fetchMock.mock.calls[0][0]).toBe('/api/search');
-    expect(result).toEqual(universities);
+    expect(result).toEqual({ ok: true, results: universities });
   });
 
-  it('returns an empty array when the API responds with a non-ok status', async () => {
+  it('returns request_failed when the API responds with a non-ok status', async () => {
     fetchMock.mockResolvedValueOnce({
       ok: false,
       json: async () => ({}),
@@ -91,14 +91,14 @@ describe('searchUniversitiesAPI', () => {
 
     const result = await searchUniversitiesAPI('Helsinki', 'fi');
 
-    expect(result).toEqual([]);
+    expect(result).toEqual({ ok: false, error: 'request_failed' });
   });
 
-  it('returns an empty array when the API call throws', async () => {
+  it('returns request_failed when the API call throws', async () => {
     fetchMock.mockRejectedValueOnce(new Error('Network error'));
 
     const result = await searchUniversitiesAPI('Helsinki', 'fi');
 
-    expect(result).toEqual([]);
+    expect(result).toEqual({ ok: false, error: 'request_failed' });
   });
 });

@@ -2,6 +2,8 @@ import { getPathname } from '@/i18n/routing';
 import { SITE_ORIGIN } from '@/lib/site-url';
 import type { Locale } from './slug-translations';
 
+type PathnameHref = Parameters<typeof getPathname>[0]['href'];
+
 export type RouteType = 'fields' | 'colors' | 'universities' | 'areas' | 'blog' | 'overall';
 
 export type InternalHref =
@@ -17,6 +19,19 @@ export type InternalHref =
   | { pathname: '/alue/[slug]'; params: { slug: string } }
   | { pathname: '/blog/[slug]'; params: { slug: string } }
   | { pathname: '/haalari/[slug]'; params: { slug: string } };
+
+export type RouterReplaceFallback = {
+  pathname: string;
+  params: Record<string, string | string[] | undefined>;
+};
+
+export function toPathnameHref(href: InternalHref): PathnameHref {
+  return href as PathnameHref;
+}
+
+export function toRouterReplaceHref(href: InternalHref | RouterReplaceFallback): PathnameHref {
+  return href as PathnameHref;
+}
 
 export function routeHref(routeType: RouteType, slug?: string): InternalHref {
   switch (routeType) {
@@ -40,7 +55,7 @@ export function routeHref(routeType: RouteType, slug?: string): InternalHref {
   }
 }
 
-export function useTranslatedRoutes() {
+export function createTranslatedRouteHelpers() {
   return {
     fields: (slug?: string) => routeHref('fields', slug),
     colors: (slug?: string) => routeHref('colors', slug),
@@ -54,7 +69,7 @@ export function useTranslatedRoutes() {
 export function getTranslatedRoute(routeType: RouteType, locale: Locale, slug?: string): string {
   return getPathname({
     locale,
-    href: routeHref(routeType, slug) as never, // next-intl getPathname typings are stricter than routeHref; this href is valid for localized resolution.
+    href: toPathnameHref(routeHref(routeType, slug)),
   });
 }
 

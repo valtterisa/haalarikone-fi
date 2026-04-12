@@ -15,6 +15,12 @@ const MAX_QUERY_LENGTH = 200;
 
 const redis = Redis.fromEnv();
 
+const searchRatelimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(15, '10 s'),
+  prefix: 'search',
+});
+
 function parseClientIp(value: string | null): string | null {
   if (!value) return null;
   const candidate = value.split(',')[0]?.trim();
@@ -34,13 +40,8 @@ function getClientIdentifier(req: Request): string {
 }
 
 export async function POST(req: Request) {
-  const ratelimit = new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(15, '10 s'),
-  });
-
   const identifier = getClientIdentifier(req);
-  const { success } = await ratelimit.limit(identifier);
+  const { success } = await searchRatelimit.limit(identifier);
 
   if (!success) {
     return NextResponse.json(

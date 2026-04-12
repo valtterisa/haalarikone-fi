@@ -153,15 +153,11 @@ export default function SearchContainer({
       let searchResults: University[] = [];
 
       if (debouncedTextSearch.trim().length >= 3) {
-        try {
-          searchResults = await searchUniversitiesAPI(debouncedTextSearch.trim(), locale, {
-            universities: initialUniversities,
-            colorData,
-          });
-        } catch (error) {
-          console.error('Search failed', error);
-          searchResults = [];
-        }
+        const outcome = await searchUniversitiesAPI(debouncedTextSearch.trim(), locale, {
+          universities: initialUniversities,
+          colorData,
+        });
+        searchResults = outcome.ok ? outcome.results : [];
       } else {
         searchResults = initialUniversities;
       }

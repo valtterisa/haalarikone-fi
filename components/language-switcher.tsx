@@ -14,6 +14,7 @@ import { Check, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import type { Locale } from '@/lib/slug-translations';
 import { resolveLocaleSwitchHref } from '@/lib/locale-switch-navigation';
+import { toRouterReplaceHref } from '@/lib/use-translated-routes';
 
 const languages: { code: Locale; name: string; flag: string }[] = [
   { code: 'fi', name: 'Suomi', flag: '🇫🇮' },
@@ -44,9 +45,9 @@ export function LanguageSwitcher() {
         const nextParams = params as Record<string, string | string[] | undefined>;
         const translated = resolveLocaleSwitchHref(pathname, nextParams, locale, newLocale);
         if (translated) {
-          router.replace(translated as never, { locale: newLocale });
+          router.replace(toRouterReplaceHref(translated), { locale: newLocale });
         } else {
-          router.replace({ pathname, params } as never, { locale: newLocale });
+          router.replace(toRouterReplaceHref({ pathname, params }), { locale: newLocale });
         }
       }
     } catch (error) {

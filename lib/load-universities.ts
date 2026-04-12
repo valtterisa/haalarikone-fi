@@ -22,8 +22,23 @@ async function loadTranslations(): Promise<Translations> {
   return getTranslationsSync();
 }
 
+type UniversityRowContent = {
+  vari?: { label?: string; base?: string[] } | null;
+  alue?: string;
+  ala?: string | null;
+  oppilaitos?: string;
+  ainejarjestoSlug?: string;
+  ainejarjesto?: string | null;
+};
+
+type UniversityJsonRow = {
+  id?: unknown;
+  content?: UniversityRowContent;
+  metadata?: { hex?: string };
+};
+
 function normalizeJsonToUniversity(
-  row: any,
+  row: UniversityJsonRow | null | undefined,
   locale: 'fi' | 'en' | 'sv',
   translations: Translations,
 ): University | null {
@@ -31,10 +46,10 @@ function normalizeJsonToUniversity(
   const idNum = Number(row.id);
   if (Number.isNaN(idNum)) return null;
 
-  const content = row.content || {};
-  const metadata = row.metadata || {};
+  const content = row.content ?? {};
+  const metadata = row.metadata ?? {};
 
-  const rawVari = content.vari as { label?: string; base?: string[] } | null | undefined;
+  const rawVari = content.vari;
   const variLabelRaw = rawVari?.label ?? '';
   const normalizedVariBase = Array.from(
     new Set((rawVari?.base ?? []).map((b) => String(b).toLowerCase().trim()).filter(Boolean)),
@@ -90,14 +105,14 @@ function normalizeJsonToUniversity(
 
 export function loadUniversitiesSync(locale: 'fi' | 'en' | 'sv' = 'fi'): University[] {
   const translations = getTranslationsSync();
-  return (universitiesData as unknown[])
+  return (universitiesData as UniversityJsonRow[])
     .map((row) => normalizeJsonToUniversity(row, locale, translations))
     .filter((u): u is University => u !== null);
 }
 
 export async function loadUniversities(locale: 'fi' | 'en' | 'sv' = 'fi'): Promise<University[]> {
   const translations = await loadTranslations();
-  return (universitiesData as unknown[])
+  return (universitiesData as UniversityJsonRow[])
     .map((row) => normalizeJsonToUniversity(row, locale, translations))
     .filter((u): u is University => u !== null);
 }

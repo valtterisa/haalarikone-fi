@@ -11,7 +11,7 @@ import type { University } from '@/types/university';
 import { useTranslations } from 'next-intl';
 import { getSlugForEntity } from '@/lib/slug-translations';
 import { useLocale } from 'next-intl';
-import { useTranslatedRoutes } from '@/lib/use-translated-routes';
+import { createTranslatedRouteHelpers } from '@/lib/use-translated-routes';
 import { Button } from './ui/button';
 
 interface SearchModalProps {
@@ -31,12 +31,13 @@ export function SearchModal({
   const tCommon = useTranslations('common');
   const tOverall = useTranslations('overall');
   const locale = useLocale() as 'fi' | 'en' | 'sv';
-  const routes = useTranslatedRoutes();
+  const routes = createTranslatedRouteHelpers();
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState<University[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [showAllHaalarit, setShowAllHaalarit] = useState(false);
+  const [searchRequestFailed, setSearchRequestFailed] = useState(false);
   const requestIdRef = useRef(0);
   const router = useRouter();
 
@@ -45,6 +46,7 @@ export function SearchModal({
       setSearchQuery('');
       setResults([]);
       setShowAllHaalarit(false);
+      setSearchRequestFailed(false);
     }
   }, [open]);
 
@@ -53,17 +55,19 @@ export function SearchModal({
       requestIdRef.current += 1;
       setResults([]);
       setIsSearching(false);
+      setSearchRequestFailed(false);
       return;
     }
 
     setShowAllHaalarit(false);
+    setSearchRequestFailed(false);
     const currentRequestId = requestIdRef.current + 1;
     requestIdRef.current = currentRequestId;
     const timeoutId = setTimeout(() => {
       const runSearch = async () => {
         setIsSearching(true);
         try {
-          const searchResults = await searchUniversitiesAPI(
+          const outcome = await searchUniversitiesAPI(
             searchQuery.trim(),
             locale,
             clientSearchContext,
@@ -71,13 +75,13 @@ export function SearchModal({
           if (requestIdRef.current !== currentRequestId) {
             return;
           }
-          setResults(searchResults);
-        } catch (error) {
-          if (requestIdRef.current !== currentRequestId) {
-            return;
+          if (outcome.ok) {
+            setResults(outcome.results);
+            setSearchRequestFailed(false);
+          } else {
+            setResults([]);
+            setSearchRequestFailed(true);
           }
-          console.error('Search failed:', error);
-          setResults([]);
         } finally {
           if (requestIdRef.current === currentRequestId) {
             setIsSearching(false);
@@ -148,7 +152,7 @@ export function SearchModal({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           className={`max-w-2xl overflow-hidden flex flex-col p-0 rounded-2xl transition-all duration-300 ${
-            results.length > 0 || isSearching ? 'h-[600px]' : 'h-auto'
+            results.length > 0 || isSearching || searchRequestFailed ? 'h-[600px]' : 'h-auto'
           }`}
           hideCloseButton
         >
@@ -193,6 +197,7 @@ export function SearchModal({
 
           {(results.length > 0 ||
             isSearching ||
+            searchRequestFailed ||
             (searchQuery.trim().length >= 3 && results.length === 0)) && (
             <div className="flex-1 overflow-y-auto p-4 transition-all duration-300 ease-in-out animate-in fade-in slide-in-from-top-2">
               {isSearching && (
@@ -201,11 +206,23 @@ export function SearchModal({
                 </div>
               )}
 
-              {!isSearching && searchQuery.trim().length >= 3 && results.length === 0 && (
-                <div className="py-8 text-center text-sm text-muted-foreground">
-                  {t('noResults')} &quot;{searchQuery}&quot;
-                </div>
-              )}
+              {!isSearching &&
+                searchQuery.trim().length >= 3 &&
+                results.length === 0 &&
+                searchRequestFailed && (
+                  <div className="py-8 text-center text-sm text-destructive">
+                    {t('searchError')}
+                  </div>
+                )}
+
+              {!isSearching &&
+                searchQuery.trim().length >= 3 &&
+                results.length === 0 &&
+                !searchRequestFailed && (
+                  <div className="py-8 text-center text-sm text-muted-foreground">
+                    {t('noResults')} &quot;{searchQuery}&quot;
+                  </div>
+                )}
 
               {!isSearching && results.length > 0 && (
                 <div className="space-y-6">

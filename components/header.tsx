@@ -13,7 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from './language-switcher';
-import { useTranslatedRoutes, type InternalHref } from '@/lib/use-translated-routes';
+import { createTranslatedRouteHelpers, type InternalHref } from '@/lib/use-translated-routes';
 
 function internalHrefKey(href: InternalHref): string {
   if (typeof href === 'string') return href;
@@ -24,7 +24,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const t = useTranslations();
   const tNav = useTranslations('nav');
-  const routes = useTranslatedRoutes();
+  const routes = createTranslatedRouteHelpers();
 
   const closeMobileMenu = () => setMobileOpen(false);
 
