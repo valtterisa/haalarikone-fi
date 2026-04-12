@@ -11,7 +11,8 @@ const mockUniversities: University[] = [
     hex: '#ff0000',
     alue: 'Helsinki',
     ala: 'fysiikka',
-    ainejärjestö: 'Fyysikkokilta',
+    ainejarjesto: 'Fyysikkokilta',
+    slug: 'fyysikkokilta',
     oppilaitos: 'Helsingin yliopisto',
   },
   {
@@ -22,7 +23,8 @@ const mockUniversities: University[] = [
     hex: '#00ff00',
     alue: 'Tampere',
     ala: 'insinööri',
-    ainejärjestö: null,
+    ainejarjesto: null,
+    slug: 'u-2',
     oppilaitos: 'Tampereen yliopisto',
   },
   {
@@ -33,7 +35,8 @@ const mockUniversities: University[] = [
     hex: '#0000ff',
     alue: 'Kuopio',
     ala: 'lääketiede',
-    ainejärjestö: null,
+    ainejarjesto: null,
+    slug: 'u-3',
     oppilaitos: 'Itä-Suomen yliopisto',
   },
   {
@@ -44,7 +47,8 @@ const mockUniversities: University[] = [
     hex: '#c0c0c0',
     alue: 'Joensuu',
     ala: 'tietojenkäsittelytiede',
-    ainejärjestö: 'Skripti',
+    ainejarjesto: 'Skripti',
+    slug: 'skripti',
     oppilaitos: 'Itä-Suomen yliopisto',
   },
 ];

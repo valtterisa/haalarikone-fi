@@ -6,6 +6,7 @@ export type University = {
   hex: string;
   alue: string;
   ala?: string | null;
-  ainejärjestö: string | null;
+  ainejarjesto: string | null;
+  slug: string;
   oppilaitos: string;
 };

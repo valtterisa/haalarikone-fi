@@ -42,7 +42,7 @@ export function reconcileFieldOrganizationFilters(
   const seen = new Set<string>();
   const orgNames: string[] = [];
   for (const u of universities) {
-    const n = u.ainejärjestö?.trim();
+    const n = u.ainejarjesto?.trim();
     if (n && !seen.has(n)) {
       seen.add(n);
       orgNames.push(n);

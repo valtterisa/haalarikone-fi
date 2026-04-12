@@ -14,7 +14,8 @@ const uni = (overrides: Partial<University> & Pick<University, 'id'>): Universit
   hex: '#f00',
   alue: 'Helsinki',
   ala: overrides.ala ?? null,
-  ainejärjestö: overrides.ainejärjestö ?? null,
+  ainejarjesto: overrides.ainejarjesto ?? null,
+  slug: overrides.slug ?? `u-${overrides.id}`,
   oppilaitos: 'X',
 });
 
@@ -39,8 +40,8 @@ describe('reconcileFieldOrganizationFilters', () => {
     semanticQuery: '',
   });
 
-  it('moves field to organization when field matches a known ainejärjestö', () => {
-    const list = [uni({ id: 1, ainejärjestö: 'Skripti', ala: 'tietotekniikka' })];
+  it('moves field to organization when field matches a known ainejarjesto', () => {
+    const list = [uni({ id: 1, ainejarjesto: 'Skripti', ala: 'tietotekniikka' })];
     const qu = baseQu({
       color: undefined,
       area: undefined,
@@ -54,7 +55,7 @@ describe('reconcileFieldOrganizationFilters', () => {
   });
 
   it('does not move when the same string is a known study field (ala)', () => {
-    const list = [uni({ id: 1, ala: 'fysiikka', ainejärjestö: 'Fyysikkokilta' })];
+    const list = [uni({ id: 1, ala: 'fysiikka', ainejarjesto: 'Fyysikkokilta' })];
     const qu = baseQu({
       color: undefined,
       area: undefined,
@@ -68,7 +69,7 @@ describe('reconcileFieldOrganizationFilters', () => {
   });
 
   it('keeps existing organization and only clears misclassified field', () => {
-    const list = [uni({ id: 1, ainejärjestö: 'Skripti' })];
+    const list = [uni({ id: 1, ainejarjesto: 'Skripti' })];
     const qu = baseQu({
       color: undefined,
       area: undefined,

@@ -13,6 +13,16 @@ import type { University } from '@/types/university';
 
 const TEXT_SEARCH_DEBOUNCE_MS = 1000;
 
+function compareOppilaitosThenAinejarjesto(a: University, b: University): number {
+  if (a.oppilaitos === b.oppilaitos) {
+    if (!a.ainejarjesto && !b.ainejarjesto) return 0;
+    if (!a.ainejarjesto) return 1;
+    if (!b.ainejarjesto) return -1;
+    return a.ainejarjesto.localeCompare(b.ainejarjesto);
+  }
+  return a.oppilaitos.localeCompare(b.oppilaitos);
+}
+
 export type Criteria = {
   textSearch: string;
   color:
@@ -82,16 +92,7 @@ export default function SearchContainer({
         selectedCriteria.school,
     );
   const sortedInitialUniversities = useMemo(
-    () =>
-      [...initialUniversities].sort((a, b) => {
-        if (a.oppilaitos === b.oppilaitos) {
-          if (!a.ainejärjestö && !b.ainejärjestö) return 0;
-          if (!a.ainejärjestö) return 1;
-          if (!b.ainejärjestö) return -1;
-          return a.ainejärjestö.localeCompare(b.ainejärjestö);
-        }
-        return a.oppilaitos.localeCompare(b.oppilaitos);
-      }),
+    () => [...initialUniversities].sort(compareOppilaitosThenAinejarjesto),
     [initialUniversities],
   );
 
@@ -226,15 +227,7 @@ export default function SearchContainer({
 
   const results = useMemo(() => {
     const filtered = applyFilters(searchSourceUniversities);
-    return [...filtered].sort((a, b) => {
-      if (a.oppilaitos === b.oppilaitos) {
-        if (!a.ainejärjestö && !b.ainejärjestö) return 0;
-        if (!a.ainejärjestö) return 1;
-        if (!b.ainejärjestö) return -1;
-        return a.ainejärjestö.localeCompare(b.ainejärjestö);
-      }
-      return a.oppilaitos.localeCompare(b.oppilaitos);
-    });
+    return [...filtered].sort(compareOppilaitosThenAinejarjesto);
   }, [searchSourceUniversities, applyFilters]);
 
   const handleTextSearchChange = useCallback((textSearch: string) => {

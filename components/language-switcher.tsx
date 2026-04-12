@@ -13,9 +13,9 @@ import {
 import { Check, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import type { Locale } from '@/lib/slug-translations';
-import { translatePathClient } from '@/lib/translate-path-client';
+import { resolveLocaleSwitchHref } from '@/lib/locale-switch-navigation';
 
-const languages = [
+const languages: { code: Locale; name: string; flag: string }[] = [
   { code: 'fi', name: 'Suomi', flag: '🇫🇮' },
   { code: 'en', name: 'English', flag: '🇬🇧' },
   { code: 'sv', name: 'Svenska', flag: '🇸🇪' },
@@ -29,29 +29,29 @@ export function LanguageSwitcher() {
 
   const localeFromParams = params?.locale as string | undefined;
   const localeFromHook = useLocale();
-  const locale = (localeFromParams || localeFromHook || 'fi') as Locale;
+  const locale: Locale = (localeFromParams || localeFromHook || 'fi') as Locale;
 
   const currentLanguage = languages.find((lang) => lang.code === locale) || languages[0];
 
-  const switchLocale = (newLocale: string) => {
+  const switchLocale = (newLocale: Locale) => {
     if (isTranslating) return;
 
     setIsTranslating(true);
     try {
-      const translatedPath = translatePathClient(pathname, locale, newLocale as Locale);
-
-      if (translatedPath === '/' && newLocale === 'fi') {
-        router.push('/', { locale: 'fi' });
+      if (pathname === '/') {
+        router.replace('/', { locale: newLocale });
       } else {
-        router.push(translatedPath, { locale: newLocale });
+        const nextParams = params as Record<string, string | string[] | undefined>;
+        const translated = resolveLocaleSwitchHref(pathname, nextParams, locale, newLocale);
+        if (translated) {
+          router.replace(translated as never, { locale: newLocale });
+        } else {
+          router.replace({ pathname, params } as never, { locale: newLocale });
+        }
       }
     } catch (error) {
-      console.error('Error translating path:', error);
-      if (pathname === '/' && newLocale === 'fi') {
-        router.push('/', { locale: 'fi' });
-      } else {
-        router.push(pathname, { locale: newLocale });
-      }
+      console.error('Error switching locale:', error);
+      router.replace('/', { locale: newLocale });
     } finally {
       setIsTranslating(false);
     }

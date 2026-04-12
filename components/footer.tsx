@@ -51,17 +51,17 @@ export default function Footer() {
               </p>
               <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <Link
+                  <a
                     href="mailto:savonen.emppu@gmail.com"
                     aria-label={t('sendEmail')}
                     className="flex items-center gap-2 transition hover:text-green"
                   >
                     <Mail className="h-4 w-4" />
                     {t('email')}
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link
+                  <a
                     href="https://github.com/valtterisa/student-overall-app"
                     target="_blank"
                     rel="noreferrer"
@@ -70,19 +70,19 @@ export default function Footer() {
                   >
                     <Github className="h-4 w-4" />
                     {t('github')}
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link
+                  <a
                     href="https://discord.gg/mNNYxtHSVr"
                     target="_blank"
                     rel="noreferrer"
-                    aria-label="Join Discord"
+                    aria-label={t('discordJoin')}
                     className="flex items-center gap-2 transition hover:text-green"
                   >
                     <DiscordLogo className="h-4 w-4" />
-                    Discord
-                  </Link>
+                    {t('discord')}
+                  </a>
                 </li>
               </ul>
             </div>
@@ -91,13 +91,14 @@ export default function Footer() {
         <div className="flex justify-center border-t border-border/60 pt-4 text-center text-xs text-muted-foreground md:flex-row md:items-center ">
           <p>
             {t('builtBy')}{' '}
-            <Link
+            <a
               href="https://valtterisavonen.fi"
               target="_blank"
+              rel="noreferrer"
               className="font-semibold transition hover:text-green"
             >
               valtterisa
-            </Link>
+            </a>
           </p>
         </div>
       </div>

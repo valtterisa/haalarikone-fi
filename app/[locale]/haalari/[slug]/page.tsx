@@ -14,11 +14,14 @@ import { parseStyles } from '@/lib/utils';
 import { getSlugForEntity } from '@/lib/slug-translations';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
+import { getTranslatedRoute, routeHref } from '@/lib/use-translated-routes';
+import type { Locale } from '@/lib/slug-translations';
+import { localeSiteBaseUrl } from '@/lib/site-url';
 
 export const revalidate = 86400;
 
 type Props = {
-  params: Promise<{ locale: string; id: string }>;
+  params: Promise<{ locale: Locale; slug: string }>;
 };
 
 export async function generateStaticParams() {
@@ -28,7 +31,7 @@ export async function generateStaticParams() {
     for (const locale of ['fi', 'en', 'sv'] as const) {
       params.push({
         locale,
-        id: uni.id.toString(),
+        slug: uni.slug,
       });
     }
   }
@@ -36,9 +39,9 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale, id } = await params;
-  const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
-  const overall = universities.find((u) => u.id.toString() === id);
+  const { locale, slug } = await params;
+  const universities = await loadUniversities(locale);
+  const overall = universities.find((u) => u.slug === slug);
 
   if (!overall) {
     const t = await getTranslations({ locale, namespace: 'overall' });
@@ -48,7 +51,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const t = await getTranslations({ locale });
-  const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
+  const baseUrl = localeSiteBaseUrl(locale);
+  const overallPageUrl = `${localeSiteBaseUrl(locale)}${getTranslatedRoute('overall', locale, overall.slug)}`;
 
   const keywords = [
     `${overall.vari} haalari`,
@@ -67,15 +71,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     });
   }
 
-  if (overall.ainejärjestö) {
-    keywords.push(`${overall.ainejärjestö} haalari`);
+  if (overall.ainejarjesto) {
+    keywords.push(`${overall.ainejarjesto} haalari`);
   }
 
   return {
     title: `${overall.vari} - ${overall.oppilaitos} | Haalarikone`,
     description: `${overall.vari} haalari ${overall.oppilaitos} ${
       overall.ala ? `- ${overall.ala}` : ''
-    } ${overall.ainejärjestö ? `(${overall.ainejärjestö})` : ''}`,
+    } ${overall.ainejarjesto ? `(${overall.ainejarjesto})` : ''}`,
     keywords,
     openGraph: {
       title: `${overall.vari} - ${overall.oppilaitos}`,
@@ -93,7 +97,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: `${baseUrl}/haalari/${id}`,
+      url: overallPageUrl,
     },
     twitter: {
       card: 'summary_large_image',
@@ -102,20 +106,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: `${baseUrl}/haalari/${id}`,
+      canonical: overallPageUrl,
       languages: {
-        fi: `https://haalarikone.fi/haalari/${id}`,
-        en: `https://haalarikone.fi/en/haalari/${id}`,
-        sv: `https://haalarikone.fi/sv/haalari/${id}`,
+        fi: `${localeSiteBaseUrl('fi')}${getTranslatedRoute('overall', 'fi', overall.slug)}`,
+        en: `${localeSiteBaseUrl('en')}${getTranslatedRoute('overall', 'en', overall.slug)}`,
+        sv: `${localeSiteBaseUrl('sv')}${getTranslatedRoute('overall', 'sv', overall.slug)}`,
       },
     },
   };
 }
 
 export default async function OverallPage({ params }: Props) {
-  const { locale, id } = await params;
-  const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
-  const overall = universities.find((u) => u.id.toString() === id);
+  const { locale, slug } = await params;
+  const universities = await loadUniversities(locale);
+  const overall = universities.find((u) => u.slug === slug);
   const t = await getTranslations({ locale });
 
   if (!overall) {
@@ -133,7 +137,7 @@ export default async function OverallPage({ params }: Props) {
     .filter((u) => u.oppilaitos === overall.oppilaitos && u.id !== overall.id)
     .slice(0, 5);
 
-  const baseUrl = locale === 'fi' ? 'https://haalarikone.fi' : `https://haalarikone.fi/${locale}`;
+  const baseUrl = localeSiteBaseUrl(locale);
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -149,13 +153,13 @@ export default async function OverallPage({ params }: Props) {
         '@type': 'ListItem',
         position: 2,
         name: overall.oppilaitos,
-        item: `${baseUrl}/oppilaitos/${getSlugForEntity(overall.oppilaitos, locale as 'fi' | 'en' | 'sv', 'university')}`,
+        item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('universities', locale, getSlugForEntity(overall.oppilaitos, locale, 'university'))}`,
       },
       {
         '@type': 'ListItem',
         position: 3,
-        name: `${overall.vari} haalari`,
-        item: `${baseUrl}/haalari/${id}`,
+        name: overall.ainejarjesto ?? `${overall.vari} haalari`,
+        item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('overall', locale, overall.slug)}`,
       },
     ],
   };
@@ -163,7 +167,7 @@ export default async function OverallPage({ params }: Props) {
   return (
     <>
       <Script
-        id={`breadcrumb-schema-${id}`}
+        id={`breadcrumb-schema-${overall.slug}`}
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbSchema),
@@ -180,14 +184,17 @@ export default async function OverallPage({ params }: Props) {
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href="/oppilaitos">{t('universities.title')}</Link>
+                <Link href={routeHref('universities')}>{t('universities.title')}</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
                 <Link
-                  href={`/oppilaitos/${getSlugForEntity(overall.oppilaitos, locale as 'fi' | 'en' | 'sv', 'university')}`}
+                  href={routeHref(
+                    'universities',
+                    getSlugForEntity(overall.oppilaitos, locale, 'university'),
+                  )}
                 >
                   {overall.oppilaitos}
                 </Link>
@@ -195,7 +202,7 @@ export default async function OverallPage({ params }: Props) {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>{overall.vari} haalari</BreadcrumbPage>
+              <BreadcrumbPage>{overall.ainejarjesto ?? `${overall.vari} haalari`}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -230,10 +237,10 @@ export default async function OverallPage({ params }: Props) {
 
               <div className="flex-1 pt-2 sm:pt-4">
                 <h1 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">
-                  {overall.ainejärjestö ?? overall.oppilaitos}
+                  {overall.ainejarjesto ?? overall.oppilaitos}
                 </h1>
                 <p className="text-muted-foreground mt-1 text-sm sm:text-base">
-                  {overall.ainejärjestö ? overall.oppilaitos : ''}
+                  {overall.ainejarjesto ? overall.oppilaitos : ''}
                 </p>
               </div>
             </div>
@@ -241,7 +248,10 @@ export default async function OverallPage({ params }: Props) {
             <div className="mt-6 sm:mt-8 grid gap-5 sm:gap-6">
               <div className="flex flex-wrap gap-2">
                 <Link
-                  href={`/vari/${getSlugForEntity(overall.vari, locale as 'fi' | 'en' | 'sv', 'color')}`}
+                  href={routeHref(
+                    'colors',
+                    getSlugForEntity(overall.variBase?.[0] ?? overall.vari, locale, 'color'),
+                  )}
                   className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-secondary text-foreground hover:bg-green/15 hover:text-green border border-border/50 hover:border-green/30"
                 >
                   <span
@@ -251,7 +261,10 @@ export default async function OverallPage({ params }: Props) {
                   {overall.vari}
                 </Link>
                 <Link
-                  href={`/oppilaitos/${getSlugForEntity(overall.oppilaitos, locale as 'fi' | 'en' | 'sv', 'university')}`}
+                  href={routeHref(
+                    'universities',
+                    getSlugForEntity(overall.oppilaitos, locale, 'university'),
+                  )}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-secondary text-foreground hover:bg-green/15 hover:text-green border border-border/50 hover:border-green/30"
                 >
                   <svg
@@ -273,7 +286,7 @@ export default async function OverallPage({ params }: Props) {
                   overall.alue.split(', ').map((area) => (
                     <Link
                       key={area}
-                      href={`/alue/${getSlugForEntity(area.trim(), locale as 'fi' | 'en' | 'sv', 'area')}`}
+                      href={routeHref('areas', getSlugForEntity(area.trim(), locale, 'area'))}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-secondary text-foreground hover:bg-green/15 hover:text-green border border-border/50 hover:border-green/30"
                     >
                       <svg
@@ -309,7 +322,7 @@ export default async function OverallPage({ params }: Props) {
                     {overall.ala.split(', ').map((field) => (
                       <Link
                         key={field}
-                        href={`/ala/${getSlugForEntity(field.trim(), locale as 'fi' | 'en' | 'sv', 'field')}`}
+                        href={routeHref('fields', getSlugForEntity(field.trim(), locale, 'field'))}
                         className="px-3 py-1.5 bg-green/10 text-green rounded-lg text-sm font-medium hover:bg-green/20 transition border border-green/20"
                       >
                         {field.trim()}
@@ -331,7 +344,7 @@ export default async function OverallPage({ params }: Props) {
               {relatedOveralls.map((rel) => (
                 <Link
                   key={rel.id}
-                  href={`/haalari/${rel.id}`}
+                  href={routeHref('overall', rel.slug)}
                   className="group bg-white rounded-xl border border-border/60 hover:border-border overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)]"
                 >
                   <div className="flex">
@@ -339,13 +352,13 @@ export default async function OverallPage({ params }: Props) {
                     <div className="flex-1 px-4 py-3">
                       <div className="flex items-center justify-between gap-3">
                         <div>
-                          <h3 className="font-semibold text-foreground">{rel.vari}</h3>
-                          {rel.ainejärjestö && (
-                            <p className="text-muted-foreground text-sm mt-0.5">
-                              {rel.ainejärjestö}
-                            </p>
+                          <h3 className="font-semibold text-foreground">
+                            {rel.ainejarjesto ?? rel.vari}
+                          </h3>
+                          {rel.ainejarjesto && (
+                            <p className="text-muted-foreground text-sm mt-0.5">{rel.vari}</p>
                           )}
-                          {rel.ala && !rel.ainejärjestö && (
+                          {rel.ala && !rel.ainejarjesto && (
                             <p className="text-muted-foreground text-sm mt-0.5">{rel.ala}</p>
                           )}
                         </div>

@@ -4,6 +4,7 @@
     "build": "next build",
     "dev": "next dev --turbopack",
     "start": "next start --turbopack",
+    "data:slugs": "node scripts/migrate-overall-data-slugs.mjs",
     "test": "vitest --run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",

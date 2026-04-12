@@ -22,7 +22,9 @@
 - `/{locale?}/ala/{slug}`
 - `/{locale?}/vari/{slug}`
 - `/{locale?}/alue/{slug}`
-- `/{locale?}/haalari/{id}`
+- `/{locale?}/haalari/{slug}` (Finnish default path segment)
+- `/{locale?}/overall/{slug}` (English)
+- `/{locale?}/overaller/{slug}` (Swedish)
 
 ## Agent Crawl Guidance
 - Follow `robots.txt` directives.
