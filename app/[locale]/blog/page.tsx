@@ -12,6 +12,7 @@ import Script from 'next/script';
 import { loadBlogPosts } from '@/lib/load-blog-posts';
 import { getTranslations } from 'next-intl/server';
 import {
+  absoluteHomeUrl,
   absoluteTranslatedRoute,
   alternateLanguageUrls,
   routeHref,
@@ -83,7 +84,7 @@ export default async function BlogPage({
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: absoluteTranslatedRoute('overall', locale),
+        item: absoluteHomeUrl(locale),
       },
       {
         '@type': 'ListItem',

@@ -17,6 +17,7 @@ import VariSearchSection from '@/components/vari-search-section';
 import { getTranslations } from 'next-intl/server';
 import type { Locale } from '@/lib/slug-translations';
 import {
+  absoluteHomeUrl,
   absoluteTranslatedRoute,
   alternateLanguageUrls,
   routeHref,
@@ -93,7 +94,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: absoluteTranslatedRoute('overall', locale),
+        item: absoluteHomeUrl(locale),
       },
       {
         '@type': 'ListItem',

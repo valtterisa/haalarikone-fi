@@ -100,6 +100,9 @@ export function resolveLocaleSwitchHref(
     const first = parts[0];
     const def = DYNAMIC_ROUTES.find((d) => d.firstSeg[fromLocale] === first);
     if (!def) return null;
+    if (def.routeType === 'overall') {
+      return '/';
+    }
     return routeHref(def.routeType);
   }
 

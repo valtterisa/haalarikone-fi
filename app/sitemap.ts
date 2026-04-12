@@ -97,6 +97,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     });
 
+    entries.push({
+      url: absoluteTranslatedRoute('areas', locale),
+      lastModified: dataLastModified,
+      changeFrequency: 'yearly',
+      priority: 0.5,
+    });
+
     const uniqueAreas = getUniqueAreas(universities);
     uniqueAreas.forEach((area) => {
       entries.push({

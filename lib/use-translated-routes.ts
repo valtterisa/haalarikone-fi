@@ -30,8 +30,13 @@ export function routeHref(routeType: RouteType, slug?: string): InternalHref {
       return slug ? { pathname: '/alue/[slug]', params: { slug } } : '/alue';
     case 'blog':
       return slug ? { pathname: '/blog/[slug]', params: { slug } } : '/blog';
-    case 'overall':
-      return slug ? { pathname: '/haalari/[slug]', params: { slug } } : '/';
+    case 'overall': {
+      const s = slug?.trim();
+      if (!s) {
+        throw new Error('routeHref(overall): a non-empty slug is required');
+      }
+      return { pathname: '/haalari/[slug]', params: { slug: s } };
+    }
   }
 }
 
@@ -42,7 +47,7 @@ export function useTranslatedRoutes() {
     universities: (slug?: string) => routeHref('universities', slug),
     areas: (slug?: string) => routeHref('areas', slug),
     blog: (slug?: string) => routeHref('blog', slug),
-    overall: (slug?: string) => routeHref('overall', slug),
+    overall: (slug: string) => routeHref('overall', slug),
   };
 }
 
@@ -59,6 +64,10 @@ export function absoluteTranslatedRoute(
   slug?: string,
 ): string {
   return `${SITE_ORIGIN}${getTranslatedRoute(routeType, locale, slug)}`;
+}
+
+export function absoluteHomeUrl(locale: Locale): string {
+  return `${SITE_ORIGIN}${getPathname({ locale, href: '/' })}`;
 }
 
 const TAXONOMY_ROUTE_TYPES: RouteType[] = ['fields', 'colors', 'universities', 'areas'];

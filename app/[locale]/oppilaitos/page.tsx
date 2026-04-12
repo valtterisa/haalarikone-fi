@@ -17,6 +17,7 @@ import UniversitySearchSection from '@/components/university-search-section';
 import { getTranslations } from 'next-intl/server';
 import type { Locale } from '@/lib/slug-translations';
 import {
+  absoluteHomeUrl,
   absoluteTranslatedRoute,
   alternateLanguageUrls,
   routeHref,
@@ -92,7 +93,7 @@ export default async function UniversityIndexPage({
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: absoluteTranslatedRoute('overall', locale),
+        item: absoluteHomeUrl(locale),
       },
       {
         '@type': 'ListItem',
