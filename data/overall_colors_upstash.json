@@ -5447,10 +5447,44 @@
         "base": ["keltainen"]
       },
       "alue": "Rauma",
+      "ala": "käsityön aineenopettaja",
+      "oppilaitos": "Turun yliopisto",
+      "ainejarjesto": "TK-Kilta (Opekas)",
+      "ainejarjestoSlug": "tk-kilta-opekas"
+    },
+    "metadata": {
+      "hex": "background: yellow;"
+    }
+  },
+  {
+    "id": "326a",
+    "content": {
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
+      "alue": "Rauma",
       "ala": "luokanopettaja",
       "oppilaitos": "Turun yliopisto",
-      "ainejarjesto": "Opekas",
-      "ainejarjestoSlug": "opekas"
+      "ainejarjesto": "Lokilta (Opekas)",
+      "ainejarjestoSlug": "lokilta-opekas"
+    },
+    "metadata": {
+      "hex": "background: yellow;"
+    }
+  },
+  {
+    "id": "326b",
+    "content": {
+      "vari": {
+        "label": "keltainen",
+        "base": ["keltainen"]
+      },
+      "alue": "Rauma",
+      "ala": "varhaiskasvatuksen opettaja",
+      "oppilaitos": "Turun yliopisto",
+      "ainejarjesto": "Lastopet (Opekas)",
+      "ainejarjestoSlug": "lastopet-opekas"
     },
     "metadata": {
       "hex": "background: yellow;"
@@ -6263,13 +6297,47 @@
         "base": ["vihreä"]
       },
       "alue": "Tampere",
-      "ala": "environmental engineering, metsätalous",
+      "ala": "metsätalous",
       "oppilaitos": "Tampereen AMK",
       "ainejarjesto": "Tampio",
       "ainejarjestoSlug": "tampio"
     },
     "metadata": {
       "hex": "background: #14780a; color: white;"
+    }
+  },
+  {
+    "id": "374a",
+    "content": {
+      "vari": {
+        "label": "vihreä",
+        "base": ["vihreä"]
+      },
+      "alue": "Tampere",
+      "ala": "environmental engineering",
+      "oppilaitos": "Tampereen AMK",
+      "ainejarjesto": "GLOBE",
+      "ainejarjestoSlug": "globe"
+    },
+    "metadata": {
+      "hex": "background: #14780a; color: white;"
+    }
+  },
+  {
+    "id": "374b",
+    "content": {
+      "vari": {
+        "label": "vaaleanvihreä",
+        "base": ["vihreä"]
+      },
+      "alue": "Tampere",
+      "ala": "textile and material engineering",
+      "oppilaitos": "Tampereen AMK",
+      "ainejarjesto": "GLOBE",
+      "ainejarjestoSlug": "globe"
+    },
+    "metadata": {
+      "hex": "background: #2cab1a; color: white;"
     }
   },
   {
