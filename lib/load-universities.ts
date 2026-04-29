@@ -56,8 +56,21 @@ function normalizeJsonToUniversity(
             ? translations.universities
             : translations.fields;
 
-    const translation = translationsMap[value];
-    return translation?.[locale] || value;
+    const direct = translationsMap[value];
+    if (direct?.[locale]) return direct[locale];
+
+    const normalizedValue = value.trim().toLowerCase();
+    for (const entry of Object.values(translationsMap)) {
+      if (
+        entry.fi.trim().toLowerCase() === normalizedValue ||
+        entry.en.trim().toLowerCase() === normalizedValue ||
+        entry.sv.trim().toLowerCase() === normalizedValue
+      ) {
+        return entry[locale];
+      }
+    }
+
+    return value;
   };
 
   const variLabel = variLabelRaw ? getLocalizedValue(variLabelRaw, 'color') : '';

@@ -5457,7 +5457,7 @@
     }
   },
   {
-    "id": "326a",
+    "id": "3261",
     "content": {
       "vari": {
         "label": "keltainen",
@@ -5474,7 +5474,7 @@
     }
   },
   {
-    "id": "326b",
+    "id": "3262",
     "content": {
       "vari": {
         "label": "keltainen",
@@ -6307,7 +6307,7 @@
     }
   },
   {
-    "id": "374a",
+    "id": "3741",
     "content": {
       "vari": {
         "label": "vihreä",
@@ -6324,7 +6324,7 @@
     }
   },
   {
-    "id": "374b",
+    "id": "3742",
     "content": {
       "vari": {
         "label": "vaaleanvihreä",
@@ -6334,7 +6334,7 @@
       "ala": "textile and material engineering",
       "oppilaitos": "Tampereen AMK",
       "ainejarjesto": "GLOBE",
-      "ainejarjestoSlug": "globe"
+      "ainejarjestoSlug": "globe-tema"
     },
     "metadata": {
       "hex": "background: #2cab1a; color: white;"

@@ -154,10 +154,17 @@ export default function SearchContainer({
 
       if (debouncedTextSearch.trim().length >= 3) {
         try {
-          searchResults = await searchUniversitiesAPI(debouncedTextSearch.trim(), locale, {
-            universities: initialUniversities,
-            colorData,
-          });
+          searchResults = await searchUniversitiesAPI(
+            debouncedTextSearch.trim(),
+            locale,
+            {
+              universities: initialUniversities,
+              colorData,
+            },
+            {
+              waitForSemanticEnrichment: true,
+            },
+          );
         } catch (error) {
           console.error('Search failed', error);
           searchResults = [];
@@ -227,8 +234,11 @@ export default function SearchContainer({
 
   const results = useMemo(() => {
     const filtered = applyFilters(searchSourceUniversities);
+    if (selectedCriteria.textSearch.trim().length >= 3) {
+      return filtered;
+    }
     return [...filtered].sort(compareOppilaitosThenAinejarjesto);
-  }, [searchSourceUniversities, applyFilters]);
+  }, [searchSourceUniversities, applyFilters, selectedCriteria.textSearch]);
 
   const handleTextSearchChange = useCallback((textSearch: string) => {
     setSelectedCriteria((prev) => ({ ...prev, textSearch }));

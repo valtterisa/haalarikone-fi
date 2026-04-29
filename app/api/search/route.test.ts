@@ -165,4 +165,107 @@ describe('/api/search route', () => {
     expect(hoisted.understandQueryMock).not.toHaveBeenCalled();
     expect(hoisted.redisStub.setex).not.toHaveBeenCalled();
   });
+
+  it('enforces deterministic color filtering from query tokens', async () => {
+    hoisted.understandQueryMock.mockResolvedValueOnce({
+      isGibberish: false,
+      filters: {},
+      semanticQuery: 'jyväskylä',
+    });
+    hoisted.loadColorDataMock.mockResolvedValueOnce({
+      colors: {
+        keltainen: { main: ['keltainen'], shades: ['keltaiset'], color: '#ff0' },
+      },
+    });
+    hoisted.loadUniversitiesMock.mockResolvedValueOnce([
+      {
+        id: 1,
+        vari: 'Sininen',
+        variLabel: 'Sininen',
+        variBase: ['sininen'],
+        hex: '#00f',
+        alue: 'Jyväskylä',
+        ala: 'muu',
+        ainejarjesto: 'Siniset',
+        slug: 'siniset',
+        oppilaitos: 'Jyväskylän yliopisto',
+      },
+      {
+        id: 2,
+        vari: 'Keltainen',
+        variLabel: 'Keltainen',
+        variBase: ['keltainen'],
+        hex: '#ff0',
+        alue: 'Jyväskylä',
+        ala: 'muu',
+        ainejarjesto: 'Keltaiset',
+        slug: 'keltaiset',
+        oppilaitos: 'Jyväskylän yliopisto',
+      },
+    ]);
+
+    const req = new Request('http://localhost/api/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: 'keltaiset haalarit jyväskylä', locale: 'fi' }),
+    });
+
+    const res = await POST(req);
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(body.results).toHaveLength(1);
+    expect(body.results[0]?.variBase).toContain('keltainen');
+  });
+
+  it('ranks matching area first within same color results', async () => {
+    hoisted.understandQueryMock.mockResolvedValueOnce({
+      isGibberish: false,
+      filters: { color: 'keltainen', area: 'Jyväskylä' },
+      semanticQuery: 'jyväskylä',
+    });
+    hoisted.loadColorDataMock.mockResolvedValueOnce({
+      colors: {
+        keltainen: { main: ['keltainen'], shades: ['keltaiset'], color: '#ff0' },
+      },
+    });
+    hoisted.loadUniversitiesMock.mockResolvedValueOnce([
+      {
+        id: 10,
+        vari: 'Keltainen',
+        variLabel: 'Keltainen',
+        variBase: ['keltainen'],
+        hex: '#ff0',
+        alue: 'Turku',
+        ala: 'insinööri',
+        ainejarjesto: 'Turun Keltaiset',
+        slug: 'turun-keltaiset',
+        oppilaitos: 'Turun yliopisto',
+      },
+      {
+        id: 11,
+        vari: 'Keltainen',
+        variLabel: 'Keltainen',
+        variBase: ['keltainen'],
+        hex: '#ff0',
+        alue: 'Jyväskylä',
+        ala: 'insinööri',
+        ainejarjesto: 'Jyväs Keltaiset',
+        slug: 'jyvas-keltaiset',
+        oppilaitos: 'Jyväskylän yliopisto',
+      },
+    ]);
+
+    const req = new Request('http://localhost/api/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: 'keltaiset haalarit jyväskylä', locale: 'fi' }),
+    });
+
+    const res = await POST(req);
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(body.results[0]?.alue).toBe('Jyväskylä');
+  });
 });

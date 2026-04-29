@@ -12,6 +12,7 @@ import { Redis } from '@upstash/redis';
 
 const ALLOWED_LOCALES = new Set(['fi', 'en', 'sv']);
 const MAX_QUERY_LENGTH = 200;
+const SEARCH_CACHE_VERSION = 'v2';
 
 const redis = Redis.fromEnv();
 
@@ -69,7 +70,7 @@ export async function POST(req: Request) {
   }
 
   const normalizedQuery = query.toLowerCase().trim();
-  const searchCacheKey = `search:${locale}:${normalizedQuery}`;
+  const searchCacheKey = `search:${SEARCH_CACHE_VERSION}:${locale}:${normalizedQuery}`;
 
   try {
     const cached = await redis.get<SearchApiSuccessBody>(searchCacheKey);
