@@ -561,25 +561,171 @@ export default function SearchForm({
                 <ChevronDown className="w-4 h-4 text-muted-foreground" />
               </button>
             </DrawerTrigger>
-            <DrawerContent className="max-h-[85vh]">
-              <DrawerHeader className="text-left border-b border-border">
+            <DrawerContent className="h-[85vh] flex flex-col">
+              <DrawerHeader className="text-left border-b border-border flex-shrink-0">
                 <DrawerTitle className="flex items-center justify-between">
                   <span>{t('filters')}</span>
                   {hasActiveFilters && (
                     <button
                       type="button"
                       onClick={handleClear}
-                      className="text-sm font-normal text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-sm font-normal text-muted-foreground active:text-foreground transition-colors"
                     >
                       {t('clear')}
                     </button>
                   )}
                 </DrawerTitle>
               </DrawerHeader>
-              <div className="px-4 pb-4 overflow-y-auto">
-                <FilterContent isMobile />
+
+              {/* Tab navigation */}
+              <div className="flex border-b border-border flex-shrink-0">
+                {[
+                  { key: 'color', label: t('color'), hasValue: !!draftAdvancedFilters.color },
+                  { key: 'area', label: t('city'), hasValue: !!draftAdvancedFilters.area },
+                  { key: 'field', label: t('field'), hasValue: !!draftAdvancedFilters.field },
+                  { key: 'school', label: t('school'), hasValue: !!draftAdvancedFilters.school },
+                ].map((tab) => (
+                  <button
+                    key={tab.key}
+                    type="button"
+                    onClick={() =>
+                      setExpandedSections({
+                        color: false,
+                        area: false,
+                        field: false,
+                        school: false,
+                        [tab.key]: true,
+                      })
+                    }
+                    className={`flex-1 py-3 text-sm font-medium relative transition-colors ${
+                      expandedSections[tab.key] ? 'text-foreground' : 'text-muted-foreground'
+                    }`}
+                  >
+                    <span className="flex items-center justify-center gap-1.5">
+                      {tab.label}
+                      {tab.hasValue && <span className="w-1.5 h-1.5 rounded-full bg-green" />}
+                    </span>
+                    {expandedSections[tab.key] && (
+                      <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-green rounded-full" />
+                    )}
+                  </button>
+                ))}
               </div>
-              <DrawerFooter className="border-t border-border pt-4">
+
+              {/* Content area - single scroll */}
+              <div className="flex-1 overflow-y-auto p-4">
+                {/* Colors */}
+                {expandedSections.color && (
+                  <div className="grid grid-cols-4 gap-3">
+                    {translatedColorOptions.map(({ key, displayName, color }) => {
+                      const isSelected = draftAdvancedFilters.color === key;
+                      const isWhite = key === 'white' || color === '#FFFFFF';
+                      const isBlack = key === 'black' || color === '#000000';
+                      return (
+                        <button
+                          key={key}
+                          type="button"
+                          onClick={() => handleDraftChange('color', isSelected ? '' : key)}
+                          className={`flex flex-col items-center gap-2 p-3 rounded-xl transition-all ${
+                            isSelected
+                              ? 'bg-green/10 ring-2 ring-green'
+                              : 'bg-muted/30 active:bg-muted/50'
+                          }`}
+                        >
+                          <div
+                            className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                              isWhite ? 'border-2 border-border' : ''
+                            }`}
+                            style={{ backgroundColor: color }}
+                          >
+                            {isSelected && (
+                              <Check
+                                className={`w-5 h-5 ${isWhite || color === '#FFFF00' || color === '#FFA500' ? 'text-foreground' : 'text-white'}`}
+                              />
+                            )}
+                          </div>
+                          <span
+                            className={`text-xs text-center leading-tight ${isSelected ? 'text-foreground font-medium' : 'text-muted-foreground'}`}
+                          >
+                            {displayName}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Cities */}
+                {expandedSections.area && (
+                  <div className="flex flex-col gap-2">
+                    {areas.map((area) => {
+                      const isSelected = draftAdvancedFilters.area === area;
+                      return (
+                        <button
+                          key={area}
+                          type="button"
+                          onClick={() => handleDraftChange('area', isSelected ? '' : area)}
+                          className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-all ${
+                            isSelected
+                              ? 'bg-green text-white font-medium'
+                              : 'bg-muted/30 text-foreground active:bg-muted/50'
+                          }`}
+                        >
+                          {area}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Fields */}
+                {expandedSections.field && (
+                  <div className="flex flex-col gap-2">
+                    {fields.map((field) => {
+                      const isSelected = draftAdvancedFilters.field === field;
+                      return (
+                        <button
+                          key={field}
+                          type="button"
+                          onClick={() => handleDraftChange('field', isSelected ? '' : field)}
+                          className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-all ${
+                            isSelected
+                              ? 'bg-green text-white font-medium'
+                              : 'bg-muted/30 text-foreground active:bg-muted/50'
+                          }`}
+                        >
+                          {field}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Schools */}
+                {expandedSections.school && (
+                  <div className="flex flex-col gap-2">
+                    {schools.map((school) => {
+                      const isSelected = draftAdvancedFilters.school === school;
+                      return (
+                        <button
+                          key={school}
+                          type="button"
+                          onClick={() => handleDraftChange('school', isSelected ? '' : school)}
+                          className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-all ${
+                            isSelected
+                              ? 'bg-green text-white font-medium'
+                              : 'bg-muted/30 text-foreground active:bg-muted/50'
+                          }`}
+                        >
+                          {school}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              <DrawerFooter className="border-t border-border pt-4 flex-shrink-0">
                 <Button
                   type="button"
                   onClick={handleApplyFilters}
