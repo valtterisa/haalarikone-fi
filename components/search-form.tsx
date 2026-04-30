@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
@@ -72,8 +72,12 @@ function FilterSection({
     <div className="border-b border-border/50 last:border-b-0">
       <button
         type="button"
-        onClick={onToggle}
-        className="w-full flex items-center justify-between py-3 px-1 text-left hover:bg-muted/30 transition-colors"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          onToggle();
+        }}
+        className="w-full flex items-center justify-between py-3 px-1 text-left hover:bg-muted/30 transition-colors relative z-10"
       >
         <span className="text-sm font-medium text-foreground flex items-center gap-2">
           {title}
@@ -85,19 +89,11 @@ function FilterSection({
           }`}
         />
       </button>
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="overflow-hidden"
-          >
-            <div className="pb-3 px-1">{children}</div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {isExpanded && (
+        <div className="pb-3 px-1 animate-in fade-in slide-in-from-top-1 duration-200">
+          {children}
+        </div>
+      )}
     </div>
   );
 }
@@ -408,7 +404,7 @@ export default function SearchForm({
         onToggle={() => toggleSection('area')}
         hasSelection={!!draftAdvancedFilters.area}
       >
-        <div className="max-h-48 overflow-y-auto pr-1">
+        <div className="max-h-48 overflow-y-auto scrollbar-none">
           <ChipSelector
             options={areas}
             selected={draftAdvancedFilters.area}
@@ -424,7 +420,7 @@ export default function SearchForm({
         onToggle={() => toggleSection('field')}
         hasSelection={!!draftAdvancedFilters.field}
       >
-        <div className="max-h-48 overflow-y-auto pr-1">
+        <div className="max-h-48 overflow-y-auto scrollbar-none">
           <ChipSelector
             options={fields}
             selected={draftAdvancedFilters.field}
@@ -440,7 +436,7 @@ export default function SearchForm({
         onToggle={() => toggleSection('school')}
         hasSelection={!!draftAdvancedFilters.school}
       >
-        <div className="max-h-48 overflow-y-auto pr-1">
+        <div className="max-h-48 overflow-y-auto scrollbar-none">
           <ChipSelector
             options={schools}
             selected={draftAdvancedFilters.school}
