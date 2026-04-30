@@ -7,7 +7,16 @@ import { Label } from './ui/label';
 import { Button } from './ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Search as SearchIcon, ChevronDown, ChevronUp, X, Settings } from 'lucide-react';
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from './ui/drawer';
+import { Search as SearchIcon, ChevronDown, ChevronUp, X, SlidersHorizontal } from 'lucide-react';
 import { Criteria } from './search-container';
 import type { ColorData } from '@/lib/load-color-data';
 import { track } from '@databuddy/sdk';
@@ -113,6 +122,7 @@ export default function SearchForm({
   }, [locale, colorData.colors, translateEntity]);
 
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
   const [localSearchValue, setLocalSearchValue] = useState(selectedCriteria.textSearch);
   const lastTrackedSearchRef = useRef<string>('');
@@ -201,11 +211,13 @@ export default function SearchForm({
       location: 'search_form',
     });
     onApplyAdvancedFilters();
+    setIsDrawerOpen(false);
   };
 
   const handleClear = () => {
     onClearAll();
     setIsAdvancedSearchOpen(false);
+    setIsDrawerOpen(false);
   };
 
   const hasActiveFilters =
@@ -219,6 +231,242 @@ export default function SearchForm({
     draftAdvancedFilters.area !== selectedCriteria.area ||
     draftAdvancedFilters.field !== selectedCriteria.field ||
     draftAdvancedFilters.school !== selectedCriteria.school;
+
+  const activeFilterCount = [
+    selectedCriteria.color,
+    selectedCriteria.area,
+    selectedCriteria.field,
+    selectedCriteria.school,
+  ].filter(Boolean).length;
+
+  // Filter content shared between mobile drawer and desktop collapsible
+  const FilterContent = ({ isMobile = false }: { isMobile?: boolean }) => (
+    <div className={isMobile ? 'space-y-5' : 'space-y-2 sm:space-y-3'}>
+      <div className={isMobile ? 'space-y-2' : 'space-y-1 sm:space-y-1.5'}>
+        <Label
+          htmlFor={isMobile ? 'color-mobile' : 'color'}
+          className={
+            isMobile
+              ? 'text-sm text-foreground font-medium'
+              : 'text-[10px] sm:text-xs text-muted-foreground font-medium'
+          }
+        >
+          {t('color')}
+        </Label>
+        <Select
+          key={selectedCriteria.color || 'color-empty'}
+          value={draftAdvancedFilters.color || undefined}
+          onValueChange={(value) => handleDraftChange('color', value)}
+        >
+          <SelectTrigger
+            id={isMobile ? 'color-mobile' : 'color'}
+            className={
+              isMobile
+                ? 'h-12 text-base bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0'
+                : 'h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0'
+            }
+          >
+            <SelectValue placeholder={t('selectColor')} />
+          </SelectTrigger>
+          <SelectContent className="bg-white">
+            {translatedColorOptions.map(({ key, displayName, color }) => (
+              <SelectItem
+                key={key}
+                value={key}
+                className={
+                  isMobile
+                    ? 'text-base text-foreground py-3'
+                    : 'text-xs sm:text-sm text-foreground focus:bg-transparent focus:text-foreground'
+                }
+              >
+                <div className="flex items-center gap-2">
+                  <div
+                    className={
+                      isMobile
+                        ? 'w-4 h-4 rounded border'
+                        : 'w-3 h-3 sm:w-3.5 sm:h-3.5 rounded border'
+                    }
+                    style={{
+                      backgroundColor: color,
+                    }}
+                  />
+                  <span>{displayName}</span>
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className={isMobile ? 'space-y-2' : 'space-y-1 sm:space-y-1.5'}>
+        <Label
+          htmlFor={isMobile ? 'area-mobile' : 'area'}
+          className={
+            isMobile
+              ? 'text-sm text-foreground font-medium'
+              : 'text-[10px] sm:text-xs text-muted-foreground font-medium'
+          }
+        >
+          {t('city')}
+        </Label>
+        <Select
+          key={selectedCriteria.area || 'area-empty'}
+          value={draftAdvancedFilters.area || undefined}
+          onValueChange={(value) => handleDraftChange('area', value)}
+        >
+          <SelectTrigger
+            id={isMobile ? 'area-mobile' : 'area'}
+            className={
+              isMobile
+                ? 'h-12 text-base bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0'
+                : 'h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0'
+            }
+          >
+            <SelectValue placeholder={t('selectCity')} />
+          </SelectTrigger>
+          <SelectContent className="bg-white">
+            {areas.map((area) => (
+              <SelectItem
+                key={area}
+                value={area}
+                className={
+                  isMobile ? 'text-base text-foreground py-3' : 'text-xs sm:text-sm text-foreground'
+                }
+              >
+                {area}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className={isMobile ? 'space-y-2' : 'space-y-1 sm:space-y-1.5'}>
+        <Label
+          htmlFor={isMobile ? 'field-mobile' : 'field'}
+          className={
+            isMobile
+              ? 'text-sm text-foreground font-medium'
+              : 'text-[10px] sm:text-xs text-muted-foreground font-medium'
+          }
+        >
+          {t('field')}
+        </Label>
+        <Select
+          key={selectedCriteria.field || 'field-empty'}
+          value={draftAdvancedFilters.field || undefined}
+          onValueChange={(value) => handleDraftChange('field', value)}
+        >
+          <SelectTrigger
+            id={isMobile ? 'field-mobile' : 'field'}
+            className={
+              isMobile
+                ? 'h-12 text-base bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0'
+                : 'h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0'
+            }
+          >
+            <SelectValue placeholder={t('selectField')} />
+          </SelectTrigger>
+          <SelectContent className="bg-white">
+            {fields.map((field) => (
+              <SelectItem
+                key={field}
+                value={field}
+                className={
+                  isMobile ? 'text-base text-foreground py-3' : 'text-xs sm:text-sm text-foreground'
+                }
+              >
+                {field}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className={isMobile ? 'space-y-2' : 'space-y-1 sm:space-y-1.5'}>
+        <Label
+          htmlFor={isMobile ? 'school-mobile' : 'school'}
+          className={
+            isMobile
+              ? 'text-sm text-foreground font-medium'
+              : 'text-[10px] sm:text-xs text-muted-foreground font-medium'
+          }
+        >
+          {t('school')}
+        </Label>
+        <Select
+          key={selectedCriteria.school || 'school-empty'}
+          value={draftAdvancedFilters.school || undefined}
+          onValueChange={(value) => handleDraftChange('school', value)}
+        >
+          <SelectTrigger
+            id={isMobile ? 'school-mobile' : 'school'}
+            className={
+              isMobile
+                ? 'h-12 text-base bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0'
+                : 'h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0'
+            }
+          >
+            <SelectValue placeholder={t('selectSchool')} />
+          </SelectTrigger>
+          <SelectContent className="bg-white">
+            {schools.map((school) => (
+              <SelectItem
+                key={school}
+                value={school}
+                className={
+                  isMobile ? 'text-base text-foreground py-3' : 'text-xs sm:text-sm text-foreground'
+                }
+              >
+                {school}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+  );
+
+  // Active filter chips for mobile
+  const ActiveFilterChips = () => {
+    if (!hasActiveFilters) return null;
+
+    const filters = [
+      {
+        key: 'color',
+        value: selectedCriteria.color,
+        display: selectedCriteria.color ? translateEntity(selectedCriteria.color, 'color') : null,
+      },
+      { key: 'area', value: selectedCriteria.area, display: selectedCriteria.area },
+      { key: 'field', value: selectedCriteria.field, display: selectedCriteria.field },
+      { key: 'school', value: selectedCriteria.school, display: selectedCriteria.school },
+    ].filter((f) => f.value);
+
+    return (
+      <div className="flex flex-wrap gap-2 px-3 pb-3 sm:hidden">
+        {filters.map((filter) => (
+          <button
+            key={filter.key}
+            type="button"
+            onClick={() => {
+              onDraftAdvancedFilterChange({ ...draftAdvancedFilters, [filter.key]: '' });
+              onApplyAdvancedFilters();
+            }}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm bg-green/10 text-green rounded-full border border-green/20 hover:bg-green/20 transition-colors"
+          >
+            <span className="max-w-[120px] truncate">{filter.display}</span>
+            <X className="w-3.5 h-3.5 flex-shrink-0" />
+          </button>
+        ))}
+        <button
+          type="button"
+          onClick={handleClear}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          {t('clear')}
+        </button>
+      </div>
+    );
+  };
 
   return (
     <motion.div
@@ -244,7 +492,7 @@ export default function SearchForm({
             />
             {!localSearchValue && !isSearching && (
               <kbd className="absolute right-3 sm:right-6 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-                <span className="text-xs">⌘</span>K
+                <span className="text-xs">&#8984;</span>K
               </kbd>
             )}
             {isSearching && (
@@ -265,7 +513,67 @@ export default function SearchForm({
           </div>
         </div>
 
-        <div className="px-3 pb-3 pt-3 sm:px-6 border-t border-border/50">
+        {/* Mobile: Filter button that opens drawer */}
+        <div className="px-3 pb-3 pt-1 sm:hidden border-t border-border/50">
+          <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+            <DrawerTrigger asChild>
+              <button
+                type="button"
+                className="w-full flex items-center justify-between py-3 px-0 text-left active:opacity-70 transition-opacity"
+              >
+                <div className="flex items-center gap-2">
+                  <SlidersHorizontal className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-sm font-medium text-foreground">{t('filters')}</span>
+                  {hasActiveFilters && (
+                    <span className="px-2 py-0.5 text-xs bg-green text-white rounded-full font-medium">
+                      {activeFilterCount}
+                    </span>
+                  )}
+                </div>
+                <ChevronDown className="w-4 h-4 text-muted-foreground" />
+              </button>
+            </DrawerTrigger>
+            <DrawerContent className="max-h-[85vh]">
+              <DrawerHeader className="text-left">
+                <DrawerTitle className="flex items-center justify-between">
+                  <span>{t('filters')}</span>
+                  {hasActiveFilters && (
+                    <button
+                      type="button"
+                      onClick={handleClear}
+                      className="text-sm font-normal text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {t('clear')}
+                    </button>
+                  )}
+                </DrawerTitle>
+              </DrawerHeader>
+              <div className="px-4 pb-4 overflow-y-auto">
+                <FilterContent isMobile />
+              </div>
+              <DrawerFooter className="border-t border-border pt-4">
+                <Button
+                  type="button"
+                  onClick={handleApplyFilters}
+                  className="h-12 text-base bg-green hover:bg-green/90 text-white w-full"
+                >
+                  {t('filter')} {draftFilterResultCount >= 0 && `(${draftFilterResultCount})`}
+                </Button>
+                <DrawerClose asChild>
+                  <Button variant="outline" className="h-12 text-base w-full">
+                    {t('close') || 'Sulje'}
+                  </Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        </div>
+
+        {/* Active filter chips for mobile */}
+        <ActiveFilterChips />
+
+        {/* Desktop: Collapsible filters */}
+        <div className="px-3 pb-3 pt-3 sm:px-6 border-t border-border/50 hidden sm:block">
           <Collapsible open={isAdvancedSearchOpen} onOpenChange={setIsAdvancedSearchOpen}>
             <CollapsibleTrigger asChild>
               <button
@@ -273,20 +581,13 @@ export default function SearchForm({
                 className="w-full flex items-center justify-between py-1 sm:py-1.5 px-0 text-left hover:opacity-70 transition-opacity group"
               >
                 <div className="flex items-center gap-1.5 sm:gap-2">
-                  <Settings className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground" />
+                  <SlidersHorizontal className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground" />
                   <span className="text-[10px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     {t('filters')}
                   </span>
                   {hasActiveFilters && (
                     <span className="ml-1 px-1 py-0.5 sm:ml-1.5 sm:px-1.5 text-[9px] sm:text-[10px] bg-green text-white rounded-full font-medium">
-                      {
-                        [
-                          selectedCriteria.color,
-                          selectedCriteria.area,
-                          selectedCriteria.field,
-                          selectedCriteria.school,
-                        ].filter(Boolean).length
-                      }
+                      {activeFilterCount}
                     </span>
                   )}
                 </div>
@@ -297,148 +598,14 @@ export default function SearchForm({
                 )}
               </button>
             </CollapsibleTrigger>
-            <CollapsibleContent className="mt-2 sm:mt-3 border-l border-muted/30 space-y-2 sm:space-y-3">
-              <div className="space-y-1 sm:space-y-1.5">
-                <Label
-                  htmlFor="color"
-                  className="text-[10px] sm:text-xs text-muted-foreground font-medium"
-                >
-                  {t('color')}
-                </Label>
-                <Select
-                  key={selectedCriteria.color || 'color-empty'}
-                  value={draftAdvancedFilters.color || undefined}
-                  onValueChange={(value) => handleDraftChange('color', value)}
-                >
-                  <SelectTrigger
-                    id="color"
-                    className="h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0"
-                  >
-                    <SelectValue placeholder={t('selectColor')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white">
-                    {translatedColorOptions.map(({ key, displayName, color }) => (
-                      <SelectItem
-                        key={key}
-                        value={key}
-                        className="text-xs sm:text-sm text-foreground focus:bg-transparent focus:text-foreground"
-                      >
-                        <div className="flex items-center gap-1.5 sm:gap-2">
-                          <div
-                            className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded border"
-                            style={{
-                              backgroundColor: color,
-                            }}
-                          />
-                          <span>{displayName}</span>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-1 sm:space-y-1.5">
-                <Label
-                  htmlFor="area"
-                  className="text-[10px] sm:text-xs text-muted-foreground font-medium"
-                >
-                  {t('city')}
-                </Label>
-                <Select
-                  key={selectedCriteria.area || 'area-empty'}
-                  value={draftAdvancedFilters.area || undefined}
-                  onValueChange={(value) => handleDraftChange('area', value)}
-                >
-                  <SelectTrigger
-                    id="area"
-                    className="h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0"
-                  >
-                    <SelectValue placeholder={t('selectCity')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white">
-                    {areas.map((area) => (
-                      <SelectItem
-                        key={area}
-                        value={area}
-                        className="text-xs sm:text-sm text-foreground"
-                      >
-                        {area}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-1 sm:space-y-1.5">
-                <Label
-                  htmlFor="field"
-                  className="text-[10px] sm:text-xs text-muted-foreground font-medium"
-                >
-                  {t('field')}
-                </Label>
-                <Select
-                  key={selectedCriteria.field || 'field-empty'}
-                  value={draftAdvancedFilters.field || undefined}
-                  onValueChange={(value) => handleDraftChange('field', value)}
-                >
-                  <SelectTrigger
-                    id="field"
-                    className="h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0"
-                  >
-                    <SelectValue placeholder={t('selectField')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white">
-                    {fields.map((field) => (
-                      <SelectItem
-                        key={field}
-                        value={field}
-                        className="text-xs sm:text-sm text-foreground"
-                      >
-                        {field}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-1 sm:space-y-1.5">
-                <Label
-                  htmlFor="school"
-                  className="text-[10px] sm:text-xs text-muted-foreground font-medium"
-                >
-                  {t('school')}
-                </Label>
-                <Select
-                  key={selectedCriteria.school || 'school-empty'}
-                  value={draftAdvancedFilters.school || undefined}
-                  onValueChange={(value) => handleDraftChange('school', value)}
-                >
-                  <SelectTrigger
-                    id="school"
-                    className="h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0"
-                  >
-                    <SelectValue placeholder={t('selectSchool')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white">
-                    {schools.map((school) => (
-                      <SelectItem
-                        key={school}
-                        value={school}
-                        className="text-xs sm:text-sm text-foreground"
-                      >
-                        {school}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+            <CollapsibleContent className="mt-2 sm:mt-3 border-l border-muted/30 pl-3">
+              <FilterContent />
 
               {hasDraftChanges && (
                 <Button
                   type="button"
                   onClick={handleApplyFilters}
-                  className="h-9 sm:h-10 text-xs sm:text-sm bg-green hover:bg-green/90 text-white mt-2"
+                  className="h-9 sm:h-10 text-xs sm:text-sm bg-green hover:bg-green/90 text-white mt-3"
                 >
                   {t('filter')} {draftFilterResultCount >= 0 && `(${draftFilterResultCount})`}
                 </Button>
@@ -448,7 +615,7 @@ export default function SearchForm({
         </div>
 
         {hasActiveFilters && (
-          <div className="px-3 pb-3 sm:px-6 sm:pb-6 flex mt-2">
+          <div className="px-3 pb-3 sm:px-6 sm:pb-6 hidden sm:flex mt-2">
             <Button
               variant="outline"
               onClick={handleClear}
