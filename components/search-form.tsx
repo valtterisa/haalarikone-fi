@@ -464,36 +464,31 @@ export default function SearchForm({
     ].filter((f) => f.value);
 
     return (
-      <div className="flex items-center gap-2 px-3 pb-3 sm:hidden overflow-x-auto scrollbar-none">
-        <span className="text-xs text-muted-foreground flex-shrink-0">
-          {activeFilterCount} valittu:
-        </span>
-        <div className="flex items-center gap-1.5">
-          {filters.map((filter) => (
-            <button
-              key={filter.key}
-              type="button"
-              onClick={() => {
-                onDraftAdvancedFilterChange({ ...draftAdvancedFilters, [filter.key]: '' });
-                onApplyAdvancedFilters();
-              }}
-              className="inline-flex items-center gap-1 px-2 py-1 text-xs bg-muted/60 text-foreground rounded-md hover:bg-muted transition-colors flex-shrink-0"
-            >
-              {filter.key === 'color' && filter.color && (
-                <span
-                  className="w-2.5 h-2.5 rounded-full border border-border/50 flex-shrink-0"
-                  style={{ backgroundColor: filter.color }}
-                />
-              )}
-              <span className="max-w-[80px] truncate">{filter.display}</span>
-              <X className="w-3 h-3 text-muted-foreground flex-shrink-0" />
-            </button>
-          ))}
-        </div>
+      <div className="flex flex-wrap items-center gap-1.5 px-3 pb-3 sm:hidden">
+        {filters.map((filter) => (
+          <button
+            key={filter.key}
+            type="button"
+            onClick={() => {
+              onDraftAdvancedFilterChange({ ...draftAdvancedFilters, [filter.key]: '' });
+              onApplyAdvancedFilters();
+            }}
+            className="inline-flex items-center gap-1 px-2 py-1 text-xs bg-muted/60 text-foreground rounded-md active:bg-muted transition-colors"
+          >
+            {filter.key === 'color' && filter.color && (
+              <span
+                className="w-2.5 h-2.5 rounded-full border border-border/50"
+                style={{ backgroundColor: filter.color }}
+              />
+            )}
+            <span>{filter.display}</span>
+            <X className="w-3 h-3 text-muted-foreground" />
+          </button>
+        ))}
         <button
           type="button"
           onClick={handleClear}
-          className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors flex-shrink-0"
+          className="px-2 py-1 text-xs text-muted-foreground active:text-foreground transition-colors"
         >
           {t('clear')}
         </button>
