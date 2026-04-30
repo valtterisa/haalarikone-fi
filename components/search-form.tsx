@@ -1,12 +1,10 @@
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from './ui/input';
-import { Label } from './ui/label';
 import { Button } from './ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import {
   Drawer,
   DrawerClose,
@@ -16,7 +14,14 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from './ui/drawer';
-import { Search as SearchIcon, ChevronDown, ChevronUp, X, SlidersHorizontal } from 'lucide-react';
+import {
+  Search as SearchIcon,
+  ChevronDown,
+  ChevronUp,
+  X,
+  SlidersHorizontal,
+  Check,
+} from 'lucide-react';
 import { Criteria } from './search-container';
 import type { ColorData } from '@/lib/load-color-data';
 import { track } from '@databuddy/sdk';
@@ -48,6 +53,160 @@ type Translations = {
 };
 
 const translations = translationsData as Translations;
+
+// Filter section component with expandable content
+function FilterSection({
+  title,
+  isExpanded,
+  onToggle,
+  children,
+  hasSelection,
+}: {
+  title: string;
+  isExpanded: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+  hasSelection: boolean;
+}) {
+  return (
+    <div className="border-b border-border/50 last:border-b-0">
+      <button
+        type="button"
+        onClick={onToggle}
+        className="w-full flex items-center justify-between py-3 px-1 text-left hover:bg-muted/30 transition-colors"
+      >
+        <span className="text-sm font-medium text-foreground flex items-center gap-2">
+          {title}
+          {hasSelection && <span className="w-2 h-2 rounded-full bg-green" />}
+        </span>
+        <ChevronDown
+          className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${
+            isExpanded ? 'rotate-180' : ''
+          }`}
+        />
+      </button>
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="pb-3 px-1">{children}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// Chip selector for options
+function ChipSelector({
+  options,
+  selected,
+  onSelect,
+  renderOption,
+}: {
+  options: string[];
+  selected: string;
+  onSelect: (value: string) => void;
+  renderOption?: (option: string, isSelected: boolean) => React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {options.map((option) => {
+        const isSelected = selected === option;
+        if (renderOption) {
+          return (
+            <button
+              key={option}
+              type="button"
+              onClick={() => onSelect(isSelected ? '' : option)}
+              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-green/50 rounded-lg"
+            >
+              {renderOption(option, isSelected)}
+            </button>
+          );
+        }
+        return (
+          <button
+            key={option}
+            type="button"
+            onClick={() => onSelect(isSelected ? '' : option)}
+            className={`px-3 py-1.5 text-sm rounded-full border transition-all duration-150 ${
+              isSelected
+                ? 'bg-green text-white border-green shadow-sm'
+                : 'bg-white text-foreground border-border hover:border-green/50 hover:bg-green/5'
+            }`}
+          >
+            {option}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+// Color swatch component
+function ColorSwatch({
+  color,
+  colorKey,
+  displayName,
+  isSelected,
+  onSelect,
+}: {
+  color: string;
+  colorKey: string;
+  displayName: string;
+  isSelected: boolean;
+  onSelect: () => void;
+}) {
+  const isWhite = colorKey === 'white' || color === '#FFFFFF';
+  const isBlack = colorKey === 'black' || color === '#000000';
+
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      className={`group flex flex-col items-center gap-1.5 p-2 rounded-lg transition-all duration-150 ${
+        isSelected ? 'bg-muted/70' : 'hover:bg-muted/40'
+      }`}
+      title={displayName}
+    >
+      <div
+        className={`w-8 h-8 rounded-full border-2 transition-all duration-150 flex items-center justify-center ${
+          isSelected
+            ? 'border-green ring-2 ring-green/30 scale-110'
+            : isWhite
+              ? 'border-border'
+              : 'border-transparent'
+        }`}
+        style={{ backgroundColor: color }}
+      >
+        {isSelected && (
+          <Check
+            className={`w-4 h-4 ${
+              isWhite || color === '#FFFF00' || color === '#FFA500'
+                ? 'text-foreground'
+                : isBlack
+                  ? 'text-white'
+                  : 'text-white'
+            }`}
+          />
+        )}
+      </div>
+      <span
+        className={`text-[10px] leading-tight text-center max-w-[50px] truncate ${
+          isSelected ? 'text-foreground font-medium' : 'text-muted-foreground'
+        }`}
+      >
+        {displayName}
+      </span>
+    </button>
+  );
+}
 
 export default function SearchForm({
   onTextSearchChange,
@@ -102,7 +261,7 @@ export default function SearchForm({
     return translation?.[locale] || value;
   };
 
-  // Translate color options for display (colors need translation since colorData uses Finnish keys)
+  // Translate color options for display
   const translatedColorOptions = useMemo(() => {
     return Object.entries(colorData.colors).map(([colorKey, data]) => {
       let displayColor = data.color;
@@ -119,11 +278,16 @@ export default function SearchForm({
         color: displayColor,
       };
     });
-  }, [locale, colorData.colors, translateEntity]);
+  }, [locale, colorData.colors]);
 
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [commandOpen, setCommandOpen] = useState(false);
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
+    color: true,
+    area: false,
+    field: false,
+    school: false,
+  });
   const [localSearchValue, setLocalSearchValue] = useState(selectedCriteria.textSearch);
   const lastTrackedSearchRef = useRef<string>('');
 
@@ -132,50 +296,18 @@ export default function SearchForm({
   }, [selectedCriteria.textSearch]);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const commandRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         e.stopPropagation();
-        setCommandOpen((prev) => !prev);
-      }
-      if (e.key === 'Escape') {
-        setCommandOpen(false);
+        searchInputRef.current?.focus();
       }
     };
     document.addEventListener('keydown', down, true);
     return () => document.removeEventListener('keydown', down, true);
   }, []);
-
-  useEffect(() => {
-    if (commandOpen && searchInputRef.current) {
-      requestAnimationFrame(() => {
-        searchInputRef.current?.focus();
-      });
-    }
-  }, [commandOpen]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        commandRef.current &&
-        !commandRef.current.contains(event.target as Node) &&
-        searchInputRef.current &&
-        !searchInputRef.current.contains(event.target as Node)
-      ) {
-        setCommandOpen(false);
-      }
-    };
-
-    if (commandOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }
-  }, [commandOpen]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -220,6 +352,10 @@ export default function SearchForm({
     setIsDrawerOpen(false);
   };
 
+  const toggleSection = (section: string) => {
+    setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
+  };
+
   const hasActiveFilters =
     selectedCriteria.color ||
     selectedCriteria.area ||
@@ -239,190 +375,79 @@ export default function SearchForm({
     selectedCriteria.school,
   ].filter(Boolean).length;
 
-  // Filter content shared between mobile drawer and desktop collapsible
+  // Shared filter content for both mobile drawer and desktop
   const FilterContent = ({ isMobile = false }: { isMobile?: boolean }) => (
-    <div className={isMobile ? 'space-y-5' : 'space-y-2 sm:space-y-3'}>
-      <div className={isMobile ? 'space-y-2' : 'space-y-1 sm:space-y-1.5'}>
-        <Label
-          htmlFor={isMobile ? 'color-mobile' : 'color'}
-          className={
-            isMobile
-              ? 'text-sm text-foreground font-medium'
-              : 'text-[10px] sm:text-xs text-muted-foreground font-medium'
-          }
-        >
-          {t('color')}
-        </Label>
-        <Select
-          key={selectedCriteria.color || 'color-empty'}
-          value={draftAdvancedFilters.color || undefined}
-          onValueChange={(value) => handleDraftChange('color', value)}
-        >
-          <SelectTrigger
-            id={isMobile ? 'color-mobile' : 'color'}
-            className={
-              isMobile
-                ? 'h-12 text-base bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0'
-                : 'h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0'
-            }
-          >
-            <SelectValue placeholder={t('selectColor')} />
-          </SelectTrigger>
-          <SelectContent className="bg-white">
-            {translatedColorOptions.map(({ key, displayName, color }) => (
-              <SelectItem
-                key={key}
-                value={key}
-                className={
-                  isMobile
-                    ? 'text-base text-foreground py-3'
-                    : 'text-xs sm:text-sm text-foreground focus:bg-transparent focus:text-foreground'
-                }
-              >
-                <div className="flex items-center gap-2">
-                  <div
-                    className={
-                      isMobile
-                        ? 'w-4 h-4 rounded border'
-                        : 'w-3 h-3 sm:w-3.5 sm:h-3.5 rounded border'
-                    }
-                    style={{
-                      backgroundColor: color,
-                    }}
-                  />
-                  <span>{displayName}</span>
-                </div>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+    <div className={isMobile ? 'space-y-0' : 'space-y-0'}>
+      {/* Colors Section */}
+      <FilterSection
+        title={t('color')}
+        isExpanded={expandedSections.color}
+        onToggle={() => toggleSection('color')}
+        hasSelection={!!draftAdvancedFilters.color}
+      >
+        <div className="flex flex-wrap gap-1">
+          {translatedColorOptions.map(({ key, displayName, color }) => (
+            <ColorSwatch
+              key={key}
+              color={color}
+              colorKey={key}
+              displayName={displayName}
+              isSelected={draftAdvancedFilters.color === key}
+              onSelect={() =>
+                handleDraftChange('color', draftAdvancedFilters.color === key ? '' : key)
+              }
+            />
+          ))}
+        </div>
+      </FilterSection>
 
-      <div className={isMobile ? 'space-y-2' : 'space-y-1 sm:space-y-1.5'}>
-        <Label
-          htmlFor={isMobile ? 'area-mobile' : 'area'}
-          className={
-            isMobile
-              ? 'text-sm text-foreground font-medium'
-              : 'text-[10px] sm:text-xs text-muted-foreground font-medium'
-          }
-        >
-          {t('city')}
-        </Label>
-        <Select
-          key={selectedCriteria.area || 'area-empty'}
-          value={draftAdvancedFilters.area || undefined}
-          onValueChange={(value) => handleDraftChange('area', value)}
-        >
-          <SelectTrigger
-            id={isMobile ? 'area-mobile' : 'area'}
-            className={
-              isMobile
-                ? 'h-12 text-base bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0'
-                : 'h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0'
-            }
-          >
-            <SelectValue placeholder={t('selectCity')} />
-          </SelectTrigger>
-          <SelectContent className="bg-white">
-            {areas.map((area) => (
-              <SelectItem
-                key={area}
-                value={area}
-                className={
-                  isMobile ? 'text-base text-foreground py-3' : 'text-xs sm:text-sm text-foreground'
-                }
-              >
-                {area}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      {/* City Section */}
+      <FilterSection
+        title={t('city')}
+        isExpanded={expandedSections.area}
+        onToggle={() => toggleSection('area')}
+        hasSelection={!!draftAdvancedFilters.area}
+      >
+        <div className="max-h-48 overflow-y-auto pr-1">
+          <ChipSelector
+            options={areas}
+            selected={draftAdvancedFilters.area}
+            onSelect={(value) => handleDraftChange('area', value)}
+          />
+        </div>
+      </FilterSection>
 
-      <div className={isMobile ? 'space-y-2' : 'space-y-1 sm:space-y-1.5'}>
-        <Label
-          htmlFor={isMobile ? 'field-mobile' : 'field'}
-          className={
-            isMobile
-              ? 'text-sm text-foreground font-medium'
-              : 'text-[10px] sm:text-xs text-muted-foreground font-medium'
-          }
-        >
-          {t('field')}
-        </Label>
-        <Select
-          key={selectedCriteria.field || 'field-empty'}
-          value={draftAdvancedFilters.field || undefined}
-          onValueChange={(value) => handleDraftChange('field', value)}
-        >
-          <SelectTrigger
-            id={isMobile ? 'field-mobile' : 'field'}
-            className={
-              isMobile
-                ? 'h-12 text-base bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0'
-                : 'h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0'
-            }
-          >
-            <SelectValue placeholder={t('selectField')} />
-          </SelectTrigger>
-          <SelectContent className="bg-white">
-            {fields.map((field) => (
-              <SelectItem
-                key={field}
-                value={field}
-                className={
-                  isMobile ? 'text-base text-foreground py-3' : 'text-xs sm:text-sm text-foreground'
-                }
-              >
-                {field}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      {/* Field Section */}
+      <FilterSection
+        title={t('field')}
+        isExpanded={expandedSections.field}
+        onToggle={() => toggleSection('field')}
+        hasSelection={!!draftAdvancedFilters.field}
+      >
+        <div className="max-h-48 overflow-y-auto pr-1">
+          <ChipSelector
+            options={fields}
+            selected={draftAdvancedFilters.field}
+            onSelect={(value) => handleDraftChange('field', value)}
+          />
+        </div>
+      </FilterSection>
 
-      <div className={isMobile ? 'space-y-2' : 'space-y-1 sm:space-y-1.5'}>
-        <Label
-          htmlFor={isMobile ? 'school-mobile' : 'school'}
-          className={
-            isMobile
-              ? 'text-sm text-foreground font-medium'
-              : 'text-[10px] sm:text-xs text-muted-foreground font-medium'
-          }
-        >
-          {t('school')}
-        </Label>
-        <Select
-          key={selectedCriteria.school || 'school-empty'}
-          value={draftAdvancedFilters.school || undefined}
-          onValueChange={(value) => handleDraftChange('school', value)}
-        >
-          <SelectTrigger
-            id={isMobile ? 'school-mobile' : 'school'}
-            className={
-              isMobile
-                ? 'h-12 text-base bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0'
-                : 'h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0'
-            }
-          >
-            <SelectValue placeholder={t('selectSchool')} />
-          </SelectTrigger>
-          <SelectContent className="bg-white">
-            {schools.map((school) => (
-              <SelectItem
-                key={school}
-                value={school}
-                className={
-                  isMobile ? 'text-base text-foreground py-3' : 'text-xs sm:text-sm text-foreground'
-                }
-              >
-                {school}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      {/* School Section */}
+      <FilterSection
+        title={t('school')}
+        isExpanded={expandedSections.school}
+        onToggle={() => toggleSection('school')}
+        hasSelection={!!draftAdvancedFilters.school}
+      >
+        <div className="max-h-48 overflow-y-auto pr-1">
+          <ChipSelector
+            options={schools}
+            selected={draftAdvancedFilters.school}
+            onSelect={(value) => handleDraftChange('school', value)}
+          />
+        </div>
+      </FilterSection>
     </div>
   );
 
@@ -534,7 +559,7 @@ export default function SearchForm({
               </button>
             </DrawerTrigger>
             <DrawerContent className="max-h-[85vh]">
-              <DrawerHeader className="text-left">
+              <DrawerHeader className="text-left border-b border-border">
                 <DrawerTitle className="flex items-center justify-between">
                   <span>{t('filters')}</span>
                   {hasActiveFilters && (
@@ -598,14 +623,14 @@ export default function SearchForm({
                 )}
               </button>
             </CollapsibleTrigger>
-            <CollapsibleContent className="mt-2 sm:mt-3 border-l border-muted/30 pl-3">
+            <CollapsibleContent className="mt-2 sm:mt-3">
               <FilterContent />
 
               {hasDraftChanges && (
                 <Button
                   type="button"
                   onClick={handleApplyFilters}
-                  className="h-9 sm:h-10 text-xs sm:text-sm bg-green hover:bg-green/90 text-white mt-3"
+                  className="h-9 sm:h-10 text-xs sm:text-sm bg-green hover:bg-green/90 text-white mt-4"
                 >
                   {t('filter')} {draftFilterResultCount >= 0 && `(${draftFilterResultCount})`}
                 </Button>
