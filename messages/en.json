@@ -80,7 +80,8 @@
     "showAll": "Show all",
     "orSelect": "OR SELECT",
     "filter": "Filter",
-    "clear": "Clear"
+    "clear": "Clear",
+    "close": "Close"
   },
   "fields": {
     "title": "Fields of Study",

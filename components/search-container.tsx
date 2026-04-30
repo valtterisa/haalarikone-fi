@@ -27,6 +27,8 @@ export type Criteria = {
   textSearch: string;
   color:
     | ''
+    | 'valkoinen'
+    | 'musta'
     | 'punainen'
     | 'sininen'
     | 'vihreä'
@@ -36,9 +38,7 @@ export type Criteria = {
     | 'pinkki'
     | 'harmaa'
     | 'ruskea'
-    | 'turkoosi'
-    | 'black'
-    | 'white';
+    | 'turkoosi';
   area: string;
   field: string;
   school: string;

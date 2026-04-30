@@ -38,8 +38,8 @@ export async function loadColorData(): Promise<ColorData> {
   const normalizeBaseColorKeyInline = (key: string): string | null => {
     const k = key.toLowerCase().trim();
     if (!k) return null;
-    if (k === 'valkoinen' || k === 'white') return 'white';
-    if (k === 'musta' || k === 'black') return 'black';
+    if (k === 'valkoinen' || k === 'white') return 'valkoinen';
+    if (k === 'musta' || k === 'black') return 'musta';
     if (k === 'punainen' || k === 'red') return 'punainen';
     if (k === 'sininen' || k === 'blue' || k === 'navy' || k === 'navy blue') return 'sininen';
     if (k === 'vihreä' || k === 'green') return 'vihreä';
@@ -61,11 +61,11 @@ export async function loadColorData(): Promise<ColorData> {
       if (s.includes(token)) out.add(base);
     };
 
-    addIf('valkoinen', 'white');
-    addIf('white', 'white');
+    addIf('valkoinen', 'valkoinen');
+    addIf('white', 'valkoinen');
 
-    addIf('musta', 'black');
-    addIf('black', 'black');
+    addIf('musta', 'musta');
+    addIf('black', 'musta');
 
     addIf('punainen', 'punainen');
     addIf('red', 'punainen');
@@ -191,8 +191,8 @@ export async function loadColorData(): Promise<ColorData> {
 
 function getMainColorName(baseColorKey: string): string {
   const mainColors: Record<string, string> = {
-    white: 'valkoinen',
-    black: 'musta',
+    valkoinen: 'valkoinen',
+    musta: 'musta',
     punainen: 'punainen',
     sininen: 'sininen',
     vihreä: 'vihreä',
@@ -209,8 +209,8 @@ function getMainColorName(baseColorKey: string): string {
 
 function getDefaultHex(colorKey: string): string {
   const defaults: Record<string, string> = {
-    white: '#FFFFFF',
-    black: '#000000',
+    valkoinen: '#FFFFFF',
+    musta: '#000000',
     punainen: '#EE4B2B',
     sininen: '#5179E1',
     vihreä: '#00A000',

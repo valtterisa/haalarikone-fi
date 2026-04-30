@@ -80,7 +80,8 @@
     "showAll": "Näytä kaikki",
     "orSelect": "TAI VALITSE",
     "filter": "Suodata",
-    "clear": "Tyhjennä"
+    "clear": "Tyhjennä",
+    "close": "Sulje"
   },
   "fields": {
     "title": "Opiskelualat",

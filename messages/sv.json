@@ -80,7 +80,8 @@
     "showAll": "Visa alla",
     "orSelect": "ELLER VÄLJ",
     "filter": "Filtrera",
-    "clear": "Rensa"
+    "clear": "Rensa",
+    "close": "Stäng"
   },
   "fields": {
     "title": "Studieområden",
