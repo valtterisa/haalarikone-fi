@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
+
 import {
   Drawer,
   DrawerClose,
@@ -746,94 +746,221 @@ export default function SearchForm({
         {/* Active filter chips for mobile */}
         <ActiveFilterChips />
 
-        {/* Desktop: Collapsible filters */}
-        <div className="px-3 pb-3 pt-3 sm:px-6 border-t border-border/50 hidden sm:block">
-          <Collapsible open={isAdvancedSearchOpen} onOpenChange={setIsAdvancedSearchOpen}>
-            <CollapsibleTrigger asChild>
+        {/* Desktop: Tab-based filters */}
+        <div className="px-3 pb-4 pt-3 sm:px-6 border-t border-border/50 hidden sm:block">
+          {/* Filter header with toggle */}
+          <button
+            type="button"
+            onClick={() => setIsAdvancedSearchOpen(!isAdvancedSearchOpen)}
+            className="w-full flex items-center justify-between py-1.5 px-0 text-left hover:opacity-70 transition-opacity"
+          >
+            <div className="flex items-center gap-2">
+              <SlidersHorizontal className="w-3.5 h-3.5 text-muted-foreground" />
+              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                {t('filters')}
+              </span>
+              {hasActiveFilters && (
+                <span className="text-xs text-muted-foreground font-normal normal-case tracking-normal">
+                  ({activeFilterCount})
+                </span>
+              )}
+            </div>
+            {isAdvancedSearchOpen ? (
+              <ChevronUp className="w-3.5 h-3.5 text-muted-foreground" />
+            ) : (
+              <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
+            )}
+          </button>
+
+          {/* Active filters preview when collapsed */}
+          {!isAdvancedSearchOpen && hasActiveFilters && (
+            <div className="flex items-center gap-2 mt-2 pt-2 border-t border-border/30">
+              {[
+                {
+                  key: 'color',
+                  value: selectedCriteria.color,
+                  display: selectedCriteria.color
+                    ? translateEntity(selectedCriteria.color, 'color')
+                    : null,
+                  color: selectedCriteria.color
+                    ? colorData.colors[selectedCriteria.color]?.color
+                    : null,
+                },
+                { key: 'area', value: selectedCriteria.area, display: selectedCriteria.area },
+                { key: 'field', value: selectedCriteria.field, display: selectedCriteria.field },
+                {
+                  key: 'school',
+                  value: selectedCriteria.school,
+                  display: selectedCriteria.school,
+                },
+              ]
+                .filter((f) => f.value)
+                .map((filter) => (
+                  <button
+                    key={filter.key}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDraftAdvancedFilterChange({ ...draftAdvancedFilters, [filter.key]: '' });
+                      onApplyAdvancedFilters();
+                    }}
+                    className="inline-flex items-center gap-1.5 px-2 py-1 text-xs bg-muted/50 text-foreground rounded hover:bg-muted transition-colors"
+                  >
+                    {filter.key === 'color' && filter.color && (
+                      <span
+                        className="w-2.5 h-2.5 rounded-full border border-border/50"
+                        style={{ backgroundColor: filter.color }}
+                      />
+                    )}
+                    <span>{filter.display}</span>
+                    <X className="w-3 h-3 text-muted-foreground" />
+                  </button>
+                ))}
               <button
                 type="button"
-                className="w-full flex items-center justify-between py-1 sm:py-1.5 px-0 text-left hover:opacity-70 transition-opacity group"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleClear();
+                }}
+                className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors ml-1"
               >
-                <div className="flex items-center gap-2">
-                  <SlidersHorizontal className="w-3.5 h-3.5 text-muted-foreground" />
-                  <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                    {t('filters')}
-                  </span>
-                  {hasActiveFilters && (
-                    <span className="text-xs text-muted-foreground font-normal normal-case tracking-normal">
-                      ({activeFilterCount})
-                    </span>
-                  )}
-                </div>
-                {isAdvancedSearchOpen ? (
-                  <ChevronUp className="w-3.5 h-3.5 text-muted-foreground" />
-                ) : (
-                  <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
-                )}
+                {t('clear')}
               </button>
-            </CollapsibleTrigger>
+            </div>
+          )}
 
-            {/* Active filters preview when collapsed */}
-            {!isAdvancedSearchOpen && hasActiveFilters && (
-              <div className="flex items-center gap-2 mt-2 pt-2 border-t border-border/30">
+          {/* Tab-based filter content */}
+          {isAdvancedSearchOpen && (
+            <div className="mt-3 animate-in fade-in slide-in-from-top-2 duration-200">
+              {/* Tab navigation */}
+              <div className="flex gap-1 border-b border-border/50">
                 {[
-                  {
-                    key: 'color',
-                    value: selectedCriteria.color,
-                    display: selectedCriteria.color
-                      ? translateEntity(selectedCriteria.color, 'color')
-                      : null,
-                    color: selectedCriteria.color
-                      ? colorData.colors[selectedCriteria.color]?.color
-                      : null,
-                  },
-                  { key: 'area', value: selectedCriteria.area, display: selectedCriteria.area },
-                  { key: 'field', value: selectedCriteria.field, display: selectedCriteria.field },
-                  {
-                    key: 'school',
-                    value: selectedCriteria.school,
-                    display: selectedCriteria.school,
-                  },
-                ]
-                  .filter((f) => f.value)
-                  .map((filter) => (
-                    <button
-                      key={filter.key}
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onDraftAdvancedFilterChange({ ...draftAdvancedFilters, [filter.key]: '' });
-                        onApplyAdvancedFilters();
-                      }}
-                      className="inline-flex items-center gap-1.5 px-2 py-1 text-xs bg-muted/50 text-foreground rounded hover:bg-muted transition-colors"
-                    >
-                      {filter.key === 'color' && filter.color && (
-                        <span
-                          className="w-2.5 h-2.5 rounded-full border border-border/50"
-                          style={{ backgroundColor: filter.color }}
-                        />
-                      )}
-                      <span>{filter.display}</span>
-                      <X className="w-3 h-3 text-muted-foreground" />
-                    </button>
-                  ))}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleClear();
-                  }}
-                  className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors ml-1"
-                >
-                  {t('clear')}
-                </button>
+                  { key: 'color', label: t('color'), hasValue: !!draftAdvancedFilters.color },
+                  { key: 'area', label: t('city'), hasValue: !!draftAdvancedFilters.area },
+                  { key: 'field', label: t('field'), hasValue: !!draftAdvancedFilters.field },
+                  { key: 'school', label: t('school'), hasValue: !!draftAdvancedFilters.school },
+                ].map((tab) => (
+                  <button
+                    key={tab.key}
+                    type="button"
+                    onClick={() =>
+                      setExpandedSections({
+                        color: false,
+                        area: false,
+                        field: false,
+                        school: false,
+                        [tab.key]: true,
+                      })
+                    }
+                    className={`px-4 py-2.5 text-sm font-medium relative transition-colors ${
+                      expandedSections[tab.key]
+                        ? 'text-foreground'
+                        : 'text-muted-foreground hover:text-foreground/70'
+                    }`}
+                  >
+                    <span className="flex items-center gap-1.5">
+                      {tab.label}
+                      {tab.hasValue && <span className="w-1.5 h-1.5 rounded-full bg-green" />}
+                    </span>
+                    {expandedSections[tab.key] && (
+                      <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-green rounded-full" />
+                    )}
+                  </button>
+                ))}
               </div>
-            )}
 
-            <CollapsibleContent className="mt-3">
-              <FilterContent />
+              {/* Tab content */}
+              <div className="pt-4">
+                {/* Colors */}
+                {expandedSections.color && (
+                  <div className="flex flex-wrap gap-1">
+                    {translatedColorOptions.map(({ key, displayName, color }) => (
+                      <ColorSwatch
+                        key={key}
+                        color={color}
+                        colorKey={key}
+                        displayName={displayName}
+                        isSelected={draftAdvancedFilters.color === key}
+                        onSelect={() =>
+                          handleDraftChange('color', draftAdvancedFilters.color === key ? '' : key)
+                        }
+                      />
+                    ))}
+                  </div>
+                )}
 
-              <div className="flex items-center gap-3 mt-4">
+                {/* Cities */}
+                {expandedSections.area && (
+                  <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto scrollbar-none">
+                    {areas.map((area) => {
+                      const isSelected = draftAdvancedFilters.area === area;
+                      return (
+                        <button
+                          key={area}
+                          type="button"
+                          onClick={() => handleDraftChange('area', isSelected ? '' : area)}
+                          className={`px-3 py-1.5 text-sm rounded-lg transition-all shadow-sm ${
+                            isSelected
+                              ? 'bg-green text-white'
+                              : 'bg-muted text-foreground hover:bg-muted/80'
+                          }`}
+                        >
+                          {area}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Fields */}
+                {expandedSections.field && (
+                  <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto scrollbar-none">
+                    {fields.map((field) => {
+                      const isSelected = draftAdvancedFilters.field === field;
+                      return (
+                        <button
+                          key={field}
+                          type="button"
+                          onClick={() => handleDraftChange('field', isSelected ? '' : field)}
+                          className={`px-3 py-1.5 text-sm rounded-lg transition-all shadow-sm ${
+                            isSelected
+                              ? 'bg-green text-white'
+                              : 'bg-muted text-foreground hover:bg-muted/80'
+                          }`}
+                        >
+                          {field}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Schools */}
+                {expandedSections.school && (
+                  <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto scrollbar-none">
+                    {schools.map((school) => {
+                      const isSelected = draftAdvancedFilters.school === school;
+                      return (
+                        <button
+                          key={school}
+                          type="button"
+                          onClick={() => handleDraftChange('school', isSelected ? '' : school)}
+                          className={`px-3 py-1.5 text-sm rounded-lg transition-all shadow-sm ${
+                            isSelected
+                              ? 'bg-green text-white'
+                              : 'bg-muted text-foreground hover:bg-muted/80'
+                          }`}
+                        >
+                          {school}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {/* Action buttons */}
+              <div className="flex items-center gap-3 mt-4 pt-4 border-t border-border/30">
                 {hasDraftChanges && (
                   <Button
                     type="button"
@@ -853,8 +980,8 @@ export default function SearchForm({
                   </button>
                 )}
               </div>
-            </CollapsibleContent>
-          </Collapsible>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>
