@@ -159,8 +159,8 @@ function ColorSwatch({
   isSelected: boolean;
   onSelect: () => void;
 }) {
-  const isWhite = colorKey === 'white' || color === '#FFFFFF';
-  const isBlack = colorKey === 'black' || color === '#000000';
+  const isWhite = colorKey === 'valkoinen' || color === '#FFFFFF';
+  const isBlack = colorKey === 'musta' || color === '#000000';
 
   return (
     <button
@@ -227,8 +227,6 @@ export default function SearchForm({
   ): string => {
     if (type === 'color') {
       const baseToFiKey: Record<string, string> = {
-        white: 'valkoinen',
-        black: 'musta',
         punainen: 'punainen',
         sininen: 'sininen',
         vihreä: 'vihreä',
@@ -262,9 +260,9 @@ export default function SearchForm({
     return Object.entries(colorData.colors).map(([colorKey, data]) => {
       let displayColor = data.color;
 
-      if (colorKey === 'white') {
+      if (colorKey === 'valkoinen') {
         displayColor = '#FFFFFF';
-      } else if (colorKey === 'black') {
+      } else if (colorKey === 'musta') {
         displayColor = '#000000';
       }
 
@@ -619,8 +617,8 @@ export default function SearchForm({
                   <div className="grid grid-cols-4 gap-3">
                     {translatedColorOptions.map(({ key, displayName, color }) => {
                       const isSelected = draftAdvancedFilters.color === key;
-                      const isWhite = key === 'white' || color === '#FFFFFF';
-                      const isBlack = key === 'black' || color === '#000000';
+                      const isWhite = key === 'valkoinen' || color === '#FFFFFF';
+                      const isBlack = key === 'musta' || color === '#000000';
                       return (
                         <button
                           key={key}
