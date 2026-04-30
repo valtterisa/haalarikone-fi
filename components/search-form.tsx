@@ -131,10 +131,10 @@ function ChipSelector({
             key={option}
             type="button"
             onClick={() => onSelect(isSelected ? '' : option)}
-            className={`px-3 py-1.5 text-sm rounded-full border transition-all duration-150 ${
+            className={`px-3 py-1.5 text-sm rounded-lg transition-all duration-150 ${
               isSelected
-                ? 'bg-green text-white border-green shadow-sm'
-                : 'bg-white text-foreground border-border hover:border-green/50 hover:bg-green/5'
+                ? 'bg-green text-white shadow-sm'
+                : 'bg-muted text-foreground shadow-sm hover:bg-muted/80'
             }`}
           >
             {option}
@@ -626,14 +626,14 @@ export default function SearchForm({
                           key={key}
                           type="button"
                           onClick={() => handleDraftChange('color', isSelected ? '' : key)}
-                          className={`flex flex-col items-center gap-2 p-3 rounded-xl transition-all ${
+                          className={`flex flex-col items-center gap-2 p-3 rounded-xl transition-all shadow-sm ${
                             isSelected
                               ? 'bg-green/10 ring-2 ring-green'
-                              : 'bg-muted/30 active:bg-muted/50'
+                              : 'bg-muted active:bg-muted/80'
                           }`}
                         >
                           <div
-                            className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                            className={`w-10 h-10 rounded-full flex items-center justify-center shadow-sm ${
                               isWhite ? 'border-2 border-border' : ''
                             }`}
                             style={{ backgroundColor: color }}
@@ -665,10 +665,10 @@ export default function SearchForm({
                           key={area}
                           type="button"
                           onClick={() => handleDraftChange('area', isSelected ? '' : area)}
-                          className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-all ${
+                          className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-all shadow-sm ${
                             isSelected
-                              ? 'bg-green text-white font-medium'
-                              : 'bg-muted/30 text-foreground active:bg-muted/50'
+                              ? 'bg-green text-white font-medium shadow-md'
+                              : 'bg-muted text-foreground active:bg-muted/80'
                           }`}
                         >
                           {area}
@@ -688,10 +688,10 @@ export default function SearchForm({
                           key={field}
                           type="button"
                           onClick={() => handleDraftChange('field', isSelected ? '' : field)}
-                          className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-all ${
+                          className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-all shadow-sm ${
                             isSelected
-                              ? 'bg-green text-white font-medium'
-                              : 'bg-muted/30 text-foreground active:bg-muted/50'
+                              ? 'bg-green text-white font-medium shadow-md'
+                              : 'bg-muted text-foreground active:bg-muted/80'
                           }`}
                         >
                           {field}
@@ -711,10 +711,10 @@ export default function SearchForm({
                           key={school}
                           type="button"
                           onClick={() => handleDraftChange('school', isSelected ? '' : school)}
-                          className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-all ${
+                          className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-all shadow-sm ${
                             isSelected
-                              ? 'bg-green text-white font-medium'
-                              : 'bg-muted/30 text-foreground active:bg-muted/50'
+                              ? 'bg-green text-white font-medium shadow-md'
+                              : 'bg-muted text-foreground active:bg-muted/80'
                           }`}
                         >
                           {school}
