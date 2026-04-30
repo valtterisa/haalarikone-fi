@@ -3,11 +3,25 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Input } from './ui/input';
-import { Label } from './ui/label';
 import { Button } from './ui/button';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Search as SearchIcon, ChevronDown, ChevronUp, X, Settings } from 'lucide-react';
+
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from './ui/drawer';
+import {
+  Search as SearchIcon,
+  ChevronDown,
+  ChevronUp,
+  X,
+  SlidersHorizontal,
+  Check,
+} from 'lucide-react';
 import { Criteria } from './search-container';
 import type { ColorData } from '@/lib/load-color-data';
 import { track } from '@databuddy/sdk';
@@ -40,6 +54,156 @@ type Translations = {
 
 const translations = translationsData as Translations;
 
+// Filter section component with expandable content
+function FilterSection({
+  title,
+  isExpanded,
+  onToggle,
+  children,
+  hasSelection,
+}: {
+  title: string;
+  isExpanded: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+  hasSelection: boolean;
+}) {
+  return (
+    <div className="border-b border-border/50 last:border-b-0">
+      <button
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          onToggle();
+        }}
+        className="w-full flex items-center justify-between py-3 px-1 text-left hover:bg-muted/30 transition-colors relative z-10"
+      >
+        <span className="text-sm font-medium text-foreground flex items-center gap-2">
+          {title}
+          {hasSelection && <span className="w-2 h-2 rounded-full bg-green" />}
+        </span>
+        <ChevronDown
+          className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${
+            isExpanded ? 'rotate-180' : ''
+          }`}
+        />
+      </button>
+      {isExpanded && (
+        <div className="pb-3 px-1 animate-in fade-in slide-in-from-top-1 duration-200">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Chip selector for options
+function ChipSelector({
+  options,
+  selected,
+  onSelect,
+  renderOption,
+}: {
+  options: string[];
+  selected: string;
+  onSelect: (value: string) => void;
+  renderOption?: (option: string, isSelected: boolean) => React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {options.map((option) => {
+        const isSelected = selected === option;
+        if (renderOption) {
+          return (
+            <button
+              key={option}
+              type="button"
+              onClick={() => onSelect(isSelected ? '' : option)}
+              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-green/50 rounded-lg"
+            >
+              {renderOption(option, isSelected)}
+            </button>
+          );
+        }
+        return (
+          <button
+            key={option}
+            type="button"
+            onClick={() => onSelect(isSelected ? '' : option)}
+            className={`px-3 py-1.5 text-sm rounded-lg transition-all duration-150 ${
+              isSelected
+                ? 'bg-green text-white shadow-sm'
+                : 'bg-muted text-foreground shadow-sm hover:bg-muted/80'
+            }`}
+          >
+            {option}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+// Color swatch component
+function ColorSwatch({
+  color,
+  colorKey,
+  displayName,
+  isSelected,
+  onSelect,
+}: {
+  color: string;
+  colorKey: string;
+  displayName: string;
+  isSelected: boolean;
+  onSelect: () => void;
+}) {
+  const isWhite = colorKey === 'valkoinen' || color === '#FFFFFF';
+  const isBlack = colorKey === 'musta' || color === '#000000';
+
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      className={`group flex flex-col items-center gap-1.5 p-2 rounded-lg transition-all duration-150 ${
+        isSelected ? 'bg-muted/70' : 'hover:bg-muted/40'
+      }`}
+      title={displayName}
+    >
+      <div
+        className={`w-8 h-8 rounded-full border-2 transition-all duration-150 flex items-center justify-center ${
+          isSelected
+            ? 'border-green ring-2 ring-green/30 scale-110'
+            : isWhite
+              ? 'border-border'
+              : 'border-transparent'
+        }`}
+        style={{ backgroundColor: color }}
+      >
+        {isSelected && (
+          <Check
+            className={`w-4 h-4 ${
+              isWhite || color === '#FFFF00' || color === '#FFA500'
+                ? 'text-foreground'
+                : isBlack
+                  ? 'text-white'
+                  : 'text-white'
+            }`}
+          />
+        )}
+      </div>
+      <span
+        className={`text-[10px] leading-tight text-center max-w-[50px] truncate ${
+          isSelected ? 'text-foreground font-medium' : 'text-muted-foreground'
+        }`}
+      >
+        {displayName}
+      </span>
+    </button>
+  );
+}
+
 export default function SearchForm({
   onTextSearchChange,
   onDraftAdvancedFilterChange,
@@ -63,8 +227,6 @@ export default function SearchForm({
   ): string => {
     if (type === 'color') {
       const baseToFiKey: Record<string, string> = {
-        white: 'valkoinen',
-        black: 'musta',
         punainen: 'punainen',
         sininen: 'sininen',
         vihreä: 'vihreä',
@@ -93,14 +255,14 @@ export default function SearchForm({
     return translation?.[locale] || value;
   };
 
-  // Translate color options for display (colors need translation since colorData uses Finnish keys)
+  // Translate color options for display
   const translatedColorOptions = useMemo(() => {
     return Object.entries(colorData.colors).map(([colorKey, data]) => {
       let displayColor = data.color;
 
-      if (colorKey === 'white') {
+      if (colorKey === 'valkoinen') {
         displayColor = '#FFFFFF';
-      } else if (colorKey === 'black') {
+      } else if (colorKey === 'musta') {
         displayColor = '#000000';
       }
 
@@ -110,10 +272,16 @@ export default function SearchForm({
         color: displayColor,
       };
     });
-  }, [locale, colorData.colors, translateEntity]);
+  }, [locale, colorData.colors]);
 
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
-  const [commandOpen, setCommandOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
+    color: true,
+    area: false,
+    field: false,
+    school: false,
+  });
   const [localSearchValue, setLocalSearchValue] = useState(selectedCriteria.textSearch);
   const lastTrackedSearchRef = useRef<string>('');
 
@@ -122,50 +290,18 @@ export default function SearchForm({
   }, [selectedCriteria.textSearch]);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const commandRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         e.stopPropagation();
-        setCommandOpen((prev) => !prev);
-      }
-      if (e.key === 'Escape') {
-        setCommandOpen(false);
+        searchInputRef.current?.focus();
       }
     };
     document.addEventListener('keydown', down, true);
     return () => document.removeEventListener('keydown', down, true);
   }, []);
-
-  useEffect(() => {
-    if (commandOpen && searchInputRef.current) {
-      requestAnimationFrame(() => {
-        searchInputRef.current?.focus();
-      });
-    }
-  }, [commandOpen]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        commandRef.current &&
-        !commandRef.current.contains(event.target as Node) &&
-        searchInputRef.current &&
-        !searchInputRef.current.contains(event.target as Node)
-      ) {
-        setCommandOpen(false);
-      }
-    };
-
-    if (commandOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }
-  }, [commandOpen]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -201,11 +337,17 @@ export default function SearchForm({
       location: 'search_form',
     });
     onApplyAdvancedFilters();
+    setIsDrawerOpen(false);
   };
 
   const handleClear = () => {
     onClearAll();
     setIsAdvancedSearchOpen(false);
+    setIsDrawerOpen(false);
+  };
+
+  const toggleSection = (section: string) => {
+    setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
   };
 
   const hasActiveFilters =
@@ -219,6 +361,138 @@ export default function SearchForm({
     draftAdvancedFilters.area !== selectedCriteria.area ||
     draftAdvancedFilters.field !== selectedCriteria.field ||
     draftAdvancedFilters.school !== selectedCriteria.school;
+
+  const activeFilterCount = [
+    selectedCriteria.color,
+    selectedCriteria.area,
+    selectedCriteria.field,
+    selectedCriteria.school,
+  ].filter(Boolean).length;
+
+  // Shared filter content for both mobile drawer and desktop
+  const FilterContent = ({ isMobile = false }: { isMobile?: boolean }) => (
+    <div className={isMobile ? 'space-y-0' : 'space-y-0'}>
+      {/* Colors Section */}
+      <FilterSection
+        title={t('color')}
+        isExpanded={expandedSections.color}
+        onToggle={() => toggleSection('color')}
+        hasSelection={!!draftAdvancedFilters.color}
+      >
+        <div className="flex flex-wrap gap-1">
+          {translatedColorOptions.map(({ key, displayName, color }) => (
+            <ColorSwatch
+              key={key}
+              color={color}
+              colorKey={key}
+              displayName={displayName}
+              isSelected={draftAdvancedFilters.color === key}
+              onSelect={() =>
+                handleDraftChange('color', draftAdvancedFilters.color === key ? '' : key)
+              }
+            />
+          ))}
+        </div>
+      </FilterSection>
+
+      {/* City Section */}
+      <FilterSection
+        title={t('city')}
+        isExpanded={expandedSections.area}
+        onToggle={() => toggleSection('area')}
+        hasSelection={!!draftAdvancedFilters.area}
+      >
+        <div className="max-h-48 overflow-y-auto scrollbar-none">
+          <ChipSelector
+            options={areas}
+            selected={draftAdvancedFilters.area}
+            onSelect={(value) => handleDraftChange('area', value)}
+          />
+        </div>
+      </FilterSection>
+
+      {/* Field Section */}
+      <FilterSection
+        title={t('field')}
+        isExpanded={expandedSections.field}
+        onToggle={() => toggleSection('field')}
+        hasSelection={!!draftAdvancedFilters.field}
+      >
+        <div className="max-h-48 overflow-y-auto scrollbar-none">
+          <ChipSelector
+            options={fields}
+            selected={draftAdvancedFilters.field}
+            onSelect={(value) => handleDraftChange('field', value)}
+          />
+        </div>
+      </FilterSection>
+
+      {/* School Section */}
+      <FilterSection
+        title={t('school')}
+        isExpanded={expandedSections.school}
+        onToggle={() => toggleSection('school')}
+        hasSelection={!!draftAdvancedFilters.school}
+      >
+        <div className="max-h-48 overflow-y-auto scrollbar-none">
+          <ChipSelector
+            options={schools}
+            selected={draftAdvancedFilters.school}
+            onSelect={(value) => handleDraftChange('school', value)}
+          />
+        </div>
+      </FilterSection>
+    </div>
+  );
+
+  // Active filter chips for mobile
+  const ActiveFilterChips = () => {
+    if (!hasActiveFilters) return null;
+
+    const filters = [
+      {
+        key: 'color',
+        value: selectedCriteria.color,
+        display: selectedCriteria.color ? translateEntity(selectedCriteria.color, 'color') : null,
+        color: selectedCriteria.color ? colorData.colors[selectedCriteria.color]?.color : null,
+      },
+      { key: 'area', value: selectedCriteria.area, display: selectedCriteria.area },
+      { key: 'field', value: selectedCriteria.field, display: selectedCriteria.field },
+      { key: 'school', value: selectedCriteria.school, display: selectedCriteria.school },
+    ].filter((f) => f.value);
+
+    return (
+      <div className="flex flex-wrap items-center gap-2 px-3 pb-3 sm:hidden">
+        {filters.map((filter) => (
+          <button
+            key={filter.key}
+            type="button"
+            onClick={() => {
+              onDraftAdvancedFilterChange({ ...draftAdvancedFilters, [filter.key]: '' });
+              onApplyAdvancedFilters();
+            }}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-sm bg-muted/60 text-foreground rounded-md active:bg-muted transition-colors"
+          >
+            {filter.key === 'color' && filter.color && (
+              <span
+                className="w-2.5 h-2.5 rounded-full border border-border/50"
+                style={{ backgroundColor: filter.color }}
+              />
+            )}
+            <span>{filter.display}</span>
+            <X className="w-3.5 h-3.5 text-muted-foreground" />
+          </button>
+        ))}
+        <button
+          type="button"
+          onClick={handleClear}
+          className="px-2.5 py-1.5 text-sm text-muted-foreground active:text-foreground transition-colors"
+        >
+          {t('clear')}
+        </button>
+      </div>
+    );
+  };
 
   return (
     <motion.div
@@ -244,7 +518,7 @@ export default function SearchForm({
             />
             {!localSearchValue && !isSearching && (
               <kbd className="absolute right-3 sm:right-6 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-                <span className="text-xs">⌘</span>K
+                <span className="text-xs">&#8984;</span>K
               </kbd>
             )}
             {isSearching && (
@@ -265,201 +539,448 @@ export default function SearchForm({
           </div>
         </div>
 
-        <div className="px-3 pb-3 pt-3 sm:px-6 border-t border-border/50">
-          <Collapsible open={isAdvancedSearchOpen} onOpenChange={setIsAdvancedSearchOpen}>
-            <CollapsibleTrigger asChild>
+        {/* Mobile: Filter button that opens drawer */}
+        <div className="px-3 pb-1 pt-1 sm:hidden border-t border-border/50">
+          <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+            <DrawerTrigger asChild>
               <button
                 type="button"
-                className="w-full flex items-center justify-between py-1 sm:py-1.5 px-0 text-left hover:opacity-70 transition-opacity group"
+                className="w-full flex items-center justify-between py-3 px-0 text-left active:opacity-70 transition-opacity"
               >
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                  <Settings className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground" />
-                  <span className="text-[10px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                    {t('filters')}
-                  </span>
+                <div className="flex items-center gap-2">
+                  <SlidersHorizontal className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-sm font-medium text-foreground">{t('filters')}</span>
                   {hasActiveFilters && (
-                    <span className="ml-1 px-1 py-0.5 sm:ml-1.5 sm:px-1.5 text-[9px] sm:text-[10px] bg-green text-white rounded-full font-medium">
-                      {
-                        [
-                          selectedCriteria.color,
-                          selectedCriteria.area,
-                          selectedCriteria.field,
-                          selectedCriteria.school,
-                        ].filter(Boolean).length
-                      }
+                    <span className="px-2 py-0.5 text-xs bg-green text-white rounded-full font-medium">
+                      {activeFilterCount}
                     </span>
                   )}
                 </div>
-                {isAdvancedSearchOpen ? (
-                  <ChevronUp className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground" />
-                ) : (
-                  <ChevronDown className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground" />
-                )}
+                <ChevronDown className="w-4 h-4 text-muted-foreground" />
               </button>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="mt-2 sm:mt-3 border-l border-muted/30 space-y-2 sm:space-y-3">
-              <div className="space-y-1 sm:space-y-1.5">
-                <Label
-                  htmlFor="color"
-                  className="text-[10px] sm:text-xs text-muted-foreground font-medium"
-                >
-                  {t('color')}
-                </Label>
-                <Select
-                  key={selectedCriteria.color || 'color-empty'}
-                  value={draftAdvancedFilters.color || undefined}
-                  onValueChange={(value) => handleDraftChange('color', value)}
-                >
-                  <SelectTrigger
-                    id="color"
-                    className="h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0"
+            </DrawerTrigger>
+            <DrawerContent className="h-[85vh] flex flex-col">
+              <DrawerHeader className="text-left border-b border-border flex-shrink-0">
+                <DrawerTitle className="flex items-center justify-between">
+                  <span>{t('filters')}</span>
+                  {hasActiveFilters && (
+                    <button
+                      type="button"
+                      onClick={handleClear}
+                      className="text-sm font-normal text-muted-foreground active:text-foreground transition-colors"
+                    >
+                      {t('clear')}
+                    </button>
+                  )}
+                </DrawerTitle>
+              </DrawerHeader>
+
+              {/* Tab navigation */}
+              <div className="flex gap-1 overflow-x-auto border-b border-border flex-shrink-0">
+                {[
+                  { key: 'color', label: t('color'), hasValue: !!draftAdvancedFilters.color },
+                  { key: 'area', label: t('city'), hasValue: !!draftAdvancedFilters.area },
+                  { key: 'field', label: t('field'), hasValue: !!draftAdvancedFilters.field },
+                  { key: 'school', label: t('school'), hasValue: !!draftAdvancedFilters.school },
+                ].map((tab) => (
+                  <button
+                    key={tab.key}
+                    type="button"
+                    onClick={() =>
+                      setExpandedSections({
+                        color: false,
+                        area: false,
+                        field: false,
+                        school: false,
+                        [tab.key]: true,
+                      })
+                    }
+                    className={`w-fit flex-shrink-0 px-3 py-3 text-sm font-medium relative transition-colors ${
+                      expandedSections[tab.key] ? 'text-foreground' : 'text-muted-foreground'
+                    }`}
                   >
-                    <SelectValue placeholder={t('selectColor')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white">
-                    {translatedColorOptions.map(({ key, displayName, color }) => (
-                      <SelectItem
-                        key={key}
-                        value={key}
-                        className="text-xs sm:text-sm text-foreground focus:bg-transparent focus:text-foreground"
-                      >
-                        <div className="flex items-center gap-1.5 sm:gap-2">
+                    <span className="flex items-center justify-center gap-1.5">
+                      {tab.label}
+                      {tab.hasValue && <span className="w-1.5 h-1.5 rounded-full bg-green" />}
+                    </span>
+                    {expandedSections[tab.key] && (
+                      <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-green rounded-full" />
+                    )}
+                  </button>
+                ))}
+              </div>
+
+              {/* Content area - single scroll */}
+              <div className="flex-1 overflow-y-auto p-4">
+                {/* Colors */}
+                {expandedSections.color && (
+                  <div className="grid grid-cols-4 gap-3">
+                    {translatedColorOptions.map(({ key, displayName, color }) => {
+                      const isSelected = draftAdvancedFilters.color === key;
+                      const isWhite = key === 'valkoinen' || color === '#FFFFFF';
+                      const isBlack = key === 'musta' || color === '#000000';
+                      return (
+                        <button
+                          key={key}
+                          type="button"
+                          onClick={() => handleDraftChange('color', isSelected ? '' : key)}
+                          className={`flex flex-col items-center gap-2 p-3 rounded-xl transition-all shadow-sm ${
+                            isSelected
+                              ? 'bg-green/10 ring-2 ring-green'
+                              : 'bg-muted active:bg-muted/80'
+                          }`}
+                        >
                           <div
-                            className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded border"
-                            style={{
-                              backgroundColor: color,
-                            }}
-                          />
-                          <span>{displayName}</span>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                            className={`w-10 h-10 rounded-full flex items-center justify-center shadow-sm ${
+                              isWhite ? 'border-2 border-border' : ''
+                            }`}
+                            style={{ backgroundColor: color }}
+                          >
+                            {isSelected && (
+                              <Check
+                                className={`w-5 h-5 ${isWhite || color === '#FFFF00' || color === '#FFA500' ? 'text-foreground' : 'text-white'}`}
+                              />
+                            )}
+                          </div>
+                          <span
+                            className={`text-xs text-center leading-tight ${isSelected ? 'text-foreground font-medium' : 'text-muted-foreground'}`}
+                          >
+                            {displayName}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Cities */}
+                {expandedSections.area && (
+                  <div className="flex flex-col gap-2">
+                    {areas.map((area) => {
+                      const isSelected = draftAdvancedFilters.area === area;
+                      return (
+                        <button
+                          key={area}
+                          type="button"
+                          onClick={() => handleDraftChange('area', isSelected ? '' : area)}
+                          className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-all shadow-sm ${
+                            isSelected
+                              ? 'bg-green text-white font-medium shadow-md'
+                              : 'bg-muted text-foreground active:bg-muted/80'
+                          }`}
+                        >
+                          {area}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Fields */}
+                {expandedSections.field && (
+                  <div className="flex flex-col gap-2">
+                    {fields.map((field) => {
+                      const isSelected = draftAdvancedFilters.field === field;
+                      return (
+                        <button
+                          key={field}
+                          type="button"
+                          onClick={() => handleDraftChange('field', isSelected ? '' : field)}
+                          className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-all shadow-sm ${
+                            isSelected
+                              ? 'bg-green text-white font-medium shadow-md'
+                              : 'bg-muted text-foreground active:bg-muted/80'
+                          }`}
+                        >
+                          {field}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Schools */}
+                {expandedSections.school && (
+                  <div className="flex flex-col gap-2">
+                    {schools.map((school) => {
+                      const isSelected = draftAdvancedFilters.school === school;
+                      return (
+                        <button
+                          key={school}
+                          type="button"
+                          onClick={() => handleDraftChange('school', isSelected ? '' : school)}
+                          className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-all shadow-sm ${
+                            isSelected
+                              ? 'bg-green text-white font-medium shadow-md'
+                              : 'bg-muted text-foreground active:bg-muted/80'
+                          }`}
+                        >
+                          {school}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
-              <div className="space-y-1 sm:space-y-1.5">
-                <Label
-                  htmlFor="area"
-                  className="text-[10px] sm:text-xs text-muted-foreground font-medium"
-                >
-                  {t('city')}
-                </Label>
-                <Select
-                  key={selectedCriteria.area || 'area-empty'}
-                  value={draftAdvancedFilters.area || undefined}
-                  onValueChange={(value) => handleDraftChange('area', value)}
-                >
-                  <SelectTrigger
-                    id="area"
-                    className="h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0"
-                  >
-                    <SelectValue placeholder={t('selectCity')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white">
-                    {areas.map((area) => (
-                      <SelectItem
-                        key={area}
-                        value={area}
-                        className="text-xs sm:text-sm text-foreground"
-                      >
-                        {area}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-1 sm:space-y-1.5">
-                <Label
-                  htmlFor="field"
-                  className="text-[10px] sm:text-xs text-muted-foreground font-medium"
-                >
-                  {t('field')}
-                </Label>
-                <Select
-                  key={selectedCriteria.field || 'field-empty'}
-                  value={draftAdvancedFilters.field || undefined}
-                  onValueChange={(value) => handleDraftChange('field', value)}
-                >
-                  <SelectTrigger
-                    id="field"
-                    className="h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0"
-                  >
-                    <SelectValue placeholder={t('selectField')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white">
-                    {fields.map((field) => (
-                      <SelectItem
-                        key={field}
-                        value={field}
-                        className="text-xs sm:text-sm text-foreground"
-                      >
-                        {field}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-1 sm:space-y-1.5">
-                <Label
-                  htmlFor="school"
-                  className="text-[10px] sm:text-xs text-muted-foreground font-medium"
-                >
-                  {t('school')}
-                </Label>
-                <Select
-                  key={selectedCriteria.school || 'school-empty'}
-                  value={draftAdvancedFilters.school || undefined}
-                  onValueChange={(value) => handleDraftChange('school', value)}
-                >
-                  <SelectTrigger
-                    id="school"
-                    className="h-7 sm:h-8 text-xs sm:text-sm bg-white text-foreground border-input focus:ring-0 focus-visible:ring-0"
-                  >
-                    <SelectValue placeholder={t('selectSchool')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white">
-                    {schools.map((school) => (
-                      <SelectItem
-                        key={school}
-                        value={school}
-                        className="text-xs sm:text-sm text-foreground"
-                      >
-                        {school}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {hasDraftChanges && (
+              <DrawerFooter className="border-t border-border pt-4 flex-shrink-0">
                 <Button
                   type="button"
                   onClick={handleApplyFilters}
-                  className="h-9 sm:h-10 text-xs sm:text-sm bg-green hover:bg-green/90 text-white mt-2"
+                  className="h-12 text-base bg-green hover:bg-green/90 text-white w-full"
                 >
                   {t('filter')} {draftFilterResultCount >= 0 && `(${draftFilterResultCount})`}
                 </Button>
-              )}
-            </CollapsibleContent>
-          </Collapsible>
+                <DrawerClose asChild>
+                  <Button variant="outline" className="h-12 text-base w-full">
+                    {t('close') || 'Sulje'}
+                  </Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
         </div>
 
-        {hasActiveFilters && (
-          <div className="px-3 pb-3 sm:px-6 sm:pb-6 flex mt-2">
-            <Button
-              variant="outline"
-              onClick={handleClear}
-              className="h-9 sm:h-10 text-xs sm:text-sm bg-white text-foreground border-input hover:bg-muted flex-1"
-              type="button"
-            >
-              <X className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
-              {t('clear')}
-            </Button>
-          </div>
-        )}
+        {/* Active filter chips for mobile */}
+        <ActiveFilterChips />
+
+        {/* Desktop: Tab-based filters */}
+        <div className="px-3 pb-3 pt-3 sm:px-6 border-t border-border/50 hidden sm:block">
+          {/* Filter header with toggle */}
+          <button
+            type="button"
+            onClick={() => setIsAdvancedSearchOpen(!isAdvancedSearchOpen)}
+            className="w-full flex items-center justify-between py-1.5 px-0 text-left hover:opacity-70 transition-opacity"
+          >
+            <div className="flex items-center gap-2">
+              <SlidersHorizontal className="w-3.5 h-3.5 text-muted-foreground" />
+              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                {t('filters')}
+              </span>
+              {hasActiveFilters && (
+                <span className="text-xs text-muted-foreground font-normal normal-case tracking-normal">
+                  ({activeFilterCount})
+                </span>
+              )}
+            </div>
+            {isAdvancedSearchOpen ? (
+              <ChevronUp className="w-3.5 h-3.5 text-muted-foreground" />
+            ) : (
+              <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
+            )}
+          </button>
+
+          {/* Active filters preview when collapsed */}
+          {!isAdvancedSearchOpen && hasActiveFilters && (
+            <div className="flex items-center gap-2 mt-2 pt-2 border-t border-border/30">
+              {[
+                {
+                  key: 'color',
+                  value: selectedCriteria.color,
+                  display: selectedCriteria.color
+                    ? translateEntity(selectedCriteria.color, 'color')
+                    : null,
+                  color: selectedCriteria.color
+                    ? colorData.colors[selectedCriteria.color]?.color
+                    : null,
+                },
+                { key: 'area', value: selectedCriteria.area, display: selectedCriteria.area },
+                { key: 'field', value: selectedCriteria.field, display: selectedCriteria.field },
+                {
+                  key: 'school',
+                  value: selectedCriteria.school,
+                  display: selectedCriteria.school,
+                },
+              ]
+                .filter((f) => f.value)
+                .map((filter) => (
+                  <button
+                    key={filter.key}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDraftAdvancedFilterChange({ ...draftAdvancedFilters, [filter.key]: '' });
+                      onApplyAdvancedFilters();
+                    }}
+                    className="inline-flex items-center gap-1.5 px-2 py-1 text-xs bg-muted/50 text-foreground rounded hover:bg-muted transition-colors"
+                  >
+                    {filter.key === 'color' && filter.color && (
+                      <span
+                        className="w-2.5 h-2.5 rounded-full border border-border/50"
+                        style={{ backgroundColor: filter.color }}
+                      />
+                    )}
+                    <span>{filter.display}</span>
+                    <X className="w-3 h-3 text-muted-foreground" />
+                  </button>
+                ))}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleClear();
+                }}
+                className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors ml-1"
+              >
+                {t('clear')}
+              </button>
+            </div>
+          )}
+
+          {/* Tab-based filter content */}
+          {isAdvancedSearchOpen && (
+            <div className="mt-3 animate-in fade-in slide-in-from-top-2 duration-200">
+              {/* Tab navigation */}
+              <div className="flex gap-1 overflow-x-auto border-b border-border/50">
+                {[
+                  { key: 'color', label: t('color'), hasValue: !!draftAdvancedFilters.color },
+                  { key: 'area', label: t('city'), hasValue: !!draftAdvancedFilters.area },
+                  { key: 'field', label: t('field'), hasValue: !!draftAdvancedFilters.field },
+                  { key: 'school', label: t('school'), hasValue: !!draftAdvancedFilters.school },
+                ].map((tab) => (
+                  <button
+                    key={tab.key}
+                    type="button"
+                    onClick={() =>
+                      setExpandedSections({
+                        color: false,
+                        area: false,
+                        field: false,
+                        school: false,
+                        [tab.key]: true,
+                      })
+                    }
+                    className={`w-fit flex-shrink-0 px-4 py-2.5 text-sm font-medium relative transition-colors ${
+                      expandedSections[tab.key]
+                        ? 'text-foreground'
+                        : 'text-muted-foreground hover:text-foreground/70'
+                    }`}
+                  >
+                    <span className="flex items-center gap-1.5">
+                      {tab.label}
+                      {tab.hasValue && <span className="w-1.5 h-1.5 rounded-full bg-green" />}
+                    </span>
+                    {expandedSections[tab.key] && (
+                      <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-green rounded-full" />
+                    )}
+                  </button>
+                ))}
+              </div>
+
+              {/* Tab content */}
+              <div className="pt-4">
+                {/* Colors */}
+                {expandedSections.color && (
+                  <div className="flex flex-wrap gap-1">
+                    {translatedColorOptions.map(({ key, displayName, color }) => (
+                      <ColorSwatch
+                        key={key}
+                        color={color}
+                        colorKey={key}
+                        displayName={displayName}
+                        isSelected={draftAdvancedFilters.color === key}
+                        onSelect={() =>
+                          handleDraftChange('color', draftAdvancedFilters.color === key ? '' : key)
+                        }
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {/* Cities */}
+                {expandedSections.area && (
+                  <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto scrollbar-none">
+                    {areas.map((area) => {
+                      const isSelected = draftAdvancedFilters.area === area;
+                      return (
+                        <button
+                          key={area}
+                          type="button"
+                          onClick={() => handleDraftChange('area', isSelected ? '' : area)}
+                          className={`px-3 py-1.5 text-sm rounded-lg transition-all shadow-sm ${
+                            isSelected
+                              ? 'bg-green text-white'
+                              : 'bg-muted text-foreground hover:bg-muted/80'
+                          }`}
+                        >
+                          {area}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Fields */}
+                {expandedSections.field && (
+                  <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto scrollbar-none">
+                    {fields.map((field) => {
+                      const isSelected = draftAdvancedFilters.field === field;
+                      return (
+                        <button
+                          key={field}
+                          type="button"
+                          onClick={() => handleDraftChange('field', isSelected ? '' : field)}
+                          className={`px-3 py-1.5 text-sm rounded-lg transition-all shadow-sm ${
+                            isSelected
+                              ? 'bg-green text-white'
+                              : 'bg-muted text-foreground hover:bg-muted/80'
+                          }`}
+                        >
+                          {field}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Schools */}
+                {expandedSections.school && (
+                  <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto scrollbar-none">
+                    {schools.map((school) => {
+                      const isSelected = draftAdvancedFilters.school === school;
+                      return (
+                        <button
+                          key={school}
+                          type="button"
+                          onClick={() => handleDraftChange('school', isSelected ? '' : school)}
+                          className={`px-3 py-1.5 text-sm rounded-lg transition-all shadow-sm ${
+                            isSelected
+                              ? 'bg-green text-white'
+                              : 'bg-muted text-foreground hover:bg-muted/80'
+                          }`}
+                        >
+                          {school}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {/* Action buttons */}
+              <div className="flex items-center gap-3 mt-4 pt-4 border-t border-border/30">
+                {hasDraftChanges && (
+                  <Button
+                    type="button"
+                    onClick={handleApplyFilters}
+                    className="h-9 text-sm bg-green hover:bg-green/90 text-white"
+                  >
+                    {t('filter')} {draftFilterResultCount >= 0 && `(${draftFilterResultCount})`}
+                  </Button>
+                )}
+                {hasActiveFilters && (
+                  <button
+                    type="button"
+                    onClick={handleClear}
+                    className="text-sm text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
+                  >
+                    {t('clear')}
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </motion.div>
   );
