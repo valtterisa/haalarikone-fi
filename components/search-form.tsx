@@ -544,6 +544,7 @@ export default function SearchForm({
           <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
             <DrawerTrigger asChild>
               <button
+                id="search-filters-trigger"
                 type="button"
                 className="w-full flex items-center justify-between py-3 px-0 text-left active:opacity-70 transition-opacity"
               >
@@ -559,7 +560,7 @@ export default function SearchForm({
                 <ChevronDown className="w-4 h-4 text-muted-foreground" />
               </button>
             </DrawerTrigger>
-            <DrawerContent className="h-[85vh] flex flex-col">
+            <DrawerContent id="search-filters-content" className="h-[85vh] flex flex-col">
               <DrawerHeader className="text-left border-b border-border flex-shrink-0">
                 <DrawerTitle className="flex items-center justify-between">
                   <span>{t('filters')}</span>

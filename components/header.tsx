@@ -62,6 +62,7 @@ export default function Header() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
+                  id="header-categories-trigger"
                   variant="ghost"
                   size="sm"
                   className="gap-2 h-9 px-3 focus-visible:ring-0 focus-visible:ring-offset-0 group"
@@ -70,7 +71,7 @@ export default function Header() {
                   <ChevronDown className="h-4 w-4 opacity-50 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-56">
+              <DropdownMenuContent id="header-categories-content" align="start" className="w-56">
                 {dropdownLinks.map((link) => {
                   const Icon = link.icon;
                   return (
@@ -102,7 +103,7 @@ export default function Header() {
             >
               <Github className="h-5 w-5" />
             </a>
-            <LanguageSwitcher />
+            <LanguageSwitcher instanceId="desktop" />
           </div>
           <div className="flex items-center gap-2 md:hidden">
             <a
@@ -114,7 +115,7 @@ export default function Header() {
             >
               <Github className="h-5 w-5" />
             </a>
-            <LanguageSwitcher />
+            <LanguageSwitcher instanceId="mobile" />
             <button
               type="button"
               className="inline-flex items-center justify-center rounded-full border border-border/80 p-2 text-muted-foreground transition-colors hover:border-green hover:text-green focus:outline-none focus:ring-2 focus:ring-green/40"
