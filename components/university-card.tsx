@@ -30,7 +30,7 @@ export default function UniversityCard({ uni }: UniversityCardProps) {
       >
         {/* Prominent color block on the left */}
         <div
-          className="w-12 sm:w-16 flex-shrink-0"
+          className="w-20 sm:w-28 flex-shrink-0"
           style={parseStyles(uni.hex)}
           title={`${t('color')}: ${uni.vari}`}
         />
