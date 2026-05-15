@@ -43,7 +43,11 @@ export async function searchUniversitiesAPI(
     const localResults = searchLocalHybrid(trimmed, clientContext);
     if (options?.waitForSemanticEnrichment) {
       const apiResults = await fetchApiResults(trimmed, locale);
-      return mergePreferLocal(localResults, apiResults);
+      const merged = mergePreferLocal(localResults, apiResults);
+      if (merged.length > 0) {
+        options.onSemanticEnrichment?.(merged);
+      }
+      return merged;
     }
 
     if (options?.onSemanticEnrichment) {

@@ -95,10 +95,14 @@ export async function POST(req: Request) {
     let body = buildSearchResponse(query, deterministicQu, universities, colorData);
 
     if (body.totalCount === 0) {
-      const aiQueryUnderstanding = await understandQueryWithAI(query, locale);
-      const aiBody = buildSearchResponse(query, aiQueryUnderstanding, universities, colorData);
-      if (aiBody.totalCount > 0) {
-        body = aiBody;
+      try {
+        const aiQueryUnderstanding = await understandQueryWithAI(query, locale);
+        const aiBody = buildSearchResponse(query, aiQueryUnderstanding, universities, colorData);
+        if (aiBody.totalCount > 0) {
+          body = aiBody;
+        }
+      } catch (error) {
+        console.error('AI fallback error:', error);
       }
     }
 

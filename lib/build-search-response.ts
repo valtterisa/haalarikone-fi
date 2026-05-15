@@ -257,7 +257,8 @@ function detectBaseColorFilters(query: string, colorData: ColorData): string[] {
       normalize(value),
     );
     const hasMatch = aliases.some(
-      (alias) => alias && (tokens.has(alias) || normalizedQuery.includes(alias)),
+      (alias) =>
+        alias && (tokens.has(alias) || (alias.length >= 5 && normalizedQuery.includes(alias))),
     );
     if (hasMatch) {
       matches.add(baseNormalized);

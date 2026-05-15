@@ -295,4 +295,24 @@ describe('/api/search route', () => {
     expect(res.status).toBe(200);
     expect(hoisted.understandQueryWithAIMock).toHaveBeenCalledTimes(1);
   });
+
+  it('returns deterministic empty response when AI fallback throws', async () => {
+    hoisted.loadColorDataMock.mockResolvedValueOnce({ colors: {} });
+    hoisted.loadUniversitiesMock.mockResolvedValueOnce([]);
+    hoisted.understandQueryWithAIMock.mockRejectedValueOnce(new Error('AI offline'));
+
+    const req = new Request('http://localhost/api/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: 'satunnainen hakulause', locale: 'fi' }),
+    });
+
+    const res = await POST(req);
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(body.results).toEqual([]);
+    expect(body.totalCount).toBe(0);
+    expect(hoisted.understandQueryWithAIMock).toHaveBeenCalledTimes(1);
+  });
 });
