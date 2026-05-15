@@ -1,10 +1,8 @@
 import { generateText, Output } from 'ai';
 import { anthropic } from '@ai-sdk/anthropic';
 import { Redis } from '@upstash/redis';
-import { loadColorData } from './load-color-data';
 import { loadUniversities } from './load-universities';
 import { reconcileFieldOrganizationFilters } from './reconcile-field-organization';
-import { parseSimpleQueryWithColorData } from './parse-simple-query';
 import { z } from 'zod';
 
 function trimmedFilterString(desc: string) {
@@ -43,50 +41,34 @@ export type QueryUnderstanding = z.infer<typeof QueryUnderstandingSchema>;
 
 const redis = Redis.fromEnv();
 const CACHE_TTL = 3600;
+const AI_CACHE_VERSION = 'v1';
+const IS_DEV = process.env.NODE_ENV === 'development';
 
-export async function understandQuery(
+export async function understandQueryWithAI(
   query: string,
   locale: 'fi' | 'en' | 'sv' = 'fi',
 ): Promise<QueryUnderstanding> {
   const normalizedQuery = query.toLowerCase().trim();
-  const cacheKey = `query:${locale}:${normalizedQuery}`;
+  const cacheKey = `query-ai:${AI_CACHE_VERSION}:${locale}:${normalizedQuery}`;
 
-  try {
-    const cached = await redis.get<QueryUnderstanding>(cacheKey);
-    if (cached) {
-      if (process.env.NODE_ENV !== 'test') {
-        console.debug('[query-understanding][cache-hit]', {
-          query: query.trim(),
-          locale,
-          isGibberish: cached.isGibberish,
-          filters: cached.filters,
-          semanticQuery: cached.semanticQuery,
-        });
-      }
-      return cached;
-    }
-  } catch (error) {
-    console.error('Cache read error:', error);
-  }
-
-  const colorDataForSimple = await loadColorData();
-  const simple = parseSimpleQueryWithColorData(query, colorDataForSimple);
-  if (simple) {
+  if (!IS_DEV) {
     try {
-      if (process.env.NODE_ENV !== 'test') {
-        console.debug('[query-understanding][simple-parse]', {
-          query: query.trim(),
-          locale,
-          isGibberish: simple.isGibberish,
-          filters: simple.filters,
-          semanticQuery: simple.semanticQuery,
-        });
+      const cached = await redis.get<QueryUnderstanding>(cacheKey);
+      if (cached) {
+        if (process.env.NODE_ENV !== 'test') {
+          console.debug('[query-understanding-ai][cache-hit]', {
+            query: query.trim(),
+            locale,
+            isGibberish: cached.isGibberish,
+            filters: cached.filters,
+            semanticQuery: cached.semanticQuery,
+          });
+        }
+        return cached;
       }
-      await redis.setex(cacheKey, CACHE_TTL, simple);
     } catch (error) {
-      console.error('Cache write error:', error);
+      console.error('Cache read error:', error);
     }
-    return simple;
   }
 
   const systemPrompt = `Extract filters from student overall (haalari) queries (Finnish/English/Swedish):
@@ -117,7 +99,7 @@ Return JSON: {isGibberish: boolean, filters: {color?, area?, field?, school?, or
     const reconciled = reconcileFieldOrganizationFilters(parsed, universities);
 
     if (process.env.NODE_ENV !== 'test') {
-      console.debug('[query-understanding]', {
+      console.debug('[query-understanding-ai]', {
         query: query.trim(),
         locale,
         isGibberish: reconciled.isGibberish,
@@ -126,10 +108,12 @@ Return JSON: {isGibberish: boolean, filters: {color?, area?, field?, school?, or
       });
     }
 
-    try {
-      await redis.setex(cacheKey, CACHE_TTL, reconciled);
-    } catch (error) {
-      console.error('Cache write error:', error);
+    if (!IS_DEV) {
+      try {
+        await redis.setex(cacheKey, CACHE_TTL, reconciled);
+      } catch (error) {
+        console.error('Cache write error:', error);
+      }
     }
 
     return reconciled;

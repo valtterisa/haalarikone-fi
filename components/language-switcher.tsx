@@ -21,7 +21,11 @@ const languages: { code: Locale; name: string; flag: string }[] = [
   { code: 'sv', name: 'Svenska', flag: '🇸🇪' },
 ];
 
-export function LanguageSwitcher() {
+type LanguageSwitcherProps = {
+  instanceId: string;
+};
+
+export function LanguageSwitcher({ instanceId }: LanguageSwitcherProps) {
   const params = useParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -32,6 +36,8 @@ export function LanguageSwitcher() {
   const locale: Locale = (localeFromParams || localeFromHook || 'fi') as Locale;
 
   const currentLanguage = languages.find((lang) => lang.code === locale) || languages[0];
+  const triggerId = `language-switcher-trigger-${instanceId}`;
+  const contentId = `language-switcher-content-${instanceId}`;
 
   const switchLocale = (newLocale: Locale) => {
     if (isTranslating) return;
@@ -61,6 +67,7 @@ export function LanguageSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
+          id={triggerId}
           variant="ghost"
           size="sm"
           className="gap-2 h-9 px-3 border border-border/60 focus-visible:ring-0 focus-visible:ring-offset-0 group"
@@ -70,7 +77,7 @@ export function LanguageSwitcher() {
           <ChevronDown className="h-4 w-4 opacity-50 transition-transform duration-200 group-data-[state=open]:rotate-180" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-40">
+      <DropdownMenuContent id={contentId} align="end" className="w-40">
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}

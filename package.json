@@ -12,9 +12,10 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "prepare": "husky",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "build:cf": "opennextjs-cloudflare build",
+    "preview": "opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare upload",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "lint-staged": {
@@ -48,6 +49,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "framer-motion": "^11.13.1",
+    "fuse.js": "^7.3.0",
     "geist": "^1.2.1",
     "lucide-react": "^0.456.0",
     "next": "15.5.9",
@@ -83,6 +85,6 @@
     "typescript": "5.6.3",
     "typescript-eslint": "^8.56.1",
     "vitest": "3.1.2",
-    "wrangler": "^4.78.0"
+    "wrangler": "^4.86.0"
   }
 }
