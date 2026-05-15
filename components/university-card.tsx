@@ -26,34 +26,35 @@ export default function UniversityCard({ uni }: UniversityCardProps) {
     <li>
       <Link
         href={routes.overall(uni.slug)}
-        className="group flex relative overflow-hidden bg-white rounded-xl border border-border/60 hover:border-border transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green focus-visible:ring-offset-0"
+        className="group block bg-white rounded-xl border border-border/60 hover:border-border transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green focus-visible:ring-offset-0 overflow-hidden"
       >
+        {/* Color bar at top */}
         <div
-          className="flex-shrink-0 w-20 sm:w-28 relative"
+          className="h-2 w-full"
           style={parseStyles(uni.hex)}
           title={`${t('color')}: ${uni.vari}`}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-black/5 to-transparent" />
-        </div>
+        />
 
-        <div className="flex-1 min-w-0 px-4 py-3.5">
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex items-center gap-3 min-w-0">
-              <h3 className="text-[15px] font-semibold text-foreground leading-snug tracking-tight">
+        <div className="p-4 sm:p-5">
+          {/* Header: Logo + Organization name */}
+          <div className="flex items-start gap-3 sm:gap-4">
+            <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-lg overflow-hidden bg-secondary/50 border border-border/40 flex-shrink-0">
+              <Image
+                className="object-contain p-1.5 sm:p-2"
+                src={`/logos/${logoName}.jpg`}
+                fill
+                alt={`${uni.oppilaitos} logo`}
+              />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-base sm:text-lg font-semibold text-foreground leading-tight">
                 {uni.ainejarjesto ?? t('unknownOrganization')}
               </h3>
-              <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-lg overflow-hidden bg-white/95 shadow-sm border border-border/40 flex-shrink-0">
-                <Image
-                  className="object-contain p-1.5 sm:p-2"
-                  src={`/logos/${logoName}.jpg`}
-                  fill
-                  alt={`${uni.oppilaitos} logo`}
-                />
-              </div>
+              <p className="mt-0.5 text-sm text-muted-foreground font-medium">{uni.oppilaitos}</p>
             </div>
-            <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 mt-0.5">
+            <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               <svg
-                className="w-4 h-4 text-muted-foreground"
+                className="w-5 h-5 text-muted-foreground"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -68,28 +69,39 @@ export default function UniversityCard({ uni }: UniversityCardProps) {
             </div>
           </div>
 
-          <div className="mt-1.5 flex items-center gap-2 text-[13px] text-muted-foreground">
-            <span className="font-medium">{uni.oppilaitos}</span>
+          {/* Details grid */}
+          <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
             {uni.ala && (
-              <>
-                <span className="text-border">•</span>
-                <span>{uni.ala.split(',')[0].trim()}</span>
-              </>
+              <div className="col-span-2 sm:col-span-1">
+                <span className="text-muted-foreground/70 text-xs uppercase tracking-wide">
+                  {t('field') || 'Ala'}
+                </span>
+                <p className="text-foreground font-medium truncate">
+                  {uni.ala.split(',')[0].trim()}
+                </p>
+              </div>
             )}
-          </div>
-
-          <div className="mt-2.5 flex flex-wrap gap-1.5">
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium bg-secondary/80 text-foreground/70">
-              <span
-                className="w-2 h-2 rounded-full ring-1 ring-black/10"
-                style={parseStyles(uni.hex)}
-              />
-              {uni.vari}
-            </span>
-            {uni.alue && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-secondary/80 text-foreground/70">
-                {uni.alue.split(',')[0].trim()}
+            <div>
+              <span className="text-muted-foreground/70 text-xs uppercase tracking-wide">
+                {t('color')}
               </span>
+              <p className="text-foreground font-medium flex items-center gap-1.5">
+                <span
+                  className="w-3 h-3 rounded-full ring-1 ring-black/10 flex-shrink-0"
+                  style={parseStyles(uni.hex)}
+                />
+                {uni.vari}
+              </p>
+            </div>
+            {uni.alue && (
+              <div>
+                <span className="text-muted-foreground/70 text-xs uppercase tracking-wide">
+                  {t('region') || 'Alue'}
+                </span>
+                <p className="text-foreground font-medium truncate">
+                  {uni.alue.split(',')[0].trim()}
+                </p>
+              </div>
             )}
           </div>
         </div>
