@@ -27,6 +27,35 @@ vi.mock('./load-color-data', () => ({
   }),
 }));
 
+vi.mock('./load-universities', () => ({
+  loadUniversities: async () => [
+    {
+      id: 1,
+      vari: 'Sininen',
+      variLabel: 'Sininen',
+      variBase: ['sininen'],
+      hex: '#00f',
+      alue: 'Kuopio',
+      ala: 'tietojenkäsittelytiede',
+      ainejarjesto: 'Testi ry',
+      slug: 'testi-ry',
+      oppilaitos: 'Itä-Suomen yliopisto',
+    },
+    {
+      id: 2,
+      vari: 'Punainen',
+      variLabel: 'Punainen',
+      variBase: ['punainen'],
+      hex: '#f00',
+      alue: 'Tampere',
+      ala: 'insinööri',
+      ainejarjesto: 'Insinöörit',
+      slug: 'insinoorit',
+      oppilaitos: 'Tampereen yliopisto',
+    },
+  ],
+}));
+
 vi.mock('ai', () => ({
   generateText: async (options: { prompt?: string }) => {
     const prompt = String(options.prompt ?? '');
@@ -70,7 +99,7 @@ vi.mock('@ai-sdk/anthropic', () => ({
   anthropic: () => 'anthropic-mocked-model',
 }));
 
-import { understandQuery } from './query-understanding';
+import { understandQuery, understandQueryWithAI } from './query-understanding';
 
 describe('understandQuery', () => {
   it('extracts a color filter from simple color queries without treating them as gibberish', async () => {
@@ -84,8 +113,25 @@ describe('understandQuery', () => {
     expect(result.filters.organization).toBeUndefined();
   });
 
-  it('uses the AI pipeline to extract filters and semantic query for more complex queries', async () => {
+  it('uses deterministic fallback for complex queries by default', async () => {
     const result = await understandQuery('insinöörit Tampereella', 'fi');
+
+    expect(result.isGibberish).toBe(false);
+    expect(result.filters.area).toBe('Tampere');
+    expect(result.filters.field).toBe('insinööri');
+    expect(result.semanticQuery).toBe('insinöörit Tampereella');
+  });
+
+  it('extracts known field and area deterministically from query terms', async () => {
+    const result = await understandQuery('tietojenkäsittelytiede kuopio', 'fi');
+
+    expect(result.isGibberish).toBe(false);
+    expect(result.filters.area).toBe('Kuopio');
+    expect(result.filters.field).toBe('tietojenkäsittelytiede');
+  });
+
+  it('uses AI fallback parser when explicitly requested', async () => {
+    const result = await understandQueryWithAI('insinöörit Tampereella', 'fi');
 
     expect(result.isGibberish).toBe(false);
     expect(result.filters.area).toBe('Tampere');
@@ -93,8 +139,8 @@ describe('understandQuery', () => {
     expect(result.semanticQuery).toBe('insinööri Tampere');
   });
 
-  it('marks clearly meaningless queries as gibberish', async () => {
-    const result = await understandQuery('asdf qwer zxcv', 'fi');
+  it('marks clearly meaningless queries as gibberish in AI fallback parser', async () => {
+    const result = await understandQueryWithAI('asdf qwer zxcv', 'fi');
 
     expect(result.isGibberish).toBe(true);
     expect(result.filters.color).toBeUndefined();

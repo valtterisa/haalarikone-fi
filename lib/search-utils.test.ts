@@ -5,7 +5,6 @@ import { searchUniversitiesAPI } from './search-utils';
 const fetchMock = vi.fn();
 
 beforeEach(() => {
-  // @ts-expect-error - assign mocked fetch for tests
   global.fetch = fetchMock;
   fetchMock.mockReset();
 });

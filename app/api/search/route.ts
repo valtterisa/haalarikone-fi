@@ -1,7 +1,8 @@
-import { understandQuery } from '@/lib/query-understanding';
+import { understandQueryWithAI } from '@/lib/query-understanding';
 import { loadColorData } from '@/lib/load-color-data';
 import { loadUniversities } from '@/lib/load-universities';
 import {
+  buildDeterministicQueryUnderstanding,
   buildSearchResponse,
   SEARCH_RESPONSE_CACHE_TTL_SECONDS,
   type SearchApiSuccessBody,
@@ -12,7 +13,8 @@ import { Redis } from '@upstash/redis';
 
 const ALLOWED_LOCALES = new Set(['fi', 'en', 'sv']);
 const MAX_QUERY_LENGTH = 200;
-const SEARCH_CACHE_VERSION = 'v2';
+const SEARCH_CACHE_VERSION = 'v3';
+const IS_DEV = process.env.NODE_ENV === 'development';
 
 const redis = Redis.fromEnv();
 
@@ -72,27 +74,40 @@ export async function POST(req: Request) {
   const normalizedQuery = query.toLowerCase().trim();
   const searchCacheKey = `search:${SEARCH_CACHE_VERSION}:${locale}:${normalizedQuery}`;
 
-  try {
-    const cached = await redis.get<SearchApiSuccessBody>(searchCacheKey);
-    if (cached) {
-      return NextResponse.json(cached);
+  if (!IS_DEV) {
+    try {
+      const cached = await redis.get<SearchApiSuccessBody>(searchCacheKey);
+      if (cached) {
+        return NextResponse.json(cached);
+      }
+    } catch (error) {
+      console.error('Search cache read error:', error);
     }
-  } catch (error) {
-    console.error('Search cache read error:', error);
   }
 
   try {
-    const qu = await understandQuery(query, locale);
     const [universities, colorData] = await Promise.all([
       loadUniversities(locale),
       loadColorData(),
     ]);
-    const body = buildSearchResponse(query, qu, universities, colorData);
 
-    try {
-      await redis.setex(searchCacheKey, SEARCH_RESPONSE_CACHE_TTL_SECONDS, body);
-    } catch (error) {
-      console.error('Search cache write error:', error);
+    const deterministicQu = buildDeterministicQueryUnderstanding(query, universities, colorData);
+    let body = buildSearchResponse(query, deterministicQu, universities, colorData);
+
+    if (body.totalCount === 0) {
+      const aiQueryUnderstanding = await understandQueryWithAI(query, locale);
+      const aiBody = buildSearchResponse(query, aiQueryUnderstanding, universities, colorData);
+      if (aiBody.totalCount > 0) {
+        body = aiBody;
+      }
+    }
+
+    if (!IS_DEV) {
+      try {
+        await redis.setex(searchCacheKey, SEARCH_RESPONSE_CACHE_TTL_SECONDS, body);
+      } catch (error) {
+        console.error('Search cache write error:', error);
+      }
     }
 
     return NextResponse.json(body);

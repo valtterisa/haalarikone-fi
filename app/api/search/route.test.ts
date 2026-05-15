@@ -7,7 +7,7 @@ const hoisted = vi.hoisted(() => {
   };
   return {
     rateLimitAllowed: true,
-    understandQueryMock: vi.fn(),
+    understandQueryWithAIMock: vi.fn(),
     loadUniversitiesMock: vi.fn(),
     loadColorDataMock: vi.fn(),
     limitMock: vi.fn(async () => ({ success: hoisted.rateLimitAllowed })),
@@ -30,7 +30,7 @@ vi.mock('@upstash/ratelimit', () => ({
 }));
 
 vi.mock('@/lib/query-understanding', () => ({
-  understandQuery: hoisted.understandQueryMock,
+  understandQueryWithAI: hoisted.understandQueryWithAIMock,
 }));
 
 vi.mock('@/lib/load-universities', () => ({
@@ -47,7 +47,7 @@ describe('/api/search route', () => {
   beforeEach(() => {
     hoisted.rateLimitAllowed = true;
     hoisted.limitMock.mockClear();
-    hoisted.understandQueryMock.mockReset();
+    hoisted.understandQueryWithAIMock.mockReset();
     hoisted.loadUniversitiesMock.mockReset();
     hoisted.loadColorDataMock.mockReset();
     hoisted.redisStub.get.mockReset();
@@ -55,7 +55,7 @@ describe('/api/search route', () => {
     hoisted.redisStub.setex.mockReset();
     hoisted.redisStub.setex.mockResolvedValue(undefined);
 
-    hoisted.understandQueryMock.mockResolvedValue({
+    hoisted.understandQueryWithAIMock.mockResolvedValue({
       isGibberish: false,
       filters: {},
       semanticQuery: '',
@@ -90,7 +90,6 @@ describe('/api/search route', () => {
     const body = await res.json();
 
     expect(res.status).toBe(200);
-    expect(hoisted.understandQueryMock).toHaveBeenCalledWith('helsinki', 'fi');
     expect(Array.isArray(body.results)).toBe(true);
     expect(body.results.length).toBe(1);
   });
@@ -107,7 +106,6 @@ describe('/api/search route', () => {
 
     expect(res.status).toBe(400);
     expect(body).toEqual({ success: false, error: 'Query too long' });
-    expect(hoisted.understandQueryMock).not.toHaveBeenCalled();
   });
 
   it('handles malformed json body safely', async () => {
@@ -122,7 +120,6 @@ describe('/api/search route', () => {
 
     expect(res.status).toBe(200);
     expect(body).toEqual({ results: [], totalCount: 0 });
-    expect(hoisted.understandQueryMock).not.toHaveBeenCalled();
   });
 
   it('returns consistent rate-limit response shape', async () => {
@@ -139,10 +136,9 @@ describe('/api/search route', () => {
 
     expect(res.status).toBe(429);
     expect(body).toEqual({ success: false, error: 'Unable to process at this time' });
-    expect(hoisted.understandQueryMock).not.toHaveBeenCalled();
   });
 
-  it('returns cached body without calling understandQuery', async () => {
+  it('returns cached body without evaluating fallback AI', async () => {
     const cached = {
       results: [],
       totalCount: 0,
@@ -162,16 +158,11 @@ describe('/api/search route', () => {
 
     expect(res.status).toBe(200);
     expect(body).toEqual(cached);
-    expect(hoisted.understandQueryMock).not.toHaveBeenCalled();
+    expect(hoisted.understandQueryWithAIMock).not.toHaveBeenCalled();
     expect(hoisted.redisStub.setex).not.toHaveBeenCalled();
   });
 
   it('enforces deterministic color filtering from query tokens', async () => {
-    hoisted.understandQueryMock.mockResolvedValueOnce({
-      isGibberish: false,
-      filters: {},
-      semanticQuery: 'jyväskylä',
-    });
     hoisted.loadColorDataMock.mockResolvedValueOnce({
       colors: {
         keltainen: { main: ['keltainen'], shades: ['keltaiset'], color: '#ff0' },
@@ -219,11 +210,6 @@ describe('/api/search route', () => {
   });
 
   it('ranks matching area first within same color results', async () => {
-    hoisted.understandQueryMock.mockResolvedValueOnce({
-      isGibberish: false,
-      filters: { color: 'keltainen', area: 'Jyväskylä' },
-      semanticQuery: 'jyväskylä',
-    });
     hoisted.loadColorDataMock.mockResolvedValueOnce({
       colors: {
         keltainen: { main: ['keltainen'], shades: ['keltaiset'], color: '#ff0' },
@@ -267,5 +253,96 @@ describe('/api/search route', () => {
 
     expect(res.status).toBe(200);
     expect(body.results[0]?.alue).toBe('Jyväskylä');
+  });
+
+  it('keeps AI fallback disabled when deterministic search already resolves results', async () => {
+    hoisted.understandQueryWithAIMock.mockResolvedValueOnce({
+      isGibberish: false,
+      filters: { area: 'Kuopio', field: 'tietojenkäsittelytiede' },
+      semanticQuery: 'tietojenkäsittelytiede kuopio',
+    });
+    hoisted.loadColorDataMock.mockResolvedValueOnce({ colors: {} });
+    hoisted.loadUniversitiesMock.mockResolvedValueOnce([
+      {
+        id: 1,
+        vari: 'Sininen',
+        variLabel: 'Sininen',
+        variBase: ['sininen'],
+        hex: '#00f',
+        alue: 'Kuopio',
+        ala: 'tietojenkäsittelytiede',
+        ainejarjesto: 'Testi ry',
+        slug: 'testi-ry',
+        oppilaitos: 'Itä-Suomen yliopisto',
+      },
+    ]);
+
+    const req = new Request('http://localhost/api/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: 'tietojenkäsittelytiede kuopio', locale: 'fi' }),
+    });
+
+    const res = await POST(req);
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(hoisted.understandQueryWithAIMock).not.toHaveBeenCalled();
+    expect(body.results).toHaveLength(1);
+    expect(body.results[0]?.alue).toBe('Kuopio');
+  });
+
+  it('prioritizes results with most query token matches', async () => {
+    hoisted.loadColorDataMock.mockResolvedValueOnce({ colors: {} });
+    hoisted.loadUniversitiesMock.mockResolvedValueOnce([
+      {
+        id: 1,
+        vari: 'Sininen',
+        variLabel: 'Sininen',
+        variBase: ['sininen'],
+        hex: '#00f',
+        alue: 'Kuopio',
+        ala: 'tietojenkäsittelytiede',
+        ainejarjesto: 'Tietojenkäsittely',
+        slug: 'tietojenkasittely',
+        oppilaitos: 'Itä-Suomen yliopisto',
+      },
+      {
+        id: 2,
+        vari: 'Sininen',
+        variLabel: 'Sininen',
+        variBase: ['sininen'],
+        hex: '#00f',
+        alue: 'Kuopio',
+        ala: 'historia',
+        ainejarjesto: 'Historia ry',
+        slug: 'historia',
+        oppilaitos: 'Itä-Suomen yliopisto',
+      },
+      {
+        id: 3,
+        vari: 'Sininen',
+        variLabel: 'Sininen',
+        variBase: ['sininen'],
+        hex: '#00f',
+        alue: 'Helsinki',
+        ala: 'tietojenkäsittelytiede',
+        ainejarjesto: 'TKT',
+        slug: 'tkt',
+        oppilaitos: 'Helsingin yliopisto',
+      },
+    ]);
+
+    const req = new Request('http://localhost/api/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: 'tietojenkäsittelytiede kuopio', locale: 'fi' }),
+    });
+
+    const res = await POST(req);
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(body.results[0]?.id).toBe(1);
   });
 });

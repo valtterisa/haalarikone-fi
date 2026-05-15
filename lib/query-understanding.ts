@@ -3,6 +3,7 @@ import { anthropic } from '@ai-sdk/anthropic';
 import { Redis } from '@upstash/redis';
 import { loadColorData } from './load-color-data';
 import { loadUniversities } from './load-universities';
+import { getUniqueAreas, getUniqueFields, getUniqueUniversities } from './get-unique-values';
 import { reconcileFieldOrganizationFilters } from './reconcile-field-organization';
 import { parseSimpleQueryWithColorData } from './parse-simple-query';
 import { z } from 'zod';
@@ -43,50 +44,156 @@ export type QueryUnderstanding = z.infer<typeof QueryUnderstandingSchema>;
 
 const redis = Redis.fromEnv();
 const CACHE_TTL = 3600;
+const DETERMINISTIC_CACHE_VERSION = 'v2';
+const AI_CACHE_VERSION = 'v1';
+const IS_DEV = process.env.NODE_ENV === 'development';
+
+function normalizeValue(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim();
+}
+
+function pickBestContainedMatch(
+  normalizedQuery: string,
+  candidates: string[],
+  blockedNormalizedValues: Set<string>,
+): string | undefined {
+  let best: string | undefined;
+  let bestLength = 0;
+  for (const candidate of candidates) {
+    const normalizedCandidate = normalizeValue(candidate);
+    if (!normalizedCandidate || blockedNormalizedValues.has(normalizedCandidate)) continue;
+    if (!normalizedQuery.includes(normalizedCandidate)) continue;
+    if (normalizedCandidate.length > bestLength) {
+      best = candidate;
+      bestLength = normalizedCandidate.length;
+    }
+  }
+  return best;
+}
+
+function buildDeterministicUnderstanding(
+  query: string,
+  localeUniversities: Awaited<ReturnType<typeof loadUniversities>>,
+): QueryUnderstanding {
+  const normalizedQuery = normalizeValue(query);
+  const blocked = new Set<string>();
+  const areas = getUniqueAreas(localeUniversities);
+  const schools = getUniqueUniversities(localeUniversities);
+  const fields = getUniqueFields(localeUniversities);
+
+  const area = pickBestContainedMatch(normalizedQuery, areas, blocked);
+  if (area) blocked.add(normalizeValue(area));
+
+  const school = pickBestContainedMatch(normalizedQuery, schools, blocked);
+  if (school) blocked.add(normalizeValue(school));
+
+  const field = pickBestContainedMatch(normalizedQuery, fields, blocked);
+  if (field) blocked.add(normalizeValue(field));
+
+  return {
+    isGibberish: false,
+    filters: {
+      color: undefined,
+      area,
+      field,
+      school,
+      organization: undefined,
+    },
+    semanticQuery: query.trim(),
+  };
+}
 
 export async function understandQuery(
   query: string,
   locale: 'fi' | 'en' | 'sv' = 'fi',
 ): Promise<QueryUnderstanding> {
   const normalizedQuery = query.toLowerCase().trim();
-  const cacheKey = `query:${locale}:${normalizedQuery}`;
+  const cacheKey = `query:${DETERMINISTIC_CACHE_VERSION}:${locale}:${normalizedQuery}`;
 
-  try {
-    const cached = await redis.get<QueryUnderstanding>(cacheKey);
-    if (cached) {
-      if (process.env.NODE_ENV !== 'test') {
-        console.debug('[query-understanding][cache-hit]', {
-          query: query.trim(),
-          locale,
-          isGibberish: cached.isGibberish,
-          filters: cached.filters,
-          semanticQuery: cached.semanticQuery,
-        });
+  if (!IS_DEV) {
+    try {
+      const cached = await redis.get<QueryUnderstanding>(cacheKey);
+      if (cached) {
+        if (process.env.NODE_ENV !== 'test') {
+          console.debug('[query-understanding][cache-hit]', {
+            query: query.trim(),
+            locale,
+            isGibberish: cached.isGibberish,
+            filters: cached.filters,
+            semanticQuery: cached.semanticQuery,
+          });
+        }
+        return cached;
       }
-      return cached;
+    } catch (error) {
+      console.error('Cache read error:', error);
     }
-  } catch (error) {
-    console.error('Cache read error:', error);
   }
 
   const colorDataForSimple = await loadColorData();
   const simple = parseSimpleQueryWithColorData(query, colorDataForSimple);
   if (simple) {
-    try {
-      if (process.env.NODE_ENV !== 'test') {
-        console.debug('[query-understanding][simple-parse]', {
-          query: query.trim(),
-          locale,
-          isGibberish: simple.isGibberish,
-          filters: simple.filters,
-          semanticQuery: simple.semanticQuery,
-        });
+    if (!IS_DEV) {
+      try {
+        if (process.env.NODE_ENV !== 'test') {
+          console.debug('[query-understanding][simple-parse]', {
+            query: query.trim(),
+            locale,
+            isGibberish: simple.isGibberish,
+            filters: simple.filters,
+            semanticQuery: simple.semanticQuery,
+          });
+        }
+        await redis.setex(cacheKey, CACHE_TTL, simple);
+      } catch (error) {
+        console.error('Cache write error:', error);
       }
-      await redis.setex(cacheKey, CACHE_TTL, simple);
+    }
+    return simple;
+  }
+
+  const universities = await loadUniversities(locale);
+  const deterministic = buildDeterministicUnderstanding(query, universities);
+  if (!IS_DEV) {
+    try {
+      await redis.setex(cacheKey, CACHE_TTL, deterministic);
     } catch (error) {
       console.error('Cache write error:', error);
     }
-    return simple;
+  }
+
+  return deterministic;
+}
+
+export async function understandQueryWithAI(
+  query: string,
+  locale: 'fi' | 'en' | 'sv' = 'fi',
+): Promise<QueryUnderstanding> {
+  const normalizedQuery = query.toLowerCase().trim();
+  const cacheKey = `query-ai:${AI_CACHE_VERSION}:${locale}:${normalizedQuery}`;
+
+  if (!IS_DEV) {
+    try {
+      const cached = await redis.get<QueryUnderstanding>(cacheKey);
+      if (cached) {
+        if (process.env.NODE_ENV !== 'test') {
+          console.debug('[query-understanding-ai][cache-hit]', {
+            query: query.trim(),
+            locale,
+            isGibberish: cached.isGibberish,
+            filters: cached.filters,
+            semanticQuery: cached.semanticQuery,
+          });
+        }
+        return cached;
+      }
+    } catch (error) {
+      console.error('Cache read error:', error);
+    }
   }
 
   const systemPrompt = `Extract filters from student overall (haalari) queries (Finnish/English/Swedish):
@@ -117,7 +224,7 @@ Return JSON: {isGibberish: boolean, filters: {color?, area?, field?, school?, or
     const reconciled = reconcileFieldOrganizationFilters(parsed, universities);
 
     if (process.env.NODE_ENV !== 'test') {
-      console.debug('[query-understanding]', {
+      console.debug('[query-understanding-ai]', {
         query: query.trim(),
         locale,
         isGibberish: reconciled.isGibberish,
@@ -126,10 +233,12 @@ Return JSON: {isGibberish: boolean, filters: {color?, area?, field?, school?, or
       });
     }
 
-    try {
-      await redis.setex(cacheKey, CACHE_TTL, reconciled);
-    } catch (error) {
-      console.error('Cache write error:', error);
+    if (!IS_DEV) {
+      try {
+        await redis.setex(cacheKey, CACHE_TTL, reconciled);
+      } catch (error) {
+        console.error('Cache write error:', error);
+      }
     }
 
     return reconciled;

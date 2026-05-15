@@ -67,10 +67,8 @@ student-overall-app/
 │   ├── route-translations.ts  # Route segment translations
 │   ├── slug-translations.ts   # Entity slug translations
 │   ├── translate-path-client.ts  # Client-side path translation
-│   ├── query-understanding.ts  # AI-powered query parsing
-│   ├── deterministic-filter.ts  # Exact filter matching
-│   ├── semantic-search.ts      # In-memory keyword scoring fallback
-│   ├── semantic-ranking.ts     # Result ranking by relevance
+│   ├── build-search-response.ts # Deterministic in-memory fuzzy search
+│   ├── query-understanding.ts  # AI fallback query parsing
 │   ├── load-color-data.ts      # Dynamic color data from JSON
 │   └── ...                # Other utilities
 ├── messages/              # Translation files (fi.json, en.json, sv.json)
@@ -82,7 +80,7 @@ student-overall-app/
 ## Features
 
 - **Multi-language Support:** Finnish (default), English, and Swedish
-- **AI-Powered Search:** Intelligent query understanding with exact result counts
+- **Deterministic Search:** In-memory fuzzy search with exact color/filter matching
 - **Route Translation:** Automatic translation of route segments and slugs
 - **Blog System:** Static blog posts with multi-language support
 - **Theme Support:** Dark and light mode
@@ -91,7 +89,7 @@ student-overall-app/
 
 ## Search Architecture
 
-The search system uses a hybrid approach combining AI-powered query understanding with deterministic filtering and an in-memory keyword scoring fallback.
+The search system is deterministic-first: it compares against in-memory university and color data, applies deterministic filters, and ranks with fuzzy matching. AI parsing is only used as fallback when deterministic search returns no results.
 
 ### How It Works
 
