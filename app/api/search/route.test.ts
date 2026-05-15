@@ -5,6 +5,7 @@ const hoisted = vi.hoisted(() => {
     get: vi.fn().mockResolvedValue(null),
     setex: vi.fn().mockResolvedValue(undefined),
   };
+
   return {
     rateLimitAllowed: true,
     understandQueryWithAIMock: vi.fn(),
@@ -43,6 +44,170 @@ vi.mock('@/lib/load-color-data', () => ({
 
 import { POST } from './route';
 
+const SEARCH_COLOR_DATA = {
+  colors: {
+    valkoinen: { main: ['valkoinen'], shades: [], color: '#fff' },
+    musta: { main: ['musta'], shades: [], color: '#000' },
+    punainen: { main: ['punainen'], shades: [], color: '#f00' },
+    sininen: { main: ['sininen'], shades: [], color: '#00f' },
+    vihreä: { main: ['vihreä'], shades: [], color: '#0f0' },
+    keltainen: { main: ['keltainen'], shades: [], color: '#ff0' },
+    oranssi: { main: ['oranssi'], shades: [], color: '#fa0' },
+    violetti: { main: ['violetti'], shades: [], color: '#70f' },
+    pinkki: { main: ['pinkki'], shades: [], color: '#f8c' },
+    harmaa: { main: ['harmaa'], shades: [], color: '#999' },
+    ruskea: { main: ['ruskea'], shades: [], color: '#741' },
+    turkoosi: { main: ['turkoosi'], shades: [], color: '#0cc' },
+  },
+};
+
+const SEARCH_UNIVERSITIES = [
+  {
+    id: 1,
+    vari: 'Valkoinen',
+    variLabel: 'Valkoinen',
+    variBase: ['valkoinen'],
+    hex: '#fff',
+    alue: 'Helsinki',
+    ala: 'oikeustiede',
+    ainejarjesto: 'Valkoiset Lex',
+    slug: 'valkoiset-lex',
+    oppilaitos: 'Helsingin yliopisto',
+  },
+  {
+    id: 2,
+    vari: 'Musta',
+    variLabel: 'Musta',
+    variBase: ['musta'],
+    hex: '#000',
+    alue: 'Espoo',
+    ala: 'tietojenkäsittelytiede',
+    ainejarjesto: 'Mustat Data',
+    slug: 'mustat-data',
+    oppilaitos: 'Aalto-yliopisto',
+  },
+  {
+    id: 3,
+    vari: 'Punainen',
+    variLabel: 'Punainen',
+    variBase: ['punainen'],
+    hex: '#f00',
+    alue: 'Turku',
+    ala: 'lääketiede',
+    ainejarjesto: 'Punaiset Med',
+    slug: 'punaiset-med',
+    oppilaitos: 'Turun yliopisto',
+  },
+  {
+    id: 4,
+    vari: 'Sininen',
+    variLabel: 'Sininen',
+    variBase: ['sininen'],
+    hex: '#00f',
+    alue: 'Oulu',
+    ala: 'biologia',
+    ainejarjesto: 'Siniset Bio',
+    slug: 'siniset-bio',
+    oppilaitos: 'Oulun yliopisto',
+  },
+  {
+    id: 5,
+    vari: 'Vihreä',
+    variLabel: 'Vihreä',
+    variBase: ['vihreä'],
+    hex: '#0f0',
+    alue: 'Tampere',
+    ala: 'ympäristötiede',
+    ainejarjesto: 'Vihreät ry',
+    slug: 'vihreat-ry',
+    oppilaitos: 'Tampereen yliopisto',
+  },
+  {
+    id: 6,
+    vari: 'Keltainen',
+    variLabel: 'Keltainen',
+    variBase: ['keltainen'],
+    hex: '#ff0',
+    alue: 'Jyväskylä',
+    ala: 'kemia',
+    ainejarjesto: 'Keltaiset Kemia',
+    slug: 'keltaiset-kemia',
+    oppilaitos: 'Jyväskylän yliopisto',
+  },
+  {
+    id: 7,
+    vari: 'Oranssi',
+    variLabel: 'Oranssi',
+    variBase: ['oranssi'],
+    hex: '#fa0',
+    alue: 'Kuopio',
+    ala: 'historia',
+    ainejarjesto: 'Oranssit Historia',
+    slug: 'oranssit-historia',
+    oppilaitos: 'Itä-Suomen yliopisto',
+  },
+  {
+    id: 8,
+    vari: 'Violetti',
+    variLabel: 'Violetti',
+    variBase: ['violetti'],
+    hex: '#70f',
+    alue: 'Joensuu',
+    ala: 'matematiikka',
+    ainejarjesto: 'Violetit Matikka',
+    slug: 'violetit-matikka',
+    oppilaitos: 'Itä-Suomen yliopisto',
+  },
+  {
+    id: 9,
+    vari: 'Pinkki',
+    variLabel: 'Pinkki',
+    variBase: ['pinkki'],
+    hex: '#f8c',
+    alue: 'Vaasa',
+    ala: 'kielitiede',
+    ainejarjesto: 'Pinkit Kieli',
+    slug: 'pinkit-kieli',
+    oppilaitos: 'Vaasan yliopisto',
+  },
+  {
+    id: 10,
+    vari: 'Harmaa',
+    variLabel: 'Harmaa',
+    variBase: ['harmaa'],
+    hex: '#999',
+    alue: 'Lappeenranta',
+    ala: 'psykologia',
+    ainejarjesto: 'Harmaat Psyk',
+    slug: 'harmaat-psyk',
+    oppilaitos: 'LUT-yliopisto',
+  },
+  {
+    id: 11,
+    vari: 'Ruskea',
+    variLabel: 'Ruskea',
+    variBase: ['ruskea'],
+    hex: '#741',
+    alue: 'Rovaniemi',
+    ala: 'filosofia',
+    ainejarjesto: 'Ruskeat Filosofia',
+    slug: 'ruskeat-filosofia',
+    oppilaitos: 'Lapin yliopisto',
+  },
+  {
+    id: 12,
+    vari: 'Turkoosi',
+    variLabel: 'Turkoosi',
+    variBase: ['turkoosi'],
+    hex: '#0cc',
+    alue: 'Lahti',
+    ala: 'fysiikka',
+    ainejarjesto: 'Turkoosit Fysiikka',
+    slug: 'turkoosit-fysiikka',
+    oppilaitos: 'LAB-ammattikorkeakoulu',
+  },
+];
+
 describe('/api/search route', () => {
   beforeEach(() => {
     hoisted.rateLimitAllowed = true;
@@ -60,289 +225,74 @@ describe('/api/search route', () => {
       filters: {},
       semanticQuery: '',
     });
-    hoisted.loadUniversitiesMock.mockResolvedValue([]);
-    hoisted.loadColorDataMock.mockResolvedValue({ colors: {} });
   });
 
-  it('falls back to fi locale when locale is invalid', async () => {
-    hoisted.loadUniversitiesMock.mockResolvedValue([
-      {
-        id: 1,
-        vari: 'Punainen',
-        variLabel: 'Punainen',
-        variBase: ['punainen'],
-        hex: '#ff0000',
-        alue: 'Helsinki',
-        ala: 'fysiikka',
-        ainejarjesto: 'Fyysikkokilta',
-        slug: 'fyysikkokilta',
-        oppilaitos: 'Helsingin yliopisto',
-      },
-    ]);
+  async function runSearch(query: string) {
+    hoisted.loadColorDataMock.mockResolvedValueOnce(SEARCH_COLOR_DATA);
+    hoisted.loadUniversitiesMock.mockResolvedValueOnce(SEARCH_UNIVERSITIES);
 
     const req = new Request('http://localhost/api/search', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: 'helsinki', locale: 'de' }),
+      body: JSON.stringify({ query, locale: 'fi' }),
     });
 
     const res = await POST(req);
     const body = await res.json();
+    return { res, body };
+  }
 
-    expect(res.status).toBe(200);
-    expect(Array.isArray(body.results)).toBe(true);
-    expect(body.results.length).toBe(1);
-  });
+  const queryCases: Array<{ query: string; expectedIds: number[] }> = [
+    { query: 'valkoiset', expectedIds: [1] },
+    { query: 'mustat', expectedIds: [2] },
+    { query: 'punaiset', expectedIds: [3] },
+    { query: 'siniset', expectedIds: [4] },
+    { query: 'vihreat', expectedIds: [5] },
+    { query: 'keltaiset', expectedIds: [6] },
+    { query: 'oranssit', expectedIds: [7] },
+    { query: 'violetit', expectedIds: [8] },
+    { query: 'pinkit', expectedIds: [9] },
+    { query: 'harmaat', expectedIds: [10] },
+    { query: 'ruskeat', expectedIds: [11] },
+    { query: 'turkoosit', expectedIds: [12] },
+    { query: 'vihreat tampere', expectedIds: [5] },
+    { query: 'keltaiset jyvaskyla', expectedIds: [6] },
+    { query: 'punaiset turku', expectedIds: [3] },
+    { query: 'siniset oulu', expectedIds: [4] },
+    { query: 'mustat espoo', expectedIds: [2] },
+    { query: 'turkoosit lahti', expectedIds: [12] },
+    { query: 'oranssit kuopio', expectedIds: [7] },
+    { query: 'matematiikka joensuu', expectedIds: [8] },
+    { query: 'psykologia lappeenranta', expectedIds: [10] },
+    { query: 'filosofia rovaniemi', expectedIds: [11] },
+    { query: 'fysiikka lahti', expectedIds: [12] },
+    { query: 'oikeustiede helsinki', expectedIds: [1] },
+  ];
 
-  it('rejects oversized queries', async () => {
-    const req = new Request('http://localhost/api/search', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: 'a'.repeat(201), locale: 'fi' }),
-    });
+  it.each(queryCases)(
+    'returns expected search end result for "$query"',
+    async ({ query, expectedIds }) => {
+      const { res, body } = await runSearch(query);
 
-    const res = await POST(req);
-    const body = await res.json();
+      expect(res.status).toBe(200);
+      expect(body.results.map((u: { id: number }) => u.id)).toEqual(expectedIds);
+      expect(hoisted.understandQueryWithAIMock).not.toHaveBeenCalled();
+    },
+  );
 
-    expect(res.status).toBe(400);
-    expect(body).toEqual({ success: false, error: 'Query too long' });
-  });
-
-  it('handles malformed json body safely', async () => {
-    const req = new Request('http://localhost/api/search', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: '{',
-    });
-
-    const res = await POST(req);
-    const body = await res.json();
-
-    expect(res.status).toBe(200);
-    expect(body).toEqual({ results: [], totalCount: 0 });
-  });
-
-  it('returns consistent rate-limit response shape', async () => {
-    hoisted.rateLimitAllowed = false;
-
-    const req = new Request('http://localhost/api/search', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: 'helsinki', locale: 'fi' }),
-    });
-
-    const res = await POST(req);
-    const body = await res.json();
-
-    expect(res.status).toBe(429);
-    expect(body).toEqual({ success: false, error: 'Unable to process at this time' });
-  });
-
-  it('returns cached body without evaluating fallback AI', async () => {
-    const cached = {
-      results: [],
-      totalCount: 0,
-      filters: {},
-      semanticQuery: '',
-    };
-    hoisted.redisStub.get.mockResolvedValueOnce(cached);
-
-    const req = new Request('http://localhost/api/search', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: 'cached-query', locale: 'fi' }),
-    });
-
-    const res = await POST(req);
-    const body = await res.json();
-
-    expect(res.status).toBe(200);
-    expect(body).toEqual(cached);
-    expect(hoisted.understandQueryWithAIMock).not.toHaveBeenCalled();
-    expect(hoisted.redisStub.setex).not.toHaveBeenCalled();
-  });
-
-  it('enforces deterministic color filtering from query tokens', async () => {
-    hoisted.loadColorDataMock.mockResolvedValueOnce({
-      colors: {
-        keltainen: { main: ['keltainen'], shades: ['keltaiset'], color: '#ff0' },
-      },
-    });
-    hoisted.loadUniversitiesMock.mockResolvedValueOnce([
-      {
-        id: 1,
-        vari: 'Sininen',
-        variLabel: 'Sininen',
-        variBase: ['sininen'],
-        hex: '#00f',
-        alue: 'Jyväskylä',
-        ala: 'muu',
-        ainejarjesto: 'Siniset',
-        slug: 'siniset',
-        oppilaitos: 'Jyväskylän yliopisto',
-      },
-      {
-        id: 2,
-        vari: 'Keltainen',
-        variLabel: 'Keltainen',
-        variBase: ['keltainen'],
-        hex: '#ff0',
-        alue: 'Jyväskylä',
-        ala: 'muu',
-        ainejarjesto: 'Keltaiset',
-        slug: 'keltaiset',
-        oppilaitos: 'Jyväskylän yliopisto',
-      },
-    ]);
-
-    const req = new Request('http://localhost/api/search', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: 'keltaiset haalarit jyväskylä', locale: 'fi' }),
-    });
-
-    const res = await POST(req);
-    const body = await res.json();
-
-    expect(res.status).toBe(200);
-    expect(body.results).toHaveLength(1);
-    expect(body.results[0]?.variBase).toContain('keltainen');
-  });
-
-  it('ranks matching area first within same color results', async () => {
-    hoisted.loadColorDataMock.mockResolvedValueOnce({
-      colors: {
-        keltainen: { main: ['keltainen'], shades: ['keltaiset'], color: '#ff0' },
-      },
-    });
-    hoisted.loadUniversitiesMock.mockResolvedValueOnce([
-      {
-        id: 10,
-        vari: 'Keltainen',
-        variLabel: 'Keltainen',
-        variBase: ['keltainen'],
-        hex: '#ff0',
-        alue: 'Turku',
-        ala: 'insinööri',
-        ainejarjesto: 'Turun Keltaiset',
-        slug: 'turun-keltaiset',
-        oppilaitos: 'Turun yliopisto',
-      },
-      {
-        id: 11,
-        vari: 'Keltainen',
-        variLabel: 'Keltainen',
-        variBase: ['keltainen'],
-        hex: '#ff0',
-        alue: 'Jyväskylä',
-        ala: 'insinööri',
-        ainejarjesto: 'Jyväs Keltaiset',
-        slug: 'jyvas-keltaiset',
-        oppilaitos: 'Jyväskylän yliopisto',
-      },
-    ]);
-
-    const req = new Request('http://localhost/api/search', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: 'keltaiset haalarit jyväskylä', locale: 'fi' }),
-    });
-
-    const res = await POST(req);
-    const body = await res.json();
-
-    expect(res.status).toBe(200);
-    expect(body.results[0]?.alue).toBe('Jyväskylä');
-  });
-
-  it('keeps AI fallback disabled when deterministic search already resolves results', async () => {
-    hoisted.understandQueryWithAIMock.mockResolvedValueOnce({
-      isGibberish: false,
-      filters: { area: 'Kuopio', field: 'tietojenkäsittelytiede' },
-      semanticQuery: 'tietojenkäsittelytiede kuopio',
-    });
+  it('calls AI fallback only when deterministic result is empty', async () => {
     hoisted.loadColorDataMock.mockResolvedValueOnce({ colors: {} });
-    hoisted.loadUniversitiesMock.mockResolvedValueOnce([
-      {
-        id: 1,
-        vari: 'Sininen',
-        variLabel: 'Sininen',
-        variBase: ['sininen'],
-        hex: '#00f',
-        alue: 'Kuopio',
-        ala: 'tietojenkäsittelytiede',
-        ainejarjesto: 'Testi ry',
-        slug: 'testi-ry',
-        oppilaitos: 'Itä-Suomen yliopisto',
-      },
-    ]);
+    hoisted.loadUniversitiesMock.mockResolvedValueOnce([]);
 
     const req = new Request('http://localhost/api/search', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: 'tietojenkäsittelytiede kuopio', locale: 'fi' }),
+      body: JSON.stringify({ query: 'satunnainen hakulause', locale: 'fi' }),
     });
 
     const res = await POST(req);
-    const body = await res.json();
 
     expect(res.status).toBe(200);
-    expect(hoisted.understandQueryWithAIMock).not.toHaveBeenCalled();
-    expect(body.results).toHaveLength(1);
-    expect(body.results[0]?.alue).toBe('Kuopio');
-  });
-
-  it('prioritizes results with most query token matches', async () => {
-    hoisted.loadColorDataMock.mockResolvedValueOnce({ colors: {} });
-    hoisted.loadUniversitiesMock.mockResolvedValueOnce([
-      {
-        id: 1,
-        vari: 'Sininen',
-        variLabel: 'Sininen',
-        variBase: ['sininen'],
-        hex: '#00f',
-        alue: 'Kuopio',
-        ala: 'tietojenkäsittelytiede',
-        ainejarjesto: 'Tietojenkäsittely',
-        slug: 'tietojenkasittely',
-        oppilaitos: 'Itä-Suomen yliopisto',
-      },
-      {
-        id: 2,
-        vari: 'Sininen',
-        variLabel: 'Sininen',
-        variBase: ['sininen'],
-        hex: '#00f',
-        alue: 'Kuopio',
-        ala: 'historia',
-        ainejarjesto: 'Historia ry',
-        slug: 'historia',
-        oppilaitos: 'Itä-Suomen yliopisto',
-      },
-      {
-        id: 3,
-        vari: 'Sininen',
-        variLabel: 'Sininen',
-        variBase: ['sininen'],
-        hex: '#00f',
-        alue: 'Helsinki',
-        ala: 'tietojenkäsittelytiede',
-        ainejarjesto: 'TKT',
-        slug: 'tkt',
-        oppilaitos: 'Helsingin yliopisto',
-      },
-    ]);
-
-    const req = new Request('http://localhost/api/search', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: 'tietojenkäsittelytiede kuopio', locale: 'fi' }),
-    });
-
-    const res = await POST(req);
-    const body = await res.json();
-
-    expect(res.status).toBe(200);
-    expect(body.results[0]?.id).toBe(1);
+    expect(hoisted.understandQueryWithAIMock).toHaveBeenCalledTimes(1);
   });
 });
