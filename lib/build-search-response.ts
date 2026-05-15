@@ -253,7 +253,9 @@ function detectBaseColorFilters(query: string, colorData: ColorData): string[] {
 
   for (const [base, info] of Object.entries(colorData.colors)) {
     const baseNormalized = normalize(base);
-    const aliases = [base, ...info.main, ...info.shades].map((value) => normalize(value));
+    const aliases = buildColorAliases(base, info.main, info.shades).map((value) =>
+      normalize(value),
+    );
     const hasMatch = aliases.some(
       (alias) => alias && (tokens.has(alias) || normalizedQuery.includes(alias)),
     );
@@ -263,6 +265,32 @@ function detectBaseColorFilters(query: string, colorData: ColorData): string[] {
   }
 
   return Array.from(matches);
+}
+
+function buildColorAliases(base: string, main: string[], shades: string[]): string[] {
+  const out = new Set<string>([base, ...main, ...shades]);
+  const baseNormalized = normalize(base);
+
+  const extraAliasesByBase: Record<string, string[]> = {
+    valkoinen: ['valkoinen', 'valkoiset', 'white'],
+    musta: ['musta', 'mustat', 'black'],
+    punainen: ['punainen', 'punaiset', 'red'],
+    sininen: ['sininen', 'siniset', 'blue'],
+    vihreä: ['vihreä', 'vihrea', 'vihreät', 'vihreat', 'green'],
+    keltainen: ['keltainen', 'keltaiset', 'yellow'],
+    oranssi: ['oranssi', 'oranssit', 'orange'],
+    violetti: ['violetti', 'violetit', 'liila', 'liilat', 'purple'],
+    pinkki: ['pinkki', 'pinkit', 'pink'],
+    harmaa: ['harmaa', 'harmaat', 'gray', 'grey'],
+    ruskea: ['ruskea', 'ruskeat', 'brown'],
+    turkoosi: ['turkoosi', 'turkoosit', 'turquoise', 'teal', 'cyan'],
+  };
+
+  for (const alias of extraAliasesByBase[baseNormalized] ?? []) {
+    out.add(alias);
+  }
+
+  return Array.from(out);
 }
 
 function uniqueSorted(values: string[]): string[] {

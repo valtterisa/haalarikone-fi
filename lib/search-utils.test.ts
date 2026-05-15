@@ -114,6 +114,17 @@ describe('searchUniversitiesAPI', () => {
     expect(result).toHaveLength(160);
   });
 
+  it('maps plural green query to green base color deterministically', async () => {
+    const result = await searchUniversitiesAPI('vihreat haalarit', 'fi', {
+      universities,
+      colorData,
+    });
+
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(result).toHaveLength(2);
+    expect(result.every((item) => item.variBase.includes('vihreä'))).toBe(true);
+  });
+
   it('returns local results immediately and enriches with API results asynchronously', async () => {
     fetchMock.mockResolvedValueOnce({
       ok: true,

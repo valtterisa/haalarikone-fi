@@ -22,7 +22,7 @@ Check out the live project at: [haalarikone.fi](https://haalarikone.fi)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS with Radix UI components (Shadcn/ui)
 - **Internationalization:** next-intl (Finnish, English, Swedish)
-- **Search:** AI-powered query understanding (Anthropic Claude) + deterministic filtering + in-memory keyword search
+- **Search:** Deterministic in-memory filtering + fuzzy ranking, with AI fallback only on zero-result deterministic queries
 - **AI/ML:** Vercel AI SDK with Anthropic Claude 3 Haiku
 - **Rate Limiting & Caching:** Upstash Redis
 - **Email:** Resend (for feedback forms)
@@ -89,67 +89,55 @@ student-overall-app/
 
 ## Search Architecture
 
-The search system is deterministic-first: it compares against in-memory university and color data, applies deterministic filters, and ranks with fuzzy matching. AI parsing is only used as fallback when deterministic search returns no results.
+The search system is deterministic-first and fully in-memory by default. It filters against local university and color data, then ranks candidates with Fuse fuzzy search. AI parsing is used only if deterministic search returns 0 results.
 
 ### How It Works
 
 ```mermaid
 flowchart TD
-    A[User Query] --> B[Check Redis Cache]
-    B -->|Cache Hit| G
-    B -->|Cache Miss| C{Simple Color Query?}
-    C -->|Yes| D[Parse Directly - no AI]
-    C -->|No| E[AI Query Understanding]
-    D --> F[Cache Result]
-    E --> F
-    F --> G{Is Gibberish?}
-    G -->|Yes| H[Return Empty Results]
-    G -->|No| I[Apply Deterministic Filters]
-    I --> J{Exact Matches Found?}
-    J -->|Yes| K[Sort by School then Field]
-    K --> L[Return Final Results]
-    J -->|No| M[Keyword Search Fallback]
-    M --> N{Keyword Results?}
-    N -->|No| O[Return Empty]
-    N -->|Yes| P[Filter Keyword Results]
-    P --> Q{Filtered Results?}
-    Q -->|Yes| R[Return Filtered Keyword Results]
-    Q -->|No| O
-    R --> L
+    A[User Query] --> B[Search Cache Check]
+    B -->|Cache Hit| Z[Return Cached Response]
+    B -->|Cache Miss| C[Load In-Memory Data]
+    C --> D[Build Deterministic Filters]
+    D --> E[Apply Deterministic Filtering]
+    E --> F[Rank with Fuzzy Search]
+    F --> G{Any Results?}
+    G -->|Yes| H[Return Deterministic Results]
+    G -->|No| I[AI Query Understanding Fallback]
+    I --> J[Re-run Deterministic Filtering + Ranking]
+    J --> K[Return Fallback Results]
 ```
 
 ### Search Flow
 
-1. **Query Understanding**
-   - First checks Redis cache for previously-seen queries (TTL: 1 hour)
-   - For simple 1–2 word queries that contain a recognizable color, parses directly without calling the AI
-   - Otherwise uses Anthropic Claude 3 Haiku to parse natural language queries
-   - Extracts structured filters: color, area, field, school
-   - Handles Finnish morphology (plural forms, case endings, genitive case)
-   - Detects gibberish queries for early exit
+1. **Deterministic Query Interpretation**
+   - Extracts likely filters (color, area, school, field, organization) from the query using local in-memory values.
+   - Detects color aliases directly from color metadata loaded from local data files.
 
 2. **Deterministic Filtering**
-   - Applies exact filters on local JSON dataset (~6000 records)
-   - Guarantees exact result counts (no arbitrary limits)
-   - Filters by: color (with variant matching), area, field, school
-   - Fast in-memory filtering with caching
+   - Applies all extracted filters over the local dataset in memory.
+   - Includes color-base matching and organization/slug matching.
+   - Uses a field-relaxation fallback only when `organization + field` combination would otherwise produce no results.
 
-3. **Keyword Search Fallback**
-   - Only triggered when exact filters return 0 results
-   - Uses in-memory keyword scoring against the local dataset
-   - Applies the same filters to keyword candidates
-   - Ensures fallback results still match filter criteria
+3. **Fuzzy Ranking**
+   - Ranks filtered candidates with Fuse.js.
+   - Prioritizes exact organization/slug token matches before fuzzy tie-breaking.
+   - Includes color text fields in fuzzy keys so color wording contributes to ranking quality.
 
-4. **Sorting**
-   - Exact filter matches are always sorted deterministically (by school, then field)
-   - Keyword fallback results are returned in keyword-score order (highest relevance first)
+4. **Color Variant Equivalence**
+   - Color singular/plural and common aliases are treated as equivalent in fuzzy matching.
+   - Examples (all base colors): valkoinen ↔ valkoiset, musta ↔ mustat, punainen ↔ punaiset, sininen ↔ siniset, vihreä ↔ vihreät, keltainen ↔ keltaiset, oranssi ↔ oranssit, violetti ↔ violetit, pinkki ↔ pinkit, harmaa ↔ harmaat, ruskea ↔ ruskeat, turkoosi ↔ turkoosit.
+
+5. **AI Fallback (Only On Miss)**
+   - If deterministic search returns zero results, API route calls AI query understanding and retries deterministic filtering/ranking.
+   - This keeps AI usage low while preserving recovery for ambiguous or noisy queries.
 
 ### Key Benefits
 
-- **Exact Counts:** Always returns complete result sets, not limited to top N
-- **Intelligent Parsing:** Understands natural language queries in Finnish, English, Swedish
-- **Fast Performance:** Deterministic filtering is ~10-50ms, AI parsing ~200-400ms
-- **Fallback Safety:** Semantic search only when needed, still respects filters
+- **Lower Cost:** Most queries are resolved without AI calls.
+- **Predictable Results:** One deterministic pipeline handles normal search traffic.
+- **Natural Color Queries:** Finnish singular/plural color forms match reliably.
+- **Fast Runtime:** Local in-memory filtering + fuzzy ranking avoids network/model latency on common paths.
 
 ## Contributing
 
