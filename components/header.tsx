@@ -37,7 +37,7 @@ export default function Header() {
 
   const scheduleCloseCategories = () => {
     if (closeTimeout.current) clearTimeout(closeTimeout.current);
-    closeTimeout.current = setTimeout(() => setCategoriesOpen(false), 120);
+    closeTimeout.current = setTimeout(() => setCategoriesOpen(false), 60);
   };
 
   const navLinks = [{ label: t('common.blog'), href: routes.blog() }];
@@ -88,7 +88,7 @@ export default function Header() {
               <DropdownMenuContent
                 id="header-categories-content"
                 align="start"
-                sideOffset={10}
+                sideOffset={4}
                 onMouseEnter={openCategories}
                 onMouseLeave={scheduleCloseCategories}
                 onCloseAutoFocus={(e) => e.preventDefault()}
