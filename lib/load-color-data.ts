@@ -1,5 +1,5 @@
 import { parseHexFromMetadata } from '@/utils/color';
-import universitiesData from '@/data/overall_colors_upstash.json';
+import universitiesData from '@/data/overall_data.json';
 import translationsData from '@/data/translations.json';
 
 export type ColorData = {

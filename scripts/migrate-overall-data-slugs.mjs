@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
-const dataPath = join(root, 'data', 'overall_colors_upstash.json');
+const dataPath = join(root, 'data', 'overall_data.json');
 
 function generateSlug(text) {
   return text

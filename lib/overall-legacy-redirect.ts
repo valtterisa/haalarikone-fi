@@ -1,4 +1,4 @@
-import overallData from '../data/overall_colors_upstash.json';
+import overallData from '../data/overall_data.json';
 
 type Row = { id: string; content?: { ainejarjestoSlug?: string } };
 

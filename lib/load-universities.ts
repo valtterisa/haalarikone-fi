@@ -1,6 +1,6 @@
 import type { University } from '@/types/university';
 import translationsData from '@/data/translations.json';
-import universitiesData from '@/data/overall_colors_upstash.json';
+import universitiesData from '@/data/overall_data.json';
 
 type Translations = {
   fields: Record<string, { fi: string; en: string; sv: string }>;

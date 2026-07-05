@@ -169,7 +169,7 @@ Search runs entirely against the local JSON dataset. There is no vector database
 
 ### Where the data lives
 
-- `data/overall_colors_upstash.json`: Source dataset used by the app (the filename is historical)
+- `data/overall_data.json`: Source dataset used by the app
 
 The dataset is loaded at runtime and used by:
 
@@ -178,7 +178,7 @@ The dataset is loaded at runtime and used by:
 
 ### How to make changes safely
 
-1. **Edit the JSON file**: add/update entries in `data/overall_colors_upstash.json`
+1. **Edit the JSON file**: add/update entries in `data/overall_data.json`
 2. **Keep shapes consistent with existing entries**:
    - `content.vari` may be a string (color label) or an object (with `base` and/or `label`)
    - `metadata.hex` is optional and used for UI color rendering
