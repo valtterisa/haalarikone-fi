@@ -23,8 +23,7 @@ Check out the live project at: [haalarikone.fi](https://haalarikone.fi)
 - **Styling:** Tailwind CSS with Radix UI components (Shadcn/ui)
 - **Internationalization:** next-intl (Finnish, English, Swedish)
 - **Search:** Deterministic in-memory filtering + fuzzy ranking, with AI fallback only on zero-result deterministic queries
-- **AI/ML:** Vercel AI SDK with Anthropic Claude 3 Haiku
-- **Rate Limiting & Caching:** Upstash Redis
+- **AI/ML:** Vercel AI SDK with Anthropic Claude 3 Haiku (zero-result fallback only)
 - **Email:** Resend (for feedback forms)
 - **Analytics:** Databuddy
 - **Testing:** Vitest + React Testing Library (unit/integration), Playwright (end-to-end)
@@ -95,17 +94,15 @@ The search system is deterministic-first and fully in-memory by default. It filt
 
 ```mermaid
 flowchart TD
-    A[User Query] --> B[Search Cache Check]
-    B -->|Cache Hit| Z[Return Cached Response]
-    B -->|Cache Miss| C[Load In-Memory Data]
-    C --> D[Build Deterministic Filters]
-    D --> E[Apply Deterministic Filtering]
-    E --> F[Rank with Fuzzy Search]
-    F --> G{Any Results?}
-    G -->|Yes| H[Return Deterministic Results]
-    G -->|No| I[AI Query Understanding Fallback]
-    I --> J[Re-run Deterministic Filtering + Ranking]
-    J --> K[Return Fallback Results]
+    A[User Query] --> B[Load In-Memory Data]
+    B --> C[Build Deterministic Filters]
+    C --> D[Apply Deterministic Filtering]
+    D --> E[Rank with Fuzzy Search]
+    E --> F{Any Results?}
+    F -->|Yes| G[Return Deterministic Results]
+    F -->|No| H[AI Query Understanding Fallback]
+    H --> I[Re-run Deterministic Filtering + Ranking]
+    I --> J[Return Fallback Results]
 ```
 
 ### Search Flow

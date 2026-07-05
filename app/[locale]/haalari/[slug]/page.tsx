@@ -17,6 +17,7 @@ import { getTranslations } from 'next-intl/server';
 import { getTranslatedRoute, routeHref } from '@/lib/use-translated-routes';
 import type { Locale } from '@/lib/slug-translations';
 import { localeSiteBaseUrl } from '@/lib/site-url';
+import { Building2, ChevronRight, GraduationCap, MapPin, Palette } from 'lucide-react';
 
 export const revalidate = 86400;
 
@@ -139,6 +140,12 @@ export default async function OverallPage({ params }: Props) {
 
   const baseUrl = localeSiteBaseUrl(locale);
 
+  const logoName = overall.oppilaitos.startsWith('Aalto-yliopisto')
+    ? 'Aalto-yliopisto'
+    : overall.oppilaitos;
+  const areas = overall.alue ? overall.alue.split(', ').map((area) => area.trim()) : [];
+  const fields = overall.ala ? overall.ala.split(', ').map((field) => field.trim()) : [];
+
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -207,127 +214,133 @@ export default async function OverallPage({ params }: Props) {
           </BreadcrumbList>
         </Breadcrumb>
 
-        <div className="bg-white rounded-2xl border border-border/60 overflow-hidden shadow-sm">
-          <div className="h-28 sm:h-36 relative" style={parseStyles(overall.hex)}>
-            <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
-            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent" />
+        <div className="overflow-hidden rounded-2xl border border-border/60 bg-white shadow-[0_8px_30px_rgba(15,23,42,0.06)]">
+          <div className="relative h-28 sm:h-36" style={parseStyles(overall.hex)}>
+            <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-transparent to-black/5" />
+            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
           </div>
 
-          <div className="px-5 sm:px-8 pb-6 sm:pb-8 -mt-14 sm:-mt-16 relative">
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
-              <div className="flex gap-3">
-                <div
-                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl border-4 border-white shadow-lg flex-shrink-0"
-                  style={parseStyles(overall.hex)}
-                  title={`${t('overall.color')}: ${overall.vari}`}
-                />
-                <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border-4 border-white shadow-lg bg-white">
+          <div className="relative -mt-10 px-6 pb-8 sm:-mt-12 sm:px-8">
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+              <div className="flex items-end gap-4">
+                <div className="relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-2xl border-4 border-white bg-white shadow-[0_8px_24px_rgba(15,23,42,0.12)] sm:h-20 sm:w-20">
                   <Image
-                    className="object-contain p-2"
-                    src={`/logos/${
-                      overall.oppilaitos.startsWith('Aalto-yliopisto')
-                        ? 'Aalto-yliopisto'
-                        : overall.oppilaitos
-                    }.jpg`}
+                    className="object-contain p-2.5"
+                    src={`/logos/${logoName}.jpg`}
                     fill
                     alt={`${overall.oppilaitos} logo`}
                   />
                 </div>
+                <div className="min-w-0 pb-1">
+                  {overall.ainejarjesto && (
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                      {t('overall.organization')}
+                    </p>
+                  )}
+                  <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+                    {overall.ainejarjesto ?? overall.oppilaitos}
+                  </h1>
+                  {overall.ainejarjesto && (
+                    <p className="mt-1 text-sm text-muted-foreground sm:text-base">
+                      {overall.oppilaitos}
+                    </p>
+                  )}
+                </div>
               </div>
 
-              <div className="flex-1 pt-2 sm:pt-4">
-                <h1 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">
-                  {overall.ainejarjesto ?? overall.oppilaitos}
-                </h1>
-                <p className="text-muted-foreground mt-1 text-sm sm:text-base">
-                  {overall.ainejarjesto ? overall.oppilaitos : ''}
-                </p>
+              <div
+                className="inline-flex items-center gap-2.5 self-start rounded-full border border-border/60 bg-white px-3.5 py-2 shadow-sm sm:self-auto"
+                title={`${t('overall.color')}: ${overall.vari}`}
+              >
+                <span
+                  className="h-5 w-5 rounded-full ring-1 ring-black/10"
+                  style={parseStyles(overall.hex)}
+                />
+                <span className="text-sm font-semibold text-foreground">{overall.vari}</span>
               </div>
             </div>
 
-            <div className="mt-6 sm:mt-8 grid gap-5 sm:gap-6">
-              <div className="flex flex-wrap gap-2">
-                <Link
-                  href={routeHref(
-                    'colors',
-                    getSlugForEntity(overall.variBase?.[0] ?? overall.vari, locale, 'color'),
-                  )}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-secondary text-foreground hover:bg-green/15 hover:text-green border border-border/50 hover:border-green/30"
-                >
-                  <span
-                    className="w-3 h-3 rounded-full ring-1 ring-black/10"
-                    style={parseStyles(overall.hex)}
-                  />
-                  {overall.vari}
-                </Link>
-                <Link
-                  href={routeHref(
-                    'universities',
-                    getSlugForEntity(overall.oppilaitos, locale, 'university'),
-                  )}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-secondary text-foreground hover:bg-green/15 hover:text-green border border-border/50 hover:border-green/30"
-                >
-                  <svg
-                    className="w-3.5 h-3.5 opacity-60"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+            <div className="mt-8 overflow-hidden rounded-2xl border border-border/50 bg-muted/20">
+              <div className="flex items-start gap-3 border-b border-border/40 px-4 py-4 sm:px-5">
+                <Palette className="mt-0.5 h-4 w-4 shrink-0 text-green" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                    {t('overall.color')}
+                  </p>
+                  <Link
+                    href={routeHref(
+                      'colors',
+                      getSlugForEntity(overall.variBase?.[0] ?? overall.vari, locale, 'color'),
+                    )}
+                    className="mt-1 inline-flex items-center gap-2 text-sm font-semibold text-foreground transition hover:text-green"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                    <span
+                      className="h-3.5 w-3.5 rounded-full ring-1 ring-black/10"
+                      style={parseStyles(overall.hex)}
                     />
-                  </svg>
-                  {overall.oppilaitos}
-                </Link>
-                {overall.alue &&
-                  overall.alue.split(', ').map((area) => (
-                    <Link
-                      key={area}
-                      href={routeHref('areas', getSlugForEntity(area.trim(), locale, 'area'))}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all bg-secondary text-foreground hover:bg-green/15 hover:text-green border border-border/50 hover:border-green/30"
-                    >
-                      <svg
-                        className="w-3.5 h-3.5 opacity-60"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                        />
-                      </svg>
-                      {area.trim()}
-                    </Link>
-                  ))}
+                    {overall.vari}
+                  </Link>
+                </div>
               </div>
 
-              {overall.ala && (
-                <div>
-                  <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-                    {t('overall.field')}
-                  </h2>
-                  <div className="flex flex-wrap gap-2">
-                    {overall.ala.split(', ').map((field) => (
-                      <Link
-                        key={field}
-                        href={routeHref('fields', getSlugForEntity(field.trim(), locale, 'field'))}
-                        className="px-3 py-1.5 bg-green/10 text-green rounded-lg text-sm font-medium hover:bg-green/20 transition border border-green/20"
-                      >
-                        {field.trim()}
-                      </Link>
-                    ))}
+              <div className="flex items-start gap-3 border-b border-border/40 px-4 py-4 sm:px-5">
+                <Building2 className="mt-0.5 h-4 w-4 shrink-0 text-green" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                    {t('overall.institution')}
+                  </p>
+                  <Link
+                    href={routeHref(
+                      'universities',
+                      getSlugForEntity(overall.oppilaitos, locale, 'university'),
+                    )}
+                    className="mt-1 inline-block text-sm font-semibold text-foreground transition hover:text-green"
+                  >
+                    {overall.oppilaitos}
+                  </Link>
+                </div>
+              </div>
+
+              {areas.length > 0 && (
+                <div className="flex items-start gap-3 border-b border-border/40 px-4 py-4 sm:px-5">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-green" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                      {t('overall.area')}
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {areas.map((area) => (
+                        <Link
+                          key={area}
+                          href={routeHref('areas', getSlugForEntity(area, locale, 'area'))}
+                          className="rounded-full border border-border/60 bg-white px-3 py-1 text-sm font-medium text-foreground transition hover:border-green/30 hover:bg-green/5 hover:text-green"
+                        >
+                          {area}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {fields.length > 0 && (
+                <div className="flex items-start gap-3 px-4 py-4 sm:px-5">
+                  <GraduationCap className="mt-0.5 h-4 w-4 shrink-0 text-green" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                      {t('overall.field')}
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {fields.map((field) => (
+                        <Link
+                          key={field}
+                          href={routeHref('fields', getSlugForEntity(field, locale, 'field'))}
+                          className="rounded-full border border-green/20 bg-green/10 px-3 py-1 text-sm font-medium text-green transition hover:bg-green/15"
+                        >
+                          {field}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
@@ -337,45 +350,41 @@ export default async function OverallPage({ params }: Props) {
 
         {relatedOveralls.length > 0 && (
           <div className="mt-10">
-            <h2 className="text-lg font-semibold mb-4 text-foreground">
-              {t('overall.otherOveralls')} {overall.oppilaitos}
-            </h2>
-            <div className="grid gap-2.5">
+            <div className="mb-4 flex items-end justify-between gap-4">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  {t('overall.otherOveralls')}
+                </p>
+                <h2 className="mt-1 text-lg font-semibold text-foreground">{overall.oppilaitos}</h2>
+              </div>
+            </div>
+            <div className="grid gap-3">
               {relatedOveralls.map((rel) => (
                 <Link
                   key={rel.id}
                   href={routeHref('overall', rel.slug)}
-                  className="group bg-white rounded-xl border border-border/60 hover:border-border overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)]"
+                  className="group overflow-hidden rounded-xl border border-border/60 bg-white transition-all duration-300 hover:border-green/20 hover:shadow-[0_8px_30px_rgba(15,23,42,0.08)]"
                 >
                   <div className="flex">
-                    <div className="flex-shrink-0 w-16 sm:w-20" style={parseStyles(rel.hex)} />
-                    <div className="flex-1 px-4 py-3">
-                      <div className="flex items-center justify-between gap-3">
-                        <div>
-                          <h3 className="font-semibold text-foreground">
-                            {rel.ainejarjesto ?? rel.vari}
-                          </h3>
-                          {rel.ainejarjesto && (
-                            <p className="text-muted-foreground text-sm mt-0.5">{rel.vari}</p>
-                          )}
-                          {rel.ala && !rel.ainejarjesto && (
-                            <p className="text-muted-foreground text-sm mt-0.5">{rel.ala}</p>
-                          )}
-                        </div>
-                        <svg
-                          className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
+                    <div
+                      className="w-16 shrink-0 sm:w-20"
+                      style={parseStyles(rel.hex)}
+                      title={`${t('overall.color')}: ${rel.vari}`}
+                    />
+                    <div className="flex min-w-0 flex-1 items-center justify-between gap-4 px-4 py-3.5">
+                      <div className="min-w-0">
+                        <h3 className="truncate font-semibold text-foreground">
+                          {rel.ainejarjesto ?? rel.vari}
+                        </h3>
+                        {rel.ainejarjesto ? (
+                          <p className="mt-0.5 truncate text-sm text-muted-foreground">
+                            {rel.vari}
+                          </p>
+                        ) : rel.ala ? (
+                          <p className="mt-0.5 truncate text-sm text-muted-foreground">{rel.ala}</p>
+                        ) : null}
                       </div>
+                      <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
                     </div>
                   </div>
                 </Link>

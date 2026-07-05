@@ -1,6 +1,5 @@
 import { generateText, Output } from 'ai';
 import { anthropic } from '@ai-sdk/anthropic';
-import { Redis } from '@upstash/redis';
 import { loadUniversities } from './load-universities';
 import { reconcileFieldOrganizationFilters } from './reconcile-field-organization';
 import { z } from 'zod';
@@ -39,38 +38,10 @@ const QueryUnderstandingSchema = z.object({
 
 export type QueryUnderstanding = z.infer<typeof QueryUnderstandingSchema>;
 
-const redis = Redis.fromEnv();
-const CACHE_TTL = 3600;
-const AI_CACHE_VERSION = 'v1';
-const IS_DEV = process.env.NODE_ENV === 'development';
-
 export async function understandQueryWithAI(
   query: string,
   locale: 'fi' | 'en' | 'sv' = 'fi',
 ): Promise<QueryUnderstanding> {
-  const normalizedQuery = query.toLowerCase().trim();
-  const cacheKey = `query-ai:${AI_CACHE_VERSION}:${locale}:${normalizedQuery}`;
-
-  if (!IS_DEV) {
-    try {
-      const cached = await redis.get<QueryUnderstanding>(cacheKey);
-      if (cached) {
-        if (process.env.NODE_ENV !== 'test') {
-          console.debug('[query-understanding-ai][cache-hit]', {
-            query: query.trim(),
-            locale,
-            isGibberish: cached.isGibberish,
-            filters: cached.filters,
-            semanticQuery: cached.semanticQuery,
-          });
-        }
-        return cached;
-      }
-    } catch (error) {
-      console.error('Cache read error:', error);
-    }
-  }
-
   const systemPrompt = `Extract filters from student overall (haalari) queries (Finnish/English/Swedish):
 - color: valkoinen/musta/punainen/sininen/vihreä/keltainen/oranssi/violetti/pinkki/harmaa/ruskea/turkoosi (normalize: valkoiset->valkoinen, white->valkoinen)
 - area: cities (normalize: Tampereella->Tampere, Kuopion->Kuopio)
@@ -106,14 +77,6 @@ Return JSON: {isGibberish: boolean, filters: {color?, area?, field?, school?, or
         filters: reconciled.filters,
         semanticQuery: reconciled.semanticQuery,
       });
-    }
-
-    if (!IS_DEV) {
-      try {
-        await redis.setex(cacheKey, CACHE_TTL, reconciled);
-      } catch (error) {
-        console.error('Cache write error:', error);
-      }
     }
 
     return reconciled;

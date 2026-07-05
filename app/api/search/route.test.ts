@@ -1,33 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const hoisted = vi.hoisted(() => {
-  const redisStub = {
-    get: vi.fn().mockResolvedValue(null),
-    setex: vi.fn().mockResolvedValue(undefined),
-  };
-
-  return {
-    rateLimitAllowed: true,
-    understandQueryWithAIMock: vi.fn(),
-    loadUniversitiesMock: vi.fn(),
-    loadColorDataMock: vi.fn(),
-    limitMock: vi.fn(async () => ({ success: hoisted.rateLimitAllowed })),
-    redisStub,
-  };
-});
-
-vi.mock('@upstash/redis', () => ({
-  Redis: {
-    fromEnv: vi.fn(() => hoisted.redisStub),
-  },
-}));
-
-vi.mock('@upstash/ratelimit', () => ({
-  Ratelimit: class {
-    static slidingWindow = vi.fn();
-    limit = hoisted.limitMock;
-    constructor() {}
-  },
+const hoisted = vi.hoisted(() => ({
+  understandQueryWithAIMock: vi.fn(),
+  loadUniversitiesMock: vi.fn(),
+  loadColorDataMock: vi.fn(),
 }));
 
 vi.mock('@/lib/query-understanding', () => ({
@@ -210,15 +186,9 @@ const SEARCH_UNIVERSITIES = [
 
 describe('/api/search route', () => {
   beforeEach(() => {
-    hoisted.rateLimitAllowed = true;
-    hoisted.limitMock.mockClear();
     hoisted.understandQueryWithAIMock.mockReset();
     hoisted.loadUniversitiesMock.mockReset();
     hoisted.loadColorDataMock.mockReset();
-    hoisted.redisStub.get.mockReset();
-    hoisted.redisStub.get.mockResolvedValue(null);
-    hoisted.redisStub.setex.mockReset();
-    hoisted.redisStub.setex.mockResolvedValue(undefined);
 
     hoisted.understandQueryWithAIMock.mockResolvedValue({
       isGibberish: false,

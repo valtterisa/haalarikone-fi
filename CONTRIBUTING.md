@@ -84,8 +84,7 @@ Feature requests are welcome! Use the [Feature Request template](.github/ISSUE_T
 - Node.js (LTS version recommended)
 - pnpm (package manager)
 - Git
-- Upstash account (Redis)
-- Anthropic API key
+- Anthropic API key (optional — only used for zero-result AI fallback)
 - (Optional) Resend account for feedback emails
 
 ### 1. Clone your fork
@@ -106,11 +105,7 @@ pnpm install
 Create a `.env.local` file in the root directory with at least the following variables:
 
 ```env
-# Upstash Redis (required - rate limiting and caching)
-UPSTASH_REDIS_REST_URL=your_upstash_redis_rest_url
-UPSTASH_REDIS_REST_TOKEN=your_upstash_redis_rest_token
-
-# Anthropic (required - AI-powered search)
+# Anthropic (optional - AI fallback when deterministic search returns no results)
 ANTHROPIC_API_KEY=your_anthropic_api_key
 
 # Resend (optional - feedback form)
@@ -120,7 +115,7 @@ FEEDBACK_EMAIL_TO=your_email@example.com
 
 Notes:
 
-- Required: `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`, `ANTHROPIC_API_KEY`
+- Optional: `ANTHROPIC_API_KEY` (AI fallback on zero-result searches)
 - Optional: `RESEND_API_KEY`, `FEEDBACK_EMAIL_TO` (feedback form fails silently if missing)
 - The app uses `localePrefix: 'as-needed'` – Finnish (default) has no prefix, other locales use `/en` or `/sv`
 
