@@ -2,7 +2,7 @@
 
 import { Link } from '@/i18n/routing';
 import { useRef, useState } from 'react';
-import { Menu, X, Palette, Layers, GraduationCap, ChevronDown, Github } from 'lucide-react';
+import { Menu, X, Palette, Layers, GraduationCap, ChevronDown } from 'lucide-react';
 import Logo from '@/components/logo';
 import {
   DropdownMenu,
@@ -149,27 +149,9 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-            <a
-              href="https://github.com/valtterisa/student-overall-app"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub"
-              className="inline-flex items-center justify-center rounded-full p-2 text-muted-foreground transition-colors hover:text-green focus:outline-none focus:ring-2 focus:ring-green/40"
-            >
-              <Github className="h-5 w-5" />
-            </a>
             <LanguageSwitcher instanceId="desktop" />
           </div>
           <div className="flex items-center gap-2 md:hidden">
-            <a
-              href="https://github.com/valtterisa/student-overall-app"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub"
-              className="inline-flex items-center justify-center rounded-full p-2 text-muted-foreground transition-colors hover:text-green focus:outline-none focus:ring-2 focus:ring-green/40"
-            >
-              <Github className="h-5 w-5" />
-            </a>
             <LanguageSwitcher instanceId="mobile" />
             <button
               type="button"
