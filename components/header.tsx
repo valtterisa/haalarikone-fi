@@ -1,7 +1,7 @@
 'use client';
 
 import { Link } from '@/i18n/routing';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Menu, X, Palette, Layers, GraduationCap, ChevronDown, Github } from 'lucide-react';
 import Logo from '@/components/logo';
 import {
@@ -22,11 +22,23 @@ function internalHrefKey(href: InternalHref): string {
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [categoriesOpen, setCategoriesOpen] = useState(false);
+  const closeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const t = useTranslations();
   const tNav = useTranslations('nav');
   const routes = useTranslatedRoutes();
 
   const closeMobileMenu = () => setMobileOpen(false);
+
+  const openCategories = () => {
+    if (closeTimeout.current) clearTimeout(closeTimeout.current);
+    setCategoriesOpen(true);
+  };
+
+  const scheduleCloseCategories = () => {
+    if (closeTimeout.current) clearTimeout(closeTimeout.current);
+    closeTimeout.current = setTimeout(() => setCategoriesOpen(false), 120);
+  };
 
   const navLinks = [{ label: t('common.blog'), href: routes.blog() }];
 
@@ -59,13 +71,15 @@ export default function Header() {
             <Logo priority />
           </div>
           <div className="hidden items-center gap-6 text-sm font-medium text-muted-foreground md:flex">
-            <DropdownMenu>
+            <DropdownMenu open={categoriesOpen} onOpenChange={setCategoriesOpen}>
               <DropdownMenuTrigger asChild>
                 <Button
                   id="header-categories-trigger"
                   variant="ghost"
                   size="sm"
                   className="gap-2 h-9 px-3 focus-visible:ring-0 focus-visible:ring-offset-0 group"
+                  onMouseEnter={openCategories}
+                  onMouseLeave={scheduleCloseCategories}
                 >
                   <span>{t('common.categories')}</span>
                   <ChevronDown className="h-4 w-4 opacity-50 transition-transform duration-200 group-data-[state=open]:rotate-180" />
@@ -75,6 +89,9 @@ export default function Header() {
                 id="header-categories-content"
                 align="start"
                 sideOffset={10}
+                onMouseEnter={openCategories}
+                onMouseLeave={scheduleCloseCategories}
+                onCloseAutoFocus={(e) => e.preventDefault()}
                 className="w-80 rounded-2xl border-border/60 p-2 shadow-[0_24px_60px_rgba(15,23,42,0.16)]"
               >
                 <p className="px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -103,7 +120,6 @@ export default function Header() {
                             {link.description}
                           </span>
                         </span>
-                        <ChevronDown className="ml-auto h-4 w-4 -rotate-90 text-muted-foreground/50 transition-all group-hover/item:translate-x-0.5 group-hover/item:text-green" />
                       </Link>
                     </DropdownMenuItem>
                   );
