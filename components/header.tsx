@@ -22,7 +22,7 @@ function internalHrefKey(href: InternalHref): string {
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [categoriesOpen, setCategoriesOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const closeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const t = useTranslations();
   const tNav = useTranslations('nav');
@@ -30,14 +30,13 @@ export default function Header() {
 
   const closeMobileMenu = () => setMobileOpen(false);
 
-  const openCategories = () => {
+  const handleDropdownHover = (isEntering: boolean) => {
     if (closeTimeout.current) clearTimeout(closeTimeout.current);
-    setCategoriesOpen(true);
-  };
-
-  const scheduleCloseCategories = () => {
-    if (closeTimeout.current) clearTimeout(closeTimeout.current);
-    closeTimeout.current = setTimeout(() => setCategoriesOpen(false), 60);
+    if (isEntering) {
+      setDropdownOpen(true);
+    } else {
+      closeTimeout.current = setTimeout(() => setDropdownOpen(false), 50);
+    }
   };
 
   const navLinks = [{ label: t('common.blog'), href: routes.blog() }];
@@ -71,15 +70,15 @@ export default function Header() {
             <Logo priority />
           </div>
           <div className="hidden items-center gap-6 text-sm font-medium text-muted-foreground md:flex">
-            <DropdownMenu open={categoriesOpen} onOpenChange={setCategoriesOpen}>
+            <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
               <DropdownMenuTrigger asChild>
                 <Button
                   id="header-categories-trigger"
                   variant="ghost"
                   size="sm"
                   className="gap-2 h-9 px-3 focus-visible:ring-0 focus-visible:ring-offset-0 group"
-                  onMouseEnter={openCategories}
-                  onMouseLeave={scheduleCloseCategories}
+                  onMouseEnter={() => handleDropdownHover(true)}
+                  onMouseLeave={() => handleDropdownHover(false)}
                 >
                   <span>{t('common.categories')}</span>
                   <ChevronDown className="h-4 w-4 opacity-50 transition-transform duration-200 group-data-[state=open]:rotate-180" />
@@ -89,8 +88,8 @@ export default function Header() {
                 id="header-categories-content"
                 align="start"
                 sideOffset={4}
-                onMouseEnter={openCategories}
-                onMouseLeave={scheduleCloseCategories}
+                onMouseEnter={() => handleDropdownHover(true)}
+                onMouseLeave={() => handleDropdownHover(false)}
                 onCloseAutoFocus={(e) => e.preventDefault()}
                 className="w-80 rounded-2xl border-border/60 p-2 shadow-[0_24px_60px_rgba(15,23,42,0.16)]"
               >
