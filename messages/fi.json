@@ -105,7 +105,7 @@
   },
   "universities": {
     "title": "Oppilaitokset",
-    "description": "Luettelo oppilaitoksesta {university}. Yhteensä {count} eri haalaria.",
+    "description": "Luettelo oppilaitoksesta {university}. Yhteensä {count} eri haalaria",
     "notFound": "Oppilaitos ei löytynyt",
     "pageTitle": "Oppilaitokset | Yliopistot ja AMK:t Suomessa | Haalarikone",
     "pageDescription": "Kaikki Suomen yliopistot ja ammattikorkeakoulut. Valitse oppilaitos nähdäksesi sen haalarivärit ja ainejärjestötiedot.",

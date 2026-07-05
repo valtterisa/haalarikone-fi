@@ -16,12 +16,7 @@ import { getSlugForEntity, getEntityTranslation } from '@/lib/slug-translations'
 import FieldSearchSection from '@/components/field-search-section';
 import { getTranslations } from 'next-intl/server';
 import type { Locale } from '@/lib/slug-translations';
-import {
-  absoluteHomeUrl,
-  absoluteTranslatedRoute,
-  alternateLanguageUrls,
-  routeHref,
-} from '@/lib/use-translated-routes';
+import { capitalizeFirstLetter } from '@/lib/utils';
 
 export const revalidate = 86400;
 
@@ -82,7 +77,7 @@ export default async function FieldIndexPage({ params }: { params: Promise<{ loc
   const fieldsWithTranslations = uniqueFields
     .map((field) => ({
       finnishName: field,
-      translatedName: getEntityTranslation(field, locale, 'field'),
+      translatedName: capitalizeFirstLetter(getEntityTranslation(field, locale, 'field')),
     }))
     .sort((a, b) => a.translatedName.localeCompare(b.translatedName, locale));
   const t = await getTranslations({ locale });

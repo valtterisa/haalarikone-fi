@@ -220,7 +220,7 @@ export default async function BlogPostPage({ params }: Props) {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      <div className="container mx-auto px-4 py-16 max-w-4xl">
+      <div className="container mx-auto px-4 py-16 max-w-3xl">
         <Link href="/blog" className="text-green hover:underline mb-4 inline-block">
           ← {t('common.backToHome')}
         </Link>
@@ -228,8 +228,8 @@ export default async function BlogPostPage({ params }: Props) {
         <article>
           <header className="mb-8">
             <h1 className="text-4xl font-bold mb-4">{titleString}</h1>
-            <p className="text-xl text-gray-700 mb-6">{descriptionString}</p>
-            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 border-b pb-4">
+            <p className="text-lg text-muted-foreground mb-6">{descriptionString}</p>
+            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground border-b pb-4">
               <time dateTime={post.publishDate}>
                 {new Date(post.publishDate).toLocaleDateString(
                   locale === 'fi' ? 'fi-FI' : locale === 'en' ? 'en-US' : 'sv-SE',
@@ -252,7 +252,7 @@ export default async function BlogPostPage({ params }: Props) {
           </header>
 
           <div
-            className="prose prose-lg prose-green max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-green prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-ul:text-gray-700 prose-ol:text-gray-700"
+            className="prose prose-green max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-muted-foreground prose-a:text-green prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-ul:text-muted-foreground prose-ol:text-muted-foreground"
             dangerouslySetInnerHTML={{ __html: contentString }}
           />
         </article>

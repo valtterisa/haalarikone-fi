@@ -239,9 +239,9 @@ export default async function ColorPage({ params }: Props) {
             <div className="w-16 h-16 rounded-lg border-2 shadow-md" style={swatchStyle} />
             <div>
               <h1 className="text-4xl font-bold">{capitalizedColor}</h1>
-              <p className="text-lg text-gray-700">
-                {t('colors.overallCount', { count: colorData.length })}{' '}
-                {t('colors.schoolCount', { count: universitiesList.length })}
+              <p className="text-lg text-muted-foreground">
+                {colorData.length} {t('colors.overallCount')} {universitiesList.length}{' '}
+                {t('colors.schoolCount')}
               </p>
             </div>
           </div>

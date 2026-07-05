@@ -16,6 +16,7 @@ import { getEntityTranslation, getSlugForEntity } from '@/lib/slug-translations'
 import VariSearchSection from '@/components/vari-search-section';
 import { getTranslations } from 'next-intl/server';
 import type { Locale } from '@/lib/slug-translations';
+import { capitalizeFirstLetter } from '@/lib/utils';
 import {
   absoluteHomeUrl,
   absoluteTranslatedRoute,
@@ -114,7 +115,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
     itemListElement: colors.map((color, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      name: color,
+      name: capitalizeFirstLetter(getEntityTranslation(color, locale, 'color')),
       url: absoluteTranslatedRoute('colors', locale, getSlugForEntity(color, locale, 'color')),
     })),
   };
@@ -157,7 +158,9 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
           <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3">
             {colors.map((color) =>
               (() => {
-                const translatedColor = getEntityTranslation(color, locale, 'color');
+                const translatedColor = capitalizeFirstLetter(
+                  getEntityTranslation(color, locale, 'color'),
+                );
                 const colorKey = color.toLowerCase();
                 const translatedColorKey = translatedColor.toLowerCase();
                 return (
