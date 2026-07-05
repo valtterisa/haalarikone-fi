@@ -24,6 +24,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const closeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isHoveringDropdown = useRef(false);
   const t = useTranslations();
   const tNav = useTranslations('nav');
   const routes = useTranslatedRoutes();
@@ -32,10 +33,24 @@ export default function Header() {
 
   const handleDropdownHover = (isEntering: boolean) => {
     if (closeTimeout.current) clearTimeout(closeTimeout.current);
+    isHoveringDropdown.current = isEntering;
     if (isEntering) {
       setDropdownOpen(true);
-    } else {
-      closeTimeout.current = setTimeout(() => setDropdownOpen(false), 50);
+      return;
+    }
+    closeTimeout.current = setTimeout(() => {
+      isHoveringDropdown.current = false;
+      setDropdownOpen(false);
+    }, 150);
+  };
+
+  const handleDropdownOpenChange = (open: boolean) => {
+    if (open) {
+      setDropdownOpen(true);
+      return;
+    }
+    if (!isHoveringDropdown.current) {
+      setDropdownOpen(false);
     }
   };
 
@@ -70,13 +85,13 @@ export default function Header() {
             <Logo priority />
           </div>
           <div className="hidden items-center gap-6 text-sm font-medium text-muted-foreground md:flex">
-            <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+            <DropdownMenu modal={false} open={dropdownOpen} onOpenChange={handleDropdownOpenChange}>
               <DropdownMenuTrigger asChild>
                 <Button
                   id="header-categories-trigger"
                   variant="ghost"
                   size="sm"
-                  className="gap-2 h-9 px-3 focus-visible:ring-0 focus-visible:ring-offset-0 group"
+                  className="gap-2 h-9 px-3 focus-visible:ring-0 focus-visible:ring-offset-0 group data-[state=open]:bg-accent data-[state=open]:text-accent-foreground"
                   onMouseEnter={() => handleDropdownHover(true)}
                   onMouseLeave={() => handleDropdownHover(false)}
                 >
@@ -87,11 +102,11 @@ export default function Header() {
               <DropdownMenuContent
                 id="header-categories-content"
                 align="start"
-                sideOffset={4}
+                sideOffset={0}
                 onMouseEnter={() => handleDropdownHover(true)}
                 onMouseLeave={() => handleDropdownHover(false)}
                 onCloseAutoFocus={(e) => e.preventDefault()}
-                className="w-80 rounded-2xl border-border/60 p-2 shadow-[0_24px_60px_rgba(15,23,42,0.16)]"
+                className="relative w-80 rounded-2xl border-border/60 p-2 pt-3 shadow-[0_24px_60px_rgba(15,23,42,0.16)] before:pointer-events-auto before:absolute before:-top-2 before:left-0 before:right-0 before:h-2 before:content-['']"
               >
                 <p className="px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                   {tNav('navigate')}
