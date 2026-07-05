@@ -17,6 +17,12 @@ import FieldSearchSection from '@/components/field-search-section';
 import { getTranslations } from 'next-intl/server';
 import type { Locale } from '@/lib/slug-translations';
 import { capitalizeFirstLetter } from '@/lib/utils';
+import {
+  absoluteHomeUrl,
+  absoluteTranslatedRoute,
+  alternateLanguageUrls,
+  routeHref,
+} from '@/lib/use-translated-routes';
 
 export const revalidate = 86400;
 
