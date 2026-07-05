@@ -71,14 +71,39 @@ export default function Header() {
                   <ChevronDown className="h-4 w-4 opacity-50 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent id="header-categories-content" align="start" className="w-56">
+              <DropdownMenuContent
+                id="header-categories-content"
+                align="start"
+                sideOffset={10}
+                className="w-80 rounded-2xl border-border/60 p-2 shadow-[0_24px_60px_rgba(15,23,42,0.16)]"
+              >
+                <p className="px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  {tNav('navigate')}
+                </p>
                 {dropdownLinks.map((link) => {
                   const Icon = link.icon;
                   return (
-                    <DropdownMenuItem key={`kategoriat-${internalHrefKey(link.href)}`} asChild>
-                      <Link href={link.href} className="flex items-center gap-3 cursor-pointer">
-                        <Icon className="h-4 w-4 text-muted-foreground" />
-                        <span className="flex-1">{link.label}</span>
+                    <DropdownMenuItem
+                      key={`kategoriat-${internalHrefKey(link.href)}`}
+                      asChild
+                      className="rounded-xl p-0 focus:bg-transparent"
+                    >
+                      <Link
+                        href={link.href}
+                        className="group/item flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-green/10 focus:bg-green/10"
+                      >
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-muted text-green shadow-inner transition-colors group-hover/item:bg-green group-hover/item:text-white">
+                          <Icon className="h-5 w-5" />
+                        </span>
+                        <span className="flex min-w-0 flex-col">
+                          <span className="text-sm font-semibold text-foreground">
+                            {link.label}
+                          </span>
+                          <span className="truncate text-xs text-muted-foreground">
+                            {link.description}
+                          </span>
+                        </span>
+                        <ChevronDown className="ml-auto h-4 w-4 -rotate-90 text-muted-foreground/50 transition-all group-hover/item:translate-x-0.5 group-hover/item:text-green" />
                       </Link>
                     </DropdownMenuItem>
                   );
