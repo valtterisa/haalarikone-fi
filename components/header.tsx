@@ -25,6 +25,7 @@ export default function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const closeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isHoveringDropdown = useRef(false);
+  const closeByHoverRef = useRef(false);
   const t = useTranslations();
   const tNav = useTranslations('nav');
   const routes = useTranslatedRoutes();
@@ -40,6 +41,7 @@ export default function Header() {
     }
     closeTimeout.current = setTimeout(() => {
       isHoveringDropdown.current = false;
+      closeByHoverRef.current = true;
       setDropdownOpen(false);
     }, 150);
   };
@@ -105,7 +107,12 @@ export default function Header() {
                 sideOffset={0}
                 onMouseEnter={() => handleDropdownHover(true)}
                 onMouseLeave={() => handleDropdownHover(false)}
-                onCloseAutoFocus={(e) => e.preventDefault()}
+                onCloseAutoFocus={(e) => {
+                  if (closeByHoverRef.current) {
+                    e.preventDefault();
+                    closeByHoverRef.current = false;
+                  }
+                }}
                 className="relative w-80 rounded-2xl border-border/60 p-2 pt-3 shadow-[0_24px_60px_rgba(15,23,42,0.16)] before:pointer-events-auto before:absolute before:-top-2 before:left-0 before:right-0 before:h-2 before:content-['']"
               >
                 <p className="px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
