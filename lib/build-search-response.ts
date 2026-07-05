@@ -3,8 +3,6 @@ import type { QueryUnderstanding } from './query-understanding';
 import type { ColorData } from './load-color-data';
 import { runFuzzySearch } from './fuzzy-search';
 
-export const SEARCH_RESPONSE_CACHE_TTL_SECONDS = 3600;
-
 export type SearchApiSuccessBody = {
   results: University[];
   totalCount: number;

@@ -90,7 +90,7 @@ export default function Footer() {
         </div>
         <div className="flex justify-center border-t border-border/60 pt-4 text-center text-xs text-muted-foreground md:flex-row md:items-center ">
           <p>
-            {t('builtBy')}{' '}
+            Made by{' '}
             <a
               href="https://valtterisavonen.fi"
               target="_blank"

@@ -4,54 +4,13 @@ import { loadUniversities } from '@/lib/load-universities';
 import {
   buildDeterministicQueryUnderstanding,
   buildSearchResponse,
-  SEARCH_RESPONSE_CACHE_TTL_SECONDS,
-  type SearchApiSuccessBody,
 } from '@/lib/build-search-response';
 import { NextResponse } from 'next/server';
-import { Ratelimit } from '@upstash/ratelimit';
-import { Redis } from '@upstash/redis';
 
 const ALLOWED_LOCALES = new Set(['fi', 'en', 'sv']);
 const MAX_QUERY_LENGTH = 200;
-const SEARCH_CACHE_VERSION = 'v3';
-const IS_DEV = process.env.NODE_ENV === 'development';
-
-const redis = Redis.fromEnv();
-
-function parseClientIp(value: string | null): string | null {
-  if (!value) return null;
-  const candidate = value.split(',')[0]?.trim();
-  if (!candidate) return null;
-  const sanitized = candidate.replace(/[^a-zA-Z0-9:.\-]/g, '');
-  return sanitized || null;
-}
-
-function getClientIdentifier(req: Request): string {
-  const headers = req.headers;
-  const trustedIp =
-    parseClientIp(headers.get('cf-connecting-ip')) ||
-    parseClientIp(headers.get('x-real-ip')) ||
-    parseClientIp(headers.get('x-vercel-forwarded-for')) ||
-    parseClientIp(headers.get('x-forwarded-for'));
-  return trustedIp ?? 'anonymous';
-}
 
 export async function POST(req: Request) {
-  const ratelimit = new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(15, '10 s'),
-  });
-
-  const identifier = getClientIdentifier(req);
-  const { success } = await ratelimit.limit(identifier);
-
-  if (!success) {
-    return NextResponse.json(
-      { success: false, error: 'Unable to process at this time' },
-      { status: 429 },
-    );
-  }
-
   let parsed: { query?: string; locale?: 'fi' | 'en' | 'sv' } = {};
 
   try {
@@ -69,20 +28,6 @@ export async function POST(req: Request) {
   }
   if (query.length > MAX_QUERY_LENGTH) {
     return NextResponse.json({ success: false, error: 'Query too long' }, { status: 400 });
-  }
-
-  const normalizedQuery = query.toLowerCase().trim();
-  const searchCacheKey = `search:${SEARCH_CACHE_VERSION}:${locale}:${normalizedQuery}`;
-
-  if (!IS_DEV) {
-    try {
-      const cached = await redis.get<SearchApiSuccessBody>(searchCacheKey);
-      if (cached) {
-        return NextResponse.json(cached);
-      }
-    } catch (error) {
-      console.error('Search cache read error:', error);
-    }
   }
 
   try {
@@ -103,14 +48,6 @@ export async function POST(req: Request) {
         }
       } catch (error) {
         console.error('AI fallback error:', error);
-      }
-    }
-
-    if (!IS_DEV) {
-      try {
-        await redis.setex(searchCacheKey, SEARCH_RESPONSE_CACHE_TTL_SECONDS, body);
-      } catch (error) {
-        console.error('Search cache write error:', error);
       }
     }
 

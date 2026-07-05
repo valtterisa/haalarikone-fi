@@ -111,9 +111,9 @@ export default async function BlogPage({
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      <div className="container mx-auto px-4 py-16 max-w-4xl">
+      <div className="container mx-auto px-4 py-16 max-w-3xl">
         <div className="mb-12">
-          <Breadcrumb className="mb-4">
+          <Breadcrumb className="mb-6">
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
@@ -127,12 +127,12 @@ export default async function BlogPage({
             </BreadcrumbList>
           </Breadcrumb>
           <h1 className="text-4xl font-bold mb-4">{t('blog.title')}</h1>
-          <p className="text-lg text-gray-700">{t('blog.description')}</p>
+          <p className="text-lg text-muted-foreground mb-8">{t('blog.description')}</p>
         </div>
 
         <div className="grid gap-8">
           {posts.length === 0 ? (
-            <p className="text-gray-600">{t('blog.noPosts')}</p>
+            <p className="text-muted-foreground">{t('blog.noPosts')}</p>
           ) : (
             posts.map((post) => {
               const titleString =
@@ -163,12 +163,12 @@ export default async function BlogPage({
                   className="border rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition"
                 >
                   <Link href={routeHref('blog', post.slug)}>
-                    <h2 className="text-2xl font-bold mb-2 hover:text-green transition">
+                    <h2 className="text-xl font-bold mb-2 hover:text-green transition">
                       {titleString}
                     </h2>
                   </Link>
-                  <p className="text-gray-700 mb-4">{descriptionString}</p>
-                  <div className="flex items-center gap-4 text-sm text-gray-600">
+                  <p className="text-muted-foreground mb-4">{descriptionString}</p>
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
                     <time dateTime={post.publishDate}>
                       {new Date(post.publishDate).toLocaleDateString(
                         locale === 'fi' ? 'fi-FI' : locale === 'en' ? 'en-US' : 'sv-SE',

@@ -64,35 +64,58 @@ export function LanguageSwitcher({ instanceId }: LanguageSwitcherProps) {
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button
           id={triggerId}
           variant="ghost"
           size="sm"
-          className="gap-2 h-9 px-3 border border-border/60 focus-visible:ring-0 focus-visible:ring-offset-0 group"
+          className="h-9 gap-1.5 rounded-full border border-border/60 bg-muted/30 px-2.5 font-medium text-muted-foreground hover:border-green/30 hover:bg-green/5 hover:text-foreground focus-visible:ring-0 focus-visible:ring-offset-0 group data-[state=open]:border-green/30 data-[state=open]:bg-green/5 data-[state=open]:text-foreground sm:gap-2 sm:px-3"
         >
-          <span className="text-lg">{currentLanguage.flag}</span>
-          <span className="hidden sm:inline">{currentLanguage.code.toUpperCase()}</span>
-          <ChevronDown className="h-4 w-4 opacity-50 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-base leading-none shadow-sm ring-1 ring-border/40">
+            {currentLanguage.flag}
+          </span>
+          <span className="hidden text-xs font-semibold tracking-wide sm:inline">
+            {currentLanguage.code.toUpperCase()}
+          </span>
+          <ChevronDown className="h-3.5 w-3.5 opacity-50 transition-transform duration-200 group-data-[state=open]:rotate-180" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent id={contentId} align="end" className="w-40">
-        {languages.map((lang) => (
-          <DropdownMenuItem
-            key={lang.code}
-            onClick={() => switchLocale(lang.code)}
-            className="cursor-pointer"
-            disabled={isTranslating}
-          >
-            <span className="text-lg mr-2">{lang.flag}</span>
-            <span className="flex-1">{lang.name}</span>
-            {locale === lang.code && !isTranslating && <Check className="h-4 w-4 text-green" />}
-            {isTranslating && locale !== lang.code && (
-              <div className="h-4 w-4 border-2 border-green border-t-transparent rounded-full animate-spin" />
-            )}
-          </DropdownMenuItem>
-        ))}
+      <DropdownMenuContent
+        id={contentId}
+        align="end"
+        sideOffset={8}
+        onCloseAutoFocus={(e) => e.preventDefault()}
+        className="w-48 rounded-2xl border-border/60 p-1.5 shadow-[0_24px_60px_rgba(15,23,42,0.16)]"
+      >
+        {languages.map((lang) => {
+          const isActive = locale === lang.code;
+          return (
+            <DropdownMenuItem
+              key={lang.code}
+              onClick={() => switchLocale(lang.code)}
+              disabled={isTranslating}
+              className={`cursor-pointer rounded-xl px-2.5 py-2.5 transition-colors focus:bg-green/10 ${
+                isActive
+                  ? 'bg-green/10 text-foreground'
+                  : 'text-muted-foreground hover:bg-green/10 hover:text-foreground'
+              }`}
+            >
+              <span
+                className={`mr-2.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-lg leading-none shadow-sm ring-1 transition-colors ${
+                  isActive ? 'bg-green text-white ring-green/20' : 'bg-white ring-border/40'
+                }`}
+              >
+                {lang.flag}
+              </span>
+              <span className="flex-1 text-sm font-semibold">{lang.name}</span>
+              {isActive && !isTranslating && <Check className="h-4 w-4 shrink-0 text-green" />}
+              {isTranslating && !isActive && (
+                <div className="h-4 w-4 shrink-0 rounded-full border-2 border-green border-t-transparent animate-spin" />
+              )}
+            </DropdownMenuItem>
+          );
+        })}
       </DropdownMenuContent>
     </DropdownMenu>
   );

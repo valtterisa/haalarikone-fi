@@ -1,32 +1,41 @@
-import React from "react";
+import React from 'react';
 
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 export const parseStyles = (hex: string | null): React.CSSProperties => {
-  // Check if hex is null or empty
   if (!hex) {
-    return { backgroundColor: '#ffffff' }; // Fallback to black if null or invalid hex
+    return { backgroundColor: '#ffffff' };
   }
 
-  // Check for background-image (e.g., gradient)
+  const styles: React.CSSProperties = {};
+
   const backgroundImageMatch = hex.match(/background-image:\s*([^;]+);/);
   if (backgroundImageMatch) {
-    return { backgroundImage: backgroundImageMatch[1] }; // Extract background image (e.g., gradient)
+    styles.backgroundImage = backgroundImageMatch[1];
   }
 
-  // Check for background-color
-  const backgroundColorMatch = hex.match(/background:\s*([^;]+);/);
-  if (backgroundColorMatch) {    
-    return { background: backgroundColorMatch[1] }; // Extract background color
+  const backgroundMatch = hex.match(/background:\s*([^;]+);/);
+  if (backgroundMatch) {
+    const value = backgroundMatch[1].trim();
+    if (value.includes('gradient') || value.includes('url(')) {
+      if (!styles.backgroundImage) {
+        styles.backgroundImage = value;
+      }
+    } else {
+      styles.backgroundColor = value;
+    }
   }
 
-  // If no match found, return a fallback (black) background
-  return { backgroundColor: '#ffffff' };
+  if (Object.keys(styles).length === 0) {
+    return { backgroundColor: '#ffffff' };
+  }
+
+  return styles;
 };
 
 export function capitalizeFirstLetter(str: string): string {

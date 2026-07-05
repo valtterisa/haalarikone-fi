@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import overallData from '@/data/overall_colors_upstash.json';
+import overallData from '@/data/overall_data.json';
 
-describe('overall_colors_upstash.json', () => {
+describe('overall_data.json', () => {
   it('has unique ainejarjestoSlug for every row', () => {
     const rows = overallData as Array<{ id: string; content?: { ainejarjestoSlug?: string } }>;
     const slugs = rows.map((r) => r.content?.ainejarjestoSlug?.trim()).filter(Boolean) as string[];
