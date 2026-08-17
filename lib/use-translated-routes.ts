@@ -11,6 +11,8 @@ export type InternalHref =
   | '/oppilaitos'
   | '/alue'
   | '/blog'
+  | '/tietosuoja'
+  | '/kayttoehdot'
   | { pathname: '/ala/[slug]'; params: { slug: string } }
   | { pathname: '/vari/[slug]'; params: { slug: string } }
   | { pathname: '/oppilaitos/[slug]'; params: { slug: string } }

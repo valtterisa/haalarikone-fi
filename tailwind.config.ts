@@ -18,8 +18,11 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["var(--font-geist-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "ui-serif", "Georgia", "serif"],
+      },
       colors: {
-        white: "#fffff8",
         green: "#65a30d",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -57,8 +60,18 @@ const config = {
       },
       borderRadius: {
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        md: "calc(var(--radius) - 4px)",
+        sm: "2px",
+      },
+      boxShadow: {
+        card: "0 8px 28px hsl(var(--shadow-tint) / 0.08)",
+        overlay: "0 24px 60px hsl(var(--shadow-tint) / 0.16)",
+      },
+      zIndex: {
+        sticky: "var(--z-sticky)",
+        overlay: "var(--z-overlay)",
+        grain: "var(--z-grain)",
+        skip: "var(--z-skip)",
       },
       keyframes: {
         "accordion-down": {
@@ -80,6 +93,6 @@ const config = {
     require("tailwindcss-animate"),
     require("@tailwindcss/typography"),
   ],
-}
+} satisfies Config;
 
 export default config;

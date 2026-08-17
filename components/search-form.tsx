@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 
@@ -15,13 +15,14 @@ import {
   DrawerTrigger,
 } from './ui/drawer';
 import {
-  Search as SearchIcon,
-  ChevronDown,
-  ChevronUp,
+  MagnifyingGlass as SearchIcon,
+  CaretDown as ChevronDown,
+  CaretUp as ChevronUp,
   X,
   SlidersHorizontal,
   Check,
-} from 'lucide-react';
+} from '@phosphor-icons/react';
+import { ColorAtmosphere } from './color-atmosphere';
 import { Criteria } from './search-container';
 import type { ColorData } from '@/lib/load-color-data';
 import { track } from '@databuddy/sdk';
@@ -173,7 +174,7 @@ function ColorSwatch({
       title={displayName}
     >
       <div
-        className={`w-8 h-8 rounded-full border-2 transition-all duration-150 flex items-center justify-center ${
+      className={`w-8 h-8 rounded-sm border-2 transition-all duration-150 flex items-center justify-center ${
           isSelected
             ? 'border-green ring-2 ring-green/30 scale-110'
             : isWhite
@@ -221,6 +222,7 @@ export default function SearchForm({
 }: SearchFormProps) {
   const t = useTranslations('search');
   const locale = useLocale() as 'fi' | 'en' | 'sv';
+  const reduceMotion = useReducedMotion();
 
   const translateEntity = (
     value: string,
@@ -464,7 +466,7 @@ export default function SearchForm({
     ].filter((f) => f.value);
 
     return (
-      <div className="flex flex-wrap items-center gap-2 px-3 pb-3 sm:hidden">
+      <div className="relative flex flex-wrap items-center gap-2 px-3 pb-3 sm:hidden">
         {filters.map((filter) => (
           <button
             key={filter.key}
@@ -498,15 +500,18 @@ export default function SearchForm({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="max-w-3xl w-full mx-auto mb-4 sm:mb-8 px-2"
+      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      className="relative mx-auto mb-4 w-full max-w-4xl px-2 sm:mb-8"
     >
-      <div className="bg-white rounded-lg border border-border shadow-sm">
-        <div className="px-3 pt-4 pb-3 sm:px-6 sm:pt-8 sm:pb-6">
+      <div className="relative overflow-hidden rounded-xl border border-border/70 bg-card shadow-card">
+        <div className="relative overflow-hidden px-3 pb-3 pt-4 sm:px-6 sm:pb-5 sm:pt-7">
+          <ColorAtmosphere
+            hexes={translatedColorOptions.map((option) => option.color)}
+          />
           <div className="relative">
-            <SearchIcon className="absolute left-3 sm:left-6 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4 sm:w-6 sm:h-6 pointer-events-none z-10" />
+            <SearchIcon className="pointer-events-none absolute left-3 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-muted-foreground sm:left-5 sm:h-7 sm:w-7" weight="regular" />
             <Input
               ref={searchInputRef}
               id="text-search"
@@ -515,7 +520,7 @@ export default function SearchForm({
               onChange={(e) => handleTextSearchChange(e.target.value)}
               placeholder={t('placeholder')}
               data-testid="text-search-input"
-              className="pl-10 pr-24 sm:pl-16 sm:pr-28 h-12 sm:h-16 text-base sm:text-lg bg-white text-foreground border-input focus:ring-2 focus:ring-green/30 focus-visible:ring-2 focus-visible:ring-green/30 border-2 shadow-sm hover:shadow-md transition-shadow"
+              className="h-14 border-2 border-input bg-background pl-11 pr-24 text-lg shadow-sm transition-[box-shadow,border-color] hover:border-green/40 focus-visible:border-green focus-visible:ring-2 focus-visible:ring-green/30 sm:h-[4.5rem] sm:pl-16 sm:pr-28 sm:text-xl"
               aria-disabled={isSearching}
             />
             {!localSearchValue && !isSearching && (
@@ -542,7 +547,7 @@ export default function SearchForm({
         </div>
 
         {/* Mobile: Filter button that opens drawer */}
-        <div className="px-3 pb-1 pt-1 sm:hidden border-t border-border/50">
+        <div className="relative border-t border-border/50 bg-card px-3 pb-1 pt-1 sm:hidden">
           <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
             <DrawerTrigger asChild>
               <button
@@ -748,18 +753,17 @@ export default function SearchForm({
         <ActiveFilterChips />
 
         {/* Desktop: Tab-based filters */}
-        <div className="px-3 pb-3 pt-3 sm:px-6 border-t border-border/50 hidden sm:block">
-          {/* Filter header with toggle */}
+        <div className="relative hidden border-t border-border/50 bg-card px-3 pb-3 pt-3 sm:block sm:px-6">
           <button
             id="search-filters-desktop-toggle"
             type="button"
             onClick={() => setIsAdvancedSearchOpen(!isAdvancedSearchOpen)}
-            className="flex min-h-11 w-full items-center justify-between py-1.5 px-0 text-left hover:opacity-70 transition-opacity"
+            className="flex min-h-11 w-full items-center justify-between px-0 py-1.5 text-left transition-opacity hover:opacity-70"
           >
             <div className="flex items-center gap-2">
-              <SlidersHorizontal className="w-3.5 h-3.5 text-muted-foreground" />
-              <span className="text-xs font-medium text-muted-foreground">
-                <span className="uppercase tracking-wider">{t('filters')}</span>
+              <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground" />
+              <span className="text-sm font-medium text-foreground">
+                {t('filters')}
                 {hasActiveFilters ? ` (${activeFilterCount})` : null}
               </span>
             </div>

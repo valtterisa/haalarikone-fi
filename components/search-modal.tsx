@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, useRef } from 'react';
 import { useRouter } from '@/i18n/routing';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { Search as SearchIcon, X, Loader2, ChevronRight } from 'lucide-react';
+import { MagnifyingGlass as SearchIcon, X, CircleNotch, CaretRight } from '@phosphor-icons/react';
 import { searchUniversitiesAPI, type ClientSearchContext } from '@/lib/search-utils';
 import { parseStyles } from '@/lib/utils';
 import type { University } from '@/types/university';
@@ -140,7 +140,7 @@ export function SearchModal({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="relative w-full max-w-3xl h-12 sm:h-16 rounded-lg border-2 border-input bg-white text-left px-10 sm:px-16 pr-6 text-base sm:text-lg text-muted-foreground shadow-sm hover:shadow-md transition-shadow"
+        className="relative h-12 w-full max-w-3xl rounded-lg border-2 border-input bg-background px-10 pr-6 text-left text-base text-muted-foreground shadow-sm transition-shadow hover:shadow-card sm:h-16 sm:px-16 sm:text-lg"
       >
         <SearchIcon className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4 sm:w-6 sm:h-6" />
         {triggerLabel}
@@ -162,7 +162,7 @@ export function SearchModal({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={placeholder}
-                  className="pl-10 pr-24 sm:pl-16 sm:pr-28 h-12 sm:h-16 text-base sm:text-lg bg-white text-foreground border-input focus:ring-2 focus:ring-green/30 focus-visible:ring-2 focus-visible:ring-green/30 border-2 shadow-sm hover:shadow-md transition-shadow"
+                  className="h-12 border-2 border-input bg-background pl-10 pr-24 text-base shadow-sm transition-shadow hover:shadow-card focus-visible:ring-2 focus-visible:ring-green/30 sm:h-16 sm:pl-16 sm:pr-28 sm:text-lg"
                   autoFocus
                 />
                 {isSearching && (
@@ -197,7 +197,7 @@ export function SearchModal({
             <div className="flex-1 overflow-y-auto p-4 transition-all duration-300 ease-in-out animate-in fade-in slide-in-from-top-2">
               {isSearching && (
                 <div className="flex items-center justify-center py-8">
-                  <Loader2 className="w-6 h-6 animate-spin text-green" />
+                  <CircleNotch className="h-6 w-6 animate-spin text-green" weight="regular" />
                 </div>
               )}
 
@@ -210,7 +210,7 @@ export function SearchModal({
               {!isSearching && results.length > 0 && (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+                    <h3 className="mb-3 text-sm font-semibold text-muted-foreground">
                       {t('overalls')} ({results.length})
                     </h3>
                     <div className="space-y-2">
@@ -232,7 +232,7 @@ export function SearchModal({
                               {uni.oppilaitos} • {uni.vari}
                             </div>
                           </div>
-                          <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                          <CaretRight className="h-4 w-4 shrink-0 text-muted-foreground" weight="regular" />
                         </button>
                       ))}
                     </div>
@@ -243,14 +243,14 @@ export function SearchModal({
                         className="w-full mt-3 text-sm text-muted-foreground hover:text-foreground"
                       >
                         {t('showAll')} {results.length} {t('overallCount')}
-                        <ChevronRight className="w-4 h-4 ml-1" />
+                        <CaretRight className="ml-1 h-4 w-4" weight="regular" />
                       </Button>
                     )}
                   </div>
 
                   {groupedByColor.size > 0 && (
                     <div>
-                      <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+                      <h3 className="mb-3 text-sm font-semibold text-muted-foreground">
                         {t('colors')} ({groupedByColor.size})
                       </h3>
                       <div className="grid gap-2 sm:grid-cols-2">
@@ -282,7 +282,7 @@ export function SearchModal({
 
                   {groupedByInstitution.size > 0 && (
                     <div>
-                      <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+                      <h3 className="mb-3 text-sm font-semibold text-muted-foreground">
                         {t('schools')} ({groupedByInstitution.size})
                       </h3>
                       <div className="grid gap-2 sm:grid-cols-2">

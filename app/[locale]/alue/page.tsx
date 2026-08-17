@@ -131,7 +131,7 @@ export default async function AreaIndexPage({ params }: { params: Promise<{ loca
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <h1 className="text-4xl font-bold mb-4">{t('areas.title')}</h1>
+        <h1 className="mb-4 font-display text-4xl font-bold tracking-tight">{t('areas.title')}</h1>
         <p className="text-lg text-muted-foreground mb-8">{t('areas.pageDescription')}</p>
 
         <p className="mb-3 text-sm font-semibold text-foreground">{t('areas.popularHeading')}</p>

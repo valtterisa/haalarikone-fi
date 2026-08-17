@@ -23,6 +23,8 @@ export const routing = defineRouting({
     '/haalari/[slug]': { fi: '/haalari/[slug]', en: '/overall/[slug]', sv: '/overaller/[slug]' },
     '/blog': { fi: '/blog', en: '/blog', sv: '/blogg' },
     '/blog/[slug]': { fi: '/blog/[slug]', en: '/blog/[slug]', sv: '/blogg/[slug]' },
+    '/tietosuoja': { fi: '/tietosuoja', en: '/privacy', sv: '/integritet' },
+    '/kayttoehdot': { fi: '/kayttoehdot', en: '/terms', sv: '/villkor' },
   },
 });
 

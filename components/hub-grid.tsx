@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import type { ReactNode } from 'react';
 
 function HubGridRoot({ children }: { children: ReactNode }) {
-  return <div className="grid gap-2 sm:grid-cols-2">{children}</div>;
+  return <div className="flex flex-col divide-y divide-border">{children}</div>;
 }
 
 function HubGridItem({ className, ...props }: HubLinkProps) {
@@ -11,7 +11,7 @@ function HubGridItem({ className, ...props }: HubLinkProps) {
     <HubLink
       {...props}
       className={cn(
-        'inline-flex min-h-11 items-center rounded-lg border px-4 py-3 font-medium text-green hover:bg-green/5',
+        'flex min-h-11 items-center py-3 text-base font-medium text-foreground transition hover:text-green',
         className,
       )}
     />

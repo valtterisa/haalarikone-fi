@@ -126,7 +126,7 @@ export default async function BlogPage({
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-          <h1 className="text-4xl font-bold mb-4">{t('blog.title')}</h1>
+          <h1 className="mb-4 font-display text-4xl font-bold tracking-tight">{t('blog.title')}</h1>
           <p className="text-lg text-muted-foreground mb-8">{t('blog.description')}</p>
         </div>
 
@@ -160,7 +160,7 @@ export default async function BlogPage({
               return (
                 <article
                   key={post.slug}
-                  className="border rounded-lg p-6 bg-white shadow-sm hover:shadow-md transition"
+                  className="rounded-xl bg-muted/40 p-6 transition hover:bg-muted/70"
                 >
                   <Link href={routeHref('blog', post.slug)}>
                     <h2 className="text-xl font-bold mb-2 hover:text-green transition">

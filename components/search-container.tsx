@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useCallback, useRef, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import SearchForm from './search-form';
 import ResultsDisplay from './result-display';
 import PlaceholderDisplay from './placeholder-display';
@@ -68,6 +68,7 @@ export default function SearchContainer({
   resultSource = 'search',
 }: SearchContainerProps) {
   const locale = useLocale() as 'fi' | 'en' | 'sv';
+  const t = useTranslations('search');
   const [selectedCriteria, setSelectedCriteria] = useState<Criteria>({
     textSearch: initialTextSearch.trim(),
     color: '',
@@ -399,16 +400,13 @@ export default function SearchContainer({
       />
       {belowForm}
       {hasActiveQuery && isSearching && (
-        <div className="max-w-3xl w-full mx-auto mb-4 sm:mb-8 px-2">
-          <div className="bg-white rounded-lg border border-border shadow-sm px-3 pt-4 pb-4 sm:px-6 sm:pt-8 sm:pb-8">
-            <div className="space-y-3 sm:space-y-4 animate-pulse">
-              <div className="h-4 w-40 bg-muted rounded" />
-              <div className="h-16 w-full bg-muted rounded" />
-              <div className="h-16 w-full bg-muted rounded" />
-              <div className="h-16 w-full bg-muted rounded" />
-              <div className="h-16 w-full bg-muted rounded" />
-              <div className="h-16 w-full bg-muted rounded" />
-            </div>
+        <div className="mx-auto mb-4 w-full max-w-4xl px-2 sm:mb-8">
+          <div className="space-y-3 px-1 py-2 sm:px-0 sm:py-4">
+            <div className="h-4 w-40 animate-pulse rounded-md bg-muted" />
+            <div className="h-20 w-full animate-pulse rounded-xl border border-border bg-card" />
+            <div className="h-20 w-full animate-pulse rounded-xl border border-border bg-card" />
+            <div className="h-20 w-full animate-pulse rounded-xl border border-border bg-card" />
+            <div className="h-20 w-full animate-pulse rounded-xl border border-border bg-card" />
           </div>
         </div>
       )}
@@ -426,10 +424,8 @@ export default function SearchContainer({
         </motion.div>
       )}
       {hasActiveQuery && hasSearched && !isSearching && results.length === 0 && (
-        <div className="bg-gray-100 rounded-lg shadow-lg p-8 max-w-xl mx-auto text-center">
-          <p className="text-gray-600 text-lg">
-            Haku ei tuottanut tuloksia. Kokeile muokata hakuehtoja.
-          </p>
+        <div className="mx-auto max-w-xl rounded-xl bg-muted/50 p-8 text-center">
+          <p className="text-lg text-muted-foreground">{t('noResultsMessage')}</p>
         </div>
       )}
       {!hasActiveQuery && !showResultsByDefault && showIdlePlaceholder && <PlaceholderDisplay />}

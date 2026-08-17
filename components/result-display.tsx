@@ -68,11 +68,11 @@ export default function ResultsDisplay({
   };
 
   return (
-    <div id="top" ref={resultsDivRef} className="max-w-3xl w-full mx-auto mb-4 sm:mb-8 px-2">
-      <div className="bg-white rounded-lg border border-border shadow-sm px-3 pt-4 sm:px-6 sm:pt-8">
-        <h2 className="text-base sm:text-lg font-semibold text-foreground mb-4 sm:mb-6 flex justify-between items-center">
+    <div id="top" ref={resultsDivRef} className="mx-auto mb-4 w-full max-w-4xl px-2 sm:mb-8">
+      <div className="px-1 pt-2 sm:px-0 sm:pt-4">
+        <h2 className="mb-4 flex items-center justify-between text-base font-semibold text-foreground sm:mb-6 sm:text-lg">
           {t('results')}{' '}
-          <span className="text-xs sm:text-sm text-muted-foreground">
+          <span className="text-xs tabular-nums text-muted-foreground sm:text-sm">
             {results.length === 1
               ? `${results.length} ${t('result')}`
               : `${results.length} ${t('resultsCount')}`}
@@ -99,7 +99,7 @@ export default function ResultsDisplay({
         )}
 
         {shouldShowPreview && results.length > visiblePreviewCount && (
-          <div className="mt-4 sm:mt-6 p-3 sm:p-4 border-t border-border flex justify-center items-center">
+          <div className="mt-4 sm:mt-6 p-3 sm:p-4 flex justify-center items-center">
             <button
               type="button"
               onClick={() => setShowAll(true)}
@@ -111,12 +111,12 @@ export default function ResultsDisplay({
         )}
 
         {!shouldShowPreview && results.length > 0 && (
-          <div className="mt-4 sm:mt-6 p-3 sm:p-4 border-t border-border flex justify-center items-center">
+          <div className="mt-4 sm:mt-6 p-3 sm:p-4 flex justify-center items-center">
             <div className="flex gap-2 sm:gap-3 items-center">
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="h-9 sm:h-10 px-3 sm:px-4 text-xs sm:text-sm bg-white text-foreground border border-input hover:bg-muted rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="h-9 sm:h-10 px-3 sm:px-4 text-xs sm:text-sm bg-card text-foreground border border-input hover:bg-muted rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {tCommon('previous')}
               </button>
@@ -126,7 +126,7 @@ export default function ResultsDisplay({
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="h-9 sm:h-10 px-3 sm:px-4 text-xs sm:text-sm bg-white text-foreground border border-input hover:bg-muted rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="h-9 sm:h-10 px-3 sm:px-4 text-xs sm:text-sm bg-card text-foreground border border-input hover:bg-muted rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {tCommon('next')}
               </button>

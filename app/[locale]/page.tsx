@@ -2,7 +2,7 @@ import SearchContainer from '@/components/search-container';
 import { loadUniversities } from '@/lib/load-universities';
 import { loadColorData } from '@/lib/load-color-data';
 import FAQSchema from '@/components/faq-schema';
-import FaqList from '@/components/faq-list';
+import FaqList, { FaqItem } from '@/components/faq-list';
 import { NavigateCard } from '@/components/navigate-card';
 import PopularDestinations from '@/components/popular-destinations';
 import Script from 'next/script';
@@ -15,7 +15,6 @@ import { SITE_ORIGIN } from '@/lib/site-url';
 import type { Locale } from '@/lib/slug-translations';
 import { routeHref } from '@/lib/use-translated-routes';
 import { capitalizeFirstLetter } from '@/lib/utils';
-import { Palette, Layers, GraduationCap, BookOpen, MapPin } from 'lucide-react';
 
 export const revalidate = 86400;
 
@@ -43,6 +42,9 @@ export default async function Index({
   const t = await getTranslations({ locale });
   const loc = locale as Locale;
   const homeUrl = `${SITE_ORIGIN}${getPathname({ locale: loc, href: '/' })}`;
+  const atmosphereHexes = Object.values(colorData.colors)
+    .map((entry) => entry.color)
+    .filter(Boolean);
 
   const websiteSchema = {
     '@context': 'https://schema.org',
@@ -97,24 +99,12 @@ export default async function Index({
         }}
       />
       <FAQSchema locale={locale} />
-      <div className="bg-white w-full min-h-screen flex flex-col items-center">
-        <div className="flex flex-col items-center justify-center pt-8 pb-4">
-          <div className="relative">
-            <h1
-              className="w-fit text-4xl md:text-7xl font-bold text-center"
-              style={{
-                background: 'linear-gradient(120deg, #65a30d 0%, #65a30d 100%) no-repeat',
-                backgroundPosition: '0 95%',
-                backgroundSize: '100% 0.25em',
-                fontWeight: 'inherit',
-                color: 'inherit',
-              }}
-            >
-              {t('home.title')}
-            </h1>
-          </div>
-
-          <p className="text-center max-w-2xl mx-auto px-4 mt-6 mb-4">{t('home.description')}</p>
+      <div className="flex w-full flex-col items-center bg-background">
+        <div className="flex w-full max-w-4xl flex-col px-4 pt-8 pb-3 sm:pt-12 sm:pb-4">
+          <h1 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            {t('home.title')}
+          </h1>
+          <p className="mt-2 max-w-[40ch] text-base text-muted-foreground">{t('home.tagline')}</p>
         </div>
         <SearchContainer
           initialUniversities={universities}
@@ -125,7 +115,7 @@ export default async function Index({
           resultSource="home"
           belowForm={
             <PopularDestinations title={t('popular.title')}>
-              <PopularDestinations.Group icon={MapPin} label={t('popular.areas')}>
+              <PopularDestinations.Group label={t('popular.areas')}>
                 {POPULAR_AREAS.map((area) => {
                   const slug = entitySlug(area, loc, 'area');
                   return (
@@ -141,7 +131,7 @@ export default async function Index({
                   );
                 })}
               </PopularDestinations.Group>
-              <PopularDestinations.Group icon={GraduationCap} label={t('popular.schools')}>
+              <PopularDestinations.Group label={t('popular.schools')}>
                 {POPULAR_SCHOOLS.map((school) => {
                   const slug = entitySlug(school, loc, 'university');
                   return (
@@ -161,80 +151,67 @@ export default async function Index({
           }
         />
 
-        <section className="w-full border-t border-border/60 mt-12">
-          <div className="container mx-auto px-4 py-12">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
-                {t('nav.navigate')}
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <NavigateCard href="/vari">
-                  <NavigateCard.Icon>
-                    <Palette className="h-6 w-6" />
-                  </NavigateCard.Icon>
-                  <NavigateCard.Body>
-                    <h3 className="text-lg font-semibold text-foreground">{t('nav.allColors')}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {t('nav.colorsDescription')}
-                    </p>
-                  </NavigateCard.Body>
-                </NavigateCard>
-                <NavigateCard href="/ala">
-                  <NavigateCard.Icon>
-                    <Layers className="h-6 w-6" />
-                  </NavigateCard.Icon>
-                  <NavigateCard.Body>
-                    <h3 className="text-lg font-semibold text-foreground">{t('nav.allFields')}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {t('nav.fieldsDescription')}
-                    </p>
-                  </NavigateCard.Body>
-                </NavigateCard>
-                <NavigateCard href="/oppilaitos">
-                  <NavigateCard.Icon>
-                    <GraduationCap className="h-6 w-6" />
-                  </NavigateCard.Icon>
-                  <NavigateCard.Body>
-                    <h3 className="text-lg font-semibold text-foreground">{t('nav.allSchools')}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {t('nav.schoolsDescription')}
-                    </p>
-                  </NavigateCard.Body>
-                </NavigateCard>
-                <NavigateCard href="/alue">
-                  <NavigateCard.Icon>
-                    <MapPin className="h-6 w-6" />
-                  </NavigateCard.Icon>
-                  <NavigateCard.Body>
-                    <h3 className="text-lg font-semibold text-foreground">{t('nav.allAreas')}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {t('nav.areasDescription')}
-                    </p>
-                  </NavigateCard.Body>
-                </NavigateCard>
-                <NavigateCard href="/blog">
-                  <NavigateCard.Icon>
-                    <BookOpen className="h-6 w-6" />
-                  </NavigateCard.Icon>
-                  <NavigateCard.Body>
-                    <h3 className="text-lg font-semibold text-foreground">{t('common.blog')}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {t('nav.navigateDescription')}
-                    </p>
-                  </NavigateCard.Body>
-                </NavigateCard>
-              </div>
+        <section className="mt-8 w-full border-t border-border/60">
+          <div className="container mx-auto px-4 py-12 md:py-16">
+            <div className="mx-auto grid max-w-5xl grid-cols-1 gap-3 md:grid-cols-6">
+              <NavigateCard href="/vari" className="md:col-span-4 md:min-h-[11rem]">
+                <NavigateCard.Swatches hexes={atmosphereHexes} />
+                <NavigateCard.Body>
+                  <h2 className="font-display text-xl font-bold tracking-tight">
+                    {t('nav.allColors')}
+                  </h2>
+                  <p className="mt-1 max-w-[45ch] text-sm text-muted-foreground">
+                    {t('nav.colorsDescription')}
+                  </p>
+                </NavigateCard.Body>
+              </NavigateCard>
+              <NavigateCard href="/ala" className="md:col-span-2">
+                <NavigateCard.Body>
+                  <h2 className="font-display text-xl font-bold tracking-tight">
+                    {t('nav.allFields')}
+                  </h2>
+                  <p className="mt-1 text-sm text-muted-foreground">{t('nav.fieldsDescription')}</p>
+                </NavigateCard.Body>
+              </NavigateCard>
+              <NavigateCard href="/oppilaitos" className="md:col-span-2">
+                <NavigateCard.Body>
+                  <h2 className="font-display text-xl font-bold tracking-tight">
+                    {t('nav.allSchools')}
+                  </h2>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {t('nav.schoolsDescription')}
+                  </p>
+                </NavigateCard.Body>
+              </NavigateCard>
+              <NavigateCard href="/alue" className="md:col-span-2">
+                <NavigateCard.Body>
+                  <h2 className="font-display text-xl font-bold tracking-tight">
+                    {t('nav.allAreas')}
+                  </h2>
+                  <p className="mt-1 text-sm text-muted-foreground">{t('nav.areasDescription')}</p>
+                </NavigateCard.Body>
+              </NavigateCard>
+              <NavigateCard href="/blog" className="md:col-span-2">
+                <NavigateCard.Body>
+                  <h2 className="font-display text-xl font-bold tracking-tight">
+                    {t('common.blog')}
+                  </h2>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {t('nav.navigateDescription')}
+                  </p>
+                </NavigateCard.Body>
+              </NavigateCard>
             </div>
           </div>
         </section>
 
         <FaqList title={t('faq.title')}>
-          <FaqList.Item question={t('faq.q1')} answer={t('faq.a1')} />
-          <FaqList.Item question={t('faq.q2')} answer={t('faq.a2')} />
-          <FaqList.Item question={t('faq.q3')} answer={t('faq.a3')} />
-          <FaqList.Item question={t('faq.q4')} answer={t('faq.a4')} />
-          <FaqList.Item question={t('faq.q5')} answer={t('faq.a5')} />
-          <FaqList.Item question={t('faq.q6')} answer={t('faq.a6')} />
+          <FaqItem question={t('faq.q1')} answer={t('faq.a1')} />
+          <FaqItem question={t('faq.q2')} answer={t('faq.a2')} />
+          <FaqItem question={t('faq.q3')} answer={t('faq.a3')} />
+          <FaqItem question={t('faq.q4')} answer={t('faq.a4')} />
+          <FaqItem question={t('faq.q5')} answer={t('faq.a5')} />
+          <FaqItem question={t('faq.q6')} answer={t('faq.a6')} />
         </FaqList>
       </div>
     </>

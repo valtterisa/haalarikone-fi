@@ -14,6 +14,7 @@ vi.mock('framer-motion', () => ({
   motion: {
     div: (props: React.HTMLAttributes<HTMLDivElement>) => <div {...props} />,
   },
+  useReducedMotion: () => false,
 }));
 
 vi.mock('@/components/university-card', () => ({

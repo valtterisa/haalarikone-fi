@@ -10,6 +10,7 @@ import { useTranslatedRoutes } from '@/lib/use-translated-routes';
 import { parseStyles } from '@/lib/utils';
 import type { University } from '@/types/university';
 import { Link } from '@/i18n/routing';
+import { CaretRight } from '@phosphor-icons/react';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 
@@ -32,29 +33,26 @@ export default function UniversityCard({ uni, source = 'search' }: UniversityCar
 
   return (
     <li>
-      <div className="overflow-hidden rounded-xl border border-border/60 bg-white transition hover:border-border hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
+      <div className="relative overflow-hidden rounded-xl border border-border bg-card transition hover:border-foreground/20 hover:shadow-card">
+        <div
+          className="absolute inset-y-0 left-0 w-16 border-r border-border sm:w-24"
+          style={parseStyles(uni.hex)}
+          title={`${t('color')}: ${uni.vari}`}
+        />
         <Link
           href={routes.overall(uni.slug)}
-          className="group flex focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green focus-visible:ring-offset-0"
+          className="group relative flex min-h-[4.5rem] pl-16 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green sm:pl-24"
           onClick={() => {
             trackResultClick(uni.slug, source);
           }}
         >
-          <div
-            className="relative w-20 flex-shrink-0 sm:w-28"
-            style={parseStyles(uni.hex)}
-            title={`${t('color')}: ${uni.vari}`}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-black/5 to-transparent" />
-          </div>
-
           <div className="min-w-0 flex-1 px-4 py-3.5">
             <div className="flex items-start justify-between gap-4">
               <div className="flex min-w-0 items-center gap-3">
                 <p className="text-[15px] font-semibold leading-snug tracking-tight text-foreground">
                   {uni.ainejarjesto ?? t('unknownOrganization')}
                 </p>
-                <div className="relative h-11 w-11 flex-shrink-0 overflow-hidden rounded-lg border border-border/40 bg-white/95 shadow-sm sm:h-12 sm:w-12">
+                <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg border border-border/40 bg-card sm:h-12 sm:w-12">
                   <Image
                     className="object-contain p-1.5 sm:p-2"
                     src={`/logos/${logoName}.jpg`}
@@ -63,20 +61,11 @@ export default function UniversityCard({ uni, source = 'search' }: UniversityCar
                   />
                 </div>
               </div>
-              <svg
-                className="mt-0.5 h-4 w-4 flex-shrink-0 text-muted-foreground sm:opacity-0 sm:transition-opacity sm:duration-200 sm:group-hover:opacity-100"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <CaretRight
+                className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground sm:opacity-0 sm:transition-opacity sm:duration-200 sm:group-hover:opacity-100"
+                weight="regular"
                 aria-hidden
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+              />
             </div>
 
             {primaryField ? (
@@ -85,13 +74,13 @@ export default function UniversityCard({ uni, source = 'search' }: UniversityCar
           </div>
         </Link>
 
-        <div className="flex flex-wrap gap-1.5 border-t border-border/50 px-4 py-2.5">
+        <div className="relative flex flex-wrap gap-1.5 py-2.5 pl-20 pr-4 sm:pl-28">
           <HubLink
             href={routes.universities(schoolSlug)}
             source={source}
             type="university"
             slug={schoolSlug}
-            className="inline-flex min-h-11 items-center rounded px-2.5 text-xs font-medium text-foreground/80 transition hover:bg-green/10 hover:text-green"
+            className="inline-flex min-h-11 items-center rounded px-2.5 text-xs font-medium text-muted-foreground transition hover:bg-green/10 hover:text-green"
           >
             {uni.oppilaitos}
           </HubLink>
@@ -101,16 +90,13 @@ export default function UniversityCard({ uni, source = 'search' }: UniversityCar
               source={source}
               type="area"
               slug={citySlug}
-              className="inline-flex min-h-11 items-center rounded px-2.5 text-xs font-medium text-foreground/80 transition hover:bg-green/10 hover:text-green"
+              className="inline-flex min-h-11 items-center rounded px-2.5 text-xs font-medium text-muted-foreground transition hover:bg-green/10 hover:text-green"
             >
               {city}
             </HubLink>
           ) : null}
-          <span className="inline-flex min-h-11 items-center gap-1.5 rounded px-2.5 text-xs font-medium text-foreground/70">
-            <span
-              className="h-2 w-2 rounded-full ring-1 ring-black/10"
-              style={parseStyles(uni.hex)}
-            />
+          <span className="inline-flex min-h-11 items-center gap-1.5 rounded px-2.5 text-xs font-medium tabular-nums text-muted-foreground">
+            <span className="h-2 w-2 rounded-sm ring-1 ring-foreground/10" style={parseStyles(uni.hex)} />
             {uni.vari}
           </span>
         </div>

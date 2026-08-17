@@ -258,7 +258,7 @@ export default async function UniversityPage({ params }: Props) {
         </Breadcrumb>
         <div className="mb-6">
           <h1 className="text-4xl font-bold mb-4">{capitalizedUniversity}</h1>
-          <p className="text-lg text-gray-700">
+          <p className="text-lg text-muted-foreground">
             {t('universities.intro', {
               university: capitalizedUniversity,
               count: universityData.length,

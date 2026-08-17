@@ -18,7 +18,7 @@ import { getTranslatedRoute, routeHref, withXDefault } from '@/lib/use-translate
 import type { Locale } from '@/lib/slug-translations';
 import { localeSiteBaseUrl } from '@/lib/site-url';
 import { getFinnishName } from '@/lib/get-finnish-name';
-import { Building2, ChevronRight, GraduationCap, MapPin } from 'lucide-react';
+import { Buildings, CaretRight, GraduationCap, MapPin } from '@phosphor-icons/react/dist/ssr';
 
 export const revalidate = 86400;
 
@@ -218,7 +218,7 @@ export default async function OverallPage({ params }: Props) {
           </BreadcrumbList>
         </Breadcrumb>
 
-        <div className="overflow-hidden rounded-xl border border-border bg-white">
+        <div className="overflow-hidden rounded-xl border border-border bg-card">
           <div
             className="h-20 w-full border-b border-border sm:h-24"
             style={parseStyles(overall.hex)}
@@ -227,7 +227,7 @@ export default async function OverallPage({ params }: Props) {
 
           <div className="flex flex-col gap-4 border-b border-border px-5 py-5 sm:flex-row sm:items-center sm:px-6">
             <div className="flex min-w-0 items-center gap-4">
-              <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-border bg-white">
+              <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-border bg-card">
                 <Image
                   className="object-contain p-2"
                   src={`/logos/${logoName}.jpg`}
@@ -262,7 +262,7 @@ export default async function OverallPage({ params }: Props) {
           <dl className="divide-y divide-border">
             <div className="grid gap-1 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:gap-4 sm:px-6">
               <dt className="flex items-center gap-2 text-sm font-medium text-foreground/55">
-                <Building2 className="h-4 w-4 text-green" />
+                <Buildings className="h-4 w-4 text-green" weight="regular" />
                 {t('overall.institution')}
               </dt>
               <dd>
@@ -281,7 +281,7 @@ export default async function OverallPage({ params }: Props) {
             {areas.length > 0 && (
               <div className="grid gap-2 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:gap-4 sm:px-6">
                 <dt className="flex items-center gap-2 text-sm font-medium text-foreground/55">
-                  <MapPin className="h-4 w-4 text-green" />
+                  <MapPin className="h-4 w-4 text-green" weight="regular" />
                   {t('overall.area')}
                 </dt>
                 <dd className="flex flex-wrap gap-2">
@@ -289,7 +289,7 @@ export default async function OverallPage({ params }: Props) {
                     <Link
                       key={area}
                       href={routeHref('areas', getSlugForEntity(area, locale, 'area'))}
-                      className="rounded-md border border-border bg-white px-2.5 py-1 text-sm font-medium text-foreground transition hover:border-green/40 hover:text-green"
+                      className="rounded-md border border-border bg-card px-2.5 py-1 text-sm font-medium text-foreground transition hover:border-green/40 hover:text-green"
                     >
                       {area}
                     </Link>
@@ -301,7 +301,7 @@ export default async function OverallPage({ params }: Props) {
             {fields.length > 0 && (
               <div className="grid gap-2 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:gap-4 sm:px-6">
                 <dt className="flex items-center gap-2 text-sm font-medium text-foreground/55">
-                  <GraduationCap className="h-4 w-4 text-green" />
+                  <GraduationCap className="h-4 w-4 text-green" weight="regular" />
                   {t('overall.field')}
                 </dt>
                 <dd className="flex flex-wrap gap-2">
@@ -325,7 +325,7 @@ export default async function OverallPage({ params }: Props) {
             <h2 className="text-base font-semibold text-foreground">
               {t('overall.otherOveralls')} · {overall.oppilaitos}
             </h2>
-            <div className="mt-3 overflow-hidden rounded-xl border border-border bg-white">
+            <div className="mt-3 overflow-hidden rounded-xl border border-border bg-card">
               {relatedOveralls.map((rel) => (
                 <Link
                   key={rel.id}
@@ -338,7 +338,7 @@ export default async function OverallPage({ params }: Props) {
                     title={`${t('overall.color')}: ${rel.vari}`}
                   />
                   <div className="flex min-w-0 flex-1 items-center gap-3 px-4 py-3">
-                    <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md border border-border bg-white">
+                    <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md border border-border bg-card">
                       <Image
                         className="object-contain p-1.5"
                         src={`/logos/${getLogoName(rel.oppilaitos, locale)}.jpg`}
@@ -356,7 +356,7 @@ export default async function OverallPage({ params }: Props) {
                         <p className="truncate text-sm text-foreground/65">{rel.ala}</p>
                       ) : null}
                     </div>
-                    <ChevronRight className="h-4 w-4 shrink-0 text-foreground/40 transition group-hover:text-green" />
+                    <CaretRight className="h-4 w-4 shrink-0 text-foreground/40 transition group-hover:text-green" weight="regular" />
                   </div>
                 </Link>
               ))}
@@ -365,7 +365,7 @@ export default async function OverallPage({ params }: Props) {
         )}
 
         {/*
-        <div className="bg-white rounded-xl border border-border/60 p-6 sm:p-8 mt-10">
+        <div className="bg-card rounded-xl border border-border/60 p-6 sm:p-8 mt-10">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
             <div className="flex-1">
               <h3 className="text-lg font-semibold text-foreground">{t('overall.errorTitle')}</h3>

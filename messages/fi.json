@@ -15,7 +15,10 @@
     "readMore": "Lue lisää",
     "notFound": "Ei löytynyt",
     "backToHome": "Palaa etusivulle",
-    "unknown": "Ei tiedossa"
+    "unknown": "Ei tiedossa",
+    "skipToContent": "Siirry sisältöön",
+    "pageNotFound": "Sivua ei löytynyt",
+    "notFoundHint": "Tätä osoitetta ei ole. Palaa hakuun etusivulta."
   },
   "nav": {
     "allColors": "Kaikki värit",
@@ -34,6 +37,7 @@
   },
   "home": {
     "title": "Haalarikone",
+    "tagline": "Löydä yli 500 haalariväriä yliopistoista ja AMK:ista.",
     "description": "Suomen kattavin haalareiden tietokanta. Löydä yli 500 haalariväriä yliopistoista ja AMK:ista. Selvitä minkä värinen haalari tietyn alan opiskelijalla on.",
     "feedbackTitle": "Anna palautetta tai ideoita",
     "feedbackDescription": "Kaikki kehitysehdotukset, bugiraportit ja ideat auttavat meitä parantamaan Haalarikonetta.",
@@ -55,7 +59,21 @@
     "openGithub": "Avaa GitHub",
     "discord": "Discord",
     "discordJoin": "Liity Discordiin",
-    "builtBy": "Tehnyt"
+    "builtBy": "Tehnyt",
+    "privacy": "Tietosuoja",
+    "terms": "Käyttöehdot"
+  },
+  "theme": {
+    "label": "Teema",
+    "light": "Vaalea",
+    "dark": "Tumma",
+    "system": "Järjestelmä"
+  },
+  "legal": {
+    "privacyTitle": "Tietosuoja",
+    "privacyBody": "Haalarikone tallentaa palautelomakkeella annetun viestin ja mahdollisen sähköpostiosoitteen, jotta voimme vastata. Analytiikka (Databuddy) kerää anonyymiä käyttötietoa sivuston kehittämiseen. Emme myy henkilötietoja.",
+    "termsTitle": "Käyttöehdot",
+    "termsBody": "Haalarikone on ilmainen hakemisto suomalaisista opiskelijahaalareista. Tiedot perustuvat julkisiin lähteisiin ja käyttäjäilmoituksiin, ja ne voivat muuttua. Ilmoita virheistä palautelomakkeella."
   },
   "search": {
     "title": "Haku",
@@ -173,7 +191,7 @@
     "message": "Viesti",
     "messagePlaceholder": "Kerro ajatuksesi...",
     "emailPlaceholder": "sina@example.com",
-    "success": "Kiitos palautteesta!",
+    "success": "Kiitos palautteesta.",
     "error": "Palautteen lähetys epäonnistui, yritä hetken päästä uudelleen.",
     "validation": "Täytä pakolliset kentät ja kerro hieman tarkemmin.",
     "submitting": "Lähetetään...",
@@ -202,11 +220,11 @@
   "placeholders": {
     "1": "Hiljaista kuin Otaniemen metroasema keskiyöllä. 🤔 Paina hakua, niin ehkä löydät elämää täältäkin!",
     "2": "Tyhjää kuin opiskelijan lompakossa päivää ennen opintotukea. 🤔 Anna haulle mahdollisuus pelastaa päivä!",
-    "3": "Täällä on yhtä autiota kuin Kuopion torilla sadepäivänä. 🤔 Kokeile hakua – maksaa vähemmän kuin kalakukko!",
+    "3": "Täällä on yhtä autiota kuin Kuopion torilla sadepäivänä. 🤔 Kokeile hakua - maksaa vähemmän kuin kalakukko!",
     "4": "Hiljaista kuin kirjastossa perjantai-iltana. 🤔 Klikkaa hakua ennen kuin tylsyys iskee!",
-    "5": "Täällä on yhtä paljon nähtävää kuin pääkaupunkiseudun talvisessa maisemassa – pelkkää harmaata. 🤔 Kokeile hakua, niin saat ehkä väriä päivään!",
+    "5": "Täällä on yhtä paljon nähtävää kuin pääkaupunkiseudun talvisessa maisemassa - pelkkää harmaata. 🤔 Kokeile hakua, niin saat ehkä väriä päivään!",
     "6": "Täällä on hiljaista kuin työhaastattelussa, kun kysytään 'Missä näet itsesi viiden vuoden päästä?'. 🤔 Paina hakua ja saa edes jotain aikaan!",
-    "7": "Ei tuloksia – vähän sama kuin yrittäisi löytää ilmaista kahvia yliopistolla. 🤔 Anna haulle mahdollisuus loistaa!",
+    "7": "Ei tuloksia - vähän sama kuin yrittäisi löytää ilmaista kahvia yliopistolla. 🤔 Anna haulle mahdollisuus loistaa!",
     "8": "Täällä on tyhjää kuin ruokalassa kasvisvaihtoehdon loputtua. 🤔 Kokeile hakua, niin löydät ehkä parempaa purtavaa!",
     "9": "Täällä on hiljaisempaa kuin luentosalissa, kun kysytään vapaaehtoisia projektiryhmään. 🤔 Klikkaa hakua ja täytä tämä tyhjyys!",
     "10": "Serveri ry GOD TIER! Serveriii!!!! <33333 Ennestään hajalla ollut mielenterveys meni tätä koodatessa :) Mut joo kokeile käyttää tota hakua yläpuolella!"

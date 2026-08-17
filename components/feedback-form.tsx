@@ -1,6 +1,7 @@
 'use client';
 
 import { useId, useRef, useState, FormEvent } from 'react';
+import { Check, Warning } from '@phosphor-icons/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -107,15 +108,7 @@ export function FeedbackForm({
         <div className="rounded-lg border border-green/30 bg-green/10 p-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green/20">
-              <svg
-                className="h-5 w-5 text-green"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
+              <Check className="h-5 w-5 text-green" weight="bold" />
             </div>
             <div>
               <h3 className="font-semibold text-green">Palaute lähetetty!</h3>
@@ -153,19 +146,7 @@ export function FeedbackForm({
       {status.type === 'error' && (
         <div className="rounded-lg border border-destructive/30 bg-destructive/10 p-3">
           <div className="flex items-center gap-2">
-            <svg
-              className="h-4 w-4 text-destructive shrink-0"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-              />
-            </svg>
+            <Warning className="h-4 w-4 text-destructive shrink-0" weight="bold" />
             <p className="text-sm text-destructive">{status.message}</p>
           </div>
         </div>

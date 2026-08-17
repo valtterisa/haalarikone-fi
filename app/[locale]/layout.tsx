@@ -1,5 +1,6 @@
 import Footer from '@/components/footer';
 import Header from '@/components/header';
+import { ThemeProvider } from '@/components/theme-provider';
 import { Databuddy } from '@databuddy/sdk/react';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
@@ -104,24 +105,33 @@ export default async function LocaleLayout({
   const locale = localeRaw as (typeof routing.locales)[number];
 
   const messages = await getMessages({ locale });
+  const t = await getTranslations({ locale, namespace: 'common' });
 
   return (
     <NextIntlClientProvider key={locale} locale={locale} messages={messages}>
-      <Header />
-      <main className="flex flex-col items-center bg-[#fffff9]">
-        <div className="flex-1 w-full flex flex-col items-center bg-[#fffff9]">
-          {children}
-          <Databuddy
-            clientId="Uu3N9TuBuUAa3wAS4pHNw"
-            trackOutgoingLinks={true}
-            trackInteractions={true}
-            trackWebVitals={false}
-            trackErrors={true}
-            enableBatching={true}
-          />
-          <Footer />
-        </div>
-      </main>
+      <ThemeProvider>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-skip focus:rounded-md focus:bg-green focus:px-4 focus:py-2 focus:text-white focus:outline-none"
+        >
+          {t('skipToContent')}
+        </a>
+        <Header />
+        <main id="main-content" className="flex flex-col items-center bg-background">
+          <div className="flex w-full flex-1 flex-col items-center bg-background">
+            {children}
+            <Databuddy
+              clientId="Uu3N9TuBuUAa3wAS4pHNw"
+              trackOutgoingLinks={true}
+              trackInteractions={true}
+              trackWebVitals={false}
+              trackErrors={true}
+              enableBatching={true}
+            />
+            <Footer />
+          </div>
+        </main>
+      </ThemeProvider>
     </NextIntlClientProvider>
   );
 }

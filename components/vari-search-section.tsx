@@ -26,8 +26,8 @@ export default function VariSearchSection({ universities, colorData }: VariSearc
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-white px-2 text-muted-foreground">
-            {t('orSelect')} {tSection('title').toUpperCase()}
+          <span className="bg-background px-2 text-muted-foreground">
+            {t('orSelect')} {tSection('title')}
           </span>
         </div>
       </div>

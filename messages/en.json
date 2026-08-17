@@ -15,7 +15,10 @@
     "readMore": "Read more",
     "notFound": "Not found",
     "backToHome": "Back to home",
-    "unknown": "Unknown"
+    "unknown": "Unknown",
+    "skipToContent": "Skip to content",
+    "pageNotFound": "Page not found",
+    "notFoundHint": "This address does not exist. Go back to search on the home page."
   },
   "nav": {
     "allColors": "All colors",
@@ -34,6 +37,7 @@
   },
   "home": {
     "title": "Overall Machine",
+    "tagline": "Find over 500 overall colors from universities and UAS.",
     "description": "Finland's most comprehensive overall database. Find over 500 overall colors from universities and UAS. Find out what color overall a student in a certain field has.",
     "feedbackTitle": "Give feedback or ideas",
     "feedbackDescription": "All development suggestions, bug reports and ideas help us improve Overall Machine.",
@@ -55,7 +59,21 @@
     "openGithub": "Open GitHub",
     "discord": "Discord",
     "discordJoin": "Join Discord",
-    "builtBy": "Made by"
+    "builtBy": "Made by",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  },
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "legal": {
+    "privacyTitle": "Privacy",
+    "privacyBody": "Haalarikone stores feedback messages and optional email addresses so we can reply. Analytics (Databuddy) collects anonymous usage data to improve the site. We do not sell personal data.",
+    "termsTitle": "Terms of use",
+    "termsBody": "Haalarikone is a free directory of Finnish student overalls. Data comes from public sources and user reports, and it can change. Report errors with the feedback form."
   },
   "search": {
     "title": "Search",
@@ -173,7 +191,7 @@
     "message": "Message",
     "messagePlaceholder": "Share your thoughts...",
     "emailPlaceholder": "you@example.com",
-    "success": "Thank you for your feedback!",
+    "success": "Thank you for your feedback.",
     "error": "Failed to send feedback, please try again in a moment.",
     "validation": "Fill in required fields and tell us a bit more.",
     "submitting": "Submitting...",
@@ -202,11 +220,11 @@
   "placeholders": {
     "1": "Quiet as Otaniemi metro station at midnight. 🤔 Press search, maybe you'll find life here too!",
     "2": "Empty as a student's wallet the day before student aid. 🤔 Give the search a chance to save the day!",
-    "3": "As deserted as Kuopio market square on a rainy day. 🤔 Try the search – costs less than a kalakukko!",
+    "3": "As deserted as Kuopio market square on a rainy day. 🤔 Try the search - costs less than a kalakukko!",
     "4": "Quiet as the library on Friday evening. 🤔 Click search before boredom strikes!",
-    "5": "As much to see here as in the capital region's winter landscape – just gray. 🤔 Try the search, maybe you'll get some color in your day!",
+    "5": "As much to see here as in the capital region's winter landscape - just gray. 🤔 Try the search, maybe you'll get some color in your day!",
     "6": "Quieter here than in a job interview when asked 'Where do you see yourself in five years?'. 🤔 Press search and get something done!",
-    "7": "No results – kind of like trying to find free coffee at university. 🤔 Give the search a chance to shine!",
+    "7": "No results - kind of like trying to find free coffee at university. 🤔 Give the search a chance to shine!",
     "8": "As empty here as the cafeteria when the vegetarian option runs out. 🤔 Try the search, maybe you'll find something better to eat!",
     "9": "Quieter here than in a lecture hall when asking for volunteers for a project group. 🤔 Click search and fill this emptiness!",
     "10": "Server ry GOD TIER! Serveriii!!!! <33333 My already broken mental health went while coding this :) But yeah try using that search above!"

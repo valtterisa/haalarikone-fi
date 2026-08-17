@@ -155,8 +155,12 @@ export default async function UniversityIndexPage({
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <h1 className="text-4xl font-bold mb-4">{t('universities.title')}</h1>
-        <p className="text-lg text-muted-foreground mb-8">{t('universities.pageDescription')}</p>
+        <h1 className="mb-4 font-display text-4xl font-bold tracking-tight">
+          {t('universities.title')}
+        </h1>
+        <p className="mb-8 max-w-[65ch] text-lg text-muted-foreground">
+          {t('universities.pageDescription')}
+        </p>
 
         <UniversitySearchSection universities={universities} colorData={colorData} />
 

@@ -15,7 +15,10 @@
     "readMore": "Läs mer",
     "notFound": "Hittades inte",
     "backToHome": "Tillbaka till startsidan",
-    "unknown": "Okänt"
+    "unknown": "Okänt",
+    "skipToContent": "Hoppa till innehållet",
+    "pageNotFound": "Sidan hittades inte",
+    "notFoundHint": "Den här adressen finns inte. Gå tillbaka till sökningen på startsidan."
   },
   "nav": {
     "allColors": "Alla färger",
@@ -34,6 +37,7 @@
   },
   "home": {
     "title": "Overallmaskinen",
+    "tagline": "Hitta över 500 overallfärger från universitet och yrkeshögskolor.",
     "description": "Finlands mest omfattande overalldatabas. Hitta över 500 overallfärger från universitet och yrkeshögskolor. Ta reda på vilken färg overall en student inom ett visst område har.",
     "feedbackTitle": "Ge feedback eller idéer",
     "feedbackDescription": "Alla utvecklingsförslag, felrapporter och idéer hjälper oss att förbättra Overallmaskinen.",
@@ -55,7 +59,21 @@
     "openGithub": "Öppna GitHub",
     "discord": "Discord",
     "discordJoin": "Gå med i Discord",
-    "builtBy": "Skapad av"
+    "builtBy": "Skapad av",
+    "privacy": "Integritet",
+    "terms": "Villkor"
+  },
+  "theme": {
+    "label": "Tema",
+    "light": "Ljust",
+    "dark": "Mörkt",
+    "system": "System"
+  },
+  "legal": {
+    "privacyTitle": "Integritet",
+    "privacyBody": "Haalarikone sparar feedbackmeddelanden och valfri e-postadress så att vi kan svara. Analys (Databuddy) samlar anonym användningsdata för att utveckla sajten. Vi säljer inte personuppgifter.",
+    "termsTitle": "Användarvillkor",
+    "termsBody": "Haalarikone är en gratis katalog över finländska studentoverallar. Uppgifterna kommer från publika källor och användarrapporter och kan ändras. Rapportera fel via feedbackformuläret."
   },
   "search": {
     "title": "Sök",
@@ -173,7 +191,7 @@
     "message": "Meddelande",
     "messagePlaceholder": "Dela dina tankar...",
     "emailPlaceholder": "du@exempel.com",
-    "success": "Tack för din feedback!",
+    "success": "Tack för din feedback.",
     "error": "Kunde inte skicka feedback, försök igen om en stund.",
     "validation": "Fyll i obligatoriska fält och berätta lite mer.",
     "submitting": "Skickar...",
@@ -202,11 +220,11 @@
   "placeholders": {
     "1": "Tyst som Otaniemi tunnelbanestation vid midnatt. 🤔 Tryck på sök, kanske hittar du liv här också!",
     "2": "Tomt som en students plånbok dagen före studiebidrag. 🤔 Ge sökningen en chans att rädda dagen!",
-    "3": "Lika öde som Kuopio torget en regnig dag. 🤔 Prova sökningen – kostar mindre än en kalakukko!",
+    "3": "Lika öde som Kuopio torget en regnig dag. 🤔 Prova sökningen - kostar mindre än en kalakukko!",
     "4": "Tyst som biblioteket på fredagskvällen. 🤔 Klicka på sök innan tristessen slår till!",
-    "5": "Lika mycket att se här som i huvudstadsregionens vinterlandskap – bara grått. 🤔 Prova sökningen, kanske får du lite färg i din dag!",
+    "5": "Lika mycket att se här som i huvudstadsregionens vinterlandskap - bara grått. 🤔 Prova sökningen, kanske får du lite färg i din dag!",
     "6": "Tystare här än på en jobbintervju när man frågar 'Var ser du dig själv om fem år?'. 🤔 Tryck på sök och få något gjort!",
-    "7": "Inga resultat – lite som att försöka hitta gratis kaffe på universitetet. 🤔 Ge sökningen en chans att glänsa!",
+    "7": "Inga resultat - lite som att försöka hitta gratis kaffe på universitetet. 🤔 Ge sökningen en chans att glänsa!",
     "8": "Lika tomt här som kafeterian när vegetariska alternativet tar slut. 🤔 Prova sökningen, kanske hittar du något bättre att äta!",
     "9": "Tystare här än i en föreläsningssal när man frågar efter volontärer för en projektgrupp. 🤔 Klicka på sök och fyll denna tomhet!",
     "10": "Server ry GOD TIER! Serveriii!!!! <33333 Min redan trasiga mentala hälsa gick medan jag kodade detta :) Men ja prova att använda den sökningen ovan!"

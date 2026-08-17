@@ -17,9 +17,9 @@ vi.mock('@databuddy/sdk', () => ({
 
 vi.mock('framer-motion', () => ({
   motion: {
-    // Simplify motion.div to a plain div for testing
     div: (props: React.HTMLAttributes<HTMLDivElement>) => <div {...props} />,
   },
+  useReducedMotion: () => false,
 }));
 
 const baseCriteria: Criteria = {

@@ -237,7 +237,7 @@ export default async function AreaPage({ params }: Props) {
         </Breadcrumb>
         <div className="mb-6">
           <h1 className="text-4xl font-bold mb-4">{capitalizedArea}</h1>
-          <p className="text-lg text-gray-700">
+          <p className="text-lg text-muted-foreground">
             {t('areas.intro', {
               area: capitalizedArea,
               count: areaData.length,

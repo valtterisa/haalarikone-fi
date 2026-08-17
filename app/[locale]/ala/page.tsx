@@ -155,25 +155,26 @@ export default async function FieldIndexPage({ params }: { params: Promise<{ loc
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <h1 className="text-4xl font-bold mb-4">{t('fields.title')}</h1>
-        <p className="text-lg text-muted-foreground mb-8">
+        <h1 className="mb-4 font-display text-4xl font-bold tracking-tight">{t('fields.title')}</h1>
+        <p className="mb-8 max-w-[65ch] text-lg text-muted-foreground">
           {t('fields.description', { count, schoolCount })}
         </p>
 
         <FieldSearchSection universities={universities} colorData={colorData} />
 
-        <div className="max-w-3xl w-full mx-auto px-2">
-          <div className="grid gap-2 sm:grid-cols-2">
+        <div className="mx-auto w-full max-w-3xl px-2">
+          <ul className="divide-y divide-border">
             {fieldsWithTranslations.map((field) => (
-              <Link
-                key={field.finnishName}
-                href={routeHref('fields', getSlugForEntity(field.finnishName, locale, 'field'))}
-                className="inline-flex min-h-11 items-center rounded-lg border px-4 py-3 font-medium text-green hover:bg-green/5"
-              >
-                {field.translatedName}
-              </Link>
+              <li key={field.finnishName}>
+                <Link
+                  href={routeHref('fields', getSlugForEntity(field.finnishName, locale, 'field'))}
+                  className="flex min-h-11 items-center py-3 text-base font-medium text-foreground transition hover:text-green"
+                >
+                  {field.translatedName}
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </>

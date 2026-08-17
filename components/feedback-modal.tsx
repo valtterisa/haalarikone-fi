@@ -41,7 +41,7 @@ export function FeedbackModal({
       {open ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
           <div className="absolute inset-0 bg-black/50" onClick={close} />
-          <div className="relative z-10 w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
+          <div className="relative z-10 w-full max-w-lg rounded-xl bg-card p-6 shadow-overlay">
             <FeedbackForm
               {...formProps}
               onClose={close}

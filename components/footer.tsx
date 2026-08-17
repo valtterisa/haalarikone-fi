@@ -1,6 +1,6 @@
 'use client';
 
-import { Github, Mail } from 'lucide-react';
+import { GithubLogo, EnvelopeSimple } from '@phosphor-icons/react';
 import { Link } from '@/i18n/routing';
 import Logo from '@/components/logo';
 import { useTranslations } from 'next-intl';
@@ -12,20 +12,17 @@ export default function Footer() {
   const t = useTranslations('footer');
   const routes = useTranslatedRoutes();
   return (
-    <footer className="w-full border-t border-border/60 bg-white">
-      <div className="container mx-auto flex w-full flex-col gap-10 px-4 pt-8 pb-4">
-        <div className="flex flex-col w-full text-center md:flex-row items-center justify-center md:justify-between md:text-left">
-          <div className="mx-auto max-w-xl md:mx-0 w-full flex flex-col items-center md:items-start">
+    <footer className="w-full border-t border-border/60 bg-background">
+      <div className="container mx-auto flex w-full flex-col gap-10 px-4 pb-6 pt-10">
+        <div className="flex w-full flex-col items-center justify-center text-center md:flex-row md:items-start md:justify-between md:text-left">
+          <div className="mx-auto flex w-full max-w-xl flex-col items-center md:mx-0 md:items-start">
             <Logo />
-
             <p className="mt-3 max-w-sm text-sm text-muted-foreground">{t('description')}</p>
           </div>
-          <div className="flex gap-8 pt-6 md:pt-0">
+          <div className="flex gap-10 pt-6 md:pt-0">
             <div className="w-auto">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground text-left">
-                {t('navigation')}
-              </p>
-              <ul className="mt-4 space-y-2 text-sm text-muted-foreground text-left">
+              <p className="text-left text-sm font-semibold text-foreground">{t('navigation')}</p>
+              <ul className="mt-4 space-y-2 text-left text-sm text-muted-foreground">
                 <li>
                   <Link href="/" prefetch={false} className="transition hover:text-green">
                     {t('home')}
@@ -73,9 +70,7 @@ export default function Footer() {
               </ul>
             </div>
             <div className="w-auto">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                {t('contact')}
-              </p>
+              <p className="text-sm font-semibold text-foreground">{t('contact')}</p>
               <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
                 <li>
                   <a
@@ -83,7 +78,7 @@ export default function Footer() {
                     aria-label={t('sendEmail')}
                     className="flex items-center gap-2 transition hover:text-green"
                   >
-                    <Mail className="h-4 w-4" />
+                    <EnvelopeSimple className="h-4 w-4" weight="regular" />
                     {t('email')}
                   </a>
                 </li>
@@ -95,7 +90,7 @@ export default function Footer() {
                     aria-label={t('openGithub')}
                     className="flex items-center gap-2 transition hover:text-green"
                   >
-                    <Github className="h-4 w-4" />
+                    <GithubLogo className="h-4 w-4" weight="regular" />
                     {t('github')}
                   </a>
                 </li>
@@ -115,7 +110,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="flex justify-center border-t border-border/60 pt-4 text-center text-xs text-muted-foreground md:flex-row md:items-center ">
+        <div className="flex flex-col items-center justify-between gap-3 border-t border-border/60 pt-4 text-center text-xs text-muted-foreground md:flex-row">
           <p>
             Made by{' '}
             <a
@@ -127,6 +122,14 @@ export default function Footer() {
               valtterisa
             </a>
           </p>
+          <div className="flex gap-4">
+            <Link href="/tietosuoja" className="transition hover:text-green">
+              {t('privacy')}
+            </Link>
+            <Link href="/kayttoehdot" className="transition hover:text-green">
+              {t('terms')}
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

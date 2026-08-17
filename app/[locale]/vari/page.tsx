@@ -147,43 +147,39 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
           </BreadcrumbList>
         </Breadcrumb>
 
-        <h1 className="text-4xl font-bold mb-4">{t('colors.title')}</h1>
-        <p className="text-lg text-gray-700 mb-8">
+        <h1 className="mb-4 font-display text-4xl font-bold tracking-tight">{t('colors.title')}</h1>
+        <p className="mb-8 max-w-[65ch] text-lg text-muted-foreground">
           {t('colors.pageDescription', { count: colors.length })}
         </p>
 
         <VariSearchSection universities={universities} colorData={colorData} />
 
-        <div className="max-w-3xl w-full mx-auto px-2">
-          <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-3">
-            {colors.map((color) =>
-              (() => {
-                const translatedColor = capitalizeFirstLetter(
-                  getEntityTranslation(color, locale, 'color'),
-                );
-                const colorKey = color.toLowerCase();
-                const translatedColorKey = translatedColor.toLowerCase();
-                return (
-                  <Link
-                    key={color}
-                    href={routeHref('colors', getSlugForEntity(color, locale, 'color'))}
-                    className="rounded-lg border px-4 py-4 min-h-11 text-base font-medium text-green hover:bg-green/5 transition flex items-center gap-3"
-                  >
-                    <span
-                      className="h-5 w-5 rounded-full border border-gray-300 shrink-0"
-                      style={{
-                        backgroundColor:
-                          colorHexByAnyName[colorKey] ??
-                          colorHexByAnyName[translatedColorKey] ??
-                          '#D1D5DB',
-                      }}
-                      aria-hidden="true"
-                    />
-                    {translatedColor}
-                  </Link>
-                );
-              })(),
-            )}
+        <div className="mx-auto w-full max-w-3xl px-2">
+          <div className="grid auto-rows-[minmax(4.5rem,auto)] grid-cols-2 gap-2 sm:grid-cols-3">
+            {colors.map((color, index) => {
+              const translatedColor = capitalizeFirstLetter(
+                getEntityTranslation(color, locale, 'color'),
+              );
+              const colorKey = color.toLowerCase();
+              const translatedColorKey = translatedColor.toLowerCase();
+              const hex =
+                colorHexByAnyName[colorKey] ??
+                colorHexByAnyName[translatedColorKey] ??
+                '#D1D5DB';
+              const isLarge = index % 7 === 0;
+              return (
+                <Link
+                  key={color}
+                  href={routeHref('colors', getSlugForEntity(color, locale, 'color'))}
+                  className={`flex min-h-11 flex-col justify-end overflow-hidden rounded-sm p-3 text-sm font-semibold transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green ${
+                    isLarge ? 'col-span-2 sm:col-span-1 sm:row-span-2' : ''
+                  }`}
+                  style={{ backgroundColor: hex, color: hex === '#FFFFFF' || hex === '#FFFF00' ? '#1c1a17' : '#fffef8' }}
+                >
+                  {translatedColor}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

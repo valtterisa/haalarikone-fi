@@ -8,8 +8,8 @@ import {
   getUniqueAreas,
 } from '@/lib/get-unique-values';
 import { getSlugForEntity } from '@/lib/slug-translations';
-import { routing } from '@/i18n/routing';
-import { localeSiteBaseUrl } from '@/lib/site-url';
+import { routing, getPathname } from '@/i18n/routing';
+import { localeSiteBaseUrl, SITE_ORIGIN } from '@/lib/site-url';
 import { absoluteTranslatedRoute } from '@/lib/use-translated-routes';
 
 export const revalidate = 86400;
@@ -30,6 +30,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: dataLastModified,
       changeFrequency: 'daily',
       priority: 1,
+    });
+
+    entries.push({
+      url: `${SITE_ORIGIN}${getPathname({ locale, href: '/tietosuoja' })}`,
+      lastModified: dataLastModified,
+      changeFrequency: 'yearly',
+      priority: 0.2,
+    });
+
+    entries.push({
+      url: `${SITE_ORIGIN}${getPathname({ locale, href: '/kayttoehdot' })}`,
+      lastModified: dataLastModified,
+      changeFrequency: 'yearly',
+      priority: 0.2,
     });
 
     entries.push({
