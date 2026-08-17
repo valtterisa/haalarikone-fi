@@ -41,12 +41,12 @@ export default function UniversityCard({ uni, source = 'search' }: UniversityCar
         />
         <Link
           href={routes.overall(uni.slug)}
-          className="group relative flex items-start gap-2.5 py-3 pl-12 pr-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green sm:items-center sm:gap-3 sm:py-3.5 sm:pl-24 sm:pr-4"
+          className="group relative flex items-start gap-2.5 py-3 pl-16 pr-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green sm:items-center sm:gap-3 sm:py-3.5 sm:pl-28 sm:pr-4"
           onClick={() => {
             trackResultClick(uni.slug, source);
           }}
         >
-          <div className="relative mt-0.5 h-9 w-9 shrink-0 overflow-hidden rounded-md border border-border/40 bg-card sm:mt-0 sm:h-12 sm:w-12 sm:rounded-lg">
+          <div className="relative mt-0.5 h-9 w-9 shrink-0 overflow-hidden rounded-xl border border-border/40 bg-card sm:mt-0 sm:h-12 sm:w-12">
             <Image
               className="object-contain px-1.5 py-1 sm:px-2.5 sm:py-2"
               src={`/logos/${logoName}.jpg`}
@@ -71,7 +71,7 @@ export default function UniversityCard({ uni, source = 'search' }: UniversityCar
           />
         </Link>
 
-        <div className="relative flex flex-wrap items-center gap-x-0.5 py-0.5 pl-12 pr-2 sm:gap-1.5 sm:py-1 sm:pl-24 sm:pr-4">
+        <div className="relative flex flex-wrap items-center gap-x-0.5 py-0.5 pl-16 pr-2 sm:gap-1.5 sm:py-1 sm:pl-28 sm:pr-4">
           <HubLink
             href={routes.universities(schoolSlug)}
             source={source}

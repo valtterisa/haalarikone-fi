@@ -171,7 +171,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
                 <Link
                   key={color}
                   href={routeHref('colors', getSlugForEntity(color, locale, 'color'))}
-                  className={`flex min-h-11 flex-col justify-end overflow-hidden rounded-sm p-3 text-sm font-semibold transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green ${
+                  className={`flex min-h-11 flex-col justify-end overflow-hidden rounded-xl p-3 text-sm font-semibold transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green ${
                     isLarge ? 'col-span-2 sm:col-span-1 sm:row-span-2' : ''
                   }`}
                   style={{ backgroundColor: hex, color: hex === '#FFFFFF' || hex === '#FFFF00' ? '#1c1a17' : '#fffef8' }}

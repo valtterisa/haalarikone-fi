@@ -174,7 +174,7 @@ function ColorSwatch({
       title={displayName}
     >
       <div
-      className={`w-8 h-8 rounded-sm border-2 transition-all duration-150 flex items-center justify-center ${
+      className={`w-8 h-8 rounded-xl border-2 transition-all duration-150 flex items-center justify-center ${
           isSelected
             ? 'border-green ring-2 ring-green/30 scale-110'
             : isWhite

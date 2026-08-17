@@ -6,7 +6,7 @@ import { routeHref, type RouteType } from '@/lib/use-translated-routes';
 import { Children, type ReactNode } from 'react';
 
 const chipClassName =
-  'inline-flex min-h-11 items-center rounded-md bg-muted/70 px-4 py-2 text-sm font-medium text-foreground transition hover:bg-green/10 hover:text-green';
+  'inline-flex min-h-11 items-center rounded-xl bg-muted/70 px-4 py-2 text-sm font-medium text-foreground transition hover:bg-green/10 hover:text-green';
 
 const HUB_ROUTE = {
   area: 'areas',

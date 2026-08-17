@@ -31,7 +31,7 @@ function PopularDestinationsChip({ className, ...props }: HubLinkProps) {
     <HubLink
       {...props}
       className={cn(
-        'inline-flex min-h-11 items-center rounded-lg bg-muted px-3.5 text-sm font-medium text-foreground transition-colors hover:bg-green/10 hover:text-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green',
+        'inline-flex min-h-11 items-center rounded-xl bg-muted px-3.5 text-sm font-medium text-foreground transition-colors hover:bg-green/10 hover:text-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green',
         className,
       )}
     />

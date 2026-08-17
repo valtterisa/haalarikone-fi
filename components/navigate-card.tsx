@@ -27,7 +27,7 @@ function NavigateCardRoot({
 
 function NavigateCardSwatches({ hexes }: { hexes: string[] }) {
   return (
-    <div aria-hidden className="mb-4 flex h-10 overflow-hidden rounded-sm">
+    <div aria-hidden className="mb-4 flex h-10 overflow-hidden rounded-xl">
       {hexes.slice(0, 12).map((hex, i) => (
         <span key={`${hex}-${i}`} className="h-full min-w-0 flex-1" style={{ backgroundColor: hex }} />
       ))}

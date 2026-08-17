@@ -59,9 +59,10 @@ const config = {
         },
       },
       borderRadius: {
+        xl: "var(--radius)",
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 4px)",
-        sm: "2px",
+        md: "var(--radius)",
+        sm: "calc(var(--radius) - 4px)",
       },
       boxShadow: {
         card: "0 8px 28px hsl(var(--shadow-tint) / 0.08)",
