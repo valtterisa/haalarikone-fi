@@ -18,7 +18,8 @@
     "unknown": "Ei tiedossa",
     "skipToContent": "Siirry sisältöön",
     "pageNotFound": "Sivua ei löytynyt",
-    "notFoundHint": "Tätä osoitetta ei ole. Palaa hakuun etusivulta."
+    "notFoundTitle": "Haalarit karkasi",
+    "notFoundHint": "Tätä osoitetta ei ole. Ehkä se lähti sitsaamaan ilman sinua."
   },
   "nav": {
     "allColors": "Kaikki värit",

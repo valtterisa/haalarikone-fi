@@ -18,7 +18,8 @@
     "unknown": "Unknown",
     "skipToContent": "Skip to content",
     "pageNotFound": "Page not found",
-    "notFoundHint": "This address does not exist. Go back to search on the home page."
+    "notFoundTitle": "This overall walked off",
+    "notFoundHint": "This address is not in the database. It may have gone to a sitsit."
   },
   "nav": {
     "allColors": "All colors",

@@ -219,35 +219,33 @@ export default async function ColorPage({ params }: Props) {
         }}
       />
       <Page>
-        <div className="mb-6">
-          <Breadcrumb className="mb-4">
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href="/">{t('footer.home')}</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href={routeHref('colors')}>{t('colors.title')}</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{capitalizedColor}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-16 h-16 rounded-lg border-2 shadow-md" style={swatchStyle} />
-            <div>
-              <h1 className="text-4xl font-bold">{capitalizedColor}</h1>
-              <p className="text-lg text-muted-foreground">
-                {colorData.length} {t('colors.overallCount')} {universitiesList.length}{' '}
-                {t('colors.schoolCount')}
-              </p>
-            </div>
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/">{t('footer.home')}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href={routeHref('colors')}>{t('colors.title')}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{capitalizedColor}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <div className="mb-8 flex items-center gap-4">
+          <div className="h-16 w-16 rounded-lg border-2 shadow-md" style={swatchStyle} />
+          <div>
+            <h1 className="font-display text-4xl font-bold tracking-tight">{capitalizedColor}</h1>
+            <p className="text-lg text-muted-foreground">
+              {colorData.length} {t('colors.overallCount')} {universitiesList.length}{' '}
+              {t('colors.schoolCount')}
+            </p>
           </div>
         </div>
 

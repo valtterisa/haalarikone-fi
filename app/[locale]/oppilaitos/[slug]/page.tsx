@@ -257,17 +257,17 @@ export default async function UniversityPage({ params }: Props) {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <div className="mb-6">
-          <h1 className="text-4xl font-bold mb-4">{capitalizedUniversity}</h1>
-          <p className="text-lg text-muted-foreground">
-            {t('universities.intro', {
-              university: capitalizedUniversity,
-              count: universityData.length,
-              colors: joinNames(colors),
-              areas: joinNames(areas),
-            })}
-          </p>
-        </div>
+        <h1 className="mb-4 font-display text-4xl font-bold tracking-tight">
+          {capitalizedUniversity}
+        </h1>
+        <p className="mb-8 max-w-[65ch] text-lg text-muted-foreground">
+          {t('universities.intro', {
+            university: capitalizedUniversity,
+            count: universityData.length,
+            colors: joinNames(colors),
+            areas: joinNames(areas),
+          })}
+        </p>
 
         <RelatedTopics title={t('universities.relatedTopics')}>
           <RelatedTopics.Chips>

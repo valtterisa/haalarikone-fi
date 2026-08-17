@@ -224,34 +224,32 @@ export default async function FieldPage({ params }: Props) {
         }}
       />
       <Page>
-        <div className="mb-6">
-          <Breadcrumb className="mb-4">
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href="/">{t('footer.home')}</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href={routeHref('fields')}>{t('fields.title')}</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{capitalizedField}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-          <h1 className="text-4xl font-bold mb-4">{capitalizedField}</h1>
-          <p className="text-lg text-muted-foreground">
-            {t('fields.description', {
-              count: fieldData.length,
-              schoolCount: universitiesList.length,
-            })}
-          </p>
-        </div>
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/">{t('footer.home')}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href={routeHref('fields')}>{t('fields.title')}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{capitalizedField}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <h1 className="mb-4 font-display text-4xl font-bold tracking-tight">{capitalizedField}</h1>
+        <p className="mb-8 max-w-[65ch] text-lg text-muted-foreground">
+          {t('fields.description', {
+            count: fieldData.length,
+            schoolCount: universitiesList.length,
+          })}
+        </p>
 
         <RelatedTopics title={t('fields.relatedTopics')}>
           <RelatedTopics.Chips>

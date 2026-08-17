@@ -18,7 +18,8 @@
     "unknown": "Okänt",
     "skipToContent": "Hoppa till innehållet",
     "pageNotFound": "Sidan hittades inte",
-    "notFoundHint": "Den här adressen finns inte. Gå tillbaka till sökningen på startsidan."
+    "notFoundTitle": "Overallen stack",
+    "notFoundHint": "Den här adressen finns inte. Kanske gick den på sitsit utan dig."
   },
   "nav": {
     "allColors": "Alla färger",

@@ -236,17 +236,15 @@ export default async function AreaPage({ params }: Props) {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <div className="mb-6">
-          <h1 className="text-4xl font-bold mb-4">{capitalizedArea}</h1>
-          <p className="text-lg text-muted-foreground">
-            {t('areas.intro', {
-              area: capitalizedArea,
-              count: areaData.length,
-              schoolCount: universitiesList.length,
-              schools: joinNames(universitiesList),
-            })}
-          </p>
-        </div>
+        <h1 className="mb-4 font-display text-4xl font-bold tracking-tight">{capitalizedArea}</h1>
+        <p className="mb-8 max-w-[65ch] text-lg text-muted-foreground">
+          {t('areas.intro', {
+            area: capitalizedArea,
+            count: areaData.length,
+            schoolCount: universitiesList.length,
+            schools: joinNames(universitiesList),
+          })}
+        </p>
 
         <RelatedTopics title={t('areas.relatedTopics')}>
           <RelatedTopics.Chips>

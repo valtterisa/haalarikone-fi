@@ -35,52 +35,49 @@ export default function UniversityCard({ uni, source = 'search' }: UniversityCar
     <li>
       <div className="relative overflow-hidden rounded-xl border border-border bg-card transition hover:border-foreground/20 hover:shadow-card">
         <div
-          className="absolute inset-y-0 left-0 w-16 border-r border-border sm:w-24"
+          className="absolute inset-y-0 left-0 w-12 border-r border-border sm:w-24"
           style={parseStyles(uni.hex)}
           title={`${t('color')}: ${uni.vari}`}
         />
         <Link
           href={routes.overall(uni.slug)}
-          className="group relative flex min-h-[4.5rem] pl-16 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green sm:pl-24"
+          className="group relative flex items-start gap-2.5 py-3 pl-12 pr-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green sm:items-center sm:gap-3 sm:py-3.5 sm:pl-24 sm:pr-4"
           onClick={() => {
             trackResultClick(uni.slug, source);
           }}
         >
-          <div className="min-w-0 flex-1 px-4 py-3.5">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex min-w-0 items-center gap-3">
-                <p className="text-[15px] font-semibold leading-snug tracking-tight text-foreground">
-                  {uni.ainejarjesto ?? t('unknownOrganization')}
-                </p>
-                <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg border border-border/40 bg-card sm:h-12 sm:w-12">
-                  <Image
-                    className="object-contain p-1.5 sm:p-2"
-                    src={`/logos/${logoName}.jpg`}
-                    fill
-                    alt={`${uni.oppilaitos} logo`}
-                  />
-                </div>
-              </div>
-              <CaretRight
-                className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground sm:opacity-0 sm:transition-opacity sm:duration-200 sm:group-hover:opacity-100"
-                weight="regular"
-                aria-hidden
-              />
-            </div>
-
+          <div className="relative mt-0.5 h-9 w-9 shrink-0 overflow-hidden rounded-md border border-border/40 bg-card sm:mt-0 sm:h-12 sm:w-12 sm:rounded-lg">
+            <Image
+              className="object-contain px-1.5 py-1 sm:px-2.5 sm:py-2"
+              src={`/logos/${logoName}.jpg`}
+              fill
+              alt={`${uni.oppilaitos} logo`}
+            />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold leading-snug tracking-tight text-foreground sm:text-[15px]">
+              {uni.ainejarjesto ?? t('unknownOrganization')}
+            </p>
             {primaryField ? (
-              <p className="mt-1.5 truncate text-[13px] text-muted-foreground">{primaryField}</p>
+              <p className="mt-0.5 truncate text-xs text-muted-foreground sm:mt-1 sm:text-[13px]">
+                {primaryField}
+              </p>
             ) : null}
           </div>
+          <CaretRight
+            className="mt-1 hidden h-4 w-4 shrink-0 text-muted-foreground sm:mt-0 sm:block sm:opacity-0 sm:transition-opacity sm:duration-200 sm:group-hover:opacity-100"
+            weight="regular"
+            aria-hidden
+          />
         </Link>
 
-        <div className="relative flex flex-wrap gap-1.5 py-2.5 pl-20 pr-4 sm:pl-28">
+        <div className="relative flex flex-wrap items-center gap-x-0.5 py-0.5 pl-12 pr-2 sm:gap-1.5 sm:py-1 sm:pl-24 sm:pr-4">
           <HubLink
             href={routes.universities(schoolSlug)}
             source={source}
             type="university"
             slug={schoolSlug}
-            className="inline-flex min-h-11 items-center rounded px-2.5 text-xs font-medium text-muted-foreground transition hover:bg-green/10 hover:text-green"
+            className="inline-flex min-h-11 min-w-0 max-w-full items-center truncate rounded px-2 text-xs font-medium text-muted-foreground transition hover:bg-green/10 hover:text-green sm:px-2.5"
           >
             {uni.oppilaitos}
           </HubLink>
@@ -90,12 +87,12 @@ export default function UniversityCard({ uni, source = 'search' }: UniversityCar
               source={source}
               type="area"
               slug={citySlug}
-              className="inline-flex min-h-11 items-center rounded px-2.5 text-xs font-medium text-muted-foreground transition hover:bg-green/10 hover:text-green"
+              className="inline-flex min-h-11 items-center rounded px-2 text-xs font-medium text-muted-foreground transition hover:bg-green/10 hover:text-green sm:px-2.5"
             >
               {city}
             </HubLink>
           ) : null}
-          <span className="inline-flex min-h-11 items-center gap-1.5 rounded px-2.5 text-xs font-medium tabular-nums text-muted-foreground">
+          <span className="inline-flex min-h-11 items-center gap-1.5 rounded px-2 text-xs font-medium tabular-nums text-muted-foreground sm:px-2.5">
             <span className="h-2 w-2 rounded-sm ring-1 ring-foreground/10" style={parseStyles(uni.hex)} />
             {uni.vari}
           </span>
