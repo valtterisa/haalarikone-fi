@@ -6,6 +6,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { Page } from '@/components/page';
 import { Link } from '@/i18n/routing';
 import Script from 'next/script';
 import { Metadata } from 'next';
@@ -141,7 +142,7 @@ export default async function UniversityIndexPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
-      <div className="container mx-auto max-w-4xl px-4 py-8 sm:py-16">
+      <Page>
         <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -165,8 +166,7 @@ export default async function UniversityIndexPage({
         <UniversitySearchSection universities={universities} colorData={colorData} />
 
         <p className="mb-3 text-sm font-semibold text-foreground">{t('universities.popularHeading')}</p>
-        <div className="w-full px-2">
-          <HubGrid>
+        <HubGrid>
             {unique.map((uni) => {
               const slug = entitySlug(uni, locale, 'university');
               return (
@@ -182,8 +182,7 @@ export default async function UniversityIndexPage({
               );
             })}
           </HubGrid>
-        </div>
-      </div>
+      </Page>
     </>
   );
 }

@@ -400,7 +400,7 @@ export default function SearchContainer({
       />
       {belowForm}
       {hasActiveQuery && isSearching && (
-        <div className="mx-auto mb-4 w-full max-w-4xl px-2 sm:mb-8">
+        <div className="mb-4 w-full sm:mb-8">
           <div className="space-y-3 px-1 py-2 sm:px-0 sm:py-4">
             <div className="h-4 w-40 animate-pulse rounded-md bg-muted" />
             <div className="h-20 w-full animate-pulse rounded-xl border border-border bg-card" />

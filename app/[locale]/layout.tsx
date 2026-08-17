@@ -1,5 +1,6 @@
 import Footer from '@/components/footer';
 import Header from '@/components/header';
+import { PAGE_WIDTH } from '@/components/page';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Databuddy } from '@databuddy/sdk/react';
 import { NextIntlClientProvider } from 'next-intl';
@@ -117,19 +118,17 @@ export default async function LocaleLayout({
           {t('skipToContent')}
         </a>
         <Header />
-        <main id="main-content" className="flex flex-col items-center bg-background">
-          <div className="flex w-full flex-1 flex-col items-center bg-background">
-            {children}
-            <Databuddy
-              clientId="Uu3N9TuBuUAa3wAS4pHNw"
-              trackOutgoingLinks={true}
-              trackInteractions={true}
-              trackWebVitals={false}
-              trackErrors={true}
-              enableBatching={true}
-            />
-            <Footer />
-          </div>
+        <main id="main-content" className="flex flex-col bg-background">
+          <div className={PAGE_WIDTH}>{children}</div>
+          <Databuddy
+            clientId="Uu3N9TuBuUAa3wAS4pHNw"
+            trackOutgoingLinks={true}
+            trackInteractions={true}
+            trackWebVitals={false}
+            trackErrors={true}
+            enableBatching={true}
+          />
+          <Footer />
         </main>
       </ThemeProvider>
     </NextIntlClientProvider>

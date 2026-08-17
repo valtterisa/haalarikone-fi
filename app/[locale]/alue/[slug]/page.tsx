@@ -6,6 +6,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { Page } from '@/components/page';
 import { loadUniversities } from '@/lib/load-universities';
 import { getUniversitiesByArea } from '@/lib/get-universities-by-criteria';
 import { getSlugForEntity, getEntityFromSlug, getEntityTranslation } from '@/lib/slug-translations';
@@ -137,12 +138,12 @@ export default async function AreaPage({ params }: Props) {
 
   if (!area) {
     return (
-      <div className="container mx-auto px-4 py-16 text-center">
+      <Page.Missing>
         <h1 className="text-2xl font-bold mb-4">{t('areas.notFound')}</h1>
         <Link href="/" className="text-green hover:underline">
           {t('common.backToHome')}
         </Link>
-      </div>
+      </Page.Missing>
     );
   }
 
@@ -215,7 +216,7 @@ export default async function AreaPage({ params }: Props) {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      <div className="container mx-auto px-4 py-8 sm:py-16 max-w-4xl">
+      <Page>
         <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -284,7 +285,7 @@ export default async function AreaPage({ params }: Props) {
             <UniversityCard key={uni.id} uni={uni} source="area" />
           ))}
         </ul>
-      </div>
+      </Page>
     </>
   );
 }

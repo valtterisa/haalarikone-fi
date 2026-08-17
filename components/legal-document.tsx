@@ -7,6 +7,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { Link } from '@/i18n/routing';
+import { Page } from '@/components/page';
 import type { ReactNode } from 'react';
 
 export type LegalFact = {
@@ -115,7 +116,7 @@ export function LegalDocument({
   sections,
 }: LegalDocumentProps) {
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-12 sm:py-16">
+    <Page>
       <Breadcrumb className="mb-6">
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -180,6 +181,6 @@ export function LegalDocument({
           ))}
         </div>
       </article>
-    </div>
+    </Page>
   );
 }

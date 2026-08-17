@@ -8,6 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { Page } from '@/components/page';
 import Script from 'next/script';
 import { loadBlogPosts } from '@/lib/load-blog-posts';
 import { getTranslations } from 'next-intl/server';
@@ -111,7 +112,7 @@ export default async function BlogPage({
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      <div className="container mx-auto max-w-4xl px-4 py-16">
+      <Page>
         <div className="mb-12">
           <Breadcrumb className="mb-6">
             <BreadcrumbList>
@@ -199,7 +200,7 @@ export default async function BlogPage({
             })
           )}
         </div>
-      </div>
+      </Page>
     </>
   );
 }

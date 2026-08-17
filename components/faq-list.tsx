@@ -6,15 +6,11 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 
 export function FaqList({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="w-full border-t border-border/60">
-      <div className="container mx-auto px-4 py-16 md:py-20">
-        <div className="mx-auto max-w-2xl">
-          <h2 className="mb-8 font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            {title}
-          </h2>
-          <div className="divide-y divide-border border-y border-border">{children}</div>
-        </div>
-      </div>
+    <section className="mt-8 w-full border-t border-border/60 pt-12 md:pt-16">
+      <h2 className="mb-8 font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+        {title}
+      </h2>
+      <div className="divide-y divide-border border-y border-border">{children}</div>
     </section>
   );
 }

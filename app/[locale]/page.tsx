@@ -15,6 +15,7 @@ import { SITE_ORIGIN } from '@/lib/site-url';
 import type { Locale } from '@/lib/slug-translations';
 import { routeHref } from '@/lib/use-translated-routes';
 import { capitalizeFirstLetter } from '@/lib/utils';
+import { Page } from '@/components/page';
 
 export const revalidate = 86400;
 
@@ -99,13 +100,13 @@ export default async function Index({
         }}
       />
       <FAQSchema locale={locale} />
-      <div className="flex w-full flex-col items-center bg-background">
-        <div className="flex w-full max-w-4xl flex-col px-4 pt-8 pb-3 sm:pt-12 sm:pb-4">
-          <h1 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            {t('home.title')}
-          </h1>
-          <p className="mt-2 max-w-[40ch] text-base text-muted-foreground">{t('home.tagline')}</p>
-        </div>
+      <Page>
+        <h1 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          {t('home.title')}
+        </h1>
+        <p className="mt-2 mb-6 max-w-[40ch] text-base text-muted-foreground sm:mb-8">
+          {t('home.tagline')}
+        </p>
         <SearchContainer
           initialUniversities={universities}
           colorData={colorData}
@@ -151,57 +152,55 @@ export default async function Index({
           }
         />
 
-        <section className="mt-8 w-full border-t border-border/60">
-          <div className="container mx-auto px-4 py-12 md:py-16">
-            <div className="mx-auto grid max-w-5xl grid-cols-1 gap-3 md:grid-cols-6">
-              <NavigateCard href="/vari" className="md:col-span-4 md:min-h-[11rem]">
-                <NavigateCard.Swatches hexes={atmosphereHexes} />
-                <NavigateCard.Body>
-                  <h2 className="font-display text-xl font-bold tracking-tight">
-                    {t('nav.allColors')}
-                  </h2>
-                  <p className="mt-1 max-w-[45ch] text-sm text-muted-foreground">
-                    {t('nav.colorsDescription')}
-                  </p>
-                </NavigateCard.Body>
-              </NavigateCard>
-              <NavigateCard href="/ala" className="md:col-span-2">
-                <NavigateCard.Body>
-                  <h2 className="font-display text-xl font-bold tracking-tight">
-                    {t('nav.allFields')}
-                  </h2>
-                  <p className="mt-1 text-sm text-muted-foreground">{t('nav.fieldsDescription')}</p>
-                </NavigateCard.Body>
-              </NavigateCard>
-              <NavigateCard href="/oppilaitos" className="md:col-span-2">
-                <NavigateCard.Body>
-                  <h2 className="font-display text-xl font-bold tracking-tight">
-                    {t('nav.allSchools')}
-                  </h2>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {t('nav.schoolsDescription')}
-                  </p>
-                </NavigateCard.Body>
-              </NavigateCard>
-              <NavigateCard href="/alue" className="md:col-span-2">
-                <NavigateCard.Body>
-                  <h2 className="font-display text-xl font-bold tracking-tight">
-                    {t('nav.allAreas')}
-                  </h2>
-                  <p className="mt-1 text-sm text-muted-foreground">{t('nav.areasDescription')}</p>
-                </NavigateCard.Body>
-              </NavigateCard>
-              <NavigateCard href="/blog" className="md:col-span-2">
-                <NavigateCard.Body>
-                  <h2 className="font-display text-xl font-bold tracking-tight">
-                    {t('common.blog')}
-                  </h2>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {t('nav.navigateDescription')}
-                  </p>
-                </NavigateCard.Body>
-              </NavigateCard>
-            </div>
+        <section className="mt-8 w-full border-t border-border/60 pt-12 md:pt-16">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-6">
+            <NavigateCard href="/vari" className="md:col-span-4 md:min-h-[11rem]">
+              <NavigateCard.Swatches hexes={atmosphereHexes} />
+              <NavigateCard.Body>
+                <h2 className="font-display text-xl font-bold tracking-tight">
+                  {t('nav.allColors')}
+                </h2>
+                <p className="mt-1 max-w-[45ch] text-sm text-muted-foreground">
+                  {t('nav.colorsDescription')}
+                </p>
+              </NavigateCard.Body>
+            </NavigateCard>
+            <NavigateCard href="/ala" className="md:col-span-2">
+              <NavigateCard.Body>
+                <h2 className="font-display text-xl font-bold tracking-tight">
+                  {t('nav.allFields')}
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">{t('nav.fieldsDescription')}</p>
+              </NavigateCard.Body>
+            </NavigateCard>
+            <NavigateCard href="/oppilaitos" className="md:col-span-2">
+              <NavigateCard.Body>
+                <h2 className="font-display text-xl font-bold tracking-tight">
+                  {t('nav.allSchools')}
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {t('nav.schoolsDescription')}
+                </p>
+              </NavigateCard.Body>
+            </NavigateCard>
+            <NavigateCard href="/alue" className="md:col-span-2">
+              <NavigateCard.Body>
+                <h2 className="font-display text-xl font-bold tracking-tight">
+                  {t('nav.allAreas')}
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">{t('nav.areasDescription')}</p>
+              </NavigateCard.Body>
+            </NavigateCard>
+            <NavigateCard href="/blog" className="md:col-span-2">
+              <NavigateCard.Body>
+                <h2 className="font-display text-xl font-bold tracking-tight">
+                  {t('common.blog')}
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {t('nav.navigateDescription')}
+                </p>
+              </NavigateCard.Body>
+            </NavigateCard>
           </div>
         </section>
 
@@ -213,7 +212,7 @@ export default async function Index({
           <FaqItem question={t('faq.q5')} answer={t('faq.a5')} />
           <FaqItem question={t('faq.q6')} answer={t('faq.a6')} />
         </FaqList>
-      </div>
+      </Page>
     </>
   );
 }

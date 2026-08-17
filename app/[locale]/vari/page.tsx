@@ -6,6 +6,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { Page } from '@/components/page';
 import { Link } from '@/i18n/routing';
 import Script from 'next/script';
 import { Metadata } from 'next';
@@ -132,7 +133,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
-      <div className="container mx-auto max-w-4xl px-4 py-8 sm:py-16">
+      <Page>
         <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -154,8 +155,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
 
         <VariSearchSection universities={universities} colorData={colorData} />
 
-        <div className="mx-auto w-full px-2">
-          <div className="grid auto-rows-[minmax(4.5rem,auto)] grid-cols-2 gap-2 sm:grid-cols-3">
+        <div className="grid auto-rows-[minmax(4.5rem,auto)] grid-cols-2 gap-2 sm:grid-cols-3">
             {colors.map((color, index) => {
               const translatedColor = capitalizeFirstLetter(
                 getEntityTranslation(color, locale, 'color'),
@@ -181,8 +181,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
               );
             })}
           </div>
-        </div>
-      </div>
+      </Page>
     </>
   );
 }

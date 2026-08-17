@@ -1,11 +1,12 @@
 import { getTranslations } from 'next-intl/server';
+import { Page } from '@/components/page';
 import { Link } from '@/i18n/routing';
 
 export default async function NotFound() {
   const t = await getTranslations('common');
 
   return (
-    <div className="flex min-h-[60dvh] w-full flex-col items-center justify-center px-4 py-16 text-center">
+    <Page.Missing className="flex min-h-[60dvh] flex-col items-center justify-center">
       <h1 className="font-display text-4xl font-bold tracking-tight text-foreground">
         {t('pageNotFound')}
       </h1>
@@ -16,6 +17,6 @@ export default async function NotFound() {
       >
         {t('backToHome')}
       </Link>
-    </div>
+    </Page.Missing>
   );
 }

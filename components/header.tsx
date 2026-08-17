@@ -12,6 +12,8 @@ import {
   MapPin,
 } from '@phosphor-icons/react';
 import Logo from '@/components/logo';
+import { PAGE_WIDTH } from '@/components/page';
+import { cn } from '@/lib/utils';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -112,7 +114,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-sticky w-full border-b border-border/60 bg-background/90 backdrop-blur">
       <div className="relative">
-        <nav className="container mx-auto flex h-16 items-center justify-between px-4">
+        <nav className={cn(PAGE_WIDTH, 'flex h-16 items-center justify-between')}>
           <div onClick={closeMobileMenu}>
             <Logo priority />
           </div>
@@ -214,7 +216,7 @@ export default function Header() {
         </nav>
         {mobileOpen && (
           <div className="absolute inset-x-0 top-full border-t border-border/60 bg-background shadow-overlay md:hidden">
-            <div className="container mx-auto px-4 py-5">
+            <div className={cn(PAGE_WIDTH, 'py-5')}>
               <div className="rounded-xl border border-border/40 bg-card p-5">
                 <div className="space-y-6">
                   <div className="grid gap-3">

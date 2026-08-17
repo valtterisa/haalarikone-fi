@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { Link } from '@/i18n/routing';
+import { Page } from '@/components/page';
 import { loadBlogPosts, loadBlogPost } from '@/lib/load-blog-posts';
 import Script from 'next/script';
 import { notFound } from 'next/navigation';
@@ -220,7 +221,7 @@ export default async function BlogPostPage({ params }: Props) {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      <div className="container mx-auto px-4 py-16 max-w-3xl">
+      <Page>
         <Link href="/blog" className="text-green hover:underline mb-4 inline-block">
           ← {t('common.backToHome')}
         </Link>
@@ -262,7 +263,7 @@ export default async function BlogPostPage({ params }: Props) {
             ← {t('common.backToHome')}
           </Link>
         </div>
-      </div>
+      </Page>
     </>
   );
 }

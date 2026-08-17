@@ -503,7 +503,7 @@ export default function SearchForm({
       initial={reduceMotion ? false : { opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-      className="relative mx-auto mb-4 w-full max-w-4xl px-2 sm:mb-8"
+      className="relative mb-4 w-full sm:mb-8"
     >
       <div className="relative overflow-hidden rounded-xl border border-border/70 bg-card shadow-card">
         <div className="relative overflow-hidden px-3 pb-3 pt-4 sm:px-6 sm:pb-5 sm:pt-7">

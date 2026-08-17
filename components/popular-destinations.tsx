@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 
 function PopularDestinationsRoot({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="mx-auto -mt-2 mb-6 w-full max-w-4xl px-4 sm:-mt-4 sm:mb-8 sm:px-2">
+    <section className="-mt-2 mb-6 w-full sm:-mt-4 sm:mb-8">
       <h2 className="sr-only">{title}</h2>
       <div className="flex flex-col gap-3">{children}</div>
     </section>

@@ -21,7 +21,7 @@ export default function FieldSearchSection({ universities, colorData }: FieldSea
         colorData={colorData}
         initialInlineResultsCount={5}
       />
-      <div className="relative my-8 w-full px-2">
+      <div className="relative my-8 w-full">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
         </div>

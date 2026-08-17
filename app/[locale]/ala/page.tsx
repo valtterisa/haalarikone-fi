@@ -6,6 +6,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { Page } from '@/components/page';
 import { Link } from '@/i18n/routing';
 import Script from 'next/script';
 import { Metadata } from 'next';
@@ -141,7 +142,7 @@ export default async function FieldIndexPage({ params }: { params: Promise<{ loc
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
-      <div className="container mx-auto max-w-4xl px-4 py-8 sm:py-16">
+      <Page>
         <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -162,8 +163,7 @@ export default async function FieldIndexPage({ params }: { params: Promise<{ loc
 
         <FieldSearchSection universities={universities} colorData={colorData} />
 
-        <div className="mx-auto w-full px-2">
-          <ul className="divide-y divide-border">
+        <ul className="divide-y divide-border">
             {fieldsWithTranslations.map((field) => (
               <li key={field.finnishName}>
                 <Link
@@ -175,8 +175,7 @@ export default async function FieldIndexPage({ params }: { params: Promise<{ loc
               </li>
             ))}
           </ul>
-        </div>
-      </div>
+      </Page>
     </>
   );
 }

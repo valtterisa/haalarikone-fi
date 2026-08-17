@@ -68,7 +68,7 @@ export default function ResultsDisplay({
   };
 
   return (
-    <div id="top" ref={resultsDivRef} className="mx-auto mb-4 w-full max-w-4xl px-2 sm:mb-8">
+    <div id="top" ref={resultsDivRef} className="mb-4 w-full sm:mb-8">
       <div className="px-1 pt-2 sm:px-0 sm:pt-4">
         <h2 className="mb-4 flex items-center justify-between text-base font-semibold text-foreground sm:mb-6 sm:text-lg">
           {t('results')}{' '}

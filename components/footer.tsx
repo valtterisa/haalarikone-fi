@@ -3,6 +3,8 @@
 import { EnvelopeSimpleIcon, GithubLogoIcon } from '@phosphor-icons/react';
 import { Link } from '@/i18n/routing';
 import Logo from '@/components/logo';
+import { PAGE_WIDTH } from '@/components/page';
+import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 import DiscordLogo from './discord-logo';
 import { useTranslatedRoutes, type InternalHref } from '@/lib/use-translated-routes';
@@ -47,7 +49,7 @@ export default function Footer() {
 
   return (
     <footer className="w-full border-t border-border/60 bg-background">
-      <div className="container mx-auto flex w-full flex-col gap-10 px-4 pb-6 pt-10">
+      <div className={cn(PAGE_WIDTH, 'flex flex-col gap-10 pb-6 pt-10')}>
         <div className="flex w-full flex-col items-center justify-center text-center md:flex-row md:items-start md:justify-between md:text-left">
           <div className="mx-auto flex w-full max-w-xl flex-col items-center md:mx-0 md:items-start">
             <Logo />
