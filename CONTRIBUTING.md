@@ -127,11 +127,10 @@ pnpm run dev
 
 ## Linting, formatting, and commit hooks
 
-This project uses **ESLint**, **Prettier**, **Husky**, and **lint-staged** to keep code quality and structure consistent.
+This project uses **Prettier**, **Husky**, and **lint-staged** to keep formatting consistent.
 
 ### Tooling
 
-- ESLint with TypeScript support (`@typescript-eslint/*`) and `eslint-config-next`
 - Prettier for formatting (configured via `.prettierrc`)
 - Husky for Git hooks
 - lint-staged for running checks only on staged files
@@ -140,9 +139,7 @@ This project uses **ESLint**, **Prettier**, **Husky**, and **lint-staged** to ke
 
 When you run `git commit`, Husky runs `lint-staged`, which:
 
-- Runs `eslint --fix` on staged `*.ts` and `*.tsx` files
-- Runs `prettier --write` on the same staged files
-- Runs `prettier --write` on staged `*.md` and `*.json` files
+- Runs `prettier --write` on staged `*.ts`, `*.tsx`, `*.md`, and `*.json` files
 
 TypeScript typechecking is **not** part of any Git hook to keep commits fast. Type safety is enforced by `next build` (and optionally by running a manual typecheck command in CI or locally).
 
@@ -151,8 +148,6 @@ TypeScript typechecking is **not** part of any Git hook to keep commits fast. Ty
 Use these commands during development:
 
 ```bash
-pnpm lint       # Lint all .ts/.tsx files
-pnpm lint:fix   # Lint and auto-fix .ts/.tsx files
 pnpm format     # Format the whole codebase with Prettier
 pnpm test       # Run the test suite
 ```
