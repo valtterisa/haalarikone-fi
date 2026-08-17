@@ -14,9 +14,10 @@ import { parseStyles } from '@/lib/utils';
 import { getSlugForEntity } from '@/lib/slug-translations';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
-import { getTranslatedRoute, routeHref } from '@/lib/use-translated-routes';
+import { getTranslatedRoute, routeHref, withXDefault } from '@/lib/use-translated-routes';
 import type { Locale } from '@/lib/slug-translations';
 import { localeSiteBaseUrl } from '@/lib/site-url';
+import { getFinnishName } from '@/lib/get-finnish-name';
 import { Building2, ChevronRight, GraduationCap, MapPin } from 'lucide-react';
 
 export const revalidate = 86400;
@@ -108,17 +109,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     alternates: {
       canonical: overallPageUrl,
-      languages: {
+      languages: withXDefault({
         fi: `${localeSiteBaseUrl('fi')}${getTranslatedRoute('overall', 'fi', overall.slug)}`,
         en: `${localeSiteBaseUrl('en')}${getTranslatedRoute('overall', 'en', overall.slug)}`,
         sv: `${localeSiteBaseUrl('sv')}${getTranslatedRoute('overall', 'sv', overall.slug)}`,
-      },
+      }),
     },
   };
 }
 
-function getLogoName(oppilaitos: string) {
-  return oppilaitos.startsWith('Aalto-yliopisto') ? 'Aalto-yliopisto' : oppilaitos;
+function getLogoName(oppilaitos: string, locale: Locale) {
+  const finnish = getFinnishName(oppilaitos, locale, 'university');
+  return finnish.startsWith('Aalto-yliopisto') ? 'Aalto-yliopisto' : finnish;
 }
 
 export default async function OverallPage({ params }: Props) {
@@ -144,7 +146,7 @@ export default async function OverallPage({ params }: Props) {
 
   const baseUrl = localeSiteBaseUrl(locale);
 
-  const logoName = getLogoName(overall.oppilaitos);
+  const logoName = getLogoName(overall.oppilaitos, locale);
   const areas = overall.alue ? overall.alue.split(', ').map((area) => area.trim()) : [];
   const fields = overall.ala ? overall.ala.split(', ').map((field) => field.trim()) : [];
 
@@ -339,7 +341,7 @@ export default async function OverallPage({ params }: Props) {
                     <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md border border-border bg-white">
                       <Image
                         className="object-contain p-1.5"
-                        src={`/logos/${getLogoName(rel.oppilaitos)}.jpg`}
+                        src={`/logos/${getLogoName(rel.oppilaitos, locale)}.jpg`}
                         fill
                         alt={`${rel.oppilaitos} logo`}
                       />

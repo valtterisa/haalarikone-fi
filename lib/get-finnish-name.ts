@@ -12,6 +12,27 @@ const translations = translationsData as Translations;
 /**
  * Gets the Finnish name from a localized name by reverse-looking up in translations
  */
+function translationsMap(type: 'university' | 'color' | 'area' | 'field') {
+  return type === 'university'
+    ? translations.universities
+    : type === 'color'
+      ? translations.colors
+      : type === 'area'
+        ? translations.areas
+        : translations.fields;
+}
+
+export function getLocalizedName(
+  finnishName: string,
+  locale: 'fi' | 'en' | 'sv',
+  type: 'university' | 'color' | 'area' | 'field',
+): string {
+  if (locale === 'fi') {
+    return finnishName;
+  }
+  return translationsMap(type)[finnishName]?.[locale] ?? finnishName;
+}
+
 export function getFinnishName(
   localizedName: string,
   locale: 'fi' | 'en' | 'sv',
@@ -22,14 +43,9 @@ export function getFinnishName(
     return localizedName;
   }
 
-  const translationsMap =
-    type === 'university' ? translations.universities :
-    type === 'color' ? translations.colors :
-    type === 'area' ? translations.areas :
-    translations.fields;
+  const map = translationsMap(type);
 
-  // Reverse lookup: find the Finnish name by matching the localized name
-  for (const [finnishName, trans] of Object.entries(translationsMap)) {
+  for (const [finnishName, trans] of Object.entries(map)) {
     if (trans[locale] === localizedName) {
       return finnishName;
     }

@@ -21,9 +21,11 @@
     "allColors": "Alla färger",
     "allFields": "Alla områden",
     "allSchools": "Alla skolor",
+    "allAreas": "Alla områden",
     "colorsDescription": "Bläddra i overallfärgpaletten",
     "fieldsDescription": "Hitta studieområden och intressen",
     "schoolsDescription": "Visa institutionsspecifik information",
+    "areasDescription": "Bläddra overaller efter stad",
     "navigate": "Navigera",
     "navigateDescription": "Välj den väg som passar dig och fortsätt bläddra.",
     "otherPages": "Andra sidor",
@@ -42,6 +44,8 @@
     "blog": "Blogg",
     "colors": "Färger",
     "fields": "Områden",
+    "schools": "Institutioner",
+    "areas": "Områden",
     "navigation": "Navigation",
     "contact": "Kontakt",
     "email": "E-post",
@@ -106,6 +110,8 @@
   "universities": {
     "title": "Institutioner",
     "description": "Lista för institution {university}. Totalt {count} olika overaller.",
+    "intro": "{count} overaller vid {university}. Färger: {colors}. Områden: {areas}.",
+    "popularHeading": "Populära institutioner",
     "notFound": "Institution hittades inte",
     "pageTitle": "Institutioner | Universitet och yrkeshögskolor i Finland | Overallmaskinen",
     "pageDescription": "Alla universitet och yrkeshögskolor i Finland. Välj en institution för att se dess overallfärger och studentorganisationsinformation.",
@@ -116,6 +122,10 @@
     "title": "Områden",
     "notFound": "Område hittades inte",
     "description": "Lista för område {area}. Totalt {count} olika overaller vid {schoolCount} olika institutioner.",
+    "intro": "{count} overaller vid {schoolCount} institutioner i {area}. Institutioner: {schools}.",
+    "pageTitle": "Områden | Städer och overallfärger | Overallmaskinen",
+    "pageDescription": "Bläddra bland finländska studentoverallfärger efter stad och region.",
+    "popularHeading": "Populära områden",
     "relatedTopics": "Relaterade ämnen",
     "overallCount": "olika overallar",
     "schoolCount": "olika institutioner"
@@ -169,7 +179,13 @@
     "submitting": "Skickar...",
     "submit": "Skicka feedback"
   },
+  "popular": {
+    "title": "Populära",
+    "areas": "Städer",
+    "schools": "Institutioner"
+  },
   "faq": {
+    "title": "Vanliga frågor",
     "q1": "Var kan jag hitta alla overallfärger i Finland?",
     "a1": "Overallmaskinen är Finlands mest omfattande overallfärgdatabas, där du kan hitta över 500 overallfärger för alla finska universitet och yrkeshögskolor. Du kan söka efter overallfärger efter område, institution, område eller färg.",
     "q2": "Vilka är de mest populära overallfärgerna?",

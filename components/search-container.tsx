@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { useLocale } from 'next-intl';
 import SearchForm from './search-form';
@@ -10,6 +10,8 @@ import { searchUniversitiesAPI } from '@/lib/search-utils';
 import type { ColorData } from '@/lib/load-color-data';
 import { getUniqueAreas, getUniqueFields, getUniqueUniversities } from '@/lib/get-unique-values';
 import type { University } from '@/types/university';
+import { trackSearchApply } from '@/lib/analytics-events';
+import type { HubSource } from '@/lib/analytics-events';
 
 const TEXT_SEARCH_DEBOUNCE_MS = 1000;
 
@@ -50,6 +52,9 @@ interface SearchContainerProps {
   initialInlineResultsCount?: number;
   showResultsByDefault?: boolean;
   showIdlePlaceholder?: boolean;
+  initialTextSearch?: string;
+  belowForm?: ReactNode;
+  resultSource?: HubSource;
 }
 
 export default function SearchContainer({
@@ -58,10 +63,13 @@ export default function SearchContainer({
   initialInlineResultsCount,
   showResultsByDefault = false,
   showIdlePlaceholder = false,
+  initialTextSearch = '',
+  belowForm,
+  resultSource = 'search',
 }: SearchContainerProps) {
   const locale = useLocale() as 'fi' | 'en' | 'sv';
   const [selectedCriteria, setSelectedCriteria] = useState<Criteria>({
-    textSearch: '',
+    textSearch: initialTextSearch.trim(),
     color: '',
     area: '',
     field: '',
@@ -340,6 +348,37 @@ export default function SearchContainer({
     [initialUniversities, matchesDraftFilters],
   );
 
+  const lastSearchApplyKey = useRef('');
+  useEffect(() => {
+    if (!hasActiveQuery || isSearching) {
+      return;
+    }
+    const key = `${selectedCriteria.textSearch}|${selectedCriteria.color}|${selectedCriteria.area}|${selectedCriteria.field}|${selectedCriteria.school}|${results.length}`;
+    if (lastSearchApplyKey.current === key) {
+      return;
+    }
+    lastSearchApplyKey.current = key;
+    trackSearchApply({
+      has_query: selectedCriteria.textSearch.trim().length >= 3,
+      has_filters: Boolean(
+        selectedCriteria.color ||
+          selectedCriteria.area ||
+          selectedCriteria.field ||
+          selectedCriteria.school,
+      ),
+      result_count: results.length,
+    });
+  }, [
+    hasActiveQuery,
+    isSearching,
+    results.length,
+    selectedCriteria.textSearch,
+    selectedCriteria.color,
+    selectedCriteria.area,
+    selectedCriteria.field,
+    selectedCriteria.school,
+  ]);
+
   return (
     <div className="w-full">
       <SearchForm
@@ -358,6 +397,7 @@ export default function SearchContainer({
         isSearching={isSearching}
         colorData={colorData}
       />
+      {belowForm}
       {hasActiveQuery && isSearching && (
         <div className="max-w-3xl w-full mx-auto mb-4 sm:mb-8 px-2">
           <div className="bg-white rounded-lg border border-border shadow-sm px-3 pt-4 pb-4 sm:px-6 sm:pt-8 sm:pb-8">
@@ -378,7 +418,11 @@ export default function SearchContainer({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <ResultsDisplay results={results} initialVisibleCount={initialInlineResultsCount} />
+          <ResultsDisplay
+            results={results}
+            initialVisibleCount={initialInlineResultsCount}
+            source={resultSource}
+          />
         </motion.div>
       )}
       {hasActiveQuery && hasSearched && !isSearching && results.length === 0 && (
@@ -395,7 +439,11 @@ export default function SearchContainer({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <ResultsDisplay results={results} initialVisibleCount={initialInlineResultsCount} />
+          <ResultsDisplay
+            results={results}
+            initialVisibleCount={initialInlineResultsCount}
+            source={resultSource}
+          />
         </motion.div>
       )}
     </div>

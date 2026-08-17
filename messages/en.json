@@ -21,9 +21,11 @@
     "allColors": "All colors",
     "allFields": "All fields",
     "allSchools": "All schools",
+    "allAreas": "All areas",
     "colorsDescription": "Browse overall color palette",
     "fieldsDescription": "Find study fields and interests",
     "schoolsDescription": "View institution-specific information",
+    "areasDescription": "Browse overalls by city",
     "navigate": "Navigate",
     "navigateDescription": "Choose the path that suits you and continue browsing.",
     "otherPages": "Other pages",
@@ -42,6 +44,8 @@
     "blog": "Blog",
     "colors": "Colors",
     "fields": "Fields",
+    "schools": "Institutions",
+    "areas": "Areas",
     "navigation": "Navigation",
     "contact": "Contact",
     "email": "Email",
@@ -106,6 +110,8 @@
   "universities": {
     "title": "Institutions",
     "description": "List for institution {university}. A total of {count} different overalls.",
+    "intro": "{count} overalls at {university}. Colors: {colors}. Areas: {areas}.",
+    "popularHeading": "Popular institutions",
     "notFound": "Institution not found",
     "pageTitle": "Institutions | Universities and UAS in Finland | Overall Machine",
     "pageDescription": "All universities and universities of applied sciences in Finland. Select an institution to see its overall colors and student organization information.",
@@ -116,6 +122,10 @@
     "title": "Areas",
     "notFound": "Area not found",
     "description": "List for area {area}. A total of {count} different overalls at {schoolCount} different institutions.",
+    "intro": "{count} overalls at {schoolCount} institutions in {area}. Institutions: {schools}.",
+    "pageTitle": "Areas | Cities and overall colors | Overall Machine",
+    "pageDescription": "Browse Finnish student overall colors by city and region.",
+    "popularHeading": "Popular areas",
     "relatedTopics": "Related topics",
     "overallCount": "different overalls",
     "schoolCount": "different institutions"
@@ -169,7 +179,13 @@
     "submitting": "Submitting...",
     "submit": "Send feedback"
   },
+  "popular": {
+    "title": "Popular",
+    "areas": "Cities",
+    "schools": "Institutions"
+  },
   "faq": {
+    "title": "Frequently asked questions",
     "q1": "Where can I find all overall colors in Finland?",
     "a1": "Overall Machine is Finland's most comprehensive overall colors database, where you can find over 500 overall colors for all Finnish universities and UAS. You can search for overall colors by field, institution, area or color.",
     "q2": "What are the most popular overall colors?",

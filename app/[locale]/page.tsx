@@ -2,13 +2,20 @@ import SearchContainer from '@/components/search-container';
 import { loadUniversities } from '@/lib/load-universities';
 import { loadColorData } from '@/lib/load-color-data';
 import FAQSchema from '@/components/faq-schema';
+import FaqList from '@/components/faq-list';
+import { NavigateCard } from '@/components/navigate-card';
+import PopularDestinations from '@/components/popular-destinations';
 import Script from 'next/script';
-import { FeedbackModal } from '@/components/feedback-modal';
 import { getTranslations } from 'next-intl/server';
-import { getPathname, Link } from '@/i18n/routing';
+import { getPathname } from '@/i18n/routing';
+import { entitySlug } from '@/lib/entity-slug';
+import { getLocalizedName } from '@/lib/get-finnish-name';
+import { POPULAR_AREAS, POPULAR_SCHOOLS } from '@/lib/popular-destinations';
 import { SITE_ORIGIN } from '@/lib/site-url';
 import type { Locale } from '@/lib/slug-translations';
-import { Palette, Layers, GraduationCap, BookOpen } from 'lucide-react';
+import { routeHref } from '@/lib/use-translated-routes';
+import { capitalizeFirstLetter } from '@/lib/utils';
+import { Palette, Layers, GraduationCap, BookOpen, MapPin } from 'lucide-react';
 
 export const revalidate = 86400;
 
@@ -22,8 +29,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   };
 }
 
-export default async function Index({ params }: { params: Promise<{ locale: string }> }) {
+export default async function Index({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ search?: string }>;
+}) {
   const { locale } = await params;
+  const { search } = await searchParams;
   const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
   const colorData = await loadColorData();
   const t = await getTranslations({ locale });
@@ -107,6 +121,44 @@ export default async function Index({ params }: { params: Promise<{ locale: stri
           colorData={colorData}
           showResultsByDefault
           showIdlePlaceholder
+          initialTextSearch={search}
+          resultSource="home"
+          belowForm={
+            <PopularDestinations title={t('popular.title')}>
+              <PopularDestinations.Group icon={MapPin} label={t('popular.areas')}>
+                {POPULAR_AREAS.map((area) => {
+                  const slug = entitySlug(area, loc, 'area');
+                  return (
+                    <PopularDestinations.Chip
+                      key={area}
+                      href={routeHref('areas', slug)}
+                      source="home"
+                      type="area"
+                      slug={slug}
+                    >
+                      {capitalizeFirstLetter(getLocalizedName(area, loc, 'area'))}
+                    </PopularDestinations.Chip>
+                  );
+                })}
+              </PopularDestinations.Group>
+              <PopularDestinations.Group icon={GraduationCap} label={t('popular.schools')}>
+                {POPULAR_SCHOOLS.map((school) => {
+                  const slug = entitySlug(school, loc, 'university');
+                  return (
+                    <PopularDestinations.Chip
+                      key={school}
+                      href={routeHref('universities', slug)}
+                      source="home"
+                      type="university"
+                      slug={slug}
+                    >
+                      {getLocalizedName(school, loc, 'university')}
+                    </PopularDestinations.Chip>
+                  );
+                })}
+              </PopularDestinations.Group>
+            </PopularDestinations>
+          }
         />
 
         <section className="w-full border-t border-border/60 mt-12">
@@ -116,87 +168,74 @@ export default async function Index({ params }: { params: Promise<{ locale: stri
                 {t('nav.navigate')}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Link
-                  href="/vari"
-                  className="flex items-center gap-4 rounded-2xl border border-border/60 bg-white p-6 transition-all hover:border-green hover:bg-green/5 hover:shadow-md"
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green/10 text-green">
+                <NavigateCard href="/vari">
+                  <NavigateCard.Icon>
                     <Palette className="h-6 w-6" />
-                  </div>
-                  <div className="flex-1">
+                  </NavigateCard.Icon>
+                  <NavigateCard.Body>
                     <h3 className="text-lg font-semibold text-foreground">{t('nav.allColors')}</h3>
                     <p className="text-sm text-muted-foreground mt-1">
                       {t('nav.colorsDescription')}
                     </p>
-                  </div>
-                </Link>
-                <Link
-                  href="/ala"
-                  className="flex items-center gap-4 rounded-2xl border border-border/60 bg-white p-6 transition-all hover:border-green hover:bg-green/5 hover:shadow-md"
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green/10 text-green">
+                  </NavigateCard.Body>
+                </NavigateCard>
+                <NavigateCard href="/ala">
+                  <NavigateCard.Icon>
                     <Layers className="h-6 w-6" />
-                  </div>
-                  <div className="flex-1">
+                  </NavigateCard.Icon>
+                  <NavigateCard.Body>
                     <h3 className="text-lg font-semibold text-foreground">{t('nav.allFields')}</h3>
                     <p className="text-sm text-muted-foreground mt-1">
                       {t('nav.fieldsDescription')}
                     </p>
-                  </div>
-                </Link>
-                <Link
-                  href="/oppilaitos"
-                  className="flex items-center gap-4 rounded-2xl border border-border/60 bg-white p-6 transition-all hover:border-green hover:bg-green/5 hover:shadow-md"
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green/10 text-green">
+                  </NavigateCard.Body>
+                </NavigateCard>
+                <NavigateCard href="/oppilaitos">
+                  <NavigateCard.Icon>
                     <GraduationCap className="h-6 w-6" />
-                  </div>
-                  <div className="flex-1">
+                  </NavigateCard.Icon>
+                  <NavigateCard.Body>
                     <h3 className="text-lg font-semibold text-foreground">{t('nav.allSchools')}</h3>
                     <p className="text-sm text-muted-foreground mt-1">
                       {t('nav.schoolsDescription')}
                     </p>
-                  </div>
-                </Link>
-                <Link
-                  href="/blog"
-                  className="flex items-center gap-4 rounded-2xl border border-border/60 bg-white p-6 transition-all hover:border-green hover:bg-green/5 hover:shadow-md"
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green/10 text-green">
+                  </NavigateCard.Body>
+                </NavigateCard>
+                <NavigateCard href="/alue">
+                  <NavigateCard.Icon>
+                    <MapPin className="h-6 w-6" />
+                  </NavigateCard.Icon>
+                  <NavigateCard.Body>
+                    <h3 className="text-lg font-semibold text-foreground">{t('nav.allAreas')}</h3>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {t('nav.areasDescription')}
+                    </p>
+                  </NavigateCard.Body>
+                </NavigateCard>
+                <NavigateCard href="/blog">
+                  <NavigateCard.Icon>
                     <BookOpen className="h-6 w-6" />
-                  </div>
-                  <div className="flex-1">
+                  </NavigateCard.Icon>
+                  <NavigateCard.Body>
                     <h3 className="text-lg font-semibold text-foreground">{t('common.blog')}</h3>
                     <p className="text-sm text-muted-foreground mt-1">
                       {t('nav.navigateDescription')}
                     </p>
-                  </div>
-                </Link>
+                  </NavigateCard.Body>
+                </NavigateCard>
               </div>
             </div>
           </div>
         </section>
 
-        {/*
-        <section id="palaute" className="w-full border-t border-border/60 bg-[#f8faf3] mt-12">
-          <div className="container mx-auto px-4 py-12">
-            <div className="max-w-2xl mx-auto text-center flex flex-col gap-4">
-              <h3 className="text-2xl font-bold">{t('home.feedbackTitle')}</h3>
-              <p className="text-muted-foreground">{t('home.feedbackDescription')}</p>
-              <FeedbackModal
-                triggerLabel={t('home.feedbackButton')}
-                triggerClassName="bg-green text-white hover:bg-green/90 self-center"
-                triggerSize="lg"
-                title={t('home.feedbackTitle')}
-                description={t('home.feedbackDescription')}
-                submitLabel={t('feedback.submit')}
-                messageLabel={t('feedback.message')}
-                messagePlaceholder={t('feedback.messagePlaceholder')}
-              />
-            </div>
-          </div>
-        </section>
-        */}
+        <FaqList title={t('faq.title')}>
+          <FaqList.Item question={t('faq.q1')} answer={t('faq.a1')} />
+          <FaqList.Item question={t('faq.q2')} answer={t('faq.a2')} />
+          <FaqList.Item question={t('faq.q3')} answer={t('faq.a3')} />
+          <FaqList.Item question={t('faq.q4')} answer={t('faq.a4')} />
+          <FaqList.Item question={t('faq.q5')} answer={t('faq.a5')} />
+          <FaqList.Item question={t('faq.q6')} answer={t('faq.a6')} />
+        </FaqList>
       </div>
     </>
   );

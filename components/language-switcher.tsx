@@ -70,7 +70,7 @@ export function LanguageSwitcher({ instanceId }: LanguageSwitcherProps) {
           id={triggerId}
           variant="ghost"
           size="sm"
-          className="h-9 gap-1.5 rounded-full border border-border/60 bg-muted/30 px-2.5 font-medium text-muted-foreground hover:border-green/30 hover:bg-green/5 hover:text-foreground focus-visible:ring-0 focus-visible:ring-offset-0 group data-[state=open]:border-green/30 data-[state=open]:bg-green/5 data-[state=open]:text-foreground sm:gap-2 sm:px-3"
+          className="h-11 min-h-11 gap-1.5 rounded-full border border-border/60 bg-muted/30 px-2.5 font-medium text-muted-foreground hover:border-green/30 hover:bg-green/5 hover:text-foreground focus-visible:ring-0 focus-visible:ring-offset-0 group data-[state=open]:border-green/30 data-[state=open]:bg-green/5 data-[state=open]:text-foreground sm:gap-2 sm:px-3"
         >
           <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-base leading-none shadow-sm ring-1 ring-border/40">
             {currentLanguage.flag}

@@ -2,7 +2,7 @@
 
 import { Link } from '@/i18n/routing';
 import { useRef, useState } from 'react';
-import { Menu, X, Palette, Layers, GraduationCap, ChevronDown } from 'lucide-react';
+import { Menu, X, Palette, Layers, GraduationCap, ChevronDown, MapPin } from 'lucide-react';
 import Logo from '@/components/logo';
 import {
   DropdownMenu,
@@ -13,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from './language-switcher';
+import { trackHubClick, type HubType } from '@/lib/analytics-events';
 import { useTranslatedRoutes, type InternalHref } from '@/lib/use-translated-routes';
 
 function internalHrefKey(href: InternalHref): string {
@@ -58,24 +59,40 @@ export default function Header() {
 
   const navLinks = [{ label: t('common.blog'), href: routes.blog() }];
 
-  const dropdownLinks = [
+  const dropdownLinks: {
+    label: string;
+    href: InternalHref;
+    description: string;
+    icon: typeof Palette;
+    hubType: HubType;
+  }[] = [
     {
       label: tNav('allColors'),
       href: routes.colors(),
       description: tNav('colorsDescription'),
       icon: Palette,
+      hubType: 'color',
     },
     {
       label: tNav('allFields'),
       href: routes.fields(),
       description: tNav('fieldsDescription'),
       icon: Layers,
+      hubType: 'field',
     },
     {
       label: tNav('allSchools'),
       href: routes.universities(),
       description: tNav('schoolsDescription'),
       icon: GraduationCap,
+      hubType: 'university',
+    },
+    {
+      label: tNav('allAreas'),
+      href: routes.areas(),
+      description: tNav('areasDescription'),
+      icon: MapPin,
+      hubType: 'area',
     },
   ];
 
@@ -93,7 +110,7 @@ export default function Header() {
                   id="header-categories-trigger"
                   variant="ghost"
                   size="sm"
-                  className="gap-2 h-9 px-3 focus-visible:ring-0 focus-visible:ring-offset-0 group data-[state=open]:bg-accent data-[state=open]:text-accent-foreground"
+                  className="h-11 min-h-11 gap-2 px-3 focus-visible:ring-0 focus-visible:ring-offset-0 group data-[state=open]:bg-accent data-[state=open]:text-accent-foreground"
                   onMouseEnter={() => handleDropdownHover(true)}
                   onMouseLeave={() => handleDropdownHover(false)}
                 >
@@ -129,6 +146,9 @@ export default function Header() {
                       <Link
                         href={link.href}
                         className="group/item flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-green/10 focus:bg-green/10"
+                        onClick={() => {
+                          trackHubClick('header', link.hubType, 'index');
+                        }}
                       >
                         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-muted text-green shadow-inner transition-colors group-hover/item:bg-green group-hover/item:text-white">
                           <Icon className="h-5 w-5" />
@@ -162,7 +182,7 @@ export default function Header() {
             <LanguageSwitcher instanceId="mobile" />
             <button
               type="button"
-              className="inline-flex items-center justify-center rounded-full border border-border/80 p-2 text-muted-foreground transition-colors hover:border-green hover:text-green focus:outline-none focus:ring-2 focus:ring-green/40"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/80 text-muted-foreground transition-colors hover:border-green hover:text-green focus:outline-none focus:ring-2 focus:ring-green/40"
               aria-label={mobileOpen ? tNav('closeMenu') : tNav('openMenu')}
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen((prev) => !prev)}
@@ -189,8 +209,11 @@ export default function Header() {
                         <Link
                           key={`mobile-nav-${internalHrefKey(link.href)}`}
                           href={link.href}
-                          className="flex items-center justify-between rounded-2xl border border-border/60 bg-muted/30 px-4 py-3 text-foreground transition hover:border-green hover:bg-green/10"
-                          onClick={closeMobileMenu}
+                          className="flex min-h-11 items-center justify-between rounded-2xl border border-border/60 bg-muted/30 px-4 py-3 text-foreground transition hover:border-green hover:bg-green/10"
+                          onClick={() => {
+                            trackHubClick('header', link.hubType, 'index');
+                            closeMobileMenu();
+                          }}
                         >
                           <div className="flex items-center gap-3">
                             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-green shadow-inner">

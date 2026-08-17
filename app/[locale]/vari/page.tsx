@@ -132,7 +132,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
-      <div className="container mx-auto px-4 py-16 max-w-3xl">
+      <div className="container mx-auto px-4 py-8 sm:py-16 max-w-3xl">
         <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -167,7 +167,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
                   <Link
                     key={color}
                     href={routeHref('colors', getSlugForEntity(color, locale, 'color'))}
-                    className="rounded-lg border px-4 py-4 text-base font-medium text-green hover:bg-green/5 transition flex items-center gap-3"
+                    className="rounded-lg border px-4 py-4 min-h-11 text-base font-medium text-green hover:bg-green/5 transition flex items-center gap-3"
                   >
                     <span
                       className="h-5 w-5 rounded-full border border-gray-300 shrink-0"

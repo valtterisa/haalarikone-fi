@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation';
 import { getPathname, routing } from '@/i18n/routing';
 import { getTranslations } from 'next-intl/server';
 import { SITE_ORIGIN } from '@/lib/site-url';
+import { withXDefault } from '@/lib/use-translated-routes';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -78,11 +79,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     alternates: {
       canonical: absoluteHome(locale),
-      languages: {
+      languages: withXDefault({
         fi: absoluteHome('fi'),
         en: absoluteHome('en'),
         sv: absoluteHome('sv'),
-      },
+      }),
     },
   };
 }

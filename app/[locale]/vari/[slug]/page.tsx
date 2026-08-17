@@ -14,11 +14,13 @@ import { parseStyles, capitalizeFirstLetter } from '@/lib/utils';
 import { Metadata } from 'next';
 import { Link } from '@/i18n/routing';
 import UniversityCard from '@/components/university-card';
+import RelatedTopics from '@/components/related-topic-chips';
 import Script from 'next/script';
 import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
-import { getTranslatedRoute, routeHref } from '@/lib/use-translated-routes';
+import { getTranslatedRoute, routeHref, withXDefault } from '@/lib/use-translated-routes';
 import { localeSiteBaseUrl } from '@/lib/site-url';
+import { splitCsv } from '@/lib/popular-destinations';
 
 export const revalidate = 86400;
 
@@ -116,11 +118,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     alternates: {
       canonical: `${baseUrl}${getTranslatedRoute('colors', locale, colorSlug)}`,
-      languages: {
+      languages: withXDefault({
         fi: `${localeSiteBaseUrl('fi')}${getTranslatedRoute('colors', 'fi', getSlugForEntity(color, 'fi', 'color'))}`,
         en: `${localeSiteBaseUrl('en')}${getTranslatedRoute('colors', 'en', getSlugForEntity(color, 'en', 'color'))}`,
         sv: `${localeSiteBaseUrl('sv')}${getTranslatedRoute('colors', 'sv', getSlugForEntity(color, 'sv', 'color'))}`,
-      },
+      }),
     },
   };
 }
@@ -151,6 +153,7 @@ export default async function ColorPage({ params }: Props) {
   const fields = Array.from(
     new Set(colorData.flatMap((u) => (u.ala ? u.ala.split(', ') : [])).filter(Boolean)),
   );
+  const areas = Array.from(new Set(colorData.flatMap((u) => splitCsv(u.alue))));
 
   const firstColorData = colorData[0];
   const canonicalHex = colorDataMap.colors[color]?.color ?? null;
@@ -214,8 +217,8 @@ export default async function ColorPage({ params }: Props) {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      <div className="container mx-auto px-4 py-16 max-w-4xl">
-        <div className="mb-8">
+      <div className="container mx-auto px-4 py-8 sm:py-16 max-w-4xl">
+        <div className="mb-6">
           <Breadcrumb className="mb-4">
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -247,35 +250,43 @@ export default async function ColorPage({ params }: Props) {
           </div>
         </div>
 
+        <RelatedTopics title={t('colors.relatedTopics')}>
+          <RelatedTopics.Chips>
+            {universitiesList.slice(0, 10).map((item) => (
+              <RelatedTopics.Chip
+                key={`university-${item}`}
+                item={item}
+                locale={locale}
+                source="color"
+                type="university"
+              />
+            ))}
+            {areas.slice(0, 10).map((item) => (
+              <RelatedTopics.Chip
+                key={`area-${item}`}
+                item={item}
+                locale={locale}
+                source="color"
+                type="area"
+              />
+            ))}
+            {fields.slice(0, 10).map((item) => (
+              <RelatedTopics.Chip
+                key={`field-${item}`}
+                item={item}
+                locale={locale}
+                source="color"
+                type="field"
+              />
+            ))}
+          </RelatedTopics.Chips>
+        </RelatedTopics>
+
         <ul className="space-y-3">
           {colorData.map((uni) => (
-            <UniversityCard key={uni.id} uni={uni} />
+            <UniversityCard key={uni.id} uni={uni} source="color" />
           ))}
         </ul>
-
-        <div className="mt-12 pt-8 border-t">
-          <h2 className="text-2xl font-bold mb-4">{t('colors.relatedTopics')}</h2>
-          <div className="flex flex-wrap gap-2">
-            {universitiesList.slice(0, 10).map((uni) => (
-              <Link
-                key={uni}
-                href={routeHref('universities', getSlugForEntity(uni, locale, 'university'))}
-                className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition"
-              >
-                {uni}
-              </Link>
-            ))}
-            {fields.slice(0, 10).map((field) => (
-              <Link
-                key={field}
-                href={routeHref('fields', getSlugForEntity(field, locale, 'field'))}
-                className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition"
-              >
-                {field}
-              </Link>
-            ))}
-          </div>
-        </div>
       </div>
     </>
   );

@@ -100,8 +100,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push({
       url: absoluteTranslatedRoute('areas', locale),
       lastModified: dataLastModified,
-      changeFrequency: 'yearly',
-      priority: 0.5,
+      changeFrequency: 'weekly',
+      priority: 0.8,
     });
 
     const uniqueAreas = getUniqueAreas(universities);
@@ -109,8 +109,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       entries.push({
         url: absoluteTranslatedRoute('areas', locale, getSlugForEntity(area, locale, 'area')),
         lastModified: dataLastModified,
-        changeFrequency: 'yearly',
-        priority: 0.5,
+        changeFrequency: 'weekly',
+        priority: 0.8,
       });
     });
 

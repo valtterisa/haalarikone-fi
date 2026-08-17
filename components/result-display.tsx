@@ -3,13 +3,19 @@ import Image from 'next/image';
 import type { University } from '@/types/university';
 import UniversityCard from '@/components/university-card';
 import { useTranslations } from 'next-intl';
+import type { HubSource } from '@/lib/analytics-events';
 
 interface ResultsDisplayProps {
   results: University[];
   initialVisibleCount?: number;
+  source?: HubSource;
 }
 
-export default function ResultsDisplay({ results, initialVisibleCount }: ResultsDisplayProps) {
+export default function ResultsDisplay({
+  results,
+  initialVisibleCount,
+  source = 'search',
+}: ResultsDisplayProps) {
   const t = useTranslations('search');
   const tCommon = useTranslations('common');
 
@@ -87,7 +93,7 @@ export default function ResultsDisplay({ results, initialVisibleCount }: Results
         ) : (
           <ul className="space-y-2.5 sm:space-y-3" data-testid="results-list">
             {paginatedResults.map((uni) => (
-              <UniversityCard key={uni.id} uni={uni} />
+              <UniversityCard key={uni.id} uni={uni} source={source} />
             ))}
           </ul>
         )}

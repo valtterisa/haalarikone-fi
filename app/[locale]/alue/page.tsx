@@ -10,20 +10,19 @@ import { Link } from '@/i18n/routing';
 import Script from 'next/script';
 import { Metadata } from 'next';
 import { loadUniversities } from '@/lib/load-universities';
-import { loadColorData } from '@/lib/load-color-data';
-import { getUniqueUniversities } from '@/lib/get-unique-values';
-import UniversitySearchSection from '@/components/university-search-section';
+import { getUniqueAreas } from '@/lib/get-unique-values';
+import { getSlugForEntity, type Locale } from '@/lib/slug-translations';
 import { getTranslations } from 'next-intl/server';
-import type { Locale } from '@/lib/slug-translations';
-import { pinPopularFirst, POPULAR_SCHOOLS } from '@/lib/popular-destinations';
+import { pinPopularFirst, POPULAR_AREAS } from '@/lib/popular-destinations';
 import { entitySlug } from '@/lib/entity-slug';
-import { HubGrid } from '@/components/hub-grid';
 import {
   absoluteHomeUrl,
   absoluteTranslatedRoute,
   alternateLanguageUrls,
   routeHref,
 } from '@/lib/use-translated-routes';
+import { HubGrid } from '@/components/hub-grid';
+import { capitalizeFirstLetter } from '@/lib/utils';
 
 export const revalidate = 86400;
 
@@ -33,20 +32,11 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'universities' });
+  const t = await getTranslations({ locale, namespace: 'areas' });
 
   return {
     title: t('pageTitle'),
     description: t('pageDescription'),
-    keywords: [
-      'yliopistot',
-      'ammattikorkeakoulut',
-      'AMK',
-      'suomen yliopistot',
-      'oppilaitokset',
-      'yliopiston haalarivärit',
-      'AMK haalarivärit',
-    ],
     openGraph: {
       title: t('pageTitle'),
       description: t('pageDescription'),
@@ -61,7 +51,7 @@ export async function generateMetadata({
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: absoluteTranslatedRoute('universities', locale),
+      url: absoluteTranslatedRoute('areas', locale),
     },
     twitter: {
       card: 'summary_large_image',
@@ -70,26 +60,16 @@ export async function generateMetadata({
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: absoluteTranslatedRoute('universities', locale),
-      languages: alternateLanguageUrls('universities'),
+      canonical: absoluteTranslatedRoute('areas', locale),
+      languages: alternateLanguageUrls('areas'),
     },
   };
 }
 
-export default async function UniversityIndexPage({
-  params,
-}: {
-  params: Promise<{ locale: Locale }>;
-}) {
+export default async function AreaIndexPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const universities = await loadUniversities(locale);
-  const colorData = await loadColorData();
-  const unique = pinPopularFirst(
-    getUniqueUniversities(universities).sort((a, b) => a.localeCompare(b, locale)),
-    POPULAR_SCHOOLS,
-    locale,
-    'university',
-  );
+  const unique = pinPopularFirst(getUniqueAreas(universities), POPULAR_AREAS, locale, 'area');
   const t = await getTranslations({ locale });
 
   const breadcrumbSchema = {
@@ -105,8 +85,8 @@ export default async function UniversityIndexPage({
       {
         '@type': 'ListItem',
         position: 2,
-        name: t('universities.title'),
-        item: absoluteTranslatedRoute('universities', locale),
+        name: t('areas.title'),
+        item: absoluteTranslatedRoute('areas', locale),
       },
     ],
   };
@@ -114,30 +94,26 @@ export default async function UniversityIndexPage({
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: t('universities.title'),
-    description: t('universities.pageDescription'),
+    name: t('areas.title'),
+    description: t('areas.pageDescription'),
     numberOfItems: unique.length,
-    itemListElement: unique.map((uni, index) => ({
+    itemListElement: unique.map((area, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      name: uni,
-      url: absoluteTranslatedRoute(
-        'universities',
-        locale,
-        entitySlug(uni, locale, 'university'),
-      ),
+      name: area,
+      url: absoluteTranslatedRoute('areas', locale, getSlugForEntity(area, locale, 'area')),
     })),
   };
 
   return (
     <>
       <Script
-        id="breadcrumb-schema-oppilaitos"
+        id="breadcrumb-schema-alue"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <Script
-        id="itemlist-schema-oppilaitos"
+        id="itemlist-schema-alue"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
@@ -151,34 +127,30 @@ export default async function UniversityIndexPage({
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>{t('universities.title')}</BreadcrumbPage>
+              <BreadcrumbPage>{t('areas.title')}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <h1 className="text-4xl font-bold mb-4">{t('universities.title')}</h1>
-        <p className="text-lg text-muted-foreground mb-8">{t('universities.pageDescription')}</p>
+        <h1 className="text-4xl font-bold mb-4">{t('areas.title')}</h1>
+        <p className="text-lg text-muted-foreground mb-8">{t('areas.pageDescription')}</p>
 
-        <UniversitySearchSection universities={universities} colorData={colorData} />
-
-        <p className="mb-3 text-sm font-semibold text-foreground">{t('universities.popularHeading')}</p>
-        <div className="max-w-3xl w-full mx-auto px-2">
-          <HubGrid>
-            {unique.map((uni) => {
-              const slug = entitySlug(uni, locale, 'university');
-              return (
-                <HubGrid.Item
-                  key={uni}
-                  href={routeHref('universities', slug)}
-                  source="university-index"
-                  type="university"
-                  slug={slug}
-                >
-                  {uni}
-                </HubGrid.Item>
-              );
-            })}
-          </HubGrid>
-        </div>
+        <p className="mb-3 text-sm font-semibold text-foreground">{t('areas.popularHeading')}</p>
+        <HubGrid>
+          {unique.map((area) => {
+            const slug = entitySlug(area, locale, 'area');
+            return (
+              <HubGrid.Item
+                key={area}
+                href={routeHref('areas', slug)}
+                source="area-index"
+                type="area"
+                slug={slug}
+              >
+                {capitalizeFirstLetter(area)}
+              </HubGrid.Item>
+            );
+          })}
+        </HubGrid>
       </div>
     </>
   );

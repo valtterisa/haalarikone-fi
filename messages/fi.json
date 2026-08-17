@@ -21,9 +21,11 @@
     "allColors": "Kaikki värit",
     "allFields": "Kaikki alat",
     "allSchools": "Kaikki oppilaitokset",
+    "allAreas": "Kaikki alueet",
     "colorsDescription": "Selaa haalareiden sävyvalikoimaa",
     "fieldsDescription": "Etsi opiskelualat ja kiinnostukset",
     "schoolsDescription": "Tarkastele oppilaitoskohtaiset tiedot",
+    "areasDescription": "Selaa haalareita kaupungeittain",
     "navigate": "Navigoi",
     "navigateDescription": "Valitse sinulle sopiva polku ja jatka selaamista.",
     "otherPages": "Muut sivut",
@@ -42,6 +44,8 @@
     "blog": "Blogi",
     "colors": "Värit",
     "fields": "Alat",
+    "schools": "Oppilaitokset",
+    "areas": "Alueet",
     "navigation": "Navigaatio",
     "contact": "Yhteystiedot",
     "email": "Sähköposti",
@@ -106,6 +110,8 @@
   "universities": {
     "title": "Oppilaitokset",
     "description": "Luettelo oppilaitoksesta {university}. Yhteensä {count} eri haalaria",
+    "intro": "{count} haalaria oppilaitoksessa {university}. Värit: {colors}. Alueet: {areas}.",
+    "popularHeading": "Suosituimmat oppilaitokset",
     "notFound": "Oppilaitos ei löytynyt",
     "pageTitle": "Oppilaitokset | Yliopistot ja AMK:t Suomessa | Haalarikone",
     "pageDescription": "Kaikki Suomen yliopistot ja ammattikorkeakoulut. Valitse oppilaitos nähdäksesi sen haalarivärit ja ainejärjestötiedot.",
@@ -116,6 +122,10 @@
     "title": "Alueet",
     "notFound": "Alue ei löytynyt",
     "description": "Luettelo alueesta {area}. Yhteensä {count} eri haalaria {schoolCount} eri oppilaitoksessa.",
+    "intro": "{count} haalaria {schoolCount} oppilaitoksessa alueella {area}. Oppilaitokset: {schools}.",
+    "pageTitle": "Alueet | Kaupungit ja haalarivärit | Haalarikone",
+    "pageDescription": "Selaa suomalaisten opiskelijahaalarien värejä kaupungeittain ja alueittain.",
+    "popularHeading": "Suosituimmat alueet",
     "relatedTopics": "Liittyvät aiheet",
     "overallCount": "eri haalaria",
     "schoolCount": "eri oppilaitoksella"
@@ -169,7 +179,13 @@
     "submitting": "Lähetetään...",
     "submit": "Lähetä palaute"
   },
+  "popular": {
+    "title": "Suosituimmat",
+    "areas": "Kaupungit",
+    "schools": "Oppilaitokset"
+  },
   "faq": {
+    "title": "Usein kysytyt kysymykset",
     "q1": "Mistä löydän kaikki haalarivärit Suomessa?",
     "a1": "Haalarikone on Suomen kattavin haalarivärit-tietokanta, josta löydät yli 500 haalariväriä kaikille suomalaisille yliopistoille ja AMK:lle. Voit hakea haalarivärejä alan, oppilaitoksen, alueen tai värin perusteella.",
     "q2": "Mitkä ovat suosituimmat haalarivärit?",

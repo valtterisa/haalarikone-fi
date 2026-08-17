@@ -141,7 +141,7 @@ export default async function FieldIndexPage({ params }: { params: Promise<{ loc
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
-      <div className="container mx-auto px-4 py-16 max-w-3xl">
+      <div className="container mx-auto px-4 py-8 sm:py-16 max-w-3xl">
         <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -168,7 +168,7 @@ export default async function FieldIndexPage({ params }: { params: Promise<{ loc
               <Link
                 key={field.finnishName}
                 href={routeHref('fields', getSlugForEntity(field.finnishName, locale, 'field'))}
-                className="rounded-lg border px-4 py-3 font-medium text-green hover:bg-green/5"
+                className="inline-flex min-h-11 items-center rounded-lg border px-4 py-3 font-medium text-green hover:bg-green/5"
               >
                 {field.translatedName}
               </Link>

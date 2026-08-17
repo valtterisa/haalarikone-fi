@@ -14,10 +14,12 @@ import { Metadata } from 'next';
 import { Link } from '@/i18n/routing';
 import Script from 'next/script';
 import UniversityCard from '@/components/university-card';
+import RelatedTopics from '@/components/related-topic-chips';
 import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
-import { getTranslatedRoute, routeHref } from '@/lib/use-translated-routes';
+import { getTranslatedRoute, routeHref, withXDefault } from '@/lib/use-translated-routes';
 import { localeSiteBaseUrl } from '@/lib/site-url';
+import { joinNames, splitCsv } from '@/lib/popular-destinations';
 
 export const revalidate = 86400;
 
@@ -115,11 +117,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     alternates: {
       canonical: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('areas', locale, areaSlug)}`,
-      languages: {
+      languages: withXDefault({
         fi: `${localeSiteBaseUrl('fi')}${getTranslatedRoute('areas', 'fi', getSlugForEntity(area, 'fi', 'area'))}`,
         en: `${localeSiteBaseUrl('en')}${getTranslatedRoute('areas', 'en', getSlugForEntity(area, 'en', 'area'))}`,
         sv: `${localeSiteBaseUrl('sv')}${getTranslatedRoute('areas', 'sv', getSlugForEntity(area, 'sv', 'area'))}`,
-      },
+      }),
     },
   };
 }
@@ -147,7 +149,7 @@ export default async function AreaPage({ params }: Props) {
   const areaData = getUniversitiesByArea(universities, area);
   const universitiesList = Array.from(new Set(areaData.map((u) => u.oppilaitos)));
   const fields = Array.from(
-    new Set(areaData.flatMap((u) => (u.ala ? u.ala.split(', ') : [])).filter(Boolean)),
+    new Set(areaData.flatMap((u) => splitCsv(u.ala)).filter(Boolean)),
   );
   const colors = Array.from(new Set(areaData.map((u) => u.vari)));
 
@@ -168,6 +170,12 @@ export default async function AreaPage({ params }: Props) {
       {
         '@type': 'ListItem',
         position: 2,
+        name: t('areas.title'),
+        item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('areas', locale)}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
         name: capitalizedArea,
         item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('areas', locale, slug)}`,
       },
@@ -207,7 +215,7 @@ export default async function AreaPage({ params }: Props) {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      <div className="container mx-auto px-4 py-16 max-w-4xl">
+      <div className="container mx-auto px-4 py-8 sm:py-16 max-w-4xl">
         <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -217,60 +225,65 @@ export default async function AreaPage({ params }: Props) {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href={routeHref('areas')}>{t('areas.title')}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
               <BreadcrumbPage>{capitalizedArea}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <div className="mb-8">
+        <div className="mb-6">
           <h1 className="text-4xl font-bold mb-4">{capitalizedArea}</h1>
-          <p className="text-lg text-gray-700 mb-6">
-            {t('areas.description', {
+          <p className="text-lg text-gray-700">
+            {t('areas.intro', {
               area: capitalizedArea,
               count: areaData.length,
               schoolCount: universitiesList.length,
+              schools: joinNames(universitiesList),
             })}
-            .
           </p>
         </div>
 
+        <RelatedTopics title={t('areas.relatedTopics')}>
+          <RelatedTopics.Chips>
+            {universitiesList.slice(0, 10).map((item) => (
+              <RelatedTopics.Chip
+                key={`university-${item}`}
+                item={item}
+                locale={locale}
+                source="area"
+                type="university"
+              />
+            ))}
+            {fields.slice(0, 10).map((item) => (
+              <RelatedTopics.Chip
+                key={`field-${item}`}
+                item={item}
+                locale={locale}
+                source="area"
+                type="field"
+              />
+            ))}
+            {colors.slice(0, 5).map((item) => (
+              <RelatedTopics.Chip
+                key={`color-${item}`}
+                item={item}
+                locale={locale}
+                source="area"
+                type="color"
+              />
+            ))}
+          </RelatedTopics.Chips>
+        </RelatedTopics>
+
         <ul className="space-y-3">
           {areaData.map((uni) => (
-            <UniversityCard key={uni.id} uni={uni} />
+            <UniversityCard key={uni.id} uni={uni} source="area" />
           ))}
         </ul>
-
-        <div className="mt-12 pt-8 border-t">
-          <h2 className="text-2xl font-bold mb-4">{t('areas.relatedTopics')}</h2>
-          <div className="flex flex-wrap gap-2">
-            {universitiesList.slice(0, 10).map((uni) => (
-              <Link
-                key={uni}
-                href={routeHref('universities', getSlugForEntity(uni, locale, 'university'))}
-                className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition"
-              >
-                {getEntityTranslation(uni, locale as 'fi' | 'en' | 'sv', 'university')}
-              </Link>
-            ))}
-            {fields.slice(0, 10).map((field) => (
-              <Link
-                key={field}
-                href={routeHref('fields', getSlugForEntity(field, locale, 'field'))}
-                className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition"
-              >
-                {getEntityTranslation(field, locale as 'fi' | 'en' | 'sv', 'field')}
-              </Link>
-            ))}
-            {colors.slice(0, 5).map((color) => (
-              <Link
-                key={color}
-                href={routeHref('colors', getSlugForEntity(color, locale, 'color'))}
-                className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition"
-              >
-                {getEntityTranslation(color, locale as 'fi' | 'en' | 'sv', 'color')}
-              </Link>
-            ))}
-          </div>
-        </div>
       </div>
     </>
   );

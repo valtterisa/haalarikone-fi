@@ -25,6 +25,7 @@ import {
 import { Criteria } from './search-container';
 import type { ColorData } from '@/lib/load-color-data';
 import { track } from '@databuddy/sdk';
+import { trackFilterSelect } from '@/lib/analytics-events';
 import { useTranslations, useLocale } from 'next-intl';
 import translationsData from '../data/translations.json';
 
@@ -329,6 +330,7 @@ export default function SearchForm({
 
   const handleDraftChange = (field: 'color' | 'area' | 'field' | 'school', value: string) => {
     onDraftAdvancedFilterChange({ ...draftAdvancedFilters, [field]: value });
+    trackFilterSelect(field === 'school' ? 'school' : field, value);
   };
 
   const handleApplyFilters = () => {
@@ -546,7 +548,7 @@ export default function SearchForm({
               <button
                 id="search-filters-trigger"
                 type="button"
-                className="w-full flex items-center justify-between py-3 px-0 text-left active:opacity-70 transition-opacity"
+                className="flex min-h-11 w-full items-center justify-between py-3 px-0 text-left active:opacity-70 transition-opacity"
               >
                 <div className="flex items-center gap-2">
                   <SlidersHorizontal className="w-4 h-4 text-muted-foreground" />
@@ -749,20 +751,17 @@ export default function SearchForm({
         <div className="px-3 pb-3 pt-3 sm:px-6 border-t border-border/50 hidden sm:block">
           {/* Filter header with toggle */}
           <button
+            id="search-filters-desktop-toggle"
             type="button"
             onClick={() => setIsAdvancedSearchOpen(!isAdvancedSearchOpen)}
-            className="w-full flex items-center justify-between py-1.5 px-0 text-left hover:opacity-70 transition-opacity"
+            className="flex min-h-11 w-full items-center justify-between py-1.5 px-0 text-left hover:opacity-70 transition-opacity"
           >
             <div className="flex items-center gap-2">
               <SlidersHorizontal className="w-3.5 h-3.5 text-muted-foreground" />
-              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                {t('filters')}
+              <span className="text-xs font-medium text-muted-foreground">
+                <span className="uppercase tracking-wider">{t('filters')}</span>
+                {hasActiveFilters ? ` (${activeFilterCount})` : null}
               </span>
-              {hasActiveFilters && (
-                <span className="text-xs text-muted-foreground font-normal normal-case tracking-normal">
-                  ({activeFilterCount})
-                </span>
-              )}
             </div>
             {isAdvancedSearchOpen ? (
               <ChevronUp className="w-3.5 h-3.5 text-muted-foreground" />

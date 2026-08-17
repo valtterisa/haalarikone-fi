@@ -72,15 +72,22 @@ export function absoluteHomeUrl(locale: Locale): string {
 
 const TAXONOMY_ROUTE_TYPES: RouteType[] = ['fields', 'colors', 'universities', 'areas'];
 
+export function withXDefault(languages: { fi: string; en: string; sv: string }) {
+  return {
+    ...languages,
+    'x-default': languages.fi,
+  };
+}
+
 export function alternateLanguageUrls(routeType: RouteType, slug?: string) {
   if (slug !== undefined && TAXONOMY_ROUTE_TYPES.includes(routeType)) {
     throw new Error(
       'alternateLanguageUrls: taxonomy routes with a slug need per-locale slugs; use explicit alternates with getSlugForEntity or extend this API with a Record<Locale, string> slug map',
     );
   }
-  return {
+  return withXDefault({
     fi: absoluteTranslatedRoute(routeType, 'fi', slug),
     en: absoluteTranslatedRoute(routeType, 'en', slug),
     sv: absoluteTranslatedRoute(routeType, 'sv', slug),
-  };
+  });
 }

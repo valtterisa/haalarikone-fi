@@ -14,10 +14,12 @@ import { Metadata } from 'next';
 import { Link } from '@/i18n/routing';
 import Script from 'next/script';
 import UniversityCard from '@/components/university-card';
+import RelatedTopics from '@/components/related-topic-chips';
 import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
-import { getTranslatedRoute, routeHref } from '@/lib/use-translated-routes';
+import { getTranslatedRoute, routeHref, withXDefault } from '@/lib/use-translated-routes';
 import { localeSiteBaseUrl } from '@/lib/site-url';
+import { joinNames, splitCsv } from '@/lib/popular-destinations';
 
 export const revalidate = 86400;
 
@@ -112,11 +114,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     alternates: {
       canonical: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('universities', locale, universitySlug)}`,
-      languages: {
+      languages: withXDefault({
         fi: `${localeSiteBaseUrl('fi')}${getTranslatedRoute('universities', 'fi', getSlugForEntity(university, 'fi', 'university'))}`,
         en: `${localeSiteBaseUrl('en')}${getTranslatedRoute('universities', 'en', getSlugForEntity(university, 'en', 'university'))}`,
         sv: `${localeSiteBaseUrl('sv')}${getTranslatedRoute('universities', 'sv', getSlugForEntity(university, 'sv', 'university'))}`,
-      },
+      }),
     },
   };
 }
@@ -146,9 +148,10 @@ export default async function UniversityPage({ params }: Props) {
 
   const universityData = getUniversitiesByUniversity(universities, university);
   const fields = Array.from(
-    new Set(universityData.flatMap((u) => (u.ala ? u.ala.split(', ') : [])).filter(Boolean)),
+    new Set(universityData.flatMap((u) => splitCsv(u.ala)).filter(Boolean)),
   );
   const colors = Array.from(new Set(universityData.map((u) => u.vari)));
+  const areas = Array.from(new Set(universityData.flatMap((u) => splitCsv(u.alue))));
 
   const translatedUniversity = getEntityTranslation(
     university,
@@ -198,6 +201,12 @@ export default async function UniversityPage({ params }: Props) {
       {
         '@type': 'ListItem',
         position: 2,
+        name: t('universities.title'),
+        item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('universities', locale)}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
         name: capitalizedUniversity,
         item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('universities', locale, slug)}`,
       },
@@ -227,7 +236,7 @@ export default async function UniversityPage({ params }: Props) {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      <div className="container mx-auto px-4 py-16 max-w-4xl">
+      <div className="container mx-auto px-4 py-8 sm:py-16 max-w-4xl">
         <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -238,7 +247,7 @@ export default async function UniversityPage({ params }: Props) {
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href="/oppilaitos">{t('universities.title')}</Link>
+                <Link href={routeHref('universities')}>{t('universities.title')}</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -247,46 +256,55 @@ export default async function UniversityPage({ params }: Props) {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <div className="mb-8">
+        <div className="mb-6">
           <h1 className="text-4xl font-bold mb-4">{capitalizedUniversity}</h1>
-          <p className="text-lg text-gray-700 mb-6">
-            {t('universities.description', {
+          <p className="text-lg text-gray-700">
+            {t('universities.intro', {
               university: capitalizedUniversity,
               count: universityData.length,
+              colors: joinNames(colors),
+              areas: joinNames(areas),
             })}
-            .
           </p>
         </div>
 
+        <RelatedTopics title={t('universities.relatedTopics')}>
+          <RelatedTopics.Chips>
+            {areas.slice(0, 10).map((item) => (
+              <RelatedTopics.Chip
+                key={`area-${item}`}
+                item={item}
+                locale={locale}
+                source="university"
+                type="area"
+              />
+            ))}
+            {fields.slice(0, 10).map((item) => (
+              <RelatedTopics.Chip
+                key={`field-${item}`}
+                item={item}
+                locale={locale}
+                source="university"
+                type="field"
+              />
+            ))}
+            {colors.slice(0, 5).map((item) => (
+              <RelatedTopics.Chip
+                key={`color-${item}`}
+                item={item}
+                locale={locale}
+                source="university"
+                type="color"
+              />
+            ))}
+          </RelatedTopics.Chips>
+        </RelatedTopics>
+
         <ul className="space-y-3">
           {universityData.map((uni) => (
-            <UniversityCard key={uni.id} uni={uni} />
+            <UniversityCard key={uni.id} uni={uni} source="university" />
           ))}
         </ul>
-
-        <div className="mt-12 pt-8 border-t">
-          <h2 className="text-2xl font-bold mb-4">{t('universities.relatedTopics')}</h2>
-          <div className="flex flex-wrap gap-2">
-            {fields.slice(0, 10).map((field) => (
-              <Link
-                key={field}
-                href={routeHref('fields', getSlugForEntity(field, locale, 'field'))}
-                className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition"
-              >
-                {field}
-              </Link>
-            ))}
-            {colors.slice(0, 5).map((color) => (
-              <Link
-                key={color}
-                href={routeHref('colors', getSlugForEntity(color, locale, 'color'))}
-                className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition"
-              >
-                {color}
-              </Link>
-            ))}
-          </div>
-        </div>
       </div>
     </>
   );

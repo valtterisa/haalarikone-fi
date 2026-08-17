@@ -5,9 +5,12 @@ import { Link } from '@/i18n/routing';
 import Logo from '@/components/logo';
 import { useTranslations } from 'next-intl';
 import DiscordLogo from './discord-logo';
+import { useTranslatedRoutes } from '@/lib/use-translated-routes';
+import { trackHubClick } from '@/lib/analytics-events';
 
 export default function Footer() {
   const t = useTranslations('footer');
+  const routes = useTranslatedRoutes();
   return (
     <footer className="w-full border-t border-border/60 bg-white">
       <div className="container mx-auto flex w-full flex-col gap-10 px-4 pt-8 pb-4">
@@ -41,6 +44,30 @@ export default function Footer() {
                 <li>
                   <Link href="/ala" prefetch={false} className="transition hover:text-green">
                     {t('fields')}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={routes.universities()}
+                    prefetch={false}
+                    className="inline-flex min-h-11 items-center transition hover:text-green"
+                    onClick={() => {
+                      trackHubClick('footer', 'university', 'index');
+                    }}
+                  >
+                    {t('schools')}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={routes.areas()}
+                    prefetch={false}
+                    className="inline-flex min-h-11 items-center transition hover:text-green"
+                    onClick={() => {
+                      trackHubClick('footer', 'area', 'index');
+                    }}
+                  >
+                    {t('areas')}
                   </Link>
                 </li>
               </ul>

@@ -14,10 +14,12 @@ import { Metadata } from 'next';
 import { Link } from '@/i18n/routing';
 import Script from 'next/script';
 import UniversityCard from '@/components/university-card';
+import RelatedTopics from '@/components/related-topic-chips';
 import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
-import { getTranslatedRoute, routeHref } from '@/lib/use-translated-routes';
+import { getTranslatedRoute, routeHref, withXDefault } from '@/lib/use-translated-routes';
 import { localeSiteBaseUrl } from '@/lib/site-url';
+import { splitCsv } from '@/lib/popular-destinations';
 
 export const revalidate = 86400;
 
@@ -112,11 +114,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     alternates: {
       canonical: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('fields', locale, fieldSlug)}`,
-      languages: {
+      languages: withXDefault({
         fi: `${localeSiteBaseUrl('fi')}${getTranslatedRoute('fields', 'fi', getSlugForEntity(field, 'fi', 'field'))}`,
         en: `${localeSiteBaseUrl('en')}${getTranslatedRoute('fields', 'en', getSlugForEntity(field, 'en', 'field'))}`,
         sv: `${localeSiteBaseUrl('sv')}${getTranslatedRoute('fields', 'sv', getSlugForEntity(field, 'sv', 'field'))}`,
-      },
+      }),
     },
   };
 }
@@ -144,6 +146,7 @@ export default async function FieldPage({ params }: Props) {
   const fieldData = getUniversitiesByField(universities, field);
   const universitiesList = Array.from(new Set(fieldData.map((u) => u.oppilaitos)));
   const colors = Array.from(new Set(fieldData.map((u) => u.vari)));
+  const areas = Array.from(new Set(fieldData.flatMap((u) => splitCsv(u.alue))));
 
   const translatedField = getEntityTranslation(field, locale as 'fi' | 'en' | 'sv', 'field');
   const capitalizedField = capitalizeFirstLetter(translatedField);
@@ -219,8 +222,8 @@ export default async function FieldPage({ params }: Props) {
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      <div className="container mx-auto px-4 py-16 max-w-4xl">
-        <div className="mb-8">
+      <div className="container mx-auto px-4 py-8 sm:py-16 max-w-4xl">
+        <div className="mb-6">
           <Breadcrumb className="mb-4">
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -241,44 +244,51 @@ export default async function FieldPage({ params }: Props) {
             </BreadcrumbList>
           </Breadcrumb>
           <h1 className="text-4xl font-bold mb-4">{capitalizedField}</h1>
-          <p className="text-lg text-gray-700 mb-6">
+          <p className="text-lg text-gray-700">
             {t('fields.description', {
               count: fieldData.length,
               schoolCount: universitiesList.length,
             })}
-            .
           </p>
         </div>
 
+        <RelatedTopics title={t('fields.relatedTopics')}>
+          <RelatedTopics.Chips>
+            {universitiesList.slice(0, 10).map((item) => (
+              <RelatedTopics.Chip
+                key={`university-${item}`}
+                item={item}
+                locale={locale}
+                source="field"
+                type="university"
+              />
+            ))}
+            {areas.slice(0, 10).map((item) => (
+              <RelatedTopics.Chip
+                key={`area-${item}`}
+                item={item}
+                locale={locale}
+                source="field"
+                type="area"
+              />
+            ))}
+            {colors.slice(0, 5).map((item) => (
+              <RelatedTopics.Chip
+                key={`color-${item}`}
+                item={item}
+                locale={locale}
+                source="field"
+                type="color"
+              />
+            ))}
+          </RelatedTopics.Chips>
+        </RelatedTopics>
+
         <ul className="space-y-3">
           {fieldData.map((uni) => (
-            <UniversityCard key={uni.id} uni={uni} />
+            <UniversityCard key={uni.id} uni={uni} source="field" />
           ))}
         </ul>
-
-        <div className="mt-12 pt-8 border-t">
-          <h2 className="text-2xl font-bold mb-4">{t('fields.relatedTopics')}</h2>
-          <div className="flex flex-wrap gap-2">
-            {universitiesList.slice(0, 10).map((uni) => (
-              <Link
-                key={uni}
-                href={routeHref('universities', getSlugForEntity(uni, locale, 'university'))}
-                className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition"
-              >
-                {uni}
-              </Link>
-            ))}
-            {colors.slice(0, 5).map((color) => (
-              <Link
-                key={color}
-                href={routeHref('colors', getSlugForEntity(color, locale, 'color'))}
-                className="px-4 py-2 bg-green/10 text-green rounded hover:bg-green/20 transition"
-              >
-                {color}
-              </Link>
-            ))}
-          </div>
-        </div>
       </div>
     </>
   );

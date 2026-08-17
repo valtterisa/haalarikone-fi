@@ -74,6 +74,13 @@ describe('SearchForm', () => {
 
   it('renders and triggers the advanced filters apply button when there are draft changes', async () => {
     const onApplyAdvancedFilters = vi.fn();
+    const selectedCriteria: Criteria = {
+      textSearch: '',
+      color: 'vihreä',
+      area: 'Helsinki',
+      field: 'fysiikka',
+      school: 'Helsingin yliopisto',
+    };
 
     render(
       <SearchForm
@@ -84,9 +91,9 @@ describe('SearchForm', () => {
         areas={['Helsinki']}
         fields={['fysiikka']}
         schools={['Helsingin yliopisto']}
-        selectedCriteria={baseCriteria}
+        selectedCriteria={selectedCriteria}
         draftAdvancedFilters={{
-          color: 'vihreä',
+          color: 'musta',
           area: 'Helsinki',
           field: 'fysiikka',
           school: 'Helsingin yliopisto',
@@ -99,7 +106,7 @@ describe('SearchForm', () => {
       />,
     );
 
-    const filtersToggle = screen.getByText('filters');
+    const filtersToggle = screen.getByRole('button', { name: /filters\s*\(4\)/ });
     await userEvent.click(filtersToggle);
 
     const applyButton = await screen.findByRole('button', {
