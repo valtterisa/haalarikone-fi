@@ -68,6 +68,9 @@ const config = {
         card: "0 8px 28px hsl(var(--shadow-tint) / 0.08)",
         overlay: "0 24px 60px hsl(var(--shadow-tint) / 0.16)",
       },
+      transitionTimingFunction: {
+        smooth: "cubic-bezier(0.16, 1, 0.3, 1)",
+      },
       zIndex: {
         sticky: "var(--z-sticky)",
         overlay: "var(--z-overlay)",

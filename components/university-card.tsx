@@ -10,7 +10,7 @@ import { useTranslatedRoutes } from '@/lib/use-translated-routes';
 import { parseStyles } from '@/lib/utils';
 import type { University } from '@/types/university';
 import { Link } from '@/i18n/routing';
-import { CaretRight } from '@phosphor-icons/react';
+import { CaretRightIcon } from '@phosphor-icons/react';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 
@@ -64,7 +64,7 @@ export default function UniversityCard({ uni, source = 'search' }: UniversityCar
               </p>
             ) : null}
           </div>
-          <CaretRight
+          <CaretRightIcon
             className="mt-1 hidden h-4 w-4 shrink-0 text-muted-foreground sm:mt-0 sm:block sm:opacity-0 sm:transition-opacity sm:duration-200 sm:group-hover:opacity-100"
             weight="regular"
             aria-hidden
