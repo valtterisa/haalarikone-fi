@@ -93,17 +93,41 @@ export function parseLegalFacts(value: unknown): LegalFact[] {
   );
 }
 
+function isLegalItem(value: unknown): value is LegalItem {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'name' in value &&
+    'detail' in value &&
+    typeof value.name === 'string' &&
+    typeof value.detail === 'string'
+  );
+}
+
+function isLegalSection(value: unknown): value is LegalSection {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  if (!('title' in value) || typeof value.title !== 'string') {
+    return false;
+  }
+  if (!('paragraphs' in value) || !Array.isArray(value.paragraphs)) {
+    return false;
+  }
+  if (!value.paragraphs.every((paragraph) => typeof paragraph === 'string')) {
+    return false;
+  }
+  if (!('items' in value) || value.items === undefined) {
+    return true;
+  }
+  return Array.isArray(value.items) && value.items.every(isLegalItem);
+}
+
 export function parseLegalSections(value: unknown): LegalSection[] {
   if (!Array.isArray(value)) {
     return [];
   }
-  return value.filter((item): item is LegalSection => {
-    if (typeof item !== 'object' || item === null) {
-      return false;
-    }
-    const section = item as LegalSection;
-    return typeof section.title === 'string' && Array.isArray(section.paragraphs);
-  });
+  return value.filter(isLegalSection);
 }
 
 export function LegalDocument({

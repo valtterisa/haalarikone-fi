@@ -103,7 +103,7 @@ export function LanguageSwitcher({ instanceId }: LanguageSwitcherProps) {
               <span className="flex-1 text-sm font-semibold">{lang.name}</span>
               {isActive && !isTranslating && <Check className="h-4 w-4 shrink-0 text-green" weight="regular" />}
               {isTranslating && !isActive && (
-                <div className="h-4 w-4 shrink-0 rounded-full border-2 border-green border-t-transparent animate-spin" />
+                <div className="h-4 w-4 shrink-0 rounded-full border-2 border-green border-t-transparent motion-safe:animate-spin" />
               )}
             </DropdownMenuItem>
           );

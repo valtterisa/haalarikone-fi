@@ -167,7 +167,7 @@ export function SearchModal({
                 />
                 {isSearching && (
                   <div className="absolute right-3 sm:right-6 top-1/2 transform -translate-y-1/2 z-10">
-                    <div className="w-4 h-4 sm:w-6 sm:h-6 border-2 border-green border-t-transparent rounded-full animate-spin" />
+                    <div className="w-4 h-4 sm:w-6 sm:h-6 border-2 border-green border-t-transparent rounded-full motion-safe:animate-spin" />
                   </div>
                 )}
                 {searchQuery && !isSearching && (
@@ -197,7 +197,7 @@ export function SearchModal({
             <div className="flex-1 overflow-y-auto p-4 transition-all duration-300 ease-in-out animate-in fade-in slide-in-from-top-2">
               {isSearching && (
                 <div className="flex items-center justify-center py-8">
-                  <CircleNotch className="h-6 w-6 animate-spin text-green" weight="regular" />
+                  <CircleNotch className="h-6 w-6 motion-safe:animate-spin text-green" weight="regular" />
                 </div>
               )}
 

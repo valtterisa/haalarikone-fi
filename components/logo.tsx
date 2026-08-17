@@ -18,7 +18,7 @@ export default function Logo({
     <Link href="/" className="flex w-fit items-center gap-2 font-display text-lg font-bold tracking-tight text-foreground">
       <Image
         src="/haalarikone-logo.png"
-        alt="Haalarikone"
+        alt=""
         width={width}
         height={height}
         className={className}

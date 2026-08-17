@@ -69,16 +69,6 @@ Return JSON: {isGibberish: boolean, filters: {color?, area?, field?, school?, or
     const universities = await loadUniversities(locale);
     const reconciled = reconcileFieldOrganizationFilters(parsed, universities);
 
-    if (process.env.NODE_ENV !== 'test') {
-      console.debug('[query-understanding-ai]', {
-        query: query.trim(),
-        locale,
-        isGibberish: reconciled.isGibberish,
-        filters: reconciled.filters,
-        semanticQuery: reconciled.semanticQuery,
-      });
-    }
-
     return reconciled;
   } catch (error) {
     console.error('Query understanding error:', error);

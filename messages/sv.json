@@ -29,7 +29,7 @@
     "colorsDescription": "Bläddra i overallfärgpaletten",
     "fieldsDescription": "Hitta studieområden och intressen",
     "schoolsDescription": "Visa institutionsspecifik information",
-    "areasDescription": "Bläddra overaller efter stad",
+    "areasDescription": "Bläddra bland overaller efter stad",
     "blogDescription": "Artiklar om studentkultur",
     "navigate": "Navigera",
     "navigateDescription": "Välj den väg som passar dig och fortsätt bläddra.",
@@ -51,7 +51,7 @@
     "colors": "Färger",
     "fields": "Områden",
     "schools": "Institutioner",
-    "areas": "Områden",
+    "areas": "Städer",
     "navigation": "Navigation",
     "contact": "Kontakt",
     "email": "E-post",
@@ -73,7 +73,7 @@
   },
   "legal": {
     "updatedLabel": "Gäller från",
-    "updatedDate": "17.8.2026",
+    "updatedDate": "17 augusti 2026",
     "privacy": {
       "title": "Integritetspolicy",
       "pageTitle": "Integritetspolicy | Haalarikone",
@@ -274,7 +274,7 @@
           "title": "7. Tillämplig lag och tvister",
           "paragraphs": [
             "Villkoren lyder under finsk lag, med undantag för lagvalsregler.",
-            "Som konsument kan du ta en tvist till konsumenttvistenämnden (https://www.kuluttajariita.fi) eller använda EU:s tvistlösning online. Övriga tvister avgörs i finska domstolar."
+            "Som konsument kan du ta en tvist till konsumenttvistenämnden (https://www.kuluttajariita.fi). Övriga tvister avgörs i finska domstolar."
           ]
         },
         {

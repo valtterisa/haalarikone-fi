@@ -1,16 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
 function PlaceholderDisplay() {
   const t = useTranslations('placeholders');
+  const tRef = useRef(t);
+  tRef.current = t;
   const reduceMotion = useReducedMotion();
   const [currentMessage, setCurrentMessage] = useState('');
 
   useEffect(() => {
+    const t = tRef.current;
     const messages = [
       t('1'),
       t('2'),
@@ -25,7 +28,7 @@ function PlaceholderDisplay() {
     ];
     const randomIndex = Math.floor(Math.random() * messages.length);
     setCurrentMessage(messages[randomIndex] ?? '');
-  }, [t]);
+  }, []);
 
   return (
     <motion.div

@@ -1,6 +1,6 @@
 'use client';
 
-import { EnvelopeSimpleIcon, GithubLogoIcon } from '@phosphor-icons/react';
+import { EnvelopeSimple, GithubLogo } from '@phosphor-icons/react';
 import { Link } from '@/i18n/routing';
 import Logo from '@/components/logo';
 import { PAGE_WIDTH } from '@/components/page';
@@ -99,7 +99,7 @@ export default function Footer() {
                     aria-label={t('sendEmail')}
                     className="flex items-center gap-2 py-1 transition hover:text-green"
                   >
-                    <EnvelopeSimpleIcon className="h-4 w-4" weight="regular" />
+                    <EnvelopeSimple className="h-4 w-4" weight="regular" />
                     {t('email')}
                   </a>
                 </li>
@@ -111,7 +111,7 @@ export default function Footer() {
                     aria-label={t('openGithub')}
                     className="flex items-center gap-2 py-1 transition hover:text-green"
                   >
-                    <GithubLogoIcon className="h-4 w-4" weight="regular" />
+                    <GithubLogo className="h-4 w-4" weight="regular" />
                     {t('github')}
                   </a>
                 </li>
@@ -133,7 +133,7 @@ export default function Footer() {
         </div>
         <div className="flex flex-col items-center justify-between gap-3 border-t border-border/60 pt-4 text-center text-xs text-muted-foreground md:flex-row">
           <p>
-            Made by{' '}
+            {t('builtBy')}{' '}
             <a
               href="https://valtterisavonen.fi"
               target="_blank"

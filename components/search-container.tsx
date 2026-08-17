@@ -15,6 +15,10 @@ import type { HubSource } from '@/lib/analytics-events';
 
 const TEXT_SEARCH_DEBOUNCE_MS = 1000;
 
+function searchCriteriaKey(criteria: Criteria): string {
+  return `${criteria.textSearch}|${criteria.color}|${criteria.area}|${criteria.field}|${criteria.school}`;
+}
+
 function compareOppilaitosThenAinejarjesto(a: University, b: University): number {
   if (a.oppilaitos === b.oppilaitos) {
     if (!a.ainejarjesto && !b.ainejarjesto) return 0;
@@ -92,6 +96,10 @@ export default function SearchContainer({
   hasSearchedRef.current = hasSearched;
   const [isSearching, setIsSearching] = useState(false);
   const searchRequestIdRef = useRef(0);
+  const [completedSearch, setCompletedSearch] = useState<{
+    criteriaKey: string;
+    requestId: number;
+  } | null>(null);
   const hasActiveQuery =
     selectedCriteria.textSearch.trim().length >= 3 ||
     Boolean(
@@ -157,6 +165,10 @@ export default function SearchContainer({
   const performSearch = useCallback(async () => {
     const currentRequestId = searchRequestIdRef.current + 1;
     searchRequestIdRef.current = currentRequestId;
+    const requestCriteriaKey = searchCriteriaKey({
+      ...selectedCriteria,
+      textSearch: debouncedTextSearch,
+    });
     setIsSearching(true);
     try {
       let searchResults: University[] = [];
@@ -187,12 +199,13 @@ export default function SearchContainer({
       }
       setSearchSourceUniversities(searchResults);
       setHasSearched(true);
+      setCompletedSearch({ criteriaKey: requestCriteriaKey, requestId: currentRequestId });
     } finally {
       if (searchRequestIdRef.current === currentRequestId) {
         setIsSearching(false);
       }
     }
-  }, [debouncedTextSearch, initialUniversities, locale, colorData]);
+  }, [debouncedTextSearch, initialUniversities, locale, colorData, selectedCriteria]);
 
   const performSearchRef = useRef(performSearch);
   performSearchRef.current = performSearch;
@@ -402,11 +415,11 @@ export default function SearchContainer({
       {hasActiveQuery && isSearching && (
         <div className="mb-4 w-full sm:mb-8">
           <div className="space-y-3 px-1 py-2 sm:px-0 sm:py-4">
-            <div className="h-4 w-40 animate-pulse rounded-md bg-muted" />
-            <div className="h-20 w-full animate-pulse rounded-xl border border-border bg-card" />
-            <div className="h-20 w-full animate-pulse rounded-xl border border-border bg-card" />
-            <div className="h-20 w-full animate-pulse rounded-xl border border-border bg-card" />
-            <div className="h-20 w-full animate-pulse rounded-xl border border-border bg-card" />
+            <div className="h-4 w-40 motion-safe:animate-pulse rounded-md bg-muted" />
+            <div className="h-20 w-full motion-safe:animate-pulse rounded-xl border border-border bg-card" />
+            <div className="h-20 w-full motion-safe:animate-pulse rounded-xl border border-border bg-card" />
+            <div className="h-20 w-full motion-safe:animate-pulse rounded-xl border border-border bg-card" />
+            <div className="h-20 w-full motion-safe:animate-pulse rounded-xl border border-border bg-card" />
           </div>
         </div>
       )}

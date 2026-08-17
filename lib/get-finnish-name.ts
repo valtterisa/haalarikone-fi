@@ -12,7 +12,7 @@ const translations = translationsData as Translations;
 /**
  * Gets the Finnish name from a localized name by reverse-looking up in translations
  */
-function translationsMap(type: 'university' | 'color' | 'area' | 'field') {
+export function translationsMap(type: 'university' | 'color' | 'area' | 'field') {
   return type === 'university'
     ? translations.universities
     : type === 'color'
@@ -36,7 +36,7 @@ export function getLocalizedName(
 export function getFinnishName(
   localizedName: string,
   locale: 'fi' | 'en' | 'sv',
-  type: 'university' | 'color' | 'area' | 'field'
+  type: 'university' | 'color' | 'area' | 'field',
 ): string {
   // If already Finnish, return as-is
   if (locale === 'fi') {
@@ -54,4 +54,3 @@ export function getFinnishName(
   // If not found in translations, assume it's already Finnish (fallback)
   return localizedName;
 }
-

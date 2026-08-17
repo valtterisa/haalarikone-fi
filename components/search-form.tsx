@@ -530,7 +530,7 @@ export default function SearchForm({
             )}
             {isSearching && (
               <div className="absolute right-3 sm:right-6 top-1/2 transform -translate-y-1/2 z-10">
-                <div className="w-4 h-4 sm:w-6 sm:h-6 border-2 border-green border-t-transparent rounded-full animate-spin" />
+                <div className="w-4 h-4 sm:w-6 sm:h-6 border-2 border-green border-t-transparent rounded-full motion-safe:animate-spin" />
               </div>
             )}
             {localSearchValue && !isSearching && (
@@ -757,6 +757,8 @@ export default function SearchForm({
           <button
             id="search-filters-desktop-toggle"
             type="button"
+            aria-expanded={isAdvancedSearchOpen}
+            aria-controls="search-filters-desktop-content"
             onClick={() => setIsAdvancedSearchOpen(!isAdvancedSearchOpen)}
             className="flex min-h-11 w-full items-center justify-between px-0 py-1.5 text-left transition-opacity hover:opacity-70"
           >
@@ -833,7 +835,10 @@ export default function SearchForm({
 
           {/* Tab-based filter content */}
           {isAdvancedSearchOpen && (
-            <div className="mt-3 animate-in fade-in slide-in-from-top-2 duration-200">
+            <div
+              id="search-filters-desktop-content"
+              className="mt-3 animate-in fade-in slide-in-from-top-2 duration-200"
+            >
               {/* Tab navigation */}
               <div className="flex gap-1 overflow-x-auto border-b border-border/50">
                 {[

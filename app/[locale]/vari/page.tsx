@@ -25,6 +25,47 @@ import {
   routeHref,
 } from '@/lib/use-translated-routes';
 
+const FALLBACK_HEX = '#D1D5DB';
+const DARK_FOREGROUND = '#1c1a17';
+const LIGHT_FOREGROUND = '#fffef8';
+
+function parseHexRgb(hex: string): [number, number, number] | null {
+  const raw = hex.trim().replace(/^#/, '');
+  const expanded =
+    raw.length === 3 ? `${raw[0]}${raw[0]}${raw[1]}${raw[1]}${raw[2]}${raw[2]}` : raw;
+  if (!/^[0-9a-fA-F]{6}$/.test(expanded)) {
+    return null;
+  }
+  return [
+    Number.parseInt(expanded.slice(0, 2), 16),
+    Number.parseInt(expanded.slice(2, 4), 16),
+    Number.parseInt(expanded.slice(4, 6), 16),
+  ];
+}
+
+function relativeLuminance(hex: string): number {
+  const rgb = parseHexRgb(hex) ?? parseHexRgb(FALLBACK_HEX);
+  const [r, g, b] = rgb ?? [209, 213, 219];
+  const toLinear = (channel: number) => {
+    const srgb = channel / 255;
+    return srgb <= 0.04045 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
+}
+
+function contrastRatio(luminanceA: number, luminanceB: number): number {
+  const lighter = Math.max(luminanceA, luminanceB);
+  const darker = Math.min(luminanceA, luminanceB);
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+function foregroundForBackground(hex: string): typeof DARK_FOREGROUND | typeof LIGHT_FOREGROUND {
+  const background = relativeLuminance(hex);
+  const darkContrast = contrastRatio(background, relativeLuminance(DARK_FOREGROUND));
+  const lightContrast = contrastRatio(background, relativeLuminance(LIGHT_FOREGROUND));
+  return darkContrast >= lightContrast ? DARK_FOREGROUND : LIGHT_FOREGROUND;
+}
+
 export const revalidate = 86400;
 
 export async function generateMetadata({
@@ -174,7 +215,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
                   className={`flex min-h-11 flex-col justify-end overflow-hidden rounded-xl p-3 text-sm font-semibold transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green ${
                     isLarge ? 'col-span-2 sm:col-span-1 sm:row-span-2' : ''
                   }`}
-                  style={{ backgroundColor: hex, color: hex === '#FFFFFF' || hex === '#FFFF00' ? '#1c1a17' : '#fffef8' }}
+                  style={{ backgroundColor: hex, color: foregroundForBackground(hex) }}
                 >
                   {translatedColor}
                 </Link>
