@@ -132,7 +132,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
-      <div className="container mx-auto px-4 py-8 sm:py-16 max-w-3xl">
+      <div className="container mx-auto max-w-4xl px-4 py-8 sm:py-16">
         <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -154,7 +154,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
 
         <VariSearchSection universities={universities} colorData={colorData} />
 
-        <div className="mx-auto w-full max-w-3xl px-2">
+        <div className="mx-auto w-full px-2">
           <div className="grid auto-rows-[minmax(4.5rem,auto)] grid-cols-2 gap-2 sm:grid-cols-3">
             {colors.map((color, index) => {
               const translatedColor = capitalizeFirstLetter(

@@ -29,6 +29,7 @@
     "fieldsDescription": "Etsi opiskelualat ja kiinnostukset",
     "schoolsDescription": "Tarkastele oppilaitoskohtaiset tiedot",
     "areasDescription": "Selaa haalareita kaupungeittain",
+    "blogDescription": "Artikkeleita opiskelijakulttuurista",
     "navigate": "Navigoi",
     "navigateDescription": "Valitse sinulle sopiva polku ja jatka selaamista.",
     "otherPages": "Muut sivut",
@@ -70,10 +71,219 @@
     "system": "Järjestelmä"
   },
   "legal": {
-    "privacyTitle": "Tietosuoja",
-    "privacyBody": "Haalarikone tallentaa palautelomakkeella annetun viestin ja mahdollisen sähköpostiosoitteen, jotta voimme vastata. Analytiikka (Databuddy) kerää anonyymiä käyttötietoa sivuston kehittämiseen. Emme myy henkilötietoja.",
-    "termsTitle": "Käyttöehdot",
-    "termsBody": "Haalarikone on ilmainen hakemisto suomalaisista opiskelijahaalareista. Tiedot perustuvat julkisiin lähteisiin ja käyttäjäilmoituksiin, ja ne voivat muuttua. Ilmoita virheistä palautelomakkeella."
+    "updatedLabel": "Voimaantulo",
+    "updatedDate": "17.8.2026",
+    "privacy": {
+      "title": "Tietosuojaseloste",
+      "pageTitle": "Tietosuojaseloste | Haalarikone",
+      "description": "Haalarikoneen tietosuojaseloste: rekisterinpitäjä, käsiteltävät tiedot, oikeusperusteet, vastaanottajat ja rekisteröidyn oikeudet.",
+      "intro": "Tämä tietosuojaseloste kuvaa, miten Haalarikone (haalarikone.fi) käsittelee henkilötietoja. Palvelua ylläpitää yksityishenkilö Valtteri Savonen. Seloste on laadittu EU:n yleisen tietosuoja-asetuksen (GDPR, 2016/679) ja tietosuojalain (1050/2018) mukaisesti.",
+      "facts": [
+        { "label": "Rekisterinpitäjä", "value": "Valtteri Savonen" },
+        { "label": "Palvelu", "value": "Haalarikone, https://haalarikone.fi" },
+        { "label": "Yhteydenotot", "value": "savonen.emppu@gmail.com" }
+      ],
+      "sections": [
+        {
+          "title": "1. Mitä tämä seloste koskee",
+          "paragraphs": [
+            "Haalarikone on ilmainen hakemisto suomalaisten yliopistojen ja ammattikorkeakoulujen opiskelijahaalarien väreistä. Palveluun ei luoda käyttäjätilejä, eikä hakemiston sisältö ole henkilörekisteri yksittäisistä opiskelijoista.",
+            "Henkilötietoja syntyy vain, jos lähetät palautetta, ja teknisessä mielessä kun sivustoa käytetään (analytiikka, haku ja hosting). Oppilaitosten, ainejärjestöjen ja haalarivärien tiedot ovat julkista hakemistotietoa."
+          ]
+        },
+        {
+          "title": "2. Käsiteltävät tiedot",
+          "paragraphs": ["Käsittelemme vain sen, mitä palvelun pyörittäminen edellyttää:"],
+          "items": [
+            {
+              "name": "Palaute",
+              "detail": "Palautelomakkeen viesti (pakollinen), vapaaehtoinen sähköpostiosoite, sekä tekniset tiedot vastauksen kannalta (sivun osoite, kohteen nimi/tunniste ja mahdollinen viittaava sivu)."
+            },
+            {
+              "name": "Analytiikka",
+              "detail": "Databuddy kerää evästeettömästi aggregoitua käyttötietoa: sivunäkymät, viittaava domain, selain/laite-tyyppi, maa/alue, vuorovaikutukset ja tekniset virheet. IP-osoite anonymisoidaan eikä yksittäistä kävijää tunnisteta. Databuddyn seloste: https://www.databuddy.cc/privacy"
+            },
+            {
+              "name": "Haku",
+              "detail": "Hakulause käsitellään palvelimella paikallisesta aineistosta. Jos paikallinen haku ei tuota tuloksia, hakulause voidaan lähettää Anthropicin tekoälypalveluun (Claude) hakuaikeen tulkitsemiseksi. Haalarikone ei tallenna hakulauseita omaan tietokantaan."
+            },
+            {
+              "name": "Teema",
+              "detail": "Vaalea/tumma-valinta tallennetaan selaimesi localStorageen. Sitä ei lähetetä meille."
+            },
+            {
+              "name": "Tekninen toimitus",
+              "detail": "Cloudflare käsittelee pyynnön teknisiä tietoja (kuten IP-osoite, user agent ja kellonaika) sivuston toimittamiseksi, väärinkäytösten estämiseksi ja tietoturvaa varten."
+            }
+          ]
+        },
+        {
+          "title": "3. Tarkoitus ja oikeusperuste",
+          "paragraphs": [
+            "Palaute: käsittelemme viestin vastataksemme siihen ja parantaaksemme hakemistoa. Oikeusperuste on GDPR 6(1)(b) (toimenpiteet pyynnöstäsi) ja vapaaehtoisen sähköpostin osalta 6(1)(a) (suostumus, jonka voit perua)."
+          ],
+          "items": [
+            {
+              "name": "Analytiikka",
+              "detail": "Oikeutettu etu (6(1)(f)): ymmärtää, miten palvelua käytetään, ja korjata virheitä ilman evästeitä tai käyttäjäprofiileja."
+            },
+            {
+              "name": "Haku ja tekoäly",
+              "detail": "Oikeutettu etu (6(1)(f)): tarjota toimiva haku. Tekoälyä käytetään vain, kun paikallinen haku ei tuota tuloksia."
+            },
+            {
+              "name": "Hosting ja tietoturva",
+              "detail": "Oikeutettu etu (6(1)(f)): pitää palvelu saatavilla ja suojata sitä väärinkäytöltä."
+            }
+          ]
+        },
+        {
+          "title": "4. Tietolähteet",
+          "paragraphs": [
+            "Palaute- ja hakutiedot tulevat sinulta. Analytiikka- ja hosting-tiedot syntyvät, kun käytät sivustoa. Hakemiston sisältö on koottu julkisista lähteistä ja käyttäjien ilmoituksista."
+          ]
+        },
+        {
+          "title": "5. Vastaanottajat",
+          "paragraphs": [
+            "Emme myy henkilötietoja. Tietoja käsittelevät vain palvelun edellyttämät käsittelijät:"
+          ],
+          "items": [
+            {
+              "name": "Cloudflare, Inc.",
+              "detail": "Hosting, CDN ja reunalaskenta. Tietosuoja: https://www.cloudflare.com/privacypolicy/"
+            },
+            {
+              "name": "Resend",
+              "detail": "Palautesähköpostin toimitus rekisterinpitäjälle. Tietosuoja: https://resend.com/legal/privacy-policy"
+            },
+            {
+              "name": "Databuddy",
+              "detail": "Evästeetön, aggregoitu kävijäanalytiikka. Tietosuoja: https://www.databuddy.cc/privacy"
+            },
+            {
+              "name": "Anthropic",
+              "detail": "Hakulauseen tulkinta vain, kun paikallinen haku ei tuota tuloksia. Tietosuoja: https://www.anthropic.com/privacy"
+            }
+          ]
+        },
+        {
+          "title": "6. Siirrot EU- ja ETA-alueen ulkopuolelle",
+          "paragraphs": [
+            "Cloudflare, Resend ja Anthropic voivat käsitellä tietoja myös ETA-alueen ulkopuolella, erityisesti Yhdysvalloissa. Siirrot perustuvat käsittelijöiden tietosuojajärjestelyihin, kuten Euroopan komission vakiosopimuslausekkeisiin. Databuddy käsittelee kävijätiedot anonymisoituina.",
+            "Tekoälyyn lähtee vain se hakulause, jota paikallinen haku ei pystynyt tulkitsemaan. Palautteen sähköposti ja viesti eivät mene Anthropicille."
+          ]
+        },
+        {
+          "title": "7. Säilytysajat",
+          "paragraphs": [
+            "Palaute säilytetään niin kauan kuin sen käsittely vaatii, ja poistetaan yleensä 12 kuukauden kuluessa, ellei keskustelu jatku tai laki edellytä pidempää säilytystä.",
+            "Analytiikka säilyy aggregoituna Databuddyn käytännön mukaan. Hakulauseita ei tallenneta Haalarikoneen omaan tietokantaan. Teemavalinta säilyy laitteellasi, kunnes tyhjennät sivuston tiedot."
+          ]
+        },
+        {
+          "title": "8. Evästeet ja paikallinen tallennus",
+          "paragraphs": [
+            "Haalarikone ei aseta seurantaevästeitä eikä rakenna käyttäjäprofiileja. Teemavalinta on localStoragessa. Databuddy toimii ilman evästeitä.",
+            "Cloudflare voi asettaa teknisesti välttämättömiä evästeitä tietoturvaa ja toimitusta varten. Nämä eivät ole markkinointievästeitä."
+          ]
+        },
+        {
+          "title": "9. Tietoturva",
+          "paragraphs": [
+            "Yhteydet suojataan TLS-salauksella. Pääsy palautteeseen on rajattu rekisterinpitäjälle. Palautelomakkeessa on honeypot-kenttä roskapostin vähentämiseksi. Emme kerää maksu- tai tunnistautumistietoja, koska tilejä ei ole."
+          ]
+        },
+        {
+          "title": "10. Rekisteröidyn oikeudet",
+          "paragraphs": [
+            "Sinulla on GDPR:n mukainen oikeus pyytää pääsy tietoihin, oikaisu, poistaminen, käsittelyn rajoittaminen, tietojen siirto ja vastustaa käsittelyä, joka perustuu oikeutettuun etuun. Suostumuksen (vapaaehtoinen sähköposti) voit perua milloin tahansa.",
+            "Koska analytiikka on anonymisoitua, emme voi yksilöidä yhtä kävijää analytiikasta. Palautteen osalta voimme käsitellä pyynnön, jos viesti tai sähköposti riittää tunnistamaan sen.",
+            "Lähetä pyyntö osoitteeseen savonen.emppu@gmail.com. Vastaamme ilman aiheetonta viivytystä, viimeistään kuukauden kuluessa."
+          ]
+        },
+        {
+          "title": "11. Oikeus tehdä valitus",
+          "paragraphs": [
+            "Jos katsot, että henkilötietojasi käsitellään lainvastaisesti, voit tehdä valituksen tietosuojavaltuutetun toimistolle: https://tietosuoja.fi — Tietosuojavaltuutetun toimisto, Lintulahdenkuja 4, 00530 Helsinki."
+          ]
+        },
+        {
+          "title": "12. Selosteen muuttaminen",
+          "paragraphs": [
+            "Päivitämme tämän selosteen, kun käsittely muuttuu. Voimassa oleva versio on tällä sivulla. Olennaiset muutokset merkitään päivämäärällä sivun alkuun."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Käyttöehdot",
+      "pageTitle": "Käyttöehdot | Haalarikone",
+      "description": "Haalarikoneen käyttöehdot: palvelun kuvaus, sisällön oikeellisuus, immateriaalioikeudet, palaute ja vastuunrajoitus.",
+      "intro": "Nämä käyttöehdot koskevat Haalarikone-sivuston (haalarikone.fi) käyttöä. Palvelua ylläpitää Valtteri Savonen. Käyttämällä sivustoa hyväksyt nämä ehdot.",
+      "facts": [
+        { "label": "Palvelu", "value": "Haalarikone, https://haalarikone.fi" },
+        { "label": "Ylläpitäjä", "value": "Valtteri Savonen" },
+        { "label": "Yhteydenotot", "value": "savonen.emppu@gmail.com" }
+      ],
+      "sections": [
+        {
+          "title": "1. Palvelu",
+          "paragraphs": [
+            "Haalarikone on ilmainen hakemisto suomalaisten yliopistojen ja ammattikorkeakoulujen opiskelijahaalarien väreistä. Voit selata ja hakea tietoja värin, alan, oppilaitoksen, alueen ja ainejärjestön mukaan. Palvelu on tarkoitettu opiskelijakulttuurin harrastuskäyttöön.",
+            "Rekisteröitymistä ei ole. Palvelu tarjotaan sellaisena kuin se on, ilman maksua. Ylläpitäjä voi muuttaa, keskeyttää tai lopettaa palvelun."
+          ]
+        },
+        {
+          "title": "2. Sisällön oikeellisuus",
+          "paragraphs": [
+            "Hakemiston tiedot perustuvat julkisiin lähteisiin ja käyttäjien ilmoituksiin. Haalarivärit, ainejärjestöt ja oppilaitosrakenteet muuttuvat. Tieto voi olla puutteellinen, vanhentunut tai virheellinen.",
+            "Haalarikone ei ole virallinen rekisteri eikä oppilaitosten, ylioppilaskuntien tai ainejärjestöjen edustaja. Älä käytä tietoja ainoana lähteenä, jos väärä väri tai yhdistys voi aiheuttaa haittaa.",
+            "Ilmoita virheistä palautelomakkeella. Korjaamme aineistoa parhaan kykymme mukaan, mutta emme takaa, että jokainen ilmoitus johtaa muutokseen tai että muutos tapahtuu tietyssä ajassa."
+          ]
+        },
+        {
+          "title": "3. Immateriaalioikeudet",
+          "paragraphs": [
+            "Sivuston nimi, logo, ulkoasu ja koottu hakemistoaineisto kuuluvat ylläpitäjälle, jollei toisin ole merkitty. Saat selata sivustoa ja jakaa linkkejä yksittäisiin sivuihin. Automaattinen massakopiointi, aineiston uudelleenjulkaisu omana hakemistona tai brändin käyttäminen harhaanjohtavasti on kielletty ilman lupaa.",
+            "Lähdekoodi on saatavilla GNU Affero General Public License v3.0 -lisenssillä: https://github.com/valtterisa/student-overall-app. AGPL koskee ohjelmistoa, ei Haalarikone-nimeä, logoa eikä sivuston ulkoasua."
+          ]
+        },
+        {
+          "title": "4. Palaute",
+          "paragraphs": [
+            "Palautelomakkeella voit lähettää korjauksia, ideoita ja virheilmoituksia. Vapaaehtoista sähköpostia käytetään vain vastaamiseen.",
+            "Lähettämällä palautetta annat ylläpitäjälle oikeuden käyttää sen asiasisältöä hakemiston korjaamiseen ja palvelun kehittämiseen. Älä lähetä salassa pidettävää, lainvastaista tai toisen henkilö- tai tekijänoikeuksia loukkaavaa aineistoa."
+          ]
+        },
+        {
+          "title": "5. Kielletyt käyttötavat",
+          "paragraphs": [
+            "Palvelua ei saa käyttää tavalla, joka kuormittaa sitä kohtuuttomasti, kiertää teknisiä rajoituksia, levittää haittaohjelmia, lähettää roskapostia tai yrittää päästä järjestelmiin ilman lupaa. Hakurajapintaa ei saa käyttää automatisoituun massahakuun, joka haittaa muita käyttäjiä."
+          ]
+        },
+        {
+          "title": "6. Vastuunrajoitus",
+          "paragraphs": [
+            "Palvelu on ilmainen harrasteprojekti. Siltä osin kuin pakottava laki, kuten kuluttajansuojalaki, ei toisin määrää, palvelu tarjotaan ilman takuuta saatavuudesta, virheettömyydestä tai sopivuudesta tiettyyn tarkoitukseen.",
+            "Ylläpitäjä ei vastaa vahingosta, joka syntyy tietojen käyttämisestä, palvelun keskeytyksestä tai kolmannen osapuolen palveluista (hosting, analytiikka, sähköposti, tekoäly), paitsi jos vahinko johtuu tahallisuudesta tai törkeästä huolimattomuudesta."
+          ]
+        },
+        {
+          "title": "7. Sovellettava laki ja erimielisyydet",
+          "paragraphs": [
+            "Ehtoihin sovelletaan Suomen lakia, lukuun ottamatta lainvalintaa koskevia säännöksiä.",
+            "Kuluttajana voit viedä riidan kuluttajariitalautakuntaan (https://www.kuluttajariita.fi) tai käyttää EU:n verkkovälitteistä riidanratkaisua. Muissa tapauksissa riidat ratkaistaan Suomen tuomioistuimissa."
+          ]
+        },
+        {
+          "title": "8. Ehtojen muuttaminen",
+          "paragraphs": [
+            "Voimme päivittää näitä ehtoja, kun palvelu muuttuu. Voimassa oleva versio on tällä sivulla. Jatkamalla käyttöä muutoksen jälkeen hyväksyt päivitetyt ehdot. Olennaiset muutokset merkitään päivämäärällä sivun alkuun."
+          ]
+        }
+      ]
+    }
   },
   "search": {
     "title": "Haku",

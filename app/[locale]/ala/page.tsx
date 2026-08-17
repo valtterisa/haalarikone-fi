@@ -141,7 +141,7 @@ export default async function FieldIndexPage({ params }: { params: Promise<{ loc
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
-      <div className="container mx-auto px-4 py-8 sm:py-16 max-w-3xl">
+      <div className="container mx-auto max-w-4xl px-4 py-8 sm:py-16">
         <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -162,7 +162,7 @@ export default async function FieldIndexPage({ params }: { params: Promise<{ loc
 
         <FieldSearchSection universities={universities} colorData={colorData} />
 
-        <div className="mx-auto w-full max-w-3xl px-2">
+        <div className="mx-auto w-full px-2">
           <ul className="divide-y divide-border">
             {fieldsWithTranslations.map((field) => (
               <li key={field.finnishName}>

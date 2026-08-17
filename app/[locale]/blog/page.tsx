@@ -111,7 +111,7 @@ export default async function BlogPage({
           __html: JSON.stringify(breadcrumbSchema),
         }}
       />
-      <div className="container mx-auto px-4 py-16 max-w-3xl">
+      <div className="container mx-auto max-w-4xl px-4 py-16">
         <div className="mb-12">
           <Breadcrumb className="mb-6">
             <BreadcrumbList>

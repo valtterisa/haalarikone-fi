@@ -29,6 +29,7 @@
     "fieldsDescription": "Find study fields and interests",
     "schoolsDescription": "View institution-specific information",
     "areasDescription": "Browse overalls by city",
+    "blogDescription": "Articles on student culture",
     "navigate": "Navigate",
     "navigateDescription": "Choose the path that suits you and continue browsing.",
     "otherPages": "Other pages",
@@ -70,10 +71,219 @@
     "system": "System"
   },
   "legal": {
-    "privacyTitle": "Privacy",
-    "privacyBody": "Haalarikone stores feedback messages and optional email addresses so we can reply. Analytics (Databuddy) collects anonymous usage data to improve the site. We do not sell personal data.",
-    "termsTitle": "Terms of use",
-    "termsBody": "Haalarikone is a free directory of Finnish student overalls. Data comes from public sources and user reports, and it can change. Report errors with the feedback form."
+    "updatedLabel": "Effective",
+    "updatedDate": "17 August 2026",
+    "privacy": {
+      "title": "Privacy notice",
+      "pageTitle": "Privacy notice | Haalarikone",
+      "description": "Haalarikone privacy notice: controller, data we process, legal bases, recipients, and your rights under the GDPR.",
+      "intro": "This notice explains how Haalarikone (haalarikone.fi) processes personal data. The service is run by Valtteri Savonen as a private individual. It is written under the EU General Data Protection Regulation (GDPR, 2016/679) and the Finnish Data Protection Act (1050/2018).",
+      "facts": [
+        { "label": "Controller", "value": "Valtteri Savonen" },
+        { "label": "Service", "value": "Haalarikone, https://haalarikone.fi" },
+        { "label": "Contact", "value": "savonen.emppu@gmail.com" }
+      ],
+      "sections": [
+        {
+          "title": "1. What this notice covers",
+          "paragraphs": [
+            "Haalarikone is a free directory of student overall colours at Finnish universities and universities of applied sciences. There are no user accounts, and the directory is not a register of individual students.",
+            "Personal data is created only if you send feedback, and in a technical sense when the site is used (analytics, search, and hosting). Institution, student organisation, and colour data is public directory information."
+          ]
+        },
+        {
+          "title": "2. Data we process",
+          "paragraphs": ["We only process what is needed to run the service:"],
+          "items": [
+            {
+              "name": "Feedback",
+              "detail": "The message (required), an optional email address, and technical context needed to reply (page URL, subject name/id, and referring page if present)."
+            },
+            {
+              "name": "Analytics",
+              "detail": "Databuddy collects cookieless aggregated usage data: page views, referring domain, browser/device type, country/region, interactions, and technical errors. IP addresses are anonymised and individual visitors are not identified. Databuddy policy: https://www.databuddy.cc/privacy"
+            },
+            {
+              "name": "Search",
+              "detail": "Search queries are processed on the server against the local dataset. If local search returns no results, the query may be sent to Anthropic (Claude) to interpret intent. Haalarikone does not store search queries in its own database."
+            },
+            {
+              "name": "Theme",
+              "detail": "Light/dark preference is stored in your browser's localStorage. It is not sent to us."
+            },
+            {
+              "name": "Technical delivery",
+              "detail": "Cloudflare processes technical request data (such as IP address, user agent, and timestamp) to deliver the site, prevent abuse, and keep it secure."
+            }
+          ]
+        },
+        {
+          "title": "3. Purpose and legal basis",
+          "paragraphs": [
+            "Feedback: we process the message to reply and to improve the directory. The legal basis is GDPR 6(1)(b) (steps at your request) and, for an optional email, 6(1)(a) (consent, which you can withdraw)."
+          ],
+          "items": [
+            {
+              "name": "Analytics",
+              "detail": "Legitimate interest (6(1)(f)): understand how the service is used and fix errors without cookies or user profiles."
+            },
+            {
+              "name": "Search and AI",
+              "detail": "Legitimate interest (6(1)(f)): provide working search. AI is used only when local search returns no results."
+            },
+            {
+              "name": "Hosting and security",
+              "detail": "Legitimate interest (6(1)(f)): keep the service available and protect it from abuse."
+            }
+          ]
+        },
+        {
+          "title": "4. Sources",
+          "paragraphs": [
+            "Feedback and search data come from you. Analytics and hosting data are generated when you use the site. Directory content is compiled from public sources and user reports."
+          ]
+        },
+        {
+          "title": "5. Recipients",
+          "paragraphs": [
+            "We do not sell personal data. Data is processed only by processors needed to run the service:"
+          ],
+          "items": [
+            {
+              "name": "Cloudflare, Inc.",
+              "detail": "Hosting, CDN, and edge compute. Privacy: https://www.cloudflare.com/privacypolicy/"
+            },
+            {
+              "name": "Resend",
+              "detail": "Delivery of feedback email to the controller. Privacy: https://resend.com/legal/privacy-policy"
+            },
+            {
+              "name": "Databuddy",
+              "detail": "Cookieless, aggregated visitor analytics. Privacy: https://www.databuddy.cc/privacy"
+            },
+            {
+              "name": "Anthropic",
+              "detail": "Query interpretation only when local search returns no results. Privacy: https://www.anthropic.com/privacy"
+            }
+          ]
+        },
+        {
+          "title": "6. Transfers outside the EU/EEA",
+          "paragraphs": [
+            "Cloudflare, Resend, and Anthropic may process data outside the EEA, including in the United States. Transfers rely on the processors' safeguards, such as the European Commission's standard contractual clauses. Databuddy processes visitor data in anonymised form.",
+            "Only the search query that local search could not interpret is sent to the AI provider. Feedback messages and email addresses are not sent to Anthropic."
+          ]
+        },
+        {
+          "title": "7. Retention",
+          "paragraphs": [
+            "Feedback is kept for as long as handling it requires, and is usually deleted within 12 months unless the conversation continues or law requires longer retention.",
+            "Analytics is retained in aggregated form under Databuddy's policy. Search queries are not stored in Haalarikone's own database. Theme preference stays on your device until you clear site data."
+          ]
+        },
+        {
+          "title": "8. Cookies and local storage",
+          "paragraphs": [
+            "Haalarikone does not set tracking cookies and does not build user profiles. Theme preference lives in localStorage. Databuddy runs without cookies.",
+            "Cloudflare may set strictly necessary cookies for security and delivery. These are not marketing cookies."
+          ]
+        },
+        {
+          "title": "9. Security",
+          "paragraphs": [
+            "Connections are protected with TLS. Access to feedback is limited to the controller. The feedback form includes a honeypot field to reduce spam. We do not collect payment or login data because there are no accounts."
+          ]
+        },
+        {
+          "title": "10. Your rights",
+          "paragraphs": [
+            "Under the GDPR you may request access, rectification, erasure, restriction, data portability, and object to processing based on legitimate interest. You can withdraw consent for an optional email at any time.",
+            "Because analytics is anonymised, we cannot identify one visitor in analytics data. For feedback we can act on a request if the message or email is enough to find it.",
+            "Send requests to savonen.emppu@gmail.com. We will reply without undue delay, and within one month at the latest."
+          ]
+        },
+        {
+          "title": "11. Right to complain",
+          "paragraphs": [
+            "If you believe your personal data is processed unlawfully, you may lodge a complaint with the Office of the Data Protection Ombudsman: https://tietosuoja.fi — Office of the Data Protection Ombudsman, Lintulahdenkuja 4, 00530 Helsinki, Finland."
+          ]
+        },
+        {
+          "title": "12. Changes to this notice",
+          "paragraphs": [
+            "We update this notice when processing changes. The current version is on this page. Material changes are marked with the date at the top."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of use",
+      "pageTitle": "Terms of use | Haalarikone",
+      "description": "Haalarikone terms of use: what the service is, accuracy of the directory, intellectual property, feedback, and liability.",
+      "intro": "These terms govern use of the Haalarikone website (haalarikone.fi). The service is operated by Valtteri Savonen. By using the site you accept these terms.",
+      "facts": [
+        { "label": "Service", "value": "Haalarikone, https://haalarikone.fi" },
+        { "label": "Operator", "value": "Valtteri Savonen" },
+        { "label": "Contact", "value": "savonen.emppu@gmail.com" }
+      ],
+      "sections": [
+        {
+          "title": "1. The service",
+          "paragraphs": [
+            "Haalarikone is a free directory of student overall colours at Finnish universities and universities of applied sciences. You can browse and search by colour, field, institution, region, and student organisation. It is meant for informal use around student culture.",
+            "There is no registration. The service is provided as is, free of charge. The operator may change, suspend, or discontinue it."
+          ]
+        },
+        {
+          "title": "2. Accuracy of the directory",
+          "paragraphs": [
+            "Directory data comes from public sources and user reports. Overall colours, student organisations, and institution structures change. Information may be incomplete, outdated, or wrong.",
+            "Haalarikone is not an official register and does not represent institutions, student unions, or subject organisations. Do not treat it as the only source if a wrong colour or organisation could cause harm.",
+            "Report errors with the feedback form. We correct the dataset as we can, but we do not guarantee that every report leads to a change or that a change happens on a set timetable."
+          ]
+        },
+        {
+          "title": "3. Intellectual property",
+          "paragraphs": [
+            "The site name, logo, design, and compiled directory belong to the operator unless otherwise marked. You may browse the site and share links to individual pages. Automated bulk copying, republishing the dataset as your own directory, or misleading use of the brand is not allowed without permission.",
+            "The source code is available under the GNU Affero General Public License v3.0: https://github.com/valtterisa/student-overall-app. AGPL covers the software, not the Haalarikone name, logo, or visual design."
+          ]
+        },
+        {
+          "title": "4. Feedback",
+          "paragraphs": [
+            "You can send corrections, ideas, and bug reports through the feedback form. Optional email is used only to reply.",
+            "By sending feedback you grant the operator the right to use its substance to correct the directory and improve the service. Do not send confidential, unlawful, or infringing material."
+          ]
+        },
+        {
+          "title": "5. Prohibited use",
+          "paragraphs": [
+            "You may not use the service in a way that unreasonably overloads it, circumvents technical limits, spreads malware, sends spam, or attempts unauthorised access. The search API must not be used for automated bulk querying that harms other users."
+          ]
+        },
+        {
+          "title": "6. Liability",
+          "paragraphs": [
+            "The service is a free hobby project. To the extent mandatory law, including Finnish consumer protection law, does not require otherwise, it is provided without warranty of availability, accuracy, or fitness for a particular purpose.",
+            "The operator is not liable for damage arising from use of the data, service interruption, or third-party services (hosting, analytics, email, AI), except where the damage is caused by intent or gross negligence."
+          ]
+        },
+        {
+          "title": "7. Governing law and disputes",
+          "paragraphs": [
+            "These terms are governed by Finnish law, excluding conflict-of-law rules.",
+            "As a consumer you may take a dispute to the Consumer Disputes Board (https://www.kuluttajariita.fi) or use EU online dispute resolution. Other disputes are resolved in Finnish courts."
+          ]
+        },
+        {
+          "title": "8. Changes to the terms",
+          "paragraphs": [
+            "We may update these terms when the service changes. The current version is on this page. Continued use after a change means you accept the updated terms. Material changes are marked with the date at the top."
+          ]
+        }
+      ]
+    }
   },
   "search": {
     "title": "Search",

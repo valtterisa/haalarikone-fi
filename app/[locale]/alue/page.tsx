@@ -117,7 +117,7 @@ export default async function AreaIndexPage({ params }: { params: Promise<{ loca
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
-      <div className="container mx-auto px-4 py-8 sm:py-16 max-w-3xl">
+      <div className="container mx-auto max-w-4xl px-4 py-8 sm:py-16">
         <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>

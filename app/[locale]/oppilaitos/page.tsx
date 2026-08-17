@@ -141,7 +141,7 @@ export default async function UniversityIndexPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
-      <div className="container mx-auto px-4 py-8 sm:py-16 max-w-3xl">
+      <div className="container mx-auto max-w-4xl px-4 py-8 sm:py-16">
         <Breadcrumb className="mb-6">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -165,7 +165,7 @@ export default async function UniversityIndexPage({
         <UniversitySearchSection universities={universities} colorData={colorData} />
 
         <p className="mb-3 text-sm font-semibold text-foreground">{t('universities.popularHeading')}</p>
-        <div className="max-w-3xl w-full mx-auto px-2">
+        <div className="w-full px-2">
           <HubGrid>
             {unique.map((uni) => {
               const slug = entitySlug(uni, locale, 'university');

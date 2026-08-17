@@ -29,6 +29,7 @@
     "fieldsDescription": "Hitta studieområden och intressen",
     "schoolsDescription": "Visa institutionsspecifik information",
     "areasDescription": "Bläddra overaller efter stad",
+    "blogDescription": "Artiklar om studentkultur",
     "navigate": "Navigera",
     "navigateDescription": "Välj den väg som passar dig och fortsätt bläddra.",
     "otherPages": "Andra sidor",
@@ -70,10 +71,219 @@
     "system": "System"
   },
   "legal": {
-    "privacyTitle": "Integritet",
-    "privacyBody": "Haalarikone sparar feedbackmeddelanden och valfri e-postadress så att vi kan svara. Analys (Databuddy) samlar anonym användningsdata för att utveckla sajten. Vi säljer inte personuppgifter.",
-    "termsTitle": "Användarvillkor",
-    "termsBody": "Haalarikone är en gratis katalog över finländska studentoverallar. Uppgifterna kommer från publika källor och användarrapporter och kan ändras. Rapportera fel via feedbackformuläret."
+    "updatedLabel": "Gäller från",
+    "updatedDate": "17.8.2026",
+    "privacy": {
+      "title": "Integritetspolicy",
+      "pageTitle": "Integritetspolicy | Haalarikone",
+      "description": "Haalarikones integritetspolicy: personuppgiftsansvarig, uppgifter vi behandlar, rättslig grund, mottagare och dina rättigheter.",
+      "intro": "Den här policyn beskriver hur Haalarikone (haalarikone.fi) behandlar personuppgifter. Tjänsten drivs av privatpersonen Valtteri Savonen. Policyn är skriven enligt EU:s dataskyddsförordning (GDPR, 2016/679) och den finska dataskyddslagen (1050/2018).",
+      "facts": [
+        { "label": "Personuppgiftsansvarig", "value": "Valtteri Savonen" },
+        { "label": "Tjänst", "value": "Haalarikone, https://haalarikone.fi" },
+        { "label": "Kontakt", "value": "savonen.emppu@gmail.com" }
+      ],
+      "sections": [
+        {
+          "title": "1. Vad policyn gäller",
+          "paragraphs": [
+            "Haalarikone är en gratis katalog över studentoverallfärger vid finländska universitet och yrkeshögskolor. Det finns inga användarkonton, och katalogen är inte ett register över enskilda studenter.",
+            "Personuppgifter uppstår bara om du skickar feedback, och i teknisk mening när sajten används (analys, sök och hosting). Uppgifter om lärosäten, ämnesföreningar och färger är publik kataloginformation."
+          ]
+        },
+        {
+          "title": "2. Uppgifter vi behandlar",
+          "paragraphs": ["Vi behandlar bara det som krävs för att driva tjänsten:"],
+          "items": [
+            {
+              "name": "Feedback",
+              "detail": "Meddelandet (obligatoriskt), valfri e-postadress och teknisk kontext för att kunna svara (sidans adress, objektets namn/id och ev. hänvisande sida)."
+            },
+            {
+              "name": "Analys",
+              "detail": "Databuddy samlar cookielös, aggregerad användningsdata: sidvisningar, hänvisande domän, webbläsare/enhet, land/region, interaktioner och tekniska fel. IP-adresser anonymiseras och enskilda besökare identifieras inte. Databuddys policy: https://www.databuddy.cc/privacy"
+            },
+            {
+              "name": "Sök",
+              "detail": "Sökfrågan behandlas på servern mot det lokala datasetet. Om lokal sök inte ger träffar kan frågan skickas till Anthropic (Claude) för att tolka avsikten. Haalarikone lagrar inte sökfrågor i en egen databas."
+            },
+            {
+              "name": "Tema",
+              "detail": "Valet ljust/mörkt lagras i webbläsarens localStorage. Det skickas inte till oss."
+            },
+            {
+              "name": "Teknisk leverans",
+              "detail": "Cloudflare behandlar tekniska begäransuppgifter (t.ex. IP-adress, user agent och tidpunkt) för att leverera sajten, hindra missbruk och hålla den säker."
+            }
+          ]
+        },
+        {
+          "title": "3. Ändamål och rättslig grund",
+          "paragraphs": [
+            "Feedback: vi behandlar meddelandet för att svara och förbättra katalogen. Rättslig grund är GDPR 6.1 b (åtgärder på din begäran) och för valfri e-post 6.1 a (samtycke, som du kan återkalla)."
+          ],
+          "items": [
+            {
+              "name": "Analys",
+              "detail": "Berättigat intresse (6.1 f): förstå hur tjänsten används och rätta fel utan cookies eller användarprofiler."
+            },
+            {
+              "name": "Sök och AI",
+              "detail": "Berättigat intresse (6.1 f): erbjuda fungerande sök. AI används bara när lokal sök inte ger träffar."
+            },
+            {
+              "name": "Hosting och säkerhet",
+              "detail": "Berättigat intresse (6.1 f): hålla tjänsten tillgänglig och skydda den mot missbruk."
+            }
+          ]
+        },
+        {
+          "title": "4. Källor",
+          "paragraphs": [
+            "Feedback- och sökuppgifter kommer från dig. Analys- och hostinguppgifter uppstår när du använder sajten. Kataloginnehållet är sammanställt från publika källor och användarrapporter."
+          ]
+        },
+        {
+          "title": "5. Mottagare",
+          "paragraphs": [
+            "Vi säljer inte personuppgifter. Uppgifter behandlas bara av de personuppgiftsbiträden som tjänsten kräver:"
+          ],
+          "items": [
+            {
+              "name": "Cloudflare, Inc.",
+              "detail": "Hosting, CDN och edge-beräkning. Integritet: https://www.cloudflare.com/privacypolicy/"
+            },
+            {
+              "name": "Resend",
+              "detail": "Leverans av feedbackmejl till den personuppgiftsansvariga. Integritet: https://resend.com/legal/privacy-policy"
+            },
+            {
+              "name": "Databuddy",
+              "detail": "Cookielös, aggregerad besökaranalys. Integritet: https://www.databuddy.cc/privacy"
+            },
+            {
+              "name": "Anthropic",
+              "detail": "Tolkning av sökfrågan bara när lokal sök inte ger träffar. Integritet: https://www.anthropic.com/privacy"
+            }
+          ]
+        },
+        {
+          "title": "6. Överföringar utanför EU/EES",
+          "paragraphs": [
+            "Cloudflare, Resend och Anthropic kan behandla uppgifter även utanför EES, särskilt i USA. Överföringarna bygger på biträdenas skyddsåtgärder, till exempel EU-kommissionens standardavtalsklausuler. Databuddy behandlar besökardata i anonymiserad form.",
+            "Till AI-leverantören skickas bara den sökfråga som lokal sök inte kunde tolka. Feedbackmeddelanden och e-postadresser skickas inte till Anthropic."
+          ]
+        },
+        {
+          "title": "7. Lagringstid",
+          "paragraphs": [
+            "Feedback sparas så länge hanteringen kräver och raderas vanligtvis inom 12 månader, om inte samtalet fortsätter eller lagen kräver längre lagring.",
+            "Analysdata sparas aggregerat enligt Databuddys praxis. Sökfrågor lagras inte i Haalarikones egen databas. Temavalet stannar på din enhet tills du rensar webbplatsdata."
+          ]
+        },
+        {
+          "title": "8. Cookies och lokal lagring",
+          "paragraphs": [
+            "Haalarikone sätter inga spårningscookies och bygger inga användarprofiler. Temavalet ligger i localStorage. Databuddy fungerar utan cookies.",
+            "Cloudflare kan sätta tekniskt nödvändiga cookies för säkerhet och leverans. Det är inte marknadsföringscookies."
+          ]
+        },
+        {
+          "title": "9. Säkerhet",
+          "paragraphs": [
+            "Anslutningar skyddas med TLS. Tillgång till feedback är begränsad till den personuppgiftsansvariga. Feedbackformuläret har ett honeypot-fält mot skräppost. Vi samlar inte in betal- eller inloggningsuppgifter eftersom det inte finns konton."
+          ]
+        },
+        {
+          "title": "10. Dina rättigheter",
+          "paragraphs": [
+            "Enligt GDPR kan du begära tillgång, rättelse, radering, begränsning, dataportabilitet och invända mot behandling som bygger på berättigat intresse. Samtycke för valfri e-post kan du återkalla när som helst.",
+            "Eftersom analysen är anonymiserad kan vi inte peka ut en enskild besökare i analysdata. För feedback kan vi hantera en begäran om meddelandet eller e-posten räcker för att hitta den.",
+            "Skicka begäran till savonen.emppu@gmail.com. Vi svarar utan onödigt dröjsmål, senast inom en månad."
+          ]
+        },
+        {
+          "title": "11. Rätt att klaga",
+          "paragraphs": [
+            "Om du anser att dina personuppgifter behandlas olagligt kan du klaga hos dataombudsmannens byrå: https://tietosuoja.fi — Dataombudsmannens byrå, Lintulahdenkuja 4, 00530 Helsingfors."
+          ]
+        },
+        {
+          "title": "12. Ändringar av policyn",
+          "paragraphs": [
+            "Vi uppdaterar policyn när behandlingen ändras. Gällande version finns på den här sidan. Väsentliga ändringar markeras med datum högst upp."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Användarvillkor",
+      "pageTitle": "Användarvillkor | Haalarikone",
+      "description": "Haalarikones användarvillkor: vad tjänsten är, katalogens riktighet, immateriella rättigheter, feedback och ansvar.",
+      "intro": "De här villkoren gäller användning av Haalarikone (haalarikone.fi). Tjänsten drivs av Valtteri Savonen. Genom att använda sajten godkänner du villkoren.",
+      "facts": [
+        { "label": "Tjänst", "value": "Haalarikone, https://haalarikone.fi" },
+        { "label": "Operatör", "value": "Valtteri Savonen" },
+        { "label": "Kontakt", "value": "savonen.emppu@gmail.com" }
+      ],
+      "sections": [
+        {
+          "title": "1. Tjänsten",
+          "paragraphs": [
+            "Haalarikone är en gratis katalog över studentoverallfärger vid finländska universitet och yrkeshögskolor. Du kan bläddra och söka efter färg, studieområde, lärosäte, region och ämnesförening. Tjänsten är avsedd för hobbybruk kring studentkultur.",
+            "Det finns ingen registrering. Tjänsten tillhandahålls i befintligt skick, utan avgift. Operatören kan ändra, avbryta eller lägga ner den."
+          ]
+        },
+        {
+          "title": "2. Katalogens riktighet",
+          "paragraphs": [
+            "Uppgifterna kommer från publika källor och användarrapporter. Overallfärger, ämnesföreningar och lärosätesstrukturer ändras. Information kan vara ofullständig, inaktuell eller felaktig.",
+            "Haalarikone är inte ett officiellt register och representerar inte lärosäten, studentkårer eller ämnesföreningar. Använd den inte som enda källa om fel färg eller förening kan orsaka skada.",
+            "Rapportera fel via feedbackformuläret. Vi rättar underlaget så gott vi kan, men garanterar inte att varje rapport leder till en ändring eller att ändringen sker inom en viss tid."
+          ]
+        },
+        {
+          "title": "3. Immateriella rättigheter",
+          "paragraphs": [
+            "Sajtens namn, logotyp, utformning och sammanställda katalog tillhör operatören om inget annat anges. Du får bläddra på sajten och dela länkar till enskilda sidor. Automatisk masskopiering, återpublicering av datasetet som egen katalog eller vilseledande användning av varumärket är inte tillåtet utan tillstånd.",
+            "Källkoden finns under GNU Affero General Public License v3.0: https://github.com/valtterisa/student-overall-app. AGPL gäller programvaran, inte namnet Haalarikone, logotypen eller den visuella formen."
+          ]
+        },
+        {
+          "title": "4. Feedback",
+          "paragraphs": [
+            "Via formuläret kan du skicka rättelser, idéer och felanmälningar. Valfri e-post används bara för att svara.",
+            "Genom att skicka feedback ger du operatören rätt att använda sakuppgifterna för att rätta katalogen och utveckla tjänsten. Skicka inte konfidentiellt, olagligt eller rättighetskränkande material."
+          ]
+        },
+        {
+          "title": "5. Otillåten användning",
+          "paragraphs": [
+            "Tjänsten får inte användas så att den överbelastas oskäligt, tekniska begränsningar kringgås, skadlig kod sprids, skräppost skickas eller obehörigt tillträde försöks. Sök-API:t får inte användas för automatiserad massökning som skadar andra användare."
+          ]
+        },
+        {
+          "title": "6. Ansvar",
+          "paragraphs": [
+            "Tjänsten är ett gratis hobbyprojekt. I den mån tvingande lag, inklusive finsk konsumentskyddslag, inte kräver annat tillhandahålls den utan garanti för tillgänglighet, riktighet eller lämplighet för visst ändamål.",
+            "Operatören ansvarar inte för skada som uppstår av att uppgifterna används, av avbrott eller av tredje parts tjänster (hosting, analys, e-post, AI), utom när skadan beror på uppsåt eller grov vårdslöshet."
+          ]
+        },
+        {
+          "title": "7. Tillämplig lag och tvister",
+          "paragraphs": [
+            "Villkoren lyder under finsk lag, med undantag för lagvalsregler.",
+            "Som konsument kan du ta en tvist till konsumenttvistenämnden (https://www.kuluttajariita.fi) eller använda EU:s tvistlösning online. Övriga tvister avgörs i finska domstolar."
+          ]
+        },
+        {
+          "title": "8. Ändringar av villkoren",
+          "paragraphs": [
+            "Vi kan uppdatera villkoren när tjänsten ändras. Gällande version finns på den här sidan. Fortsatt användning efter en ändring innebär att du godkänner de uppdaterade villkoren. Väsentliga ändringar markeras med datum högst upp."
+          ]
+        }
+      ]
+    }
   },
   "search": {
     "title": "Sök",
