@@ -51,6 +51,7 @@ export default function UniversityCard({ uni, source = 'search' }: UniversityCar
               className="object-contain px-1.5 py-1 sm:px-2.5 sm:py-2"
               src={`/logos/${logoName}.jpg`}
               fill
+              sizes="(min-width: 640px) 48px, 36px"
               alt={`${uni.oppilaitos} logo`}
             />
           </div>

@@ -233,6 +233,7 @@ export default async function OverallPage({ params }: Props) {
                   className="object-contain p-2"
                   src={`/logos/${logoName}.jpg`}
                   fill
+                  sizes="56px"
                   alt={`${overall.oppilaitos} logo`}
                 />
               </div>
@@ -344,6 +345,7 @@ export default async function OverallPage({ params }: Props) {
                         className="object-contain p-1.5"
                         src={`/logos/${getLogoName(rel.oppilaitos, locale)}.jpg`}
                         fill
+                        sizes="40px"
                         alt={`${rel.oppilaitos} logo`}
                       />
                     </div>

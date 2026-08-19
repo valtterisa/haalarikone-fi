@@ -16,6 +16,7 @@ import type { Locale } from '@/lib/slug-translations';
 import { routeHref } from '@/lib/use-translated-routes';
 import { capitalizeFirstLetter } from '@/lib/utils';
 import { Page } from '@/components/page';
+import { ConsoleArt } from '@/components/console-art';
 
 export const revalidate = 86400;
 
@@ -100,6 +101,7 @@ export default async function Index({
         }}
       />
       <FAQSchema locale={locale} />
+      <ConsoleArt />
       <Page>
         <h1 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
           {t('home.title')}
