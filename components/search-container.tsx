@@ -9,6 +9,11 @@ import PlaceholderDisplay from './placeholder-display';
 import { searchUniversitiesAPI } from '@/lib/search-utils';
 import type { ColorData } from '@/lib/load-color-data';
 import { getUniqueAreas, getUniqueFields, getUniqueUniversities } from '@/lib/get-unique-values';
+import {
+  filterUniversities,
+  matchesUniversityFilters,
+  type UniversityFilterCriteria,
+} from '@/lib/university-filters';
 import type { University } from '@/types/university';
 import { trackSearchApply } from '@/lib/analytics-events';
 import type { HubSource } from '@/lib/analytics-events';
@@ -131,35 +136,25 @@ export default function SearchContainer({
     };
   }, [selectedCriteria.textSearch]);
 
+  const appliedFilterCriteria = useMemo((): UniversityFilterCriteria => {
+    return {
+      color: selectedCriteria.color || undefined,
+      area: selectedCriteria.area || undefined,
+      field: selectedCriteria.field || undefined,
+      school: selectedCriteria.school || undefined,
+    };
+  }, [
+    selectedCriteria.color,
+    selectedCriteria.area,
+    selectedCriteria.field,
+    selectedCriteria.school,
+  ]);
+
   const applyFilters = useCallback(
     (universities: University[]): University[] => {
-      return universities.filter((uni) => {
-        const colorMatch = selectedCriteria.color
-          ? (uni.variBase?.length ? uni.variBase.includes(selectedCriteria.color) : true) &&
-            [
-              ...colorData.colors[selectedCriteria.color].main,
-              ...colorData.colors[selectedCriteria.color].shades,
-            ].some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()))
-          : true;
-        const areaMatch =
-          !selectedCriteria.area ||
-          uni.alue.toLowerCase().includes(selectedCriteria.area.toLowerCase());
-        const fieldMatch =
-          !selectedCriteria.field ||
-          uni.ala?.toLowerCase().includes(selectedCriteria.field.toLowerCase());
-        const schoolMatch =
-          !selectedCriteria.school ||
-          uni.oppilaitos.toLowerCase().includes(selectedCriteria.school.toLowerCase());
-        return colorMatch && areaMatch && fieldMatch && schoolMatch;
-      });
+      return filterUniversities(universities, appliedFilterCriteria, colorData);
     },
-    [
-      selectedCriteria.color,
-      selectedCriteria.area,
-      selectedCriteria.field,
-      selectedCriteria.school,
-      colorData.colors,
-    ],
+    [appliedFilterCriteria, colorData],
   );
 
   const performSearch = useCallback(async () => {
@@ -312,33 +307,15 @@ export default function SearchContainer({
 
   const matchesDraftFilters = useCallback(
     (uni: University, ignore?: 'color' | 'area' | 'field' | 'school') => {
-      const colorMatch =
-        ignore === 'color' || !draftAdvancedFilters.color
-          ? true
-          : (uni.variBase?.length ? uni.variBase.includes(draftAdvancedFilters.color) : true) &&
-            [
-              ...colorData.colors[draftAdvancedFilters.color].main,
-              ...colorData.colors[draftAdvancedFilters.color].shades,
-            ].some((c) => uni.vari.toLowerCase().includes(c.toLowerCase()));
-
-      const areaMatch =
-        ignore === 'area' ||
-        !draftAdvancedFilters.area ||
-        uni.alue.toLowerCase().includes(draftAdvancedFilters.area.toLowerCase());
-
-      const fieldMatch =
-        ignore === 'field' ||
-        !draftAdvancedFilters.field ||
-        uni.ala?.toLowerCase().includes(draftAdvancedFilters.field.toLowerCase());
-
-      const schoolMatch =
-        ignore === 'school' ||
-        !draftAdvancedFilters.school ||
-        uni.oppilaitos.toLowerCase().includes(draftAdvancedFilters.school.toLowerCase());
-
-      return colorMatch && areaMatch && fieldMatch && schoolMatch;
+      const filters: UniversityFilterCriteria = {
+        color: ignore === 'color' ? undefined : draftAdvancedFilters.color || undefined,
+        area: ignore === 'area' ? undefined : draftAdvancedFilters.area || undefined,
+        field: ignore === 'field' ? undefined : draftAdvancedFilters.field || undefined,
+        school: ignore === 'school' ? undefined : draftAdvancedFilters.school || undefined,
+      };
+      return matchesUniversityFilters(uni, filters, colorData);
     },
-    [draftAdvancedFilters, colorData.colors],
+    [draftAdvancedFilters, colorData],
   );
 
   const draftFilterResultCount = useMemo(

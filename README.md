@@ -26,7 +26,7 @@ Check out the live project at: [haalarikone.fi](https://haalarikone.fi)
 - **AI/ML:** Vercel AI SDK with Anthropic Claude 3 Haiku (zero-result fallback only)
 - **Email:** Resend (for feedback forms)
 - **Analytics:** Databuddy
-- **Testing:** Vitest + React Testing Library (unit/integration), Playwright (end-to-end)
+- **Testing:** Vitest only — search API + advanced filters against real `data/overall_data.json`; CI on non-draft PRs
 - **Package Manager:** pnpm
 - **Deployment:** Vercel
 
@@ -67,13 +67,13 @@ student-overall-app/
 │   ├── slug-translations.ts   # Entity slug translations
 │   ├── translate-path-client.ts  # Client-side path translation
 │   ├── build-search-response.ts # Deterministic in-memory fuzzy search
+│   ├── university-filters.ts   # Advanced filter matching (shared UI/API)
 │   ├── query-understanding.ts  # AI fallback query parsing
 │   ├── load-color-data.ts      # Dynamic color data from JSON
 │   └── ...                # Other utilities
 ├── messages/              # Translation files (fi.json, en.json, sv.json)
 ├── types/                 # TypeScript type definitions
-├── utils/                 # Utility functions
-└── tests/                 # Playwright tests
+└── utils/                 # Utility functions
 ```
 
 ## Features
@@ -88,7 +88,7 @@ student-overall-app/
 
 ## Search Architecture
 
-The search system is deterministic-first and fully in-memory by default. It filters against local university and color data, then ranks candidates with Fuse fuzzy search. AI parsing is used only if deterministic search returns 0 results.
+The search system is deterministic-first and fully in-memory by default. Text search filters against local university and color data, then ranks candidates with Fuse fuzzy search. **Advanced filters** (color / area / field / school) are applied client-side via shared matching in `lib/university-filters.ts`. AI parsing is used only if deterministic text search returns 0 results.
 
 ### How It Works
 
@@ -135,6 +135,23 @@ flowchart TD
 - **Predictable Results:** One deterministic pipeline handles normal search traffic.
 - **Natural Color Queries:** Finnish singular/plural color forms match reliably.
 - **Fast Runtime:** Local in-memory filtering + fuzzy ranking avoids network/model latency on common paths.
+
+## Testing
+
+Automated tests use **Vitest only** (no Playwright / React Testing Library). Coverage is search-first and runs against the real `data/overall_data.json` dataset.
+
+| Suite | Role |
+|-------|------|
+| `app/api/search/route.test.ts` | Text search API integration (AI mocked) |
+| `lib/university-filters.test.ts` | Advanced filters (+ text ∩ filters) |
+| `lib/reconcile-field-organization.test.ts` | Guild vs field reconcile unit tests |
+
+```bash
+pnpm test
+pnpm test:watch
+```
+
+Non-draft pull requests run `pnpm test` in GitHub Actions. Full policy and when to add tests: [CONTRIBUTING.md](./CONTRIBUTING.md#testing).
 
 ## Contributing
 

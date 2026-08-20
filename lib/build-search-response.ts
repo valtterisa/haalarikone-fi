@@ -2,6 +2,7 @@ import type { University } from '@/types/university';
 import type { QueryUnderstanding } from './query-understanding';
 import type { ColorData } from './load-color-data';
 import { runFuzzySearch } from './fuzzy-search';
+import { matchesUniversityFilters } from './university-filters';
 
 export type SearchApiSuccessBody = {
   results: University[];
@@ -211,30 +212,17 @@ function universityMatchesFilters(
     if (!hasColor) return false;
   }
 
-  if (filters.color) {
-    const explicitColorBases = detectBaseColorFilters(filters.color, colorData);
-    if (explicitColorBases.length > 0) {
-      const explicitMatch = (uni.variBase ?? []).some((base) =>
-        explicitColorBases.includes(normalize(base)),
-      );
-      if (!explicitMatch) return false;
-    } else if (!normalize(uni.vari).includes(normalize(filters.color))) {
-      return false;
-    }
-  }
-
-  if (filters.area && !normalize(uni.alue).includes(normalize(filters.area))) return false;
-  if (filters.field && !normalize(uni.ala || '').includes(normalize(filters.field))) return false;
-  if (filters.school && !normalize(uni.oppilaitos).includes(normalize(filters.school)))
-    return false;
-  if (filters.organization) {
-    const org = normalize(uni.ainejarjesto || '');
-    const slug = normalize(uni.slug);
-    const wanted = normalize(filters.organization);
-    if (!org.includes(wanted) && !slug.includes(wanted)) return false;
-  }
-
-  return true;
+  return matchesUniversityFilters(
+    uni,
+    {
+      color: requiredBaseColors.length > 0 ? undefined : filters.color,
+      area: filters.area,
+      field: filters.field,
+      school: filters.school,
+      organization: filters.organization,
+    },
+    colorData,
+  );
 }
 
 function detectPrimaryColorFilter(query: string, colorData: ColorData): string | undefined {

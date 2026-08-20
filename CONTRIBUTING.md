@@ -49,7 +49,7 @@ Feature requests are welcome! Use the [Feature Request template](.github/ISSUE_T
    pnpm test
    ```
 
-   Ensure all tests pass before submitting.
+   Search and advanced-filter changes should keep those suites green. See [Testing](#testing) for when to add or update tests. Ready (non-draft) PRs also run this suite in GitHub Actions.
 
 4. **Commit your changes**:
 
@@ -170,6 +170,7 @@ The dataset is loaded at runtime and used by:
 
 - `lib/load-universities.ts`: loads searchable “university” rows from the JSON
 - `lib/load-color-data.ts`: derives color variants/base colors for matching
+- `lib/university-filters.ts`: shared advanced-filter matching used by the UI and search pipeline
 
 ### How to make changes safely
 
@@ -177,9 +178,10 @@ The dataset is loaded at runtime and used by:
 2. **Keep shapes consistent with existing entries**:
    - `content.vari` may be a string (color label) or an object (with `base` and/or `label`)
    - `metadata.hex` is optional and used for UI color rendering
-3. **Validate behavior via the search API**:
-   - The search endpoint (`app/api/search/route.ts`) combines AI query understanding, deterministic filtering, and an in-memory keyword scoring fallback
-   - Changes to the dataset should be reflected immediately in local searches once the app reloads
+3. **Validate with the search tests and local app**:
+   - Run `pnpm test` — search API and advanced-filter suites use this real dataset
+   - If a named query/filter expectation breaks after a data change, update the test accordingly
+   - Spot-check in the running app (`pnpm run dev`); the search endpoint combines deterministic filtering/ranking with AI only on zero-result fallbacks
 
 ## Coding Standards
 
@@ -241,46 +243,36 @@ docs: clarify environment setup
 
 ## Testing
 
-Haalarikone uses two layers of automated tests:
+Haalarikone uses **Vitest** for automated tests. Almost all coverage is search-focused (text search + advanced filters) against the real `data/overall_data.json` dataset. AI is mocked in API tests so CI does not need Anthropic credentials.
 
-- **Unit & integration tests:** Vitest + React Testing Library (running in jsdom)
-- **End-to-end tests:** Playwright browser tests
+### When to add tests
 
-### Unit & integration tests (Vitest)
+- Changing **search** or **advanced filters** → update the search integration suites
+- Changing the **reconcile** (guild vs field) helper → update its unit test
+- Otherwise → no new automated tests by default
 
-- Place tests close to the code under test (for example `components/*.test.tsx`, `lib/*.test.ts`)
-- Run the full suite once:
-
-```bash
-pnpm test
-```
-
-- Run tests in watch mode during development:
+### Commands
 
 ```bash
-pnpm test:watch
+pnpm test        # Run the full suite once
+pnpm test:watch  # Watch mode during development
 ```
 
-### End-to-end tests (Playwright)
+### Suite layout
 
-- E2E tests live in the `tests/` directory
-- Ensure the dev server is running (`pnpm run dev`), then run:
+- `app/api/search/route.test.ts` — text search API integration (real data, AI mocked)
+- `lib/university-filters.test.ts` — advanced filters integration (real data, including text ∩ filters)
+- `lib/reconcile-field-organization.test.ts` — unit tests for guild/field reconciliation
 
-```bash
-pnpm test:e2e
-```
+### CI
 
-- After a run, open the HTML report:
-
-```bash
-pnpm exec playwright show-report
-```
+Non-draft pull requests run `pnpm test` via GitHub Actions (on open, push, reopen, and when a draft is marked ready for review). Draft PRs skip CI. The Test workflow must pass before merge.
 
 ## Pull Request Process
 
 1. **Update documentation** if you've changed functionality
-2. **Add tests** for new features or bug fixes
-3. **Ensure all tests pass** locally
+2. **Add or update tests** when changing search, advanced filters, or complex helpers (see Testing)
+3. **Ensure all tests pass** locally (`pnpm test`) and that the PR Test workflow is green when the PR is ready
 4. **Update CHANGELOG.md** if applicable (if the project uses one)
 5. **Make sure the PR is ready for review**
    - PR is not a Draft
@@ -292,7 +284,7 @@ pnpm exec playwright show-report
 Before submitting, ensure:
 
 - [ ] Code follows project style guidelines
-- [ ] All tests pass
+- [ ] `pnpm test` passes (and CI Test workflow is green on ready PRs)
 - [ ] No console errors or warnings
 - [ ] Documentation is updated (if needed)
 - [ ] Code is self-documenting (no unnecessary comments)
