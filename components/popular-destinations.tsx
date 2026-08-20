@@ -2,7 +2,7 @@ import { HubLink, type HubLinkProps } from '@/components/hub-link';
 import { cn } from '@/lib/utils';
 import type { ReactNode } from 'react';
 
-function PopularDestinationsRoot({ title, children }: { title: string; children: ReactNode }) {
+export function PopularDestinationsRoot({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="-mt-2 mb-6 w-full sm:-mt-4 sm:mb-8">
       <h2 className="sr-only">{title}</h2>
@@ -11,7 +11,7 @@ function PopularDestinationsRoot({ title, children }: { title: string; children:
   );
 }
 
-function PopularDestinationsGroup({
+export function PopularDestinationsGroup({
   label,
   children,
 }: {
@@ -26,7 +26,7 @@ function PopularDestinationsGroup({
   );
 }
 
-function PopularDestinationsChip({ className, ...props }: HubLinkProps) {
+export function PopularDestinationsChip({ className, ...props }: HubLinkProps) {
   return (
     <HubLink
       {...props}

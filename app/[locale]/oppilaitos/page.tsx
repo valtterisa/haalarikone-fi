@@ -18,7 +18,7 @@ import { getTranslations } from 'next-intl/server';
 import type { Locale } from '@/lib/slug-translations';
 import { pinPopularFirst, POPULAR_SCHOOLS } from '@/lib/popular-destinations';
 import { entitySlug } from '@/lib/entity-slug';
-import { HubGrid } from '@/components/hub-grid';
+import { HubGrid, HubGridItem } from '@/components/hub-grid';
 import {
   absoluteHomeUrl,
   absoluteTranslatedRoute,
@@ -170,7 +170,7 @@ export default async function UniversityIndexPage({
             {unique.map((uni) => {
               const slug = entitySlug(uni, locale, 'university');
               return (
-                <HubGrid.Item
+                <HubGridItem
                   key={uni}
                   href={routeHref('universities', slug)}
                   source="university-index"
@@ -178,7 +178,7 @@ export default async function UniversityIndexPage({
                   slug={slug}
                 >
                   {uni}
-                </HubGrid.Item>
+                </HubGridItem>
               );
             })}
           </HubGrid>

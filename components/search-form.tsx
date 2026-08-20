@@ -164,7 +164,7 @@ function SearchFilterPanel({
   );
 }
 
-function SearchFormRoot({
+export function SearchFormRoot({
   onTextSearchChange,
   onDraftAdvancedFilterChange,
   onApplyAdvancedFilters,
@@ -529,7 +529,7 @@ function SearchFormRoot({
   );
 }
 
-function SearchFormTextField({
+export function SearchFormTextField({
   inputRef,
   value,
   onChange,

@@ -13,7 +13,7 @@ import { useTranslatedRoutes, type InternalHref } from '@/lib/use-translated-rou
 import { useLocale } from 'next-intl';
 import type { ReactNode } from 'react';
 
-function BrowseSectionRoot({
+export function BrowseSectionRoot({
   title,
   description,
   children,
@@ -31,7 +31,7 @@ function BrowseSectionRoot({
   );
 }
 
-function BrowseSectionGroup({
+export function BrowseSectionGroup({
   title,
   items,
   remaining,
@@ -65,7 +65,7 @@ function BrowseSectionGroup({
   );
 }
 
-function BrowseSectionFromUniversities({ universities }: { universities: University[] }) {
+export function BrowseSectionFromUniversities({ universities }: { universities: University[] }) {
   const routes = useTranslatedRoutes();
   const locale = useLocale() as Locale;
   const uniqueUniversities = getUniqueUniversities(universities);

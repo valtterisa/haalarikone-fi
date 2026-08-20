@@ -19,7 +19,7 @@ type FeedbackModalRootProps = FeedbackFormProps & {
   trigger: ReactElement;
 };
 
-function FeedbackModalRoot({ trigger, ...formProps }: FeedbackModalRootProps) {
+export function FeedbackModalRoot({ trigger, ...formProps }: FeedbackModalRootProps) {
   const [open, setOpen] = useState(false);
   const titleId = useId();
   const close = () => setOpen(false);
@@ -41,7 +41,7 @@ function FeedbackModalRoot({ trigger, ...formProps }: FeedbackModalRootProps) {
   );
 }
 
-function FeedbackModalPanel({
+export function FeedbackModalPanel({
   children,
   onClose,
   titleId,

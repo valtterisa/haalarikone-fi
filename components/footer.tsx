@@ -17,7 +17,7 @@ type FooterHubLink = {
   type: HubType;
 };
 
-function FooterRoot() {
+export function FooterRoot() {
   const t = useTranslations('footer');
   const tNav = useTranslations('nav');
   const routes = useTranslatedRoutes();
@@ -83,7 +83,7 @@ function FooterRoot() {
   );
 }
 
-function FooterBrand({ description }: { description: string }) {
+export function FooterBrand({ description }: { description: string }) {
   return (
     <div className="mx-auto flex w-full max-w-xl flex-col items-center md:mx-0 md:items-start">
       <Logo />
@@ -92,7 +92,7 @@ function FooterBrand({ description }: { description: string }) {
   );
 }
 
-function FooterNav({
+export function FooterNav({
   title,
   blogLabel,
   blogDescription,
@@ -143,7 +143,7 @@ function FooterNav({
   );
 }
 
-function FooterContact({
+export function FooterContact({
   title,
   emailLabel,
   emailAria,
@@ -203,7 +203,7 @@ function FooterContact({
   );
 }
 
-function FooterMeta({
+export function FooterMeta({
   builtBy,
   privacyLabel,
   termsLabel,

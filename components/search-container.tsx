@@ -45,7 +45,7 @@ type SearchContainerRootProps = {
   children: ReactNode;
 };
 
-function SearchContainerRoot({
+export function SearchContainerRoot({
   initialUniversities,
   colorData,
   initialTextSearch = '',
@@ -72,7 +72,7 @@ function SearchContainerRoot({
   );
 }
 
-function SearchContainerForm() {
+export function SearchContainerForm() {
   const {
     handleTextSearchChange,
     handleDraftAdvancedFilterChange,
@@ -108,11 +108,11 @@ function SearchContainerForm() {
   );
 }
 
-function SearchContainerBelow({ children }: { children: ReactNode }) {
+export function SearchContainerBelow({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
-function SearchContainerLoading() {
+export function SearchContainerLoading() {
   return (
     <div className="mb-4 w-full sm:mb-8">
       <div className="space-y-3 px-1 py-2 sm:px-0 sm:py-4">
@@ -126,7 +126,7 @@ function SearchContainerLoading() {
   );
 }
 
-function SearchContainerEmpty() {
+export function SearchContainerEmpty() {
   const t = useTranslations('search');
   return (
     <div className="mx-auto max-w-xl rounded-xl bg-muted/50 p-8 text-center">
@@ -135,7 +135,7 @@ function SearchContainerEmpty() {
   );
 }
 
-function SearchContainerResults({
+export function SearchContainerResults({
   previewCount,
   whenIdle = 'none',
 }: {

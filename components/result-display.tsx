@@ -14,7 +14,7 @@ interface ResultsDisplayProps {
   children?: ReactNode;
 }
 
-function ResultsDisplayRoot({
+export function ResultsDisplayRoot({
   results,
   initialVisibleCount,
   source = 'search',
@@ -97,7 +97,7 @@ function ResultsDisplayRoot({
   );
 }
 
-function ResultsDisplayList({
+export function ResultsDisplayList({
   results,
   source = 'search',
 }: {
@@ -130,7 +130,7 @@ function ResultsDisplayList({
   );
 }
 
-function ResultsDisplayShowAll({
+export function ResultsDisplayShowAll({
   count,
   onShowAll,
 }: {
@@ -151,7 +151,7 @@ function ResultsDisplayShowAll({
   );
 }
 
-function ResultsDisplayPagination({
+export function ResultsDisplayPagination({
   currentPage,
   totalPages,
   onPageChange,

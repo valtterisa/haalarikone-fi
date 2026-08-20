@@ -1,7 +1,7 @@
 {
   "common": {
     "search": "Etsi haalarikoneesta",
-    "searchPlaceholder": "Etsi värejä, aloja, oppilaitoksia�",
+    "searchPlaceholder": "Etsi värejä, aloja, oppilaitoksia…",
     "categories": "Kategoriat",
     "blog": "Blogi",
     "close": "Sulje",
@@ -289,7 +289,7 @@
   "search": {
     "title": "Haku",
     "placeholder": "Kerro mitä etsit…",
-    "searchPlaceholder": "Etsi värejä, aloja, oppilaitoksia�",
+    "searchPlaceholder": "Etsi värejä, aloja, oppilaitoksia…",
     "clearSearch": "Tyhjennä haku",
     "filters": "Suodattimet",
     "selectColor": "Valitse väri",

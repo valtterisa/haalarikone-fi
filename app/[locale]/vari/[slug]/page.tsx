@@ -15,7 +15,10 @@ import { parseStyles, capitalizeFirstLetter } from '@/lib/utils';
 import { Metadata } from 'next';
 import { Link } from '@/i18n/routing';
 import UniversityCard from '@/components/university-card';
-import RelatedTopics from '@/components/related-topic-chips';
+import RelatedTopics, {
+  RelatedTopicsChip,
+  RelatedTopicsChips,
+} from '@/components/related-topic-chips';
 import Script from 'next/script';
 import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
@@ -250,9 +253,9 @@ export default async function ColorPage({ params }: Props) {
         </div>
 
         <RelatedTopics title={t('colors.relatedTopics')}>
-          <RelatedTopics.Chips>
+          <RelatedTopicsChips>
             {universitiesList.slice(0, 10).map((item) => (
-              <RelatedTopics.Chip
+              <RelatedTopicsChip
                 key={`university-${item}`}
                 item={item}
                 locale={locale}
@@ -261,7 +264,7 @@ export default async function ColorPage({ params }: Props) {
               />
             ))}
             {areas.slice(0, 10).map((item) => (
-              <RelatedTopics.Chip
+              <RelatedTopicsChip
                 key={`area-${item}`}
                 item={item}
                 locale={locale}
@@ -270,7 +273,7 @@ export default async function ColorPage({ params }: Props) {
               />
             ))}
             {fields.slice(0, 10).map((item) => (
-              <RelatedTopics.Chip
+              <RelatedTopicsChip
                 key={`field-${item}`}
                 item={item}
                 locale={locale}
@@ -278,7 +281,7 @@ export default async function ColorPage({ params }: Props) {
                 type="field"
               />
             ))}
-          </RelatedTopics.Chips>
+          </RelatedTopicsChips>
         </RelatedTopics>
 
         <ul className="space-y-3">

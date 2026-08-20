@@ -1,10 +1,17 @@
-import SearchContainer from '@/components/search-container';
+import SearchContainer, {
+  SearchContainerBelow,
+  SearchContainerForm,
+  SearchContainerResults,
+} from '@/components/search-container';
 import { loadUniversities } from '@/lib/load-universities';
 import { loadColorData } from '@/lib/load-color-data';
 import FAQSchema from '@/components/faq-schema';
-import FaqList from '@/components/faq-list';
-import { NavigateCard } from '@/components/navigate-card';
-import PopularDestinations from '@/components/popular-destinations';
+import FaqList, { FaqItem } from '@/components/faq-list';
+import { NavigateCard, NavigateCardBody, NavigateCardSwatches } from '@/components/navigate-card';
+import PopularDestinations, {
+  PopularDestinationsChip,
+  PopularDestinationsGroup,
+} from '@/components/popular-destinations';
 import Script from 'next/script';
 import { getTranslations } from 'next-intl/server';
 import { getPathname } from '@/i18n/routing';
@@ -116,14 +123,14 @@ export default async function Index({
           initialTextSearch={search}
           resultSource="home"
         >
-          <SearchContainer.Form />
-          <SearchContainer.Below>
+          <SearchContainerForm />
+          <SearchContainerBelow>
             <PopularDestinations title={t('popular.title')}>
-              <PopularDestinations.Group label={t('popular.areas')}>
+              <PopularDestinationsGroup label={t('popular.areas')}>
                 {POPULAR_AREAS.map((area) => {
                   const slug = entitySlug(area, loc, 'area');
                   return (
-                    <PopularDestinations.Chip
+                    <PopularDestinationsChip
                       key={area}
                       href={routeHref('areas', slug)}
                       source="home"
@@ -131,15 +138,15 @@ export default async function Index({
                       slug={slug}
                     >
                       {capitalizeFirstLetter(getLocalizedName(area, loc, 'area'))}
-                    </PopularDestinations.Chip>
+                    </PopularDestinationsChip>
                   );
                 })}
-              </PopularDestinations.Group>
-              <PopularDestinations.Group label={t('popular.schools')}>
+              </PopularDestinationsGroup>
+              <PopularDestinationsGroup label={t('popular.schools')}>
                 {POPULAR_SCHOOLS.map((school) => {
                   const slug = entitySlug(school, loc, 'university');
                   return (
-                    <PopularDestinations.Chip
+                    <PopularDestinationsChip
                       key={school}
                       href={routeHref('universities', slug)}
                       source="home"
@@ -147,74 +154,74 @@ export default async function Index({
                       slug={slug}
                     >
                       {getLocalizedName(school, loc, 'university')}
-                    </PopularDestinations.Chip>
+                    </PopularDestinationsChip>
                   );
                 })}
-              </PopularDestinations.Group>
+              </PopularDestinationsGroup>
             </PopularDestinations>
-          </SearchContainer.Below>
-          <SearchContainer.Results whenIdle="results" />
+          </SearchContainerBelow>
+          <SearchContainerResults whenIdle="results" />
         </SearchContainer>
 
         <section className="mt-8 w-full border-t border-border/60 pt-12 md:pt-16">
           <div className="grid grid-cols-1 gap-3 md:grid-cols-6">
             <NavigateCard href="/vari" className="md:col-span-4 md:min-h-[11rem]">
-              <NavigateCard.Swatches hexes={atmosphereHexes} />
-              <NavigateCard.Body>
+              <NavigateCardSwatches hexes={atmosphereHexes} />
+              <NavigateCardBody>
                 <h2 className="font-display text-xl font-bold tracking-tight">
                   {t('nav.allColors')}
                 </h2>
                 <p className="mt-1 max-w-[45ch] text-sm text-muted-foreground">
                   {t('nav.colorsDescription')}
                 </p>
-              </NavigateCard.Body>
+              </NavigateCardBody>
             </NavigateCard>
             <NavigateCard href="/ala" className="md:col-span-2">
-              <NavigateCard.Body>
+              <NavigateCardBody>
                 <h2 className="font-display text-xl font-bold tracking-tight">
                   {t('nav.allFields')}
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">{t('nav.fieldsDescription')}</p>
-              </NavigateCard.Body>
+              </NavigateCardBody>
             </NavigateCard>
             <NavigateCard href="/oppilaitos" className="md:col-span-2">
-              <NavigateCard.Body>
+              <NavigateCardBody>
                 <h2 className="font-display text-xl font-bold tracking-tight">
                   {t('nav.allSchools')}
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">
                   {t('nav.schoolsDescription')}
                 </p>
-              </NavigateCard.Body>
+              </NavigateCardBody>
             </NavigateCard>
             <NavigateCard href="/alue" className="md:col-span-2">
-              <NavigateCard.Body>
+              <NavigateCardBody>
                 <h2 className="font-display text-xl font-bold tracking-tight">
                   {t('nav.allAreas')}
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">{t('nav.areasDescription')}</p>
-              </NavigateCard.Body>
+              </NavigateCardBody>
             </NavigateCard>
             <NavigateCard href="/blog" className="md:col-span-2">
-              <NavigateCard.Body>
+              <NavigateCardBody>
                 <h2 className="font-display text-xl font-bold tracking-tight">
                   {t('common.blog')}
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">
                   {t('nav.navigateDescription')}
                 </p>
-              </NavigateCard.Body>
+              </NavigateCardBody>
             </NavigateCard>
           </div>
         </section>
 
         <FaqList title={t('faq.title')}>
-          <FaqList.Item question={t('faq.q1')} answer={t('faq.a1')} />
-          <FaqList.Item question={t('faq.q2')} answer={t('faq.a2')} />
-          <FaqList.Item question={t('faq.q3')} answer={t('faq.a3')} />
-          <FaqList.Item question={t('faq.q4')} answer={t('faq.a4')} />
-          <FaqList.Item question={t('faq.q5')} answer={t('faq.a5')} />
-          <FaqList.Item question={t('faq.q6')} answer={t('faq.a6')} />
+          <FaqItem question={t('faq.q1')} answer={t('faq.a1')} />
+          <FaqItem question={t('faq.q2')} answer={t('faq.a2')} />
+          <FaqItem question={t('faq.q3')} answer={t('faq.a3')} />
+          <FaqItem question={t('faq.q4')} answer={t('faq.a4')} />
+          <FaqItem question={t('faq.q5')} answer={t('faq.a5')} />
+          <FaqItem question={t('faq.q6')} answer={t('faq.a6')} />
         </FaqList>
       </Page>
     </>

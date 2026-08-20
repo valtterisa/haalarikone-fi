@@ -42,7 +42,7 @@ type CategoryLink = {
   hubType: HubType;
 };
 
-function HeaderCategoryLink({
+export function HeaderCategoryLink({
   link,
   variant,
   onNavigate,
@@ -98,7 +98,7 @@ function HeaderCategoryLink({
   );
 }
 
-function HeaderCategories({
+export function HeaderCategories({
   links,
   variant,
   onNavigate,
@@ -136,7 +136,7 @@ function HeaderCategories({
   );
 }
 
-function HeaderNavLinks({
+export function HeaderNavLinks({
   links,
   activeHrefKey,
   onNavigate,
@@ -183,7 +183,7 @@ function HeaderNavLinks({
   );
 }
 
-function HeaderRoot() {
+export function HeaderRoot() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const closeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -339,7 +339,7 @@ function HeaderRoot() {
   );
 }
 
-function HeaderMobileMenu({ children }: { children: ReactNode }) {
+export function HeaderMobileMenu({ children }: { children: ReactNode }) {
   return (
     <div className="absolute inset-x-0 top-full border-t border-border/60 bg-background shadow-overlay md:hidden">
       <div className={cn(PAGE_WIDTH, 'py-5')}>

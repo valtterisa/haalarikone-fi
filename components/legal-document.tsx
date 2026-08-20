@@ -130,7 +130,7 @@ export function parseLegalSections(value: unknown): LegalSection[] {
   return value.filter(isLegalSection);
 }
 
-function LegalDocumentRoot({
+export function LegalDocumentRoot({
   homeLabel,
   title,
   updatedLabel,
@@ -156,7 +156,7 @@ function LegalDocumentRoot({
   );
 }
 
-function LegalDocumentBreadcrumbs({
+export function LegalDocumentBreadcrumbs({
   homeLabel,
   title,
 }: {
@@ -180,7 +180,7 @@ function LegalDocumentBreadcrumbs({
   );
 }
 
-function LegalDocumentHeader({
+export function LegalDocumentHeader({
   title,
   updatedLabel,
   updatedDate,
@@ -202,7 +202,7 @@ function LegalDocumentHeader({
   );
 }
 
-function LegalDocumentFacts({ facts }: { facts: LegalFact[] }) {
+export function LegalDocumentFacts({ facts }: { facts: LegalFact[] }) {
   if (facts.length === 0) return null;
 
   return (
@@ -217,7 +217,7 @@ function LegalDocumentFacts({ facts }: { facts: LegalFact[] }) {
   );
 }
 
-function LegalDocumentSections({ sections }: { sections: LegalSection[] }) {
+export function LegalDocumentSections({ sections }: { sections: LegalSection[] }) {
   return (
     <div className="space-y-10">
       {sections.map((section, index) => (

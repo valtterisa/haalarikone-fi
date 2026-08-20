@@ -2,11 +2,11 @@ import { HubLink, type HubLinkProps } from '@/components/hub-link';
 import { cn } from '@/lib/utils';
 import type { ReactNode } from 'react';
 
-function HubGridRoot({ children }: { children: ReactNode }) {
+export function HubGridRoot({ children }: { children: ReactNode }) {
   return <div className="flex flex-col divide-y divide-border">{children}</div>;
 }
 
-function HubGridItem({ className, ...props }: HubLinkProps) {
+export function HubGridItem({ className, ...props }: HubLinkProps) {
   return (
     <HubLink
       {...props}

@@ -57,7 +57,7 @@ type SearchModalRootProps = {
   clientSearchContext?: ClientSearchContext;
 };
 
-function SearchModalRoot({
+export function SearchModalRoot({
   children,
   placeholder,
   modalTitle,
@@ -194,7 +194,7 @@ function SearchModalRoot({
   );
 }
 
-function SearchModalTrigger({ children }: { children: ReactNode }) {
+export function SearchModalTrigger({ children }: { children: ReactNode }) {
   const { setOpen } = useSearchModal();
   return (
     <button
@@ -211,7 +211,7 @@ function SearchModalTrigger({ children }: { children: ReactNode }) {
   );
 }
 
-function SearchModalContent({ children }: { children?: ReactNode }) {
+export function SearchModalContent({ children }: { children?: ReactNode }) {
   const { open, setOpen, results, isSearching, modalTitle } = useSearchModal();
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -233,7 +233,7 @@ function SearchModalContent({ children }: { children?: ReactNode }) {
   );
 }
 
-function SearchModalInput() {
+export function SearchModalInput() {
   const t = useTranslations('search');
   const tCommon = useTranslations('common');
   const { searchQuery, setSearchQuery, isSearching, setOpen, placeholder } = useSearchModal();
@@ -285,7 +285,7 @@ function SearchModalInput() {
   );
 }
 
-function SearchModalOveralls() {
+export function SearchModalOveralls() {
   const t = useTranslations('search');
   const tOverall = useTranslations('overall');
   const {
@@ -339,7 +339,7 @@ function SearchModalOveralls() {
   );
 }
 
-function SearchModalColors() {
+export function SearchModalColors() {
   const t = useTranslations('search');
   const { groupedByColor, handleColorClick } = useSearchModal();
   if (groupedByColor.size === 0) return null;
@@ -376,7 +376,7 @@ function SearchModalColors() {
   );
 }
 
-function SearchModalSchools() {
+export function SearchModalSchools() {
   const t = useTranslations('search');
   const { groupedByInstitution, handleInstitutionClick } = useSearchModal();
   if (groupedByInstitution.size === 0) return null;
@@ -409,7 +409,7 @@ function SearchModalSchools() {
   );
 }
 
-function SearchModalResults() {
+export function SearchModalResults() {
   const t = useTranslations('search');
   const { results, isSearching, searchQuery } = useSearchModal();
 
