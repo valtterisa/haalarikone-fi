@@ -15,7 +15,7 @@ const HUB_ROUTE = {
   color: 'colors',
 } as const satisfies Record<HubType, RouteType>;
 
-function RelatedTopicsRoot({ title, children }: { title: string; children: ReactNode }) {
+export function RelatedTopicsRoot({ title, children }: { title: string; children: ReactNode }) {
   const content = Children.toArray(children).filter(Boolean);
   if (content.length === 0) {
     return null;
@@ -29,7 +29,7 @@ function RelatedTopicsRoot({ title, children }: { title: string; children: React
   );
 }
 
-function RelatedTopicsChips({ children }: { children: ReactNode }) {
+export function RelatedTopicsChips({ children }: { children: ReactNode }) {
   const items = Children.toArray(children).filter(Boolean);
   if (items.length === 0) {
     return null;
@@ -38,7 +38,7 @@ function RelatedTopicsChips({ children }: { children: ReactNode }) {
   return <div className="flex flex-wrap gap-2">{items}</div>;
 }
 
-function RelatedTopicsChip({
+export function RelatedTopicsChip({
   item,
   locale,
   source,

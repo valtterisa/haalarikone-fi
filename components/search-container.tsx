@@ -1,437 +1,202 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback, useRef, type ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useMemo,
+  type ReactNode,
+} from 'react';
 import { motion } from 'framer-motion';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import SearchForm from './search-form';
 import ResultsDisplay from './result-display';
 import PlaceholderDisplay from './placeholder-display';
-import { searchUniversitiesAPI } from '@/lib/search-utils';
 import type { ColorData } from '@/lib/load-color-data';
-import { getUniqueAreas, getUniqueFields, getUniqueUniversities } from '@/lib/get-unique-values';
-import {
-  filterUniversities,
-  matchesUniversityFilters,
-  type UniversityFilterCriteria,
-} from '@/lib/university-filters';
 import type { University } from '@/types/university';
-import { trackSearchApply } from '@/lib/analytics-events';
 import type { HubSource } from '@/lib/analytics-events';
+import {
+  useUniversitySearch,
+  type Criteria,
+  type UniversitySearchState,
+} from '@/lib/use-university-search';
 
-const TEXT_SEARCH_DEBOUNCE_MS = 1000;
+export type { Criteria };
 
-function searchCriteriaKey(criteria: Criteria): string {
-  return `${criteria.textSearch}|${criteria.color}|${criteria.area}|${criteria.field}|${criteria.school}`;
-}
-
-function compareOppilaitosThenAinejarjesto(a: University, b: University): number {
-  if (a.oppilaitos === b.oppilaitos) {
-    if (!a.ainejarjesto && !b.ainejarjesto) return 0;
-    if (!a.ainejarjesto) return 1;
-    if (!b.ainejarjesto) return -1;
-    return a.ainejarjesto.localeCompare(b.ainejarjesto);
-  }
-  return a.oppilaitos.localeCompare(b.oppilaitos);
-}
-
-export type Criteria = {
-  textSearch: string;
-  color:
-    | ''
-    | 'valkoinen'
-    | 'musta'
-    | 'punainen'
-    | 'sininen'
-    | 'vihreä'
-    | 'keltainen'
-    | 'oranssi'
-    | 'violetti'
-    | 'pinkki'
-    | 'harmaa'
-    | 'ruskea'
-    | 'turkoosi';
-  area: string;
-  field: string;
-  school: string;
+type SearchContainerContextValue = UniversitySearchState & {
+  resultSource: HubSource;
 };
 
-interface SearchContainerProps {
-  initialUniversities: University[];
-  colorData: ColorData;
-  initialInlineResultsCount?: number;
-  showResultsByDefault?: boolean;
-  showIdlePlaceholder?: boolean;
-  initialTextSearch?: string;
-  belowForm?: ReactNode;
-  resultSource?: HubSource;
+const SearchContainerContext = createContext<SearchContainerContextValue | null>(null);
+
+function useSearchContainer() {
+  const ctx = useContext(SearchContainerContext);
+  if (!ctx) {
+    throw new Error('SearchContainer compound parts must be used within SearchContainer');
+  }
+  return ctx;
 }
 
-export default function SearchContainer({
+type SearchContainerRootProps = {
+  initialUniversities: University[];
+  colorData: ColorData;
+  initialTextSearch?: string;
+  resultSource?: HubSource;
+  showResultsByDefault?: boolean;
+  children: ReactNode;
+};
+
+export function SearchContainerRoot({
   initialUniversities,
   colorData,
-  initialInlineResultsCount,
-  showResultsByDefault = false,
-  showIdlePlaceholder = false,
   initialTextSearch = '',
-  belowForm,
   resultSource = 'search',
-}: SearchContainerProps) {
-  const locale = useLocale() as 'fi' | 'en' | 'sv';
-  const t = useTranslations('search');
-  const [selectedCriteria, setSelectedCriteria] = useState<Criteria>({
-    textSearch: initialTextSearch.trim(),
-    color: '',
-    area: '',
-    field: '',
-    school: '',
-  });
-
-  const [draftAdvancedFilters, setDraftAdvancedFilters] = useState<Omit<Criteria, 'textSearch'>>({
-    color: '',
-    area: '',
-    field: '',
-    school: '',
-  });
-
-  const [searchSourceUniversities, setSearchSourceUniversities] = useState<University[]>(
-    () => initialUniversities,
-  );
-  const [hasSearched, setHasSearched] = useState(false);
-  const hasSearchedRef = useRef(hasSearched);
-  hasSearchedRef.current = hasSearched;
-  const [isSearching, setIsSearching] = useState(false);
-  const searchRequestIdRef = useRef(0);
-  const [completedSearch, setCompletedSearch] = useState<{
-    criteriaKey: string;
-    requestId: number;
-  } | null>(null);
-  const hasActiveQuery =
-    selectedCriteria.textSearch.trim().length >= 3 ||
-    Boolean(
-      selectedCriteria.color ||
-        selectedCriteria.area ||
-        selectedCriteria.field ||
-        selectedCriteria.school,
-    );
-  const sortedInitialUniversities = useMemo(
-    () => [...initialUniversities].sort(compareOppilaitosThenAinejarjesto),
-    [initialUniversities],
-  );
-
-  const [debouncedTextSearch, setDebouncedTextSearch] = useState('');
-
-  useEffect(() => {
-    const raw = selectedCriteria.textSearch;
-    const trimmed = raw.trim();
-    if (trimmed.length < 3) {
-      setDebouncedTextSearch(raw);
-      return undefined;
-    }
-    const timeoutId = setTimeout(() => {
-      setDebouncedTextSearch(raw);
-    }, TEXT_SEARCH_DEBOUNCE_MS);
-    return () => {
-      clearTimeout(timeoutId);
-      searchRequestIdRef.current += 1;
-    };
-  }, [selectedCriteria.textSearch]);
-
-  const appliedFilterCriteria = useMemo((): UniversityFilterCriteria => {
-    return {
-      color: selectedCriteria.color || undefined,
-      area: selectedCriteria.area || undefined,
-      field: selectedCriteria.field || undefined,
-      school: selectedCriteria.school || undefined,
-    };
-  }, [
-    selectedCriteria.color,
-    selectedCriteria.area,
-    selectedCriteria.field,
-    selectedCriteria.school,
-  ]);
-
-  const applyFilters = useCallback(
-    (universities: University[]): University[] => {
-      return filterUniversities(universities, appliedFilterCriteria, colorData);
-    },
-    [appliedFilterCriteria, colorData],
-  );
-
-  const performSearch = useCallback(async () => {
-    const currentRequestId = searchRequestIdRef.current + 1;
-    searchRequestIdRef.current = currentRequestId;
-    const requestCriteriaKey = searchCriteriaKey({
-      ...selectedCriteria,
-      textSearch: debouncedTextSearch,
-    });
-    setIsSearching(true);
-    try {
-      let searchResults: University[] = [];
-
-      if (debouncedTextSearch.trim().length >= 3) {
-        try {
-          searchResults = await searchUniversitiesAPI(
-            debouncedTextSearch.trim(),
-            locale,
-            {
-              universities: initialUniversities,
-              colorData,
-            },
-            {
-              waitForSemanticEnrichment: true,
-            },
-          );
-        } catch (error) {
-          console.error('Search failed', error);
-          searchResults = [];
-        }
-      } else {
-        searchResults = initialUniversities;
-      }
-
-      if (searchRequestIdRef.current !== currentRequestId) {
-        return;
-      }
-      setSearchSourceUniversities(searchResults);
-      setHasSearched(true);
-      setCompletedSearch({ criteriaKey: requestCriteriaKey, requestId: currentRequestId });
-    } finally {
-      if (searchRequestIdRef.current === currentRequestId) {
-        setIsSearching(false);
-      }
-    }
-  }, [debouncedTextSearch, initialUniversities, locale, colorData, selectedCriteria]);
-
-  const performSearchRef = useRef(performSearch);
-  performSearchRef.current = performSearch;
-
-  useEffect(() => {
-    const hasTextSearchLive = selectedCriteria.textSearch.trim().length >= 3;
-    const hasFilters =
-      selectedCriteria.color ||
-      selectedCriteria.area ||
-      selectedCriteria.field ||
-      selectedCriteria.school;
-    const hasTextSearchDebounced = debouncedTextSearch.trim().length >= 3;
-
-    if (hasSearchedRef.current && !hasTextSearchLive && !hasFilters) {
-      if (showResultsByDefault) {
-        setSearchSourceUniversities(sortedInitialUniversities);
-      } else {
-        setSearchSourceUniversities([]);
-        setHasSearched(false);
-      }
-      setIsSearching(false);
-      return undefined;
-    }
-
-    if (hasTextSearchDebounced || hasFilters) {
-      void performSearchRef.current();
-      return undefined;
-    }
-
-    return undefined;
-  }, [
-    debouncedTextSearch,
-    selectedCriteria.textSearch,
-    selectedCriteria.color,
-    selectedCriteria.area,
-    selectedCriteria.field,
-    selectedCriteria.school,
+  showResultsByDefault = false,
+  children,
+}: SearchContainerRootProps) {
+  const search = useUniversitySearch({
+    initialUniversities,
+    colorData,
+    initialTextSearch,
     showResultsByDefault,
-    sortedInitialUniversities,
-  ]);
+  });
 
-  useEffect(() => {
-    if (showResultsByDefault && !hasActiveQuery) {
-      setSearchSourceUniversities(sortedInitialUniversities);
-      setHasSearched(true);
-    }
-  }, [showResultsByDefault, hasActiveQuery, sortedInitialUniversities]);
-
-  const results = useMemo(() => {
-    const filtered = applyFilters(searchSourceUniversities);
-    if (selectedCriteria.textSearch.trim().length >= 3) {
-      return filtered;
-    }
-    return [...filtered].sort(compareOppilaitosThenAinejarjesto);
-  }, [searchSourceUniversities, applyFilters, selectedCriteria.textSearch]);
-
-  const handleTextSearchChange = useCallback((textSearch: string) => {
-    setSelectedCriteria((prev) => ({ ...prev, textSearch }));
-  }, []);
-
-  const handleDraftAdvancedFilterChange = useCallback((filters: Omit<Criteria, 'textSearch'>) => {
-    setDraftAdvancedFilters(filters);
-  }, []);
-
-  const handleApplyAdvancedFilters = useCallback(() => {
-    setSelectedCriteria((prev) => ({
-      ...prev,
-      color: draftAdvancedFilters.color,
-      area: draftAdvancedFilters.area,
-      field: draftAdvancedFilters.field,
-      school: draftAdvancedFilters.school,
-    }));
-  }, [draftAdvancedFilters]);
-
-  const handleClearAll = useCallback(() => {
-    setSelectedCriteria({
-      textSearch: '',
-      color: '',
-      area: '',
-      field: '',
-      school: '',
-    });
-    setDraftAdvancedFilters({
-      color: '',
-      area: '',
-      field: '',
-      school: '',
-    });
-  }, []);
-
-  useEffect(() => {
-    setDraftAdvancedFilters({
-      color: selectedCriteria.color,
-      area: selectedCriteria.area,
-      field: selectedCriteria.field,
-      school: selectedCriteria.school,
-    });
-  }, [
-    selectedCriteria.color,
-    selectedCriteria.area,
-    selectedCriteria.field,
-    selectedCriteria.school,
-  ]);
-
-  const matchesDraftFilters = useCallback(
-    (uni: University, ignore?: 'color' | 'area' | 'field' | 'school') => {
-      const filters: UniversityFilterCriteria = {
-        color: ignore === 'color' ? undefined : draftAdvancedFilters.color || undefined,
-        area: ignore === 'area' ? undefined : draftAdvancedFilters.area || undefined,
-        field: ignore === 'field' ? undefined : draftAdvancedFilters.field || undefined,
-        school: ignore === 'school' ? undefined : draftAdvancedFilters.school || undefined,
-      };
-      return matchesUniversityFilters(uni, filters, colorData);
-    },
-    [draftAdvancedFilters, colorData],
+  const value = useMemo(
+    () => ({ ...search, resultSource }),
+    [search, resultSource],
   );
-
-  const draftFilterResultCount = useMemo(
-    () => searchSourceUniversities.filter((uni) => matchesDraftFilters(uni)).length,
-    [searchSourceUniversities, matchesDraftFilters],
-  );
-
-  const areaOptions = useMemo(
-    () => getUniqueAreas(initialUniversities.filter((uni) => matchesDraftFilters(uni, 'area'))),
-    [initialUniversities, matchesDraftFilters],
-  );
-  const fieldOptions = useMemo(
-    () => getUniqueFields(initialUniversities.filter((uni) => matchesDraftFilters(uni, 'field'))),
-    [initialUniversities, matchesDraftFilters],
-  );
-  const schoolOptions = useMemo(
-    () =>
-      getUniqueUniversities(
-        initialUniversities.filter((uni) => matchesDraftFilters(uni, 'school')),
-      ),
-    [initialUniversities, matchesDraftFilters],
-  );
-
-  const lastSearchApplyKey = useRef('');
-  useEffect(() => {
-    if (!hasActiveQuery || isSearching) {
-      return;
-    }
-    const key = `${selectedCriteria.textSearch}|${selectedCriteria.color}|${selectedCriteria.area}|${selectedCriteria.field}|${selectedCriteria.school}|${results.length}`;
-    if (lastSearchApplyKey.current === key) {
-      return;
-    }
-    lastSearchApplyKey.current = key;
-    trackSearchApply({
-      has_query: selectedCriteria.textSearch.trim().length >= 3,
-      has_filters: Boolean(
-        selectedCriteria.color ||
-          selectedCriteria.area ||
-          selectedCriteria.field ||
-          selectedCriteria.school,
-      ),
-      result_count: results.length,
-    });
-  }, [
-    hasActiveQuery,
-    isSearching,
-    results.length,
-    selectedCriteria.textSearch,
-    selectedCriteria.color,
-    selectedCriteria.area,
-    selectedCriteria.field,
-    selectedCriteria.school,
-  ]);
 
   return (
-    <div className="w-full">
-      <SearchForm
-        onTextSearchChange={handleTextSearchChange}
-        onDraftAdvancedFilterChange={handleDraftAdvancedFilterChange}
-        onApplyAdvancedFilters={handleApplyAdvancedFilters}
-        onClearAll={handleClearAll}
-        areas={areaOptions}
-        fields={fieldOptions}
-        schools={schoolOptions}
-        selectedCriteria={selectedCriteria}
-        draftAdvancedFilters={draftAdvancedFilters}
-        resultCount={results.length}
-        draftFilterResultCount={draftFilterResultCount}
-        hasSearched={hasSearched}
-        isSearching={isSearching}
-        colorData={colorData}
-      />
-      {belowForm}
-      {hasActiveQuery && isSearching && (
-        <div className="mb-4 w-full sm:mb-8">
-          <div className="space-y-3 px-1 py-2 sm:px-0 sm:py-4">
-            <div className="h-4 w-40 motion-safe:animate-pulse rounded-md bg-muted" />
-            <div className="h-20 w-full motion-safe:animate-pulse rounded-xl border border-border bg-card" />
-            <div className="h-20 w-full motion-safe:animate-pulse rounded-xl border border-border bg-card" />
-            <div className="h-20 w-full motion-safe:animate-pulse rounded-xl border border-border bg-card" />
-            <div className="h-20 w-full motion-safe:animate-pulse rounded-xl border border-border bg-card" />
-          </div>
-        </div>
-      )}
-      {hasActiveQuery && !isSearching && results.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <ResultsDisplay
-            results={results}
-            initialVisibleCount={initialInlineResultsCount}
-            source={resultSource}
-          />
-        </motion.div>
-      )}
-      {hasActiveQuery && hasSearched && !isSearching && results.length === 0 && (
-        <div className="mx-auto max-w-xl rounded-xl bg-muted/50 p-8 text-center">
-          <p className="text-lg text-muted-foreground">{t('noResultsMessage')}</p>
-        </div>
-      )}
-      {!hasActiveQuery && !showResultsByDefault && showIdlePlaceholder && <PlaceholderDisplay />}
-      {!hasActiveQuery && showResultsByDefault && results.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <ResultsDisplay
-            results={results}
-            initialVisibleCount={initialInlineResultsCount}
-            source={resultSource}
-          />
-        </motion.div>
-      )}
+    <SearchContainerContext.Provider value={value}>
+      <div className="w-full">{children}</div>
+    </SearchContainerContext.Provider>
+  );
+}
+
+export function SearchContainerForm() {
+  const {
+    handleTextSearchChange,
+    handleDraftAdvancedFilterChange,
+    handleApplyAdvancedFilters,
+    handleClearAll,
+    handleRemoveFilter,
+    areaOptions,
+    fieldOptions,
+    schoolOptions,
+    selectedCriteria,
+    draftAdvancedFilters,
+    draftFilterResultCount,
+    isSearching,
+    colorData,
+  } = useSearchContainer();
+
+  return (
+    <SearchForm
+      onTextSearchChange={handleTextSearchChange}
+      onDraftAdvancedFilterChange={handleDraftAdvancedFilterChange}
+      onApplyAdvancedFilters={handleApplyAdvancedFilters}
+      onClearAll={handleClearAll}
+      onRemoveFilter={handleRemoveFilter}
+      areas={areaOptions}
+      fields={fieldOptions}
+      schools={schoolOptions}
+      selectedCriteria={selectedCriteria}
+      draftAdvancedFilters={draftAdvancedFilters}
+      draftFilterResultCount={draftFilterResultCount}
+      isSearching={isSearching}
+      colorData={colorData}
+    />
+  );
+}
+
+export function SearchContainerBelow({ children }: { children: ReactNode }) {
+  return <>{children}</>;
+}
+
+export function SearchContainerLoading() {
+  return (
+    <div className="mb-4 w-full sm:mb-8">
+      <div className="space-y-3 px-1 py-2 sm:px-0 sm:py-4">
+        <div className="h-4 w-40 rounded-md bg-muted motion-safe:animate-pulse" />
+        <div className="h-20 w-full rounded-xl border border-border bg-card motion-safe:animate-pulse" />
+        <div className="h-20 w-full rounded-xl border border-border bg-card motion-safe:animate-pulse" />
+        <div className="h-20 w-full rounded-xl border border-border bg-card motion-safe:animate-pulse" />
+        <div className="h-20 w-full rounded-xl border border-border bg-card motion-safe:animate-pulse" />
+      </div>
     </div>
   );
 }
+
+export function SearchContainerEmpty() {
+  const t = useTranslations('search');
+  return (
+    <div className="mx-auto max-w-xl rounded-xl bg-muted/50 p-8 text-center">
+      <p className="text-lg text-muted-foreground">{t('noResultsMessage')}</p>
+    </div>
+  );
+}
+
+export function SearchContainerResults({
+  previewCount,
+  whenIdle = 'none',
+}: {
+  previewCount?: number;
+  whenIdle?: 'none' | 'placeholder' | 'results';
+}) {
+  const { hasActiveQuery, isSearching, results, hasSearched, resultSource } = useSearchContainer();
+
+  if (hasActiveQuery && isSearching) {
+    return <SearchContainerLoading />;
+  }
+
+  if (hasActiveQuery && !isSearching && results.length > 0) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <ResultsDisplay
+          results={results}
+          initialVisibleCount={previewCount}
+          source={resultSource}
+        />
+      </motion.div>
+    );
+  }
+
+  if (hasActiveQuery && hasSearched && !isSearching && results.length === 0) {
+    return <SearchContainerEmpty />;
+  }
+
+  if (!hasActiveQuery && whenIdle === 'placeholder') {
+    return <PlaceholderDisplay />;
+  }
+
+  if (!hasActiveQuery && whenIdle === 'results' && results.length > 0) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <ResultsDisplay
+          results={results}
+          initialVisibleCount={previewCount}
+          source={resultSource}
+        />
+      </motion.div>
+    );
+  }
+
+  return null;
+}
+
+export const SearchContainer = Object.assign(SearchContainerRoot, {
+  Form: SearchContainerForm,
+  Below: SearchContainerBelow,
+  Results: SearchContainerResults,
+  Loading: SearchContainerLoading,
+  Empty: SearchContainerEmpty,
+});
+
+export default SearchContainer;

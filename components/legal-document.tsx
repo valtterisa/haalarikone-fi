@@ -130,7 +130,7 @@ export function parseLegalSections(value: unknown): LegalSection[] {
   return value.filter(isLegalSection);
 }
 
-export function LegalDocument({
+export function LegalDocumentRoot({
   homeLabel,
   title,
   updatedLabel,
@@ -141,70 +141,118 @@ export function LegalDocument({
 }: LegalDocumentProps) {
   return (
     <Page>
-      <Breadcrumb className="mb-6">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/">{homeLabel}</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>{title}</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-
+      <LegalDocument.Breadcrumbs homeLabel={homeLabel} title={title} />
       <article>
-        <header className="mb-10 border-b border-border/60 pb-8">
-          <h1 className="font-display text-4xl font-bold tracking-tight">{title}</h1>
-          <p className="mt-3 text-sm text-muted-foreground">
-            {updatedLabel} {updatedDate}
-          </p>
-          <p className="mt-6 max-w-[65ch] text-base leading-relaxed">{intro}</p>
-        </header>
-
-        {facts.length > 0 ? (
-          <dl className="mb-10 grid gap-3 rounded-lg border border-border/60 bg-card p-5 sm:grid-cols-[12rem_1fr] sm:gap-x-6 sm:gap-y-3">
-            {facts.map((fact) => (
-              <div key={fact.label} className="contents">
-                <dt className="text-sm font-semibold text-foreground">{fact.label}</dt>
-                <dd className="text-sm leading-relaxed text-muted-foreground">{linkify(fact.value)}</dd>
-              </div>
-            ))}
-          </dl>
-        ) : null}
-
-        <div className="space-y-10">
-          {sections.map((section, index) => (
-            <section key={section.title} aria-labelledby={`legal-section-${index}`}>
-              <h2
-                id={`legal-section-${index}`}
-                className="mb-3 font-display text-xl font-semibold tracking-tight"
-              >
-                {section.title}
-              </h2>
-              <div className="space-y-3">
-                {section.paragraphs.map((paragraph, paragraphIndex) => (
-                  <p key={`${index}-${paragraphIndex}`} className="max-w-[65ch] text-base leading-relaxed">
-                    {linkify(paragraph)}
-                  </p>
-                ))}
-              </div>
-              {section.items && section.items.length > 0 ? (
-                <ul className="mt-4 space-y-3">
-                  {section.items.map((item) => (
-                    <li key={item.name} className="max-w-[65ch] text-base leading-relaxed">
-                      <span className="font-semibold">{item.name}.</span>{' '}
-                      {linkify(item.detail)}
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </section>
-          ))}
-        </div>
+        <LegalDocument.Header
+          title={title}
+          updatedLabel={updatedLabel}
+          updatedDate={updatedDate}
+          intro={intro}
+        />
+        <LegalDocument.Facts facts={facts} />
+        <LegalDocument.Sections sections={sections} />
       </article>
     </Page>
   );
 }
+
+export function LegalDocumentBreadcrumbs({
+  homeLabel,
+  title,
+}: {
+  homeLabel: string;
+  title: string;
+}) {
+  return (
+    <Breadcrumb className="mb-6">
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink asChild>
+            <Link href="/">{homeLabel}</Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>{title}</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
+}
+
+export function LegalDocumentHeader({
+  title,
+  updatedLabel,
+  updatedDate,
+  intro,
+}: {
+  title: string;
+  updatedLabel: string;
+  updatedDate: string;
+  intro: string;
+}) {
+  return (
+    <header className="mb-10 border-b border-border/60 pb-8">
+      <h1 className="font-display text-4xl font-bold tracking-tight">{title}</h1>
+      <p className="mt-3 text-sm text-muted-foreground">
+        {updatedLabel} {updatedDate}
+      </p>
+      <p className="mt-6 max-w-[65ch] text-base leading-relaxed">{intro}</p>
+    </header>
+  );
+}
+
+export function LegalDocumentFacts({ facts }: { facts: LegalFact[] }) {
+  if (facts.length === 0) return null;
+
+  return (
+    <dl className="mb-10 grid gap-3 rounded-lg border border-border/60 bg-card p-5 sm:grid-cols-[12rem_1fr] sm:gap-x-6 sm:gap-y-3">
+      {facts.map((fact) => (
+        <div key={fact.label} className="contents">
+          <dt className="text-sm font-semibold text-foreground">{fact.label}</dt>
+          <dd className="text-sm leading-relaxed text-muted-foreground">{linkify(fact.value)}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+export function LegalDocumentSections({ sections }: { sections: LegalSection[] }) {
+  return (
+    <div className="space-y-10">
+      {sections.map((section, index) => (
+        <section key={section.title} aria-labelledby={`legal-section-${index}`}>
+          <h2
+            id={`legal-section-${index}`}
+            className="mb-3 font-display text-xl font-semibold tracking-tight"
+          >
+            {section.title}
+          </h2>
+          <div className="space-y-3">
+            {section.paragraphs.map((paragraph, paragraphIndex) => (
+              <p key={`${index}-${paragraphIndex}`} className="max-w-[65ch] text-base leading-relaxed">
+                {linkify(paragraph)}
+              </p>
+            ))}
+          </div>
+          {section.items && section.items.length > 0 ? (
+            <ul className="mt-4 space-y-3">
+              {section.items.map((item) => (
+                <li key={item.name} className="max-w-[65ch] text-base leading-relaxed">
+                  <span className="font-semibold">{item.name}.</span> {linkify(item.detail)}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </section>
+      ))}
+    </div>
+  );
+}
+
+export const LegalDocument = Object.assign(LegalDocumentRoot, {
+  Breadcrumbs: LegalDocumentBreadcrumbs,
+  Header: LegalDocumentHeader,
+  Facts: LegalDocumentFacts,
+  Sections: LegalDocumentSections,
+});

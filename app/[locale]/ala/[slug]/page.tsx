@@ -15,7 +15,10 @@ import { Metadata } from 'next';
 import { Link } from '@/i18n/routing';
 import Script from 'next/script';
 import UniversityCard from '@/components/university-card';
-import RelatedTopics from '@/components/related-topic-chips';
+import RelatedTopics, {
+  RelatedTopicsChip,
+  RelatedTopicsChips,
+} from '@/components/related-topic-chips';
 import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 import { getTranslatedRoute, routeHref, withXDefault } from '@/lib/use-translated-routes';
@@ -252,9 +255,9 @@ export default async function FieldPage({ params }: Props) {
         </p>
 
         <RelatedTopics title={t('fields.relatedTopics')}>
-          <RelatedTopics.Chips>
+          <RelatedTopicsChips>
             {universitiesList.slice(0, 10).map((item) => (
-              <RelatedTopics.Chip
+              <RelatedTopicsChip
                 key={`university-${item}`}
                 item={item}
                 locale={locale}
@@ -263,7 +266,7 @@ export default async function FieldPage({ params }: Props) {
               />
             ))}
             {areas.slice(0, 10).map((item) => (
-              <RelatedTopics.Chip
+              <RelatedTopicsChip
                 key={`area-${item}`}
                 item={item}
                 locale={locale}
@@ -272,7 +275,7 @@ export default async function FieldPage({ params }: Props) {
               />
             ))}
             {colors.slice(0, 5).map((item) => (
-              <RelatedTopics.Chip
+              <RelatedTopicsChip
                 key={`color-${item}`}
                 item={item}
                 locale={locale}
@@ -280,7 +283,7 @@ export default async function FieldPage({ params }: Props) {
                 type="color"
               />
             ))}
-          </RelatedTopics.Chips>
+          </RelatedTopicsChips>
         </RelatedTopics>
 
         <ul className="space-y-3">

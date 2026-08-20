@@ -1,7 +1,7 @@
 {
   "common": {
     "search": "Sök i overalldatabasen",
-    "searchPlaceholder": "Sök färger, områden, skolor...",
+    "searchPlaceholder": "Sök färger, områden, skolor…",
     "categories": "Kategorier",
     "blog": "Blogg",
     "close": "Stäng",
@@ -288,8 +288,8 @@
   },
   "search": {
     "title": "Sök",
-    "placeholder": "Vad letar du efter?",
-    "searchPlaceholder": "Sök färger, områden, skolor...",
+    "placeholder": "Vad letar du efter…",
+    "searchPlaceholder": "Sök färger, områden, skolor…",
     "clearSearch": "Rensa sökning",
     "filters": "Filter",
     "selectColor": "Välj färg",

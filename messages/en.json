@@ -1,7 +1,7 @@
 {
   "common": {
     "search": "Search overall database",
-    "searchPlaceholder": "Search colors, fields, schools...",
+    "searchPlaceholder": "Search colors, fields, schools…",
     "categories": "Categories",
     "blog": "Blog",
     "close": "Close",
@@ -288,8 +288,8 @@
   },
   "search": {
     "title": "Search",
-    "placeholder": "What are you looking for?",
-    "searchPlaceholder": "Search colors, fields, schools...",
+    "placeholder": "What are you looking for…",
+    "searchPlaceholder": "Search colors, fields, schools…",
     "clearSearch": "Clear search",
     "filters": "Filters",
     "selectColor": "Select color",

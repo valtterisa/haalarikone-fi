@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import type { InternalHref } from '@/lib/use-translated-routes';
 import type { ReactNode } from 'react';
 
-function NavigateCardRoot({
+export function NavigateCardRoot({
   href,
   className,
   children,
@@ -25,7 +25,7 @@ function NavigateCardRoot({
   );
 }
 
-function NavigateCardSwatches({ hexes }: { hexes: string[] }) {
+export function NavigateCardSwatches({ hexes }: { hexes: string[] }) {
   return (
     <div aria-hidden className="mb-4 flex h-10 overflow-hidden rounded-xl">
       {hexes.slice(0, 12).map((hex, i) => (
@@ -35,7 +35,7 @@ function NavigateCardSwatches({ hexes }: { hexes: string[] }) {
   );
 }
 
-function NavigateCardBody({ children }: { children: ReactNode }) {
+export function NavigateCardBody({ children }: { children: ReactNode }) {
   return <div className="flex-1">{children}</div>;
 }
 

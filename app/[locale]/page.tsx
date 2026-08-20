@@ -1,10 +1,17 @@
-import SearchContainer from '@/components/search-container';
+import SearchContainer, {
+  SearchContainerBelow,
+  SearchContainerForm,
+  SearchContainerResults,
+} from '@/components/search-container';
 import { loadUniversities } from '@/lib/load-universities';
 import { loadColorData } from '@/lib/load-color-data';
 import FAQSchema from '@/components/faq-schema';
 import FaqList, { FaqItem } from '@/components/faq-list';
-import { NavigateCard } from '@/components/navigate-card';
-import PopularDestinations from '@/components/popular-destinations';
+import { NavigateCard, NavigateCardBody, NavigateCardSwatches } from '@/components/navigate-card';
+import PopularDestinations, {
+  PopularDestinationsChip,
+  PopularDestinationsGroup,
+} from '@/components/popular-destinations';
 import Script from 'next/script';
 import { getTranslations } from 'next-intl/server';
 import { getPathname } from '@/i18n/routing';
@@ -113,16 +120,17 @@ export default async function Index({
           initialUniversities={universities}
           colorData={colorData}
           showResultsByDefault
-          showIdlePlaceholder
           initialTextSearch={search}
           resultSource="home"
-          belowForm={
+        >
+          <SearchContainerForm />
+          <SearchContainerBelow>
             <PopularDestinations title={t('popular.title')}>
-              <PopularDestinations.Group label={t('popular.areas')}>
+              <PopularDestinationsGroup label={t('popular.areas')}>
                 {POPULAR_AREAS.map((area) => {
                   const slug = entitySlug(area, loc, 'area');
                   return (
-                    <PopularDestinations.Chip
+                    <PopularDestinationsChip
                       key={area}
                       href={routeHref('areas', slug)}
                       source="home"
@@ -130,15 +138,15 @@ export default async function Index({
                       slug={slug}
                     >
                       {capitalizeFirstLetter(getLocalizedName(area, loc, 'area'))}
-                    </PopularDestinations.Chip>
+                    </PopularDestinationsChip>
                   );
                 })}
-              </PopularDestinations.Group>
-              <PopularDestinations.Group label={t('popular.schools')}>
+              </PopularDestinationsGroup>
+              <PopularDestinationsGroup label={t('popular.schools')}>
                 {POPULAR_SCHOOLS.map((school) => {
                   const slug = entitySlug(school, loc, 'university');
                   return (
-                    <PopularDestinations.Chip
+                    <PopularDestinationsChip
                       key={school}
                       href={routeHref('universities', slug)}
                       source="home"
@@ -146,62 +154,63 @@ export default async function Index({
                       slug={slug}
                     >
                       {getLocalizedName(school, loc, 'university')}
-                    </PopularDestinations.Chip>
+                    </PopularDestinationsChip>
                   );
                 })}
-              </PopularDestinations.Group>
+              </PopularDestinationsGroup>
             </PopularDestinations>
-          }
-        />
+          </SearchContainerBelow>
+          <SearchContainerResults whenIdle="results" />
+        </SearchContainer>
 
         <section className="mt-8 w-full border-t border-border/60 pt-12 md:pt-16">
           <div className="grid grid-cols-1 gap-3 md:grid-cols-6">
             <NavigateCard href="/vari" className="md:col-span-4 md:min-h-[11rem]">
-              <NavigateCard.Swatches hexes={atmosphereHexes} />
-              <NavigateCard.Body>
+              <NavigateCardSwatches hexes={atmosphereHexes} />
+              <NavigateCardBody>
                 <h2 className="font-display text-xl font-bold tracking-tight">
                   {t('nav.allColors')}
                 </h2>
                 <p className="mt-1 max-w-[45ch] text-sm text-muted-foreground">
                   {t('nav.colorsDescription')}
                 </p>
-              </NavigateCard.Body>
+              </NavigateCardBody>
             </NavigateCard>
             <NavigateCard href="/ala" className="md:col-span-2">
-              <NavigateCard.Body>
+              <NavigateCardBody>
                 <h2 className="font-display text-xl font-bold tracking-tight">
                   {t('nav.allFields')}
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">{t('nav.fieldsDescription')}</p>
-              </NavigateCard.Body>
+              </NavigateCardBody>
             </NavigateCard>
             <NavigateCard href="/oppilaitos" className="md:col-span-2">
-              <NavigateCard.Body>
+              <NavigateCardBody>
                 <h2 className="font-display text-xl font-bold tracking-tight">
                   {t('nav.allSchools')}
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">
                   {t('nav.schoolsDescription')}
                 </p>
-              </NavigateCard.Body>
+              </NavigateCardBody>
             </NavigateCard>
             <NavigateCard href="/alue" className="md:col-span-2">
-              <NavigateCard.Body>
+              <NavigateCardBody>
                 <h2 className="font-display text-xl font-bold tracking-tight">
                   {t('nav.allAreas')}
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">{t('nav.areasDescription')}</p>
-              </NavigateCard.Body>
+              </NavigateCardBody>
             </NavigateCard>
             <NavigateCard href="/blog" className="md:col-span-2">
-              <NavigateCard.Body>
+              <NavigateCardBody>
                 <h2 className="font-display text-xl font-bold tracking-tight">
                   {t('common.blog')}
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">
                   {t('nav.navigateDescription')}
                 </p>
-              </NavigateCard.Body>
+              </NavigateCardBody>
             </NavigateCard>
           </div>
         </section>

@@ -22,7 +22,7 @@ import {
   alternateLanguageUrls,
   routeHref,
 } from '@/lib/use-translated-routes';
-import { HubGrid } from '@/components/hub-grid';
+import { HubGrid, HubGridItem } from '@/components/hub-grid';
 import { capitalizeFirstLetter } from '@/lib/utils';
 
 export const revalidate = 86400;
@@ -140,7 +140,7 @@ export default async function AreaIndexPage({ params }: { params: Promise<{ loca
           {unique.map((area) => {
             const slug = entitySlug(area, locale, 'area');
             return (
-              <HubGrid.Item
+              <HubGridItem
                 key={area}
                 href={routeHref('areas', slug)}
                 source="area-index"
@@ -148,7 +148,7 @@ export default async function AreaIndexPage({ params }: { params: Promise<{ loca
                 slug={slug}
               >
                 {capitalizeFirstLetter(area)}
-              </HubGrid.Item>
+              </HubGridItem>
             );
           })}
         </HubGrid>

@@ -1,4 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+'use client';
+
+import { useState, useEffect, useRef, useDeferredValue, type ReactNode } from 'react';
 import Image from 'next/image';
 import type { University } from '@/types/university';
 import UniversityCard from '@/components/university-card';
@@ -9,16 +11,18 @@ interface ResultsDisplayProps {
   results: University[];
   initialVisibleCount?: number;
   source?: HubSource;
+  children?: ReactNode;
 }
 
-export default function ResultsDisplay({
+export function ResultsDisplayRoot({
   results,
   initialVisibleCount,
   source = 'search',
+  children,
 }: ResultsDisplayProps) {
   const t = useTranslations('search');
-  const tCommon = useTranslations('common');
-
+  const deferredResults = useDeferredValue(results);
+  const isStale = deferredResults !== results;
   const [currentPage, setCurrentPage] = useState(1);
   const [showAll, setShowAll] = useState(false);
   const resultsPerPage = 15;
@@ -27,27 +31,20 @@ export default function ResultsDisplay({
   const hasPreviewMode = typeof initialVisibleCount === 'number' && initialVisibleCount > 0;
   const shouldShowPreview = hasPreviewMode && !showAll;
   const visiblePreviewCount = initialVisibleCount ?? 0;
+  const totalPages = Math.ceil(deferredResults.length / resultsPerPage);
 
-  // Calculate the total number of pages
-  const totalPages = Math.ceil(results.length / resultsPerPage);
+  const visibleResults = shouldShowPreview
+    ? deferredResults.slice(0, visiblePreviewCount)
+    : deferredResults.slice((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage);
 
-  // Slice the results based on the current page and results per page
-  const paginatedResults = shouldShowPreview
-    ? results.slice(0, visiblePreviewCount)
-    : results.slice((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage);
-
-  // When results change, reset pagination (don't scroll)
   useEffect(() => {
     setCurrentPage(1);
     setShowAll(false);
     prevPageRef.current = 1;
   }, [results]);
 
-  // Scroll to top when page changes (but not when results change resets to page 1)
   useEffect(() => {
-    // Only scroll if page changed AND it wasn't a reset from results changing
     if (currentPage !== prevPageRef.current) {
-      // Small delay to ensure DOM has updated
       setTimeout(() => {
         if (resultsDivRef.current) {
           resultsDivRef.current.scrollIntoView({
@@ -60,80 +57,148 @@ export default function ResultsDisplay({
     prevPageRef.current = currentPage;
   }, [currentPage]);
 
-  // Handle page change
-  const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
-
   return (
-    <div id="top" ref={resultsDivRef} className="mb-4 w-full sm:mb-8">
+    <div
+      id="top"
+      ref={resultsDivRef}
+      className="mb-4 w-full sm:mb-8"
+      style={isStale ? { opacity: 0.7 } : undefined}
+    >
       <div className="px-1 pt-2 sm:px-0 sm:pt-4">
         <h2 className="mb-4 flex items-center justify-between text-base font-semibold text-foreground sm:mb-6 sm:text-lg">
           {t('results')}{' '}
           <span className="text-xs tabular-nums text-muted-foreground sm:text-sm">
-            {results.length === 1
-              ? `${results.length} ${t('result')}`
-              : `${results.length} ${t('resultsCount')}`}
+            {deferredResults.length === 1
+              ? `${deferredResults.length} ${t('result')}`
+              : `${deferredResults.length} ${t('resultsCount')}`}
           </span>
         </h2>
 
-        {results.length === 0 ? (
-          <div className="py-6 sm:py-8 flex flex-col items-center justify-center gap-3 sm:gap-4 text-center">
-            <Image
-              src="/no-results.svg"
-              alt="No Results"
-              width={120}
-              height={120}
-              className="w-20 h-20 sm:w-[120px] sm:h-[120px]"
-            />
-            <p className="text-muted-foreground text-xs sm:text-sm">{t('noResultsMessageAlt')}</p>
-          </div>
-        ) : (
-          <ul className="space-y-2.5 sm:space-y-3" data-testid="results-list">
-            {paginatedResults.map((uni) => (
-              <UniversityCard key={uni.id} uni={uni} source={source} />
-            ))}
-          </ul>
-        )}
-
-        {shouldShowPreview && results.length > visiblePreviewCount && (
-          <div className="mt-4 sm:mt-6 p-3 sm:p-4 flex justify-center items-center">
-            <button
-              type="button"
-              onClick={() => setShowAll(true)}
-              className="h-9 sm:h-10 px-4 text-xs sm:text-sm bg-green hover:bg-green/90 text-white rounded-md transition-colors"
-            >
-              {t('showAll')} ({results.length})
-            </button>
-          </div>
-        )}
-
-        {!shouldShowPreview && results.length > 0 && (
-          <div className="mt-4 sm:mt-6 p-3 sm:p-4 flex justify-center items-center">
-            <div className="flex gap-2 sm:gap-3 items-center">
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="h-9 sm:h-10 px-3 sm:px-4 text-xs sm:text-sm bg-card text-foreground border border-input hover:bg-muted rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                {tCommon('previous')}
-              </button>
-              <p className="flex items-center text-xs sm:text-sm text-muted-foreground px-2 sm:px-4">
-                {currentPage} / {totalPages}
-              </p>
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="h-9 sm:h-10 px-3 sm:px-4 text-xs sm:text-sm bg-card text-foreground border border-input hover:bg-muted rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                {tCommon('next')}
-              </button>
-            </div>
-          </div>
+        {children ?? (
+          <>
+            <ResultsDisplay.List results={visibleResults} source={source} />
+            {shouldShowPreview && deferredResults.length > visiblePreviewCount ? (
+              <ResultsDisplay.ShowAll
+                count={deferredResults.length}
+                onShowAll={() => setShowAll(true)}
+              />
+            ) : null}
+            {!shouldShowPreview && deferredResults.length > 0 ? (
+              <ResultsDisplay.Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
+            ) : null}
+          </>
         )}
       </div>
     </div>
   );
 }
+
+export function ResultsDisplayList({
+  results,
+  source = 'search',
+}: {
+  results: University[];
+  source?: HubSource;
+}) {
+  const t = useTranslations('search');
+
+  if (results.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-3 py-6 text-center sm:gap-4 sm:py-8">
+        <Image
+          src="/no-results.svg"
+          alt="No Results"
+          width={120}
+          height={120}
+          className="h-20 w-20 sm:h-[120px] sm:w-[120px]"
+        />
+        <p className="text-xs text-muted-foreground sm:text-sm">{t('noResultsMessageAlt')}</p>
+      </div>
+    );
+  }
+
+  return (
+    <ul className="space-y-2.5 sm:space-y-3" data-testid="results-list">
+      {results.map((uni) => (
+        <UniversityCard key={uni.id} uni={uni} source={source} />
+      ))}
+    </ul>
+  );
+}
+
+export function ResultsDisplayShowAll({
+  count,
+  onShowAll,
+}: {
+  count: number;
+  onShowAll: () => void;
+}) {
+  const t = useTranslations('search');
+  return (
+    <div className="mt-4 flex items-center justify-center p-3 sm:mt-6 sm:p-4">
+        <button
+        type="button"
+          onClick={onShowAll}
+          className="h-9 touch-manipulation rounded-md bg-green px-4 text-xs text-white transition-colors hover:bg-green/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green/50 sm:h-10 sm:text-sm"
+        >
+        {t('showAll')} ({count})
+      </button>
+    </div>
+  );
+}
+
+export function ResultsDisplayPagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}) {
+  const tCommon = useTranslations('common');
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      onPageChange(page);
+    }
+  };
+
+  return (
+    <div className="mt-4 flex items-center justify-center p-3 sm:mt-6 sm:p-4">
+      <div className="flex items-center gap-2 sm:gap-3">
+        <button
+          type="button"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="h-9 touch-manipulation rounded-md border border-input bg-card px-3 text-xs text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green/50 disabled:cursor-not-allowed disabled:opacity-50 sm:h-10 sm:px-4 sm:text-sm"
+        >
+          {tCommon('previous')}
+        </button>
+        <p className="flex items-center px-2 text-xs tabular-nums text-muted-foreground sm:px-4 sm:text-sm">
+          {currentPage} / {totalPages}
+        </p>
+        <button
+          type="button"
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="h-9 touch-manipulation rounded-md border border-input bg-card px-3 text-xs text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green/50 disabled:cursor-not-allowed disabled:opacity-50 sm:h-10 sm:px-4 sm:text-sm"
+        >
+          {tCommon('next')}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export const ResultsDisplay = Object.assign(ResultsDisplayRoot, {
+  List: ResultsDisplayList,
+  ShowAll: ResultsDisplayShowAll,
+  Pagination: ResultsDisplayPagination,
+});
+
+export default ResultsDisplay;
