@@ -1,6 +1,7 @@
 'use client';
 
 import { SearchModal } from './search-modal';
+import { SearchDivider } from './search-filter-parts';
 import { useTranslations } from 'next-intl';
 import type { ClientSearchContext } from '@/lib/search-utils';
 
@@ -24,21 +25,15 @@ export function SearchWithDivider({
     <>
       <div className="mb-8 flex justify-center">
         <SearchModal
-          triggerLabel={t('title')}
           placeholder={t('searchPlaceholder')}
           modalTitle={t('title')}
           clientSearchContext={clientSearchContext}
-        />
+        >
+          <SearchModal.Trigger>{t('title')}</SearchModal.Trigger>
+          <SearchModal.Content />
+        </SearchModal>
       </div>
-
-      <div className="relative my-8">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs">
-          <span className="bg-background px-2 text-muted-foreground">{displayDividerText}</span>
-        </div>
-      </div>
+      <SearchDivider>{displayDividerText}</SearchDivider>
     </>
   );
 }

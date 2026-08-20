@@ -15,6 +15,7 @@ type FeedbackStatus =
 
 export type FeedbackFormProps = {
   title: string;
+  titleId?: string;
   description?: string;
   submitLabel: string;
   className?: string;
@@ -29,6 +30,7 @@ export type FeedbackFormProps = {
 
 export function FeedbackForm({
   title,
+  titleId,
   description,
   submitLabel,
   className,
@@ -140,7 +142,9 @@ export function FeedbackForm({
         <input type="text" id={`${id}-website`} name="website" tabIndex={-1} autoComplete="off" />
       </div>
       <div>
-        <h3 className="text-lg font-semibold">{title}</h3>
+        <h3 id={titleId} className="text-lg font-semibold">
+          {title}
+        </h3>
         {description ? <p className="text-sm text-muted-foreground mt-1">{description}</p> : null}
       </div>
       {status.type === 'error' && (

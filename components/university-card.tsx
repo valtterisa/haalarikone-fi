@@ -32,7 +32,7 @@ export default function UniversityCard({ uni, source = 'search' }: UniversityCar
   const primaryField = uni.ala?.split(',')[0]?.trim();
 
   return (
-    <li>
+    <li className="[content-visibility:auto] [contain-intrinsic-size:0_88px]">
       <div className="relative overflow-hidden rounded-xl border border-border bg-card transition hover:border-foreground/20 hover:shadow-card">
         <div
           className="absolute inset-y-0 left-0 w-12 border-r border-border sm:w-24"

@@ -1,6 +1,6 @@
 'use client';
 
-import SearchContainer from '@/components/search-container';
+import HubSearchSection from '@/components/hub-search-section';
 import type { University } from '@/types/university';
 import type { ColorData } from '@/lib/load-color-data';
 import { useTranslations } from 'next-intl';
@@ -18,22 +18,14 @@ export default function UniversitySearchSection({
   const tSection = useTranslations('universities');
 
   return (
-    <>
-      <SearchContainer
-        initialUniversities={universities}
-        colorData={colorData}
-        initialInlineResultsCount={5}
-      />
-      <div className="relative my-8 w-full">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            {t('orSelect')} {tSection('title')}
-          </span>
-        </div>
-      </div>
-    </>
+    <HubSearchSection
+      universities={universities}
+      colorData={colorData}
+      divider={
+        <>
+          {t('orSelect')} {tSection('title')}
+        </>
+      }
+    />
   );
 }

@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
+  experimental: {
+    optimizePackageImports: ['@phosphor-icons/react', 'framer-motion'],
+  },
 };
 
 export default withNextIntl(nextConfig);

@@ -2,7 +2,7 @@ import SearchContainer from '@/components/search-container';
 import { loadUniversities } from '@/lib/load-universities';
 import { loadColorData } from '@/lib/load-color-data';
 import FAQSchema from '@/components/faq-schema';
-import FaqList, { FaqItem } from '@/components/faq-list';
+import FaqList from '@/components/faq-list';
 import { NavigateCard } from '@/components/navigate-card';
 import PopularDestinations from '@/components/popular-destinations';
 import Script from 'next/script';
@@ -113,10 +113,11 @@ export default async function Index({
           initialUniversities={universities}
           colorData={colorData}
           showResultsByDefault
-          showIdlePlaceholder
           initialTextSearch={search}
           resultSource="home"
-          belowForm={
+        >
+          <SearchContainer.Form />
+          <SearchContainer.Below>
             <PopularDestinations title={t('popular.title')}>
               <PopularDestinations.Group label={t('popular.areas')}>
                 {POPULAR_AREAS.map((area) => {
@@ -151,8 +152,9 @@ export default async function Index({
                 })}
               </PopularDestinations.Group>
             </PopularDestinations>
-          }
-        />
+          </SearchContainer.Below>
+          <SearchContainer.Results whenIdle="results" />
+        </SearchContainer>
 
         <section className="mt-8 w-full border-t border-border/60 pt-12 md:pt-16">
           <div className="grid grid-cols-1 gap-3 md:grid-cols-6">
@@ -207,12 +209,12 @@ export default async function Index({
         </section>
 
         <FaqList title={t('faq.title')}>
-          <FaqItem question={t('faq.q1')} answer={t('faq.a1')} />
-          <FaqItem question={t('faq.q2')} answer={t('faq.a2')} />
-          <FaqItem question={t('faq.q3')} answer={t('faq.a3')} />
-          <FaqItem question={t('faq.q4')} answer={t('faq.a4')} />
-          <FaqItem question={t('faq.q5')} answer={t('faq.a5')} />
-          <FaqItem question={t('faq.q6')} answer={t('faq.a6')} />
+          <FaqList.Item question={t('faq.q1')} answer={t('faq.a1')} />
+          <FaqList.Item question={t('faq.q2')} answer={t('faq.a2')} />
+          <FaqList.Item question={t('faq.q3')} answer={t('faq.a3')} />
+          <FaqList.Item question={t('faq.q4')} answer={t('faq.a4')} />
+          <FaqList.Item question={t('faq.q5')} answer={t('faq.a5')} />
+          <FaqList.Item question={t('faq.q6')} answer={t('faq.a6')} />
         </FaqList>
       </Page>
     </>

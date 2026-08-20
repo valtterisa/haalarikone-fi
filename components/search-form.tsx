@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect, useMemo, type Ref } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
-
 import {
   Drawer,
   DrawerClose,
@@ -20,29 +19,41 @@ import {
   CaretUp as ChevronUp,
   X,
   SlidersHorizontal,
-  Check,
 } from '@phosphor-icons/react';
 import { ColorAtmosphere } from './color-atmosphere';
-import { Criteria } from './search-container';
+import {
+  toCriteriaColor,
+  type AdvancedFilters,
+  type Criteria,
+  type FilterTabKey,
+} from '@/lib/use-university-search';
 import type { ColorData } from '@/lib/load-color-data';
 import { track } from '@databuddy/sdk';
 import { trackFilterSelect } from '@/lib/analytics-events';
 import { useTranslations, useLocale } from 'next-intl';
+import type { Locale } from '@/lib/slug-translations';
 import translationsData from '../data/translations.json';
+import {
+  ActiveFilterChips,
+  ColorGridOption,
+  ColorSwatch,
+  FilterTabs,
+  OptionList,
+  type ActiveFilterItem,
+} from './search-filter-parts';
 
 interface SearchFormProps {
   onTextSearchChange: (textSearch: string) => void;
-  onDraftAdvancedFilterChange: (filters: Omit<Criteria, 'textSearch'>) => void;
+  onDraftAdvancedFilterChange: (filters: AdvancedFilters) => void;
   onApplyAdvancedFilters: () => void;
   onClearAll: () => void;
+  onRemoveFilter: (key: FilterTabKey) => void;
   areas: string[];
   fields: string[];
   schools: string[];
   selectedCriteria: Criteria;
-  draftAdvancedFilters: Omit<Criteria, 'textSearch'>;
-  resultCount: number;
+  draftAdvancedFilters: AdvancedFilters;
   draftFilterResultCount: number;
-  hasSearched: boolean;
   isSearching?: boolean;
   colorData: ColorData;
 }
@@ -56,161 +67,109 @@ type Translations = {
 
 const translations = translationsData as Translations;
 
-// Filter section component with expandable content
-function FilterSection({
-  title,
-  isExpanded,
-  onToggle,
-  children,
-  hasSelection,
+type ColorOption = { key: string; displayName: string; color: string };
+
+function SearchFilterPanel({
+  variant,
+  tabs,
+  activeTab,
+  onTabChange,
+  colorOptions,
+  draftAdvancedFilters,
+  areas,
+  fields,
+  schools,
+  onDraftChange,
 }: {
-  title: string;
-  isExpanded: boolean;
-  onToggle: () => void;
-  children: React.ReactNode;
-  hasSelection: boolean;
+  variant: 'mobile' | 'desktop';
+  tabs: { key: FilterTabKey; label: string; hasValue: boolean }[];
+  activeTab: FilterTabKey;
+  onTabChange: (key: FilterTabKey) => void;
+  colorOptions: ColorOption[];
+  draftAdvancedFilters: AdvancedFilters;
+  areas: string[];
+  fields: string[];
+  schools: string[];
+  onDraftChange: (field: FilterTabKey, value: string) => void;
 }) {
   return (
-    <div className="border-b border-border/50 last:border-b-0">
-      <button
-        type="button"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          onToggle();
-        }}
-        className="w-full flex items-center justify-between py-3 px-1 text-left hover:bg-muted/30 transition-colors relative z-10"
-      >
-        <span className="text-sm font-medium text-foreground flex items-center gap-2">
-          {title}
-          {hasSelection && <span className="w-2 h-2 rounded-full bg-green" />}
-        </span>
-        <ChevronDown
-          className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${
-            isExpanded ? 'rotate-180' : ''
-          }`}
-        />
-      </button>
-      {isExpanded && (
-        <div className="pb-3 px-1 animate-in fade-in slide-in-from-top-1 duration-200">
-          {children}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// Chip selector for options
-function ChipSelector({
-  options,
-  selected,
-  onSelect,
-  renderOption,
-}: {
-  options: string[];
-  selected: string;
-  onSelect: (value: string) => void;
-  renderOption?: (option: string, isSelected: boolean) => React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-wrap gap-2">
-      {options.map((option) => {
-        const isSelected = selected === option;
-        if (renderOption) {
-          return (
-            <button
-              key={option}
-              type="button"
-              onClick={() => onSelect(isSelected ? '' : option)}
-              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-green/50 rounded-lg"
-            >
-              {renderOption(option, isSelected)}
-            </button>
-          );
-        }
-        return (
-          <button
-            key={option}
-            type="button"
-            onClick={() => onSelect(isSelected ? '' : option)}
-            className={`px-3 py-1.5 text-sm rounded-lg transition-all duration-150 ${
-              isSelected
-                ? 'bg-green text-white shadow-sm'
-                : 'bg-muted text-foreground shadow-sm hover:bg-muted/80'
-            }`}
-          >
-            {option}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
-// Color swatch component
-function ColorSwatch({
-  color,
-  colorKey,
-  displayName,
-  isSelected,
-  onSelect,
-}: {
-  color: string;
-  colorKey: string;
-  displayName: string;
-  isSelected: boolean;
-  onSelect: () => void;
-}) {
-  const isWhite = colorKey === 'valkoinen' || color === '#FFFFFF';
-  const isBlack = colorKey === 'musta' || color === '#000000';
-
-  return (
-    <button
-      type="button"
-      onClick={onSelect}
-      className={`group flex flex-col items-center gap-1.5 p-2 rounded-lg transition-all duration-150 ${
-        isSelected ? 'bg-muted/70' : 'hover:bg-muted/40'
-      }`}
-      title={displayName}
-    >
-      <div
-      className={`w-8 h-8 rounded-xl border-2 transition-all duration-150 flex items-center justify-center ${
-          isSelected
-            ? 'border-green ring-2 ring-green/30 scale-110'
-            : isWhite
-              ? 'border-border'
-              : 'border-transparent'
-        }`}
-        style={{ backgroundColor: color }}
-      >
-        {isSelected && (
-          <Check
-            className={`w-4 h-4 ${
-              isWhite || color === '#FFFF00' || color === '#FFA500'
-                ? 'text-foreground'
-                : isBlack
-                  ? 'text-white'
-                  : 'text-white'
-            }`}
+    <>
+      <FilterTabs
+        tabs={tabs}
+        active={activeTab}
+        onChange={onTabChange}
+        className={variant === 'mobile' ? 'flex-shrink-0 border-border' : undefined}
+        tabClassName={variant === 'mobile' ? 'px-3 py-3' : undefined}
+      />
+      <div className={variant === 'mobile' ? 'flex-1 overflow-y-auto p-4' : 'pt-4'}>
+        {activeTab === 'color' ? (
+          variant === 'mobile' ? (
+            <div className="grid grid-cols-4 gap-3">
+              {colorOptions.map(({ key, displayName, color }) => (
+                <ColorGridOption
+                  key={key}
+                  color={color}
+                  colorKey={key}
+                  displayName={displayName}
+                  isSelected={draftAdvancedFilters.color === key}
+                  onSelect={() =>
+                    onDraftChange('color', draftAdvancedFilters.color === key ? '' : key)
+                  }
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-wrap gap-1">
+              {colorOptions.map(({ key, displayName, color }) => (
+                <ColorSwatch
+                  key={key}
+                  color={color}
+                  colorKey={key}
+                  displayName={displayName}
+                  isSelected={draftAdvancedFilters.color === key}
+                  onSelect={() =>
+                    onDraftChange('color', draftAdvancedFilters.color === key ? '' : key)
+                  }
+                />
+              ))}
+            </div>
+          )
+        ) : null}
+        {activeTab === 'area' ? (
+          <OptionList
+            options={areas}
+            selected={draftAdvancedFilters.area}
+            onSelect={(value) => onDraftChange('area', value)}
+            variant={variant === 'mobile' ? 'row' : 'chip'}
           />
-        )}
+        ) : null}
+        {activeTab === 'field' ? (
+          <OptionList
+            options={fields}
+            selected={draftAdvancedFilters.field}
+            onSelect={(value) => onDraftChange('field', value)}
+            variant={variant === 'mobile' ? 'row' : 'chip'}
+          />
+        ) : null}
+        {activeTab === 'school' ? (
+          <OptionList
+            options={schools}
+            selected={draftAdvancedFilters.school}
+            onSelect={(value) => onDraftChange('school', value)}
+            variant={variant === 'mobile' ? 'row' : 'chip'}
+          />
+        ) : null}
       </div>
-      <span
-        className={`text-[10px] leading-tight text-center max-w-[50px] truncate ${
-          isSelected ? 'text-foreground font-medium' : 'text-muted-foreground'
-        }`}
-      >
-        {displayName}
-      </span>
-    </button>
+    </>
   );
 }
 
-export default function SearchForm({
+function SearchFormRoot({
   onTextSearchChange,
   onDraftAdvancedFilterChange,
   onApplyAdvancedFilters,
   onClearAll,
+  onRemoveFilter,
   areas,
   fields,
   schools,
@@ -221,7 +180,7 @@ export default function SearchForm({
   colorData,
 }: SearchFormProps) {
   const t = useTranslations('search');
-  const locale = useLocale() as 'fi' | 'en' | 'sv';
+  const locale = useLocale() as Locale;
   const reduceMotion = useReducedMotion();
 
   const translateEntity = (
@@ -229,22 +188,7 @@ export default function SearchForm({
     type: 'color' | 'area' | 'field' | 'university',
   ): string => {
     if (type === 'color') {
-      const baseToFiKey: Record<string, string> = {
-        punainen: 'punainen',
-        sininen: 'sininen',
-        vihreä: 'vihreä',
-        keltainen: 'keltainen',
-        oranssi: 'oranssi',
-        violetti: 'violetti',
-        pinkki: 'pinkki',
-        harmaa: 'harmaa',
-        ruskea: 'ruskea',
-        turkoosi: 'turkoosi',
-      };
-
-      const lookupKey = baseToFiKey[value] ?? value;
-      const translation = translations.colors[lookupKey];
-      return translation?.[locale] || value;
+      return translations.colors[value]?.[locale] ?? value;
     }
 
     const translationsMap =
@@ -254,11 +198,9 @@ export default function SearchForm({
           ? translations.fields
           : translations.universities;
 
-    const translation = translationsMap[value];
-    return translation?.[locale] || value;
+    return translationsMap[value]?.[locale] ?? value;
   };
 
-  // Translate color options for display
   const translatedColorOptions = useMemo(() => {
     return Object.entries(colorData.colors).map(([colorKey, data]) => {
       let displayColor = data.color;
@@ -279,20 +221,14 @@ export default function SearchForm({
 
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-    color: true,
-    area: false,
-    field: false,
-    school: false,
-  });
+  const [activeTab, setActiveTab] = useState<FilterTabKey>('color');
   const [localSearchValue, setLocalSearchValue] = useState(selectedCriteria.textSearch);
   const lastTrackedSearchRef = useRef<string>('');
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setLocalSearchValue(selectedCriteria.textSearch);
   }, [selectedCriteria.textSearch]);
-
-  const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -330,9 +266,20 @@ export default function SearchForm({
     onTextSearchChange(value);
   };
 
-  const handleDraftChange = (field: 'color' | 'area' | 'field' | 'school', value: string) => {
-    onDraftAdvancedFilterChange({ ...draftAdvancedFilters, [field]: value });
-    trackFilterSelect(field === 'school' ? 'school' : field, value);
+  const handleDraftChange = (field: FilterTabKey, value: string) => {
+    if (field === 'color') {
+      onDraftAdvancedFilterChange({
+        ...draftAdvancedFilters,
+        color: toCriteriaColor(value),
+      });
+    } else if (field === 'area') {
+      onDraftAdvancedFilterChange({ ...draftAdvancedFilters, area: value });
+    } else if (field === 'field') {
+      onDraftAdvancedFilterChange({ ...draftAdvancedFilters, field: value });
+    } else {
+      onDraftAdvancedFilterChange({ ...draftAdvancedFilters, school: value });
+    }
+    trackFilterSelect(field, value);
   };
 
   const handleApplyFilters = () => {
@@ -350,15 +297,12 @@ export default function SearchForm({
     setIsDrawerOpen(false);
   };
 
-  const toggleSection = (section: string) => {
-    setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
-  };
-
-  const hasActiveFilters =
+  const hasActiveFilters = Boolean(
     selectedCriteria.color ||
-    selectedCriteria.area ||
-    selectedCriteria.field ||
-    selectedCriteria.school;
+      selectedCriteria.area ||
+      selectedCriteria.field ||
+      selectedCriteria.school,
+  );
 
   const hasDraftChanges =
     draftAdvancedFilters.color !== selectedCriteria.color ||
@@ -373,130 +317,48 @@ export default function SearchForm({
     selectedCriteria.school,
   ].filter(Boolean).length;
 
-  // Shared filter content for both mobile drawer and desktop
-  const FilterContent = ({ isMobile = false }: { isMobile?: boolean }) => (
-    <div className={isMobile ? 'space-y-0' : 'space-y-0'}>
-      {/* Colors Section */}
-      <FilterSection
-        title={t('color')}
-        isExpanded={expandedSections.color}
-        onToggle={() => toggleSection('color')}
-        hasSelection={!!draftAdvancedFilters.color}
-      >
-        <div className="flex flex-wrap gap-1">
-          {translatedColorOptions.map(({ key, displayName, color }) => (
-            <ColorSwatch
-              key={key}
-              color={color}
-              colorKey={key}
-              displayName={displayName}
-              isSelected={draftAdvancedFilters.color === key}
-              onSelect={() =>
-                handleDraftChange('color', draftAdvancedFilters.color === key ? '' : key)
-              }
-            />
-          ))}
-        </div>
-      </FilterSection>
+  const filterTabs = [
+    { key: 'color' as const, label: t('color'), hasValue: !!draftAdvancedFilters.color },
+    { key: 'area' as const, label: t('city'), hasValue: !!draftAdvancedFilters.area },
+    { key: 'field' as const, label: t('field'), hasValue: !!draftAdvancedFilters.field },
+    { key: 'school' as const, label: t('school'), hasValue: !!draftAdvancedFilters.school },
+  ];
 
-      {/* City Section */}
-      <FilterSection
-        title={t('city')}
-        isExpanded={expandedSections.area}
-        onToggle={() => toggleSection('area')}
-        hasSelection={!!draftAdvancedFilters.area}
-      >
-        <div className="max-h-48 overflow-y-auto scrollbar-none">
-          <ChipSelector
-            options={areas}
-            selected={draftAdvancedFilters.area}
-            onSelect={(value) => handleDraftChange('area', value)}
-          />
-        </div>
-      </FilterSection>
+  const activeFilters: ActiveFilterItem[] = [];
+  if (selectedCriteria.color) {
+    activeFilters.push({
+      key: 'color',
+      value: selectedCriteria.color,
+      display: translateEntity(selectedCriteria.color, 'color'),
+      color: colorData.colors[selectedCriteria.color]?.color ?? null,
+    });
+  }
+  if (selectedCriteria.area) {
+    activeFilters.push({
+      key: 'area',
+      value: selectedCriteria.area,
+      display: selectedCriteria.area,
+    });
+  }
+  if (selectedCriteria.field) {
+    activeFilters.push({
+      key: 'field',
+      value: selectedCriteria.field,
+      display: selectedCriteria.field,
+    });
+  }
+  if (selectedCriteria.school) {
+    activeFilters.push({
+      key: 'school',
+      value: selectedCriteria.school,
+      display: selectedCriteria.school,
+    });
+  }
 
-      {/* Field Section */}
-      <FilterSection
-        title={t('field')}
-        isExpanded={expandedSections.field}
-        onToggle={() => toggleSection('field')}
-        hasSelection={!!draftAdvancedFilters.field}
-      >
-        <div className="max-h-48 overflow-y-auto scrollbar-none">
-          <ChipSelector
-            options={fields}
-            selected={draftAdvancedFilters.field}
-            onSelect={(value) => handleDraftChange('field', value)}
-          />
-        </div>
-      </FilterSection>
-
-      {/* School Section */}
-      <FilterSection
-        title={t('school')}
-        isExpanded={expandedSections.school}
-        onToggle={() => toggleSection('school')}
-        hasSelection={!!draftAdvancedFilters.school}
-      >
-        <div className="max-h-48 overflow-y-auto scrollbar-none">
-          <ChipSelector
-            options={schools}
-            selected={draftAdvancedFilters.school}
-            onSelect={(value) => handleDraftChange('school', value)}
-          />
-        </div>
-      </FilterSection>
-    </div>
+  const atmosphereHexes = useMemo(
+    () => translatedColorOptions.map((option) => option.color),
+    [translatedColorOptions],
   );
-
-  // Active filter chips for mobile
-  const ActiveFilterChips = () => {
-    if (!hasActiveFilters) return null;
-
-    const filters = [
-      {
-        key: 'color',
-        value: selectedCriteria.color,
-        display: selectedCriteria.color ? translateEntity(selectedCriteria.color, 'color') : null,
-        color: selectedCriteria.color ? colorData.colors[selectedCriteria.color]?.color : null,
-      },
-      { key: 'area', value: selectedCriteria.area, display: selectedCriteria.area },
-      { key: 'field', value: selectedCriteria.field, display: selectedCriteria.field },
-      { key: 'school', value: selectedCriteria.school, display: selectedCriteria.school },
-    ].filter((f) => f.value);
-
-    return (
-      <div className="relative flex flex-wrap items-center gap-2 px-3 pb-3 sm:hidden">
-        {filters.map((filter) => (
-          <button
-            key={filter.key}
-            type="button"
-            onClick={() => {
-              onDraftAdvancedFilterChange({ ...draftAdvancedFilters, [filter.key]: '' });
-              onApplyAdvancedFilters();
-            }}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-sm bg-muted/60 text-foreground rounded-md active:bg-muted transition-colors"
-          >
-            {filter.key === 'color' && filter.color && (
-              <span
-                className="w-2.5 h-2.5 rounded-full border border-border/50"
-                style={{ backgroundColor: filter.color }}
-              />
-            )}
-            <span>{filter.display}</span>
-            <X className="w-3.5 h-3.5 text-muted-foreground" />
-          </button>
-        ))}
-        <button
-          type="button"
-          onClick={handleClear}
-          className="px-2.5 py-1.5 text-sm text-muted-foreground active:text-foreground transition-colors"
-        >
-          {t('clear')}
-        </button>
-      </div>
-    );
-  };
 
   return (
     <motion.div
@@ -506,241 +368,73 @@ export default function SearchForm({
       className="relative mb-4 w-full sm:mb-8"
     >
       <div className="relative overflow-hidden rounded-xl border border-border/70 bg-card shadow-card">
-        <div className="relative overflow-hidden px-3 pb-3 pt-4 sm:px-6 sm:pb-5 sm:pt-7">
-          <ColorAtmosphere
-            hexes={translatedColorOptions.map((option) => option.color)}
-          />
-          <div className="relative">
-            <SearchIcon className="pointer-events-none absolute left-3 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-muted-foreground sm:left-5 sm:h-7 sm:w-7" weight="regular" />
-            <Input
-              ref={searchInputRef}
-              id="text-search"
-              type="text"
-              value={localSearchValue}
-              onChange={(e) => handleTextSearchChange(e.target.value)}
-              placeholder={t('placeholder')}
-              data-testid="text-search-input"
-              className="h-14 border-2 border-input bg-background pl-11 pr-24 text-lg shadow-sm transition-[box-shadow,border-color] hover:border-green/40 focus-visible:border-green focus-visible:ring-2 focus-visible:ring-green/30 sm:h-[4.5rem] sm:pl-16 sm:pr-28 sm:text-xl"
-              aria-disabled={isSearching}
-            />
-            {!localSearchValue && !isSearching && (
-              <kbd className="absolute right-3 sm:right-6 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-                <span className="text-xs">&#8984;</span>K
-              </kbd>
-            )}
-            {isSearching && (
-              <div className="absolute right-3 sm:right-6 top-1/2 transform -translate-y-1/2 z-10">
-                <div className="w-4 h-4 sm:w-6 sm:h-6 border-2 border-green border-t-transparent rounded-full motion-safe:animate-spin" />
-              </div>
-            )}
-            {localSearchValue && !isSearching && (
-              <button
-                type="button"
-                onClick={() => handleTextSearchChange('')}
-                className="absolute right-3 sm:right-6 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition p-1 sm:p-2 rounded hover:bg-muted z-10"
-                aria-label={t('clearSearch')}
-              >
-                <X className="w-4 h-4 sm:w-5 sm:h-5" />
-              </button>
-            )}
-          </div>
-        </div>
+        <SearchForm.TextField
+          inputRef={searchInputRef}
+          value={localSearchValue}
+          onChange={handleTextSearchChange}
+          placeholder={t('placeholder')}
+          clearLabel={t('clearSearch')}
+          isSearching={isSearching}
+          atmosphereHexes={atmosphereHexes}
+        />
 
-        {/* Mobile: Filter button that opens drawer */}
         <div className="relative border-t border-border/50 bg-card px-3 pb-1 pt-1 sm:hidden">
           <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
             <DrawerTrigger asChild>
               <button
                 id="search-filters-trigger"
                 type="button"
-                className="flex min-h-11 w-full items-center justify-between py-3 px-0 text-left active:opacity-70 transition-opacity"
+                className="flex min-h-11 w-full touch-manipulation items-center justify-between px-0 py-3 text-left transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green/50 active:opacity-70"
               >
                 <div className="flex items-center gap-2">
-                  <SlidersHorizontal className="w-4 h-4 text-muted-foreground" />
+                  <SlidersHorizontal className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
                   <span className="text-sm font-medium text-foreground">{t('filters')}</span>
-                  {hasActiveFilters && (
-                    <span className="px-2 py-0.5 text-xs bg-green text-white rounded-full font-medium">
+                  {hasActiveFilters ? (
+                    <span className="rounded-full bg-green px-2 py-0.5 text-xs font-medium text-white">
                       {activeFilterCount}
                     </span>
-                  )}
+                  ) : null}
                 </div>
-                <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                <ChevronDown className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
               </button>
             </DrawerTrigger>
-            <DrawerContent id="search-filters-content" className="h-[85vh] flex flex-col">
-              <DrawerHeader className="text-left border-b border-border flex-shrink-0">
+            <DrawerContent id="search-filters-content" className="flex h-[85vh] flex-col">
+              <DrawerHeader className="flex-shrink-0 border-b border-border text-left">
                 <DrawerTitle className="flex items-center justify-between">
                   <span>{t('filters')}</span>
-                  {hasActiveFilters && (
+                  {hasActiveFilters ? (
                     <button
                       type="button"
                       onClick={handleClear}
-                      className="text-sm font-normal text-muted-foreground active:text-foreground transition-colors"
+                      className="text-sm font-normal text-muted-foreground transition-colors active:text-foreground"
                     >
                       {t('clear')}
                     </button>
-                  )}
+                  ) : null}
                 </DrawerTitle>
               </DrawerHeader>
-
-              {/* Tab navigation */}
-              <div className="flex gap-1 overflow-x-auto border-b border-border flex-shrink-0">
-                {[
-                  { key: 'color', label: t('color'), hasValue: !!draftAdvancedFilters.color },
-                  { key: 'area', label: t('city'), hasValue: !!draftAdvancedFilters.area },
-                  { key: 'field', label: t('field'), hasValue: !!draftAdvancedFilters.field },
-                  { key: 'school', label: t('school'), hasValue: !!draftAdvancedFilters.school },
-                ].map((tab) => (
-                  <button
-                    key={tab.key}
-                    type="button"
-                    onClick={() =>
-                      setExpandedSections({
-                        color: false,
-                        area: false,
-                        field: false,
-                        school: false,
-                        [tab.key]: true,
-                      })
-                    }
-                    className={`w-fit flex-shrink-0 px-3 py-3 text-sm font-medium relative transition-colors ${
-                      expandedSections[tab.key] ? 'text-foreground' : 'text-muted-foreground'
-                    }`}
-                  >
-                    <span className="flex items-center justify-center gap-1.5">
-                      {tab.label}
-                      {tab.hasValue && <span className="w-1.5 h-1.5 rounded-full bg-green" />}
-                    </span>
-                    {expandedSections[tab.key] && (
-                      <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-green rounded-full" />
-                    )}
-                  </button>
-                ))}
-              </div>
-
-              {/* Content area - single scroll */}
-              <div className="flex-1 overflow-y-auto p-4">
-                {/* Colors */}
-                {expandedSections.color && (
-                  <div className="grid grid-cols-4 gap-3">
-                    {translatedColorOptions.map(({ key, displayName, color }) => {
-                      const isSelected = draftAdvancedFilters.color === key;
-                      const isWhite = key === 'valkoinen' || color === '#FFFFFF';
-                      const isBlack = key === 'musta' || color === '#000000';
-                      return (
-                        <button
-                          key={key}
-                          type="button"
-                          onClick={() => handleDraftChange('color', isSelected ? '' : key)}
-                          className={`flex flex-col items-center gap-2 p-3 rounded-xl transition-all shadow-sm ${
-                            isSelected
-                              ? 'bg-green/10 ring-2 ring-green'
-                              : 'bg-muted active:bg-muted/80'
-                          }`}
-                        >
-                          <div
-                            className={`w-10 h-10 rounded-full flex items-center justify-center shadow-sm ${
-                              isWhite ? 'border-2 border-border' : ''
-                            }`}
-                            style={{ backgroundColor: color }}
-                          >
-                            {isSelected && (
-                              <Check
-                                className={`w-5 h-5 ${isWhite || color === '#FFFF00' || color === '#FFA500' ? 'text-foreground' : 'text-white'}`}
-                              />
-                            )}
-                          </div>
-                          <span
-                            className={`text-xs text-center leading-tight ${isSelected ? 'text-foreground font-medium' : 'text-muted-foreground'}`}
-                          >
-                            {displayName}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {/* Cities */}
-                {expandedSections.area && (
-                  <div className="flex flex-col gap-2">
-                    {areas.map((area) => {
-                      const isSelected = draftAdvancedFilters.area === area;
-                      return (
-                        <button
-                          key={area}
-                          type="button"
-                          onClick={() => handleDraftChange('area', isSelected ? '' : area)}
-                          className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-all shadow-sm ${
-                            isSelected
-                              ? 'bg-green text-white font-medium shadow-md'
-                              : 'bg-muted text-foreground active:bg-muted/80'
-                          }`}
-                        >
-                          {area}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {/* Fields */}
-                {expandedSections.field && (
-                  <div className="flex flex-col gap-2">
-                    {fields.map((field) => {
-                      const isSelected = draftAdvancedFilters.field === field;
-                      return (
-                        <button
-                          key={field}
-                          type="button"
-                          onClick={() => handleDraftChange('field', isSelected ? '' : field)}
-                          className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-all shadow-sm ${
-                            isSelected
-                              ? 'bg-green text-white font-medium shadow-md'
-                              : 'bg-muted text-foreground active:bg-muted/80'
-                          }`}
-                        >
-                          {field}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {/* Schools */}
-                {expandedSections.school && (
-                  <div className="flex flex-col gap-2">
-                    {schools.map((school) => {
-                      const isSelected = draftAdvancedFilters.school === school;
-                      return (
-                        <button
-                          key={school}
-                          type="button"
-                          onClick={() => handleDraftChange('school', isSelected ? '' : school)}
-                          className={`w-full text-left px-4 py-3 rounded-xl text-sm transition-all shadow-sm ${
-                            isSelected
-                              ? 'bg-green text-white font-medium shadow-md'
-                              : 'bg-muted text-foreground active:bg-muted/80'
-                          }`}
-                        >
-                          {school}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-
-              <DrawerFooter className="border-t border-border pt-4 flex-shrink-0">
+              <SearchFilterPanel
+                variant="mobile"
+                tabs={filterTabs}
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+                colorOptions={translatedColorOptions}
+                draftAdvancedFilters={draftAdvancedFilters}
+                areas={areas}
+                fields={fields}
+                schools={schools}
+                onDraftChange={handleDraftChange}
+              />
+              <DrawerFooter className="flex-shrink-0 border-t border-border pt-4">
                 <Button
                   type="button"
                   onClick={handleApplyFilters}
-                  className="h-12 text-base bg-green hover:bg-green/90 text-white w-full"
+                  className="h-12 w-full bg-green text-base text-white hover:bg-green/90"
                 >
-                  {t('filter')} {draftFilterResultCount >= 0 && `(${draftFilterResultCount})`}
+                  {t('filter')} ({draftFilterResultCount})
                 </Button>
                 <DrawerClose asChild>
-                  <Button variant="outline" className="h-12 text-base w-full">
+                  <Button variant="outline" className="h-12 w-full text-base">
                     {t('close') || 'Sulje'}
                   </Button>
                 </DrawerClose>
@@ -749,10 +443,14 @@ export default function SearchForm({
           </Drawer>
         </div>
 
-        {/* Active filter chips for mobile */}
-        <ActiveFilterChips />
+        <ActiveFilterChips
+          filters={activeFilters}
+          onRemove={onRemoveFilter}
+          onClear={handleClear}
+          clearLabel={t('clear')}
+          variant="mobile"
+        />
 
-        {/* Desktop: Tab-based filters */}
         <div className="relative hidden border-t border-border/50 bg-card px-3 pb-3 pt-3 sm:block sm:px-6">
           <button
             id="search-filters-desktop-toggle"
@@ -760,237 +458,144 @@ export default function SearchForm({
             aria-expanded={isAdvancedSearchOpen}
             aria-controls="search-filters-desktop-content"
             onClick={() => setIsAdvancedSearchOpen(!isAdvancedSearchOpen)}
-            className="flex min-h-11 w-full items-center justify-between px-0 py-1.5 text-left transition-opacity hover:opacity-70"
+            className="flex min-h-11 w-full touch-manipulation items-center justify-between px-0 py-1.5 text-left transition-opacity hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green/50"
           >
             <div className="flex items-center gap-2">
-              <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground" />
+              <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
               <span className="text-sm font-medium text-foreground">
                 {t('filters')}
                 {hasActiveFilters ? ` (${activeFilterCount})` : null}
               </span>
             </div>
             {isAdvancedSearchOpen ? (
-              <ChevronUp className="w-3.5 h-3.5 text-muted-foreground" />
+              <ChevronUp className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
             ) : (
-              <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
+              <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
             )}
           </button>
 
-          {/* Active filters preview when collapsed */}
-          {!isAdvancedSearchOpen && hasActiveFilters && (
-            <div className="flex items-center gap-2 mt-2 pt-2 border-t border-border/30">
-              {[
-                {
-                  key: 'color',
-                  value: selectedCriteria.color,
-                  display: selectedCriteria.color
-                    ? translateEntity(selectedCriteria.color, 'color')
-                    : null,
-                  color: selectedCriteria.color
-                    ? colorData.colors[selectedCriteria.color]?.color
-                    : null,
-                },
-                { key: 'area', value: selectedCriteria.area, display: selectedCriteria.area },
-                { key: 'field', value: selectedCriteria.field, display: selectedCriteria.field },
-                {
-                  key: 'school',
-                  value: selectedCriteria.school,
-                  display: selectedCriteria.school,
-                },
-              ]
-                .filter((f) => f.value)
-                .map((filter) => (
-                  <button
-                    key={filter.key}
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onDraftAdvancedFilterChange({ ...draftAdvancedFilters, [filter.key]: '' });
-                      onApplyAdvancedFilters();
-                    }}
-                    className="inline-flex items-center gap-1.5 px-2 py-1 text-xs bg-muted/50 text-foreground rounded hover:bg-muted transition-colors"
-                  >
-                    {filter.key === 'color' && filter.color && (
-                      <span
-                        className="w-2.5 h-2.5 rounded-full border border-border/50"
-                        style={{ backgroundColor: filter.color }}
-                      />
-                    )}
-                    <span>{filter.display}</span>
-                    <X className="w-3 h-3 text-muted-foreground" />
-                  </button>
-                ))}
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleClear();
-                }}
-                className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors ml-1"
-              >
-                {t('clear')}
-              </button>
-            </div>
-          )}
+          {!isAdvancedSearchOpen ? (
+            <ActiveFilterChips
+              filters={activeFilters}
+              onRemove={onRemoveFilter}
+              onClear={handleClear}
+              clearLabel={t('clear')}
+              variant="desktop"
+            />
+          ) : null}
 
-          {/* Tab-based filter content */}
-          {isAdvancedSearchOpen && (
+          {isAdvancedSearchOpen ? (
             <div
               id="search-filters-desktop-content"
               className="mt-3 animate-in fade-in slide-in-from-top-2 duration-200"
             >
-              {/* Tab navigation */}
-              <div className="flex gap-1 overflow-x-auto border-b border-border/50">
-                {[
-                  { key: 'color', label: t('color'), hasValue: !!draftAdvancedFilters.color },
-                  { key: 'area', label: t('city'), hasValue: !!draftAdvancedFilters.area },
-                  { key: 'field', label: t('field'), hasValue: !!draftAdvancedFilters.field },
-                  { key: 'school', label: t('school'), hasValue: !!draftAdvancedFilters.school },
-                ].map((tab) => (
-                  <button
-                    key={tab.key}
-                    type="button"
-                    onClick={() =>
-                      setExpandedSections({
-                        color: false,
-                        area: false,
-                        field: false,
-                        school: false,
-                        [tab.key]: true,
-                      })
-                    }
-                    className={`w-fit flex-shrink-0 px-4 py-2.5 text-sm font-medium relative transition-colors ${
-                      expandedSections[tab.key]
-                        ? 'text-foreground'
-                        : 'text-muted-foreground hover:text-foreground/70'
-                    }`}
-                  >
-                    <span className="flex items-center gap-1.5">
-                      {tab.label}
-                      {tab.hasValue && <span className="w-1.5 h-1.5 rounded-full bg-green" />}
-                    </span>
-                    {expandedSections[tab.key] && (
-                      <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-green rounded-full" />
-                    )}
-                  </button>
-                ))}
-              </div>
-
-              {/* Tab content */}
-              <div className="pt-4">
-                {/* Colors */}
-                {expandedSections.color && (
-                  <div className="flex flex-wrap gap-1">
-                    {translatedColorOptions.map(({ key, displayName, color }) => (
-                      <ColorSwatch
-                        key={key}
-                        color={color}
-                        colorKey={key}
-                        displayName={displayName}
-                        isSelected={draftAdvancedFilters.color === key}
-                        onSelect={() =>
-                          handleDraftChange('color', draftAdvancedFilters.color === key ? '' : key)
-                        }
-                      />
-                    ))}
-                  </div>
-                )}
-
-                {/* Cities */}
-                {expandedSections.area && (
-                  <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto scrollbar-none">
-                    {areas.map((area) => {
-                      const isSelected = draftAdvancedFilters.area === area;
-                      return (
-                        <button
-                          key={area}
-                          type="button"
-                          onClick={() => handleDraftChange('area', isSelected ? '' : area)}
-                          className={`px-3 py-1.5 text-sm rounded-lg transition-all shadow-sm ${
-                            isSelected
-                              ? 'bg-green text-white'
-                              : 'bg-muted text-foreground hover:bg-muted/80'
-                          }`}
-                        >
-                          {area}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {/* Fields */}
-                {expandedSections.field && (
-                  <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto scrollbar-none">
-                    {fields.map((field) => {
-                      const isSelected = draftAdvancedFilters.field === field;
-                      return (
-                        <button
-                          key={field}
-                          type="button"
-                          onClick={() => handleDraftChange('field', isSelected ? '' : field)}
-                          className={`px-3 py-1.5 text-sm rounded-lg transition-all shadow-sm ${
-                            isSelected
-                              ? 'bg-green text-white'
-                              : 'bg-muted text-foreground hover:bg-muted/80'
-                          }`}
-                        >
-                          {field}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {/* Schools */}
-                {expandedSections.school && (
-                  <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto scrollbar-none">
-                    {schools.map((school) => {
-                      const isSelected = draftAdvancedFilters.school === school;
-                      return (
-                        <button
-                          key={school}
-                          type="button"
-                          onClick={() => handleDraftChange('school', isSelected ? '' : school)}
-                          className={`px-3 py-1.5 text-sm rounded-lg transition-all shadow-sm ${
-                            isSelected
-                              ? 'bg-green text-white'
-                              : 'bg-muted text-foreground hover:bg-muted/80'
-                          }`}
-                        >
-                          {school}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-
-              {/* Action buttons */}
-              <div className="flex items-center gap-3 mt-4 pt-4 border-t border-border/30">
-                {hasDraftChanges && (
+              <SearchFilterPanel
+                variant="desktop"
+                tabs={filterTabs}
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+                colorOptions={translatedColorOptions}
+                draftAdvancedFilters={draftAdvancedFilters}
+                areas={areas}
+                fields={fields}
+                schools={schools}
+                onDraftChange={handleDraftChange}
+              />
+              <div className="mt-4 flex items-center gap-3 border-t border-border/30 pt-4">
+                {hasDraftChanges ? (
                   <Button
                     type="button"
                     onClick={handleApplyFilters}
-                    className="h-9 text-sm bg-green hover:bg-green/90 text-white"
+                    className="h-9 bg-green text-sm text-white hover:bg-green/90"
                   >
-                    {t('filter')} {draftFilterResultCount >= 0 && `(${draftFilterResultCount})`}
+                    {t('filter')} ({draftFilterResultCount})
                   </Button>
-                )}
-                {hasActiveFilters && (
+                ) : null}
+                {hasActiveFilters ? (
                   <button
                     type="button"
                     onClick={handleClear}
-                    className="text-sm text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
+                    className="text-sm text-muted-foreground underline underline-offset-2 transition-colors hover:text-foreground"
                   >
                     {t('clear')}
                   </button>
-                )}
+                ) : null}
               </div>
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </motion.div>
   );
 }
+
+function SearchFormTextField({
+  inputRef,
+  value,
+  onChange,
+  placeholder,
+  clearLabel,
+  isSearching,
+  atmosphereHexes,
+}: {
+  inputRef: Ref<HTMLInputElement>;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+  clearLabel: string;
+  isSearching: boolean;
+  atmosphereHexes: string[];
+}) {
+  return (
+    <div className="relative overflow-hidden px-3 pb-3 pt-4 sm:px-6 sm:pb-5 sm:pt-7">
+      <ColorAtmosphere hexes={atmosphereHexes} />
+      <div className="relative">
+        <SearchIcon
+          className="pointer-events-none absolute left-3 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-muted-foreground sm:left-5 sm:h-7 sm:w-7"
+          weight="regular"
+          aria-hidden="true"
+        />
+        <Input
+          ref={inputRef}
+          id="text-search"
+          name="q"
+          type="search"
+          autoComplete="off"
+          spellCheck={false}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          aria-label={placeholder}
+          data-testid="text-search-input"
+          className="h-14 border-2 border-input bg-background pl-11 pr-24 text-lg shadow-sm transition-[box-shadow,border-color] touch-manipulation hover:border-green/40 focus-visible:border-green focus-visible:ring-2 focus-visible:ring-green/30 sm:h-[4.5rem] sm:pl-16 sm:pr-28 sm:text-xl"
+        />
+        {!value && !isSearching ? (
+          <kbd className="pointer-events-none absolute right-3 top-1/2 z-10 hidden h-5 -translate-y-1/2 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 sm:right-6 sm:inline-flex">
+            <span className="text-xs">&#8984;&nbsp;K</span>
+          </kbd>
+        ) : null}
+        {isSearching ? (
+          <div className="absolute right-3 top-1/2 z-10 -translate-y-1/2 sm:right-6" aria-hidden="true">
+            <div className="h-4 w-4 rounded-full border-2 border-green border-t-transparent motion-safe:animate-spin sm:h-6 sm:w-6" />
+          </div>
+        ) : null}
+        {value && !isSearching ? (
+          <button
+            type="button"
+            onClick={() => onChange('')}
+            className="absolute right-3 top-1/2 z-10 -translate-y-1/2 touch-manipulation rounded p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green/50 sm:right-6 sm:p-2"
+            aria-label={clearLabel}
+          >
+            <X className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
+          </button>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+export const SearchForm = Object.assign(SearchFormRoot, {
+  TextField: SearchFormTextField,
+});
+
+export default SearchForm;

@@ -375,9 +375,15 @@ export default async function OverallPage({ params }: Props) {
               <p className="text-muted-foreground mt-1 text-sm">{t('overall.errorDescription')}</p>
             </div>
             <FeedbackModal
-              triggerLabel={t('overall.errorButton')}
-              triggerClassName="bg-green text-white hover:bg-green/90 flex-shrink-0"
-              triggerSize="default"
+              trigger={
+                <button
+                  type="button"
+                  className="flex-shrink-0 rounded-md bg-green px-4 py-2 text-white hover:bg-green/90"
+                  data-testid="feedback-trigger"
+                >
+                  {t('overall.errorButton')}
+                </button>
+              }
               title={t('overall.errorModalTitle')}
               description={t('overall.errorModalDescription')}
               submitLabel={t('overall.errorSubmit')}
