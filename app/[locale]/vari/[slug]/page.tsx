@@ -9,8 +9,8 @@ import {
 import { Page } from '@/components/page';
 import { loadUniversities } from '@/lib/load-universities';
 import { loadColorData } from '@/lib/load-color-data';
-import { getUniversitiesByColor } from '@/lib/get-universities-by-criteria';
-import { getSlugForEntity, getEntityFromSlug, getEntityTranslation } from '@/lib/slug-translations';
+import { getTaxonomyEntities, resolveTaxonomyHub } from '@/lib/taxonomy-hub';
+import { getSlugForEntity } from '@/lib/slug-translations';
 import { parseStyles, capitalizeFirstLetter } from '@/lib/utils';
 import { Metadata } from 'next';
 import { Link } from '@/i18n/routing';
@@ -34,9 +34,7 @@ type Props = {
 
 export async function generateStaticParams() {
   const universities = await loadUniversities('fi');
-  const uniqueColors = Array.from(
-    new Set(universities.flatMap((u) => (u.variBase?.length ? u.variBase : [u.vari]))),
-  );
+  const uniqueColors = getTaxonomyEntities(universities, 'color');
 
   const params = [];
   for (const locale of routing.locales) {
@@ -53,23 +51,19 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const universities = await loadUniversities(locale);
-  const uniqueColors = Array.from(
-    new Set(universities.flatMap((u) => (u.variBase?.length ? u.variBase : [u.vari]))),
-  );
-  const color = getEntityFromSlug(slug, locale, 'color', uniqueColors);
+  const hub = resolveTaxonomyHub(universities, slug, locale, 'color');
 
-  if (!color) {
+  if (!hub) {
     const t = await getTranslations({ locale, namespace: 'colors' });
     return {
       title: `${t('notFound')} | Haalarikone`,
     };
   }
 
-  const colorData = getUniversitiesByColor(universities, color);
+  const { canonical: color, localized: translatedColor, rows: colorData } = hub;
   const universitiesList = Array.from(new Set(colorData.map((u) => u.oppilaitos)));
 
   const t = await getTranslations({ locale });
-  const translatedColor = getEntityTranslation(color, locale, 'color');
   const capitalizedColor = capitalizeFirstLetter(translatedColor);
   const baseUrl = localeSiteBaseUrl(locale);
   const colorSlug = getSlugForEntity(color, locale as 'fi' | 'en' | 'sv', 'color');
@@ -135,13 +129,10 @@ export default async function ColorPage({ params }: Props) {
   const { locale, slug } = await params;
   const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
   const colorDataMap = await loadColorData();
-  const uniqueColors = Array.from(
-    new Set(universities.flatMap((u) => (u.variBase?.length ? u.variBase : [u.vari]))),
-  );
-  const color = getEntityFromSlug(slug, locale as 'fi' | 'en' | 'sv', 'color', uniqueColors);
+  const hub = resolveTaxonomyHub(universities, slug, locale as 'fi' | 'en' | 'sv', 'color');
   const t = await getTranslations({ locale });
 
-  if (!color) {
+  if (!hub) {
     return (
       <Page.Missing>
         <h1 className="text-2xl font-bold mb-4">{t('colors.notFound')}</h1>
@@ -152,7 +143,7 @@ export default async function ColorPage({ params }: Props) {
     );
   }
 
-  const colorData = getUniversitiesByColor(universities, color);
+  const { canonical: color, localized: translatedColor, rows: colorData } = hub;
   const universitiesList = Array.from(new Set(colorData.map((u) => u.oppilaitos)));
   const fields = Array.from(
     new Set(colorData.flatMap((u) => (u.ala ? u.ala.split(', ') : [])).filter(Boolean)),
@@ -164,7 +155,6 @@ export default async function ColorPage({ params }: Props) {
   const swatchStyle = canonicalHex
     ? ({ backgroundColor: canonicalHex } as const)
     : parseStyles(firstColorData?.hex || null);
-  const translatedColor = getEntityTranslation(color, locale as 'fi' | 'en' | 'sv', 'color');
   const capitalizedColor = capitalizeFirstLetter(translatedColor);
   const baseUrl = localeSiteBaseUrl(locale);
   const colorSlug = getSlugForEntity(color, locale as 'fi' | 'en' | 'sv', 'color');

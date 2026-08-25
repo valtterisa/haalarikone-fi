@@ -85,7 +85,12 @@ function normalizeJsonToUniversity(
     variLabel,
     variBase: normalizedVariBase,
     hex: metadata.hex ?? '',
-    alue: alue ? getLocalizedValue(alue, 'area') : '',
+    alue: alue
+      ? alue
+          .split(', ')
+          .map((a: string) => getLocalizedValue(a.trim(), 'area'))
+          .join(', ')
+      : '',
     ala: ala
       ? ala
           .split(', ')
