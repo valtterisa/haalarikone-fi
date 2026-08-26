@@ -1,61 +1,87 @@
-import { promises as fs } from 'fs';
-import path from 'path';
 import type { BlogPost } from '@/types/blog-post';
+import { RAW_BLOG_POSTS } from '@/lib/blog-posts-data';
 
 type LocaleString = string | { fi: string; en?: string; sv?: string };
 
-function getLocaleString(value: LocaleString, locale: string): string {
-    if (typeof value === 'string') {
-        return value;
-    }
-    return value[locale as keyof typeof value] || value.en || value.fi;
+type BlogSlugLocales = { fi: string; en: string; sv: string };
+
+export function getLocaleString(value: LocaleString, locale: string): string {
+  if (typeof value === 'string') {
+    return value;
+  }
+  return value[locale as keyof typeof value] || value.en || value.fi;
 }
 
-function selectLocaleForPost(post: BlogPost, locale: string): BlogPost {
-    return {
-        ...post,
-        title: getLocaleString(post.title, locale),
-        description: getLocaleString(post.description, locale),
-        content: getLocaleString(post.content, locale),
-        author: getLocaleString(post.author, locale),
-    };
+export function blogSlugMatches(slugField: LocaleString, candidate: string): boolean {
+  if (typeof slugField === 'string') {
+    return slugField === candidate;
+  }
+  return Object.values(slugField).some((value) => value === candidate);
 }
 
-export async function loadBlogPosts(locale: string = 'fi'): Promise<BlogPost[]> {
-    const blogDir = path.join(process.cwd(), 'content', 'blog');
-
-    try {
-        const files = await fs.readdir(blogDir);
-        const posts: BlogPost[] = [];
-
-        for (const file of files) {
-            if (file.endsWith('.json')) {
-                const filePath = path.join(blogDir, file);
-                const fileContent = await fs.readFile(filePath, 'utf-8');
-                const post = JSON.parse(fileContent) as BlogPost;
-                posts.push(selectLocaleForPost(post, locale));
-            }
-        }
-
-        return posts.sort(
-            (a, b) =>
-                new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime()
-        );
-    } catch {
-        return [];
-    }
+export function findRawBlogPost(slug: string): BlogPost | null {
+  return RAW_BLOG_POSTS.find((post) => blogSlugMatches(post.slug, slug)) ?? null;
 }
 
-export async function loadBlogPost(slug: string, locale: string = 'fi'): Promise<BlogPost | null> {
-    const blogDir = path.join(process.cwd(), 'content', 'blog');
-    const filePath = path.join(blogDir, `${slug}.json`);
-
-    try {
-        const fileContent = await fs.readFile(filePath, 'utf-8');
-        const post = JSON.parse(fileContent) as BlogPost;
-        return selectLocaleForPost(post, locale);
-    } catch {
-        return null;
-    }
+function slugLocalesFromPost(post: BlogPost): BlogSlugLocales {
+  return {
+    fi: getLocaleString(post.slug, 'fi'),
+    en: getLocaleString(post.slug, 'en'),
+    sv: getLocaleString(post.slug, 'sv'),
+  };
 }
 
+export function resolveBlogSlug(slug: string, toLocale: string): string {
+  const post = findRawBlogPost(slug);
+  if (!post) {
+    return slug;
+  }
+  return getLocaleString(post.slug, toLocale);
+}
+
+export function blogSlugAlternates(slug: string): BlogSlugLocales {
+  const post = findRawBlogPost(slug);
+  if (!post) {
+    return { fi: slug, en: slug, sv: slug };
+  }
+  return slugLocalesFromPost(post);
+}
+
+export type ResolvedBlogPost = {
+  slug: string;
+  title: string;
+  description: string;
+  content: string;
+  author: string;
+  publishDate: string;
+  readingTime?: number;
+};
+
+function selectLocaleForPost(post: BlogPost, locale: string): ResolvedBlogPost {
+  return {
+    slug: getLocaleString(post.slug, locale),
+    title: getLocaleString(post.title, locale),
+    description: getLocaleString(post.description, locale),
+    content: getLocaleString(post.content, locale),
+    author: getLocaleString(post.author, locale),
+    publishDate: post.publishDate,
+    readingTime: post.readingTime,
+  };
+}
+
+export async function loadBlogPosts(locale: string = 'fi'): Promise<ResolvedBlogPost[]> {
+  return RAW_BLOG_POSTS.map((post) => selectLocaleForPost(post, locale)).sort(
+    (a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime(),
+  );
+}
+
+export async function loadBlogPost(
+  slug: string,
+  locale: string = 'fi',
+): Promise<ResolvedBlogPost | null> {
+  const post = findRawBlogPost(slug);
+  if (!post) {
+    return null;
+  }
+  return selectLocaleForPost(post, locale);
+}

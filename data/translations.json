@@ -1,225 +1,1702 @@
 {
   "fields": {
-    "matematiikka": { "fi": "matematiikka", "en": "mathematics", "sv": "matematik" },
-    "fysiikka": { "fi": "fysiikka", "en": "physics", "sv": "fysik" },
-    "kemia": { "fi": "kemia", "en": "chemistry", "sv": "kemi" },
-    "tietotekniikka": { "fi": "tietotekniikka", "en": "computer science", "sv": "datavetenskap" },
-    "lääketiede": { "fi": "lääketiede", "en": "medicine", "sv": "medicin" },
-    "oikeustiede": { "fi": "oikeustiede", "en": "law", "sv": "rättsvetenskap" },
-    "kauppatiede": { "fi": "kauppatiede", "en": "business", "sv": "handel" },
-    "psykologia": { "fi": "psykologia", "en": "psychology", "sv": "psykologi" },
-    "sosiologia": { "fi": "sosiologia", "en": "sociology", "sv": "sociologi" },
-    "historia": { "fi": "historia", "en": "history", "sv": "historia" },
-    "filosofia": { "fi": "filosofia", "en": "philosophy", "sv": "filosofi" },
-    "kielitiede": { "fi": "kielitiede", "en": "linguistics", "sv": "lingvistik" },
-    "taide": { "fi": "taide", "en": "arts", "sv": "konst" },
-    "arkkitehtuuri": { "fi": "arkkitehtuuri", "en": "architecture", "sv": "arkitektur" },
-    "insinööritiede": { "fi": "insinööritiede", "en": "engineering", "sv": "teknik" },
-    "maatalous": { "fi": "maatalous", "en": "agriculture", "sv": "jordbruk" },
-    "metsätiede": { "fi": "metsätiede", "en": "forestry", "sv": "skogsvetenskap" },
-    "eläinlääketiede": {
-      "fi": "eläinlääketiede",
-      "en": "veterinary medicine",
-      "sv": "veterinärmedicin"
+    "(kaikki alat)": {
+      "fi": "(kaikki alat)",
+      "en": "(all fields)",
+      "sv": "(alla områden)"
     },
-    "kasvatustiede": { "fi": "kasvatustiede", "en": "education", "sv": "pedagogik" },
-    "hortonomi": { "fi": "hortonomi", "en": "horticulture", "sv": "hortonomi" },
-    "sairaanhoitaja": { "fi": "sairaanhoitaja", "en": "nurse", "sv": "sjuksköterska" },
-    "sosionomi": { "fi": "sosionomi", "en": "social services", "sv": "socionom" },
-    "tradenomi": {
-      "fi": "tradenomi",
-      "en": "business administration",
-      "sv": "handelshögskoleexamen"
+    "Aasian ja Afrikan kielet ja kulttuurit": {
+      "fi": "Aasian ja Afrikan kielet ja kulttuurit",
+      "en": "Asian and African languages and cultures",
+      "sv": "asiatiska och afrikanska språk och kulturer"
     },
-    "terveydenhoitaja": {
-      "fi": "terveydenhoitaja",
-      "en": "public health nurse",
-      "sv": "hälsovårdare"
+    "aikuiskasvatus": {
+      "fi": "aikuiskasvatus",
+      "en": "adult education",
+      "sv": "vuxenpedagogik"
     },
-    "liiketalous": { "fi": "liiketalous", "en": "business economics", "sv": "företagsekonomi" },
-    "muotoilu": { "fi": "muotoilu", "en": "design", "sv": "formgivning" },
-    "tietojenkäsittely": {
-      "fi": "tietojenkäsittely",
-      "en": "information technology",
-      "sv": "databehandling"
+    "aikuiskasvatustiede": {
+      "fi": "aikuiskasvatustiede",
+      "en": "adult education science",
+      "sv": "vuxenpedagogik"
     },
-    "insinööri": { "fi": "insinööri", "en": "engineer", "sv": "ingenjör" },
-    "kestävä kehitys": {
-      "fi": "kestävä kehitys",
-      "en": "sustainable development",
-      "sv": "hållbar utveckling"
+    "aineenopettaja": {
+      "fi": "aineenopettaja",
+      "en": "subject teacher",
+      "sv": "ämneslärare"
     },
-    "sosiaaliala": { "fi": "sosiaaliala", "en": "social services", "sv": "socialområdet" },
-    "luonnonvara-ala": {
-      "fi": "luonnonvara-ala",
-      "en": "natural resources",
-      "sv": "naturresursområdet"
+    "alue- ja kulttuuritutkimus": {
+      "fi": "alue- ja kulttuuritutkimus",
+      "en": "area and cultural studies",
+      "sv": "områdes- och kulturstudier"
     },
-    "vieraat kielet": {
-      "fi": "vieraat kielet",
-      "en": "foreign languages",
-      "sv": "främmande språk"
+    "aluetutkimus": {
+      "fi": "aluetutkimus",
+      "en": "regional studies",
+      "sv": "områdesstudier"
     },
-    "kääntäminen": { "fi": "kääntäminen", "en": "translation", "sv": "översättning" },
-    "yleinen kielitiede": {
-      "fi": "yleinen kielitiede",
-      "en": "general linguistics",
-      "sv": "allmän språkvetenskap"
+    "antropologia": {
+      "fi": "antropologia",
+      "en": "anthropology",
+      "sv": "antropologi"
     },
-    "fysioterapia": { "fi": "fysioterapia", "en": "physiotherapy", "sv": "fysioterapi" },
-    "venäjän kieli": { "fi": "venäjän kieli", "en": "Russian language", "sv": "ryska" },
-    "varhaiskasvatus": {
-      "fi": "varhaiskasvatus",
-      "en": "early childhood education",
-      "sv": "småbarnspedagogik"
+    "arkeologia": {
+      "fi": "arkeologia",
+      "en": "archaeology",
+      "sv": "arkeologi"
     },
-    "saksan kieli": { "fi": "saksan kieli", "en": "German language", "sv": "tyska" },
-    "julkisoikeus": { "fi": "julkisoikeus", "en": "public law", "sv": "offentlig rätt" },
-    "opinto-ohjaaja": { "fi": "opinto-ohjaaja", "en": "study counselor", "sv": "studievägledare" },
-    "matkailu- ja ravitsemisala": {
-      "fi": "matkailu- ja ravitsemisala",
-      "en": "tourism and hospitality",
-      "sv": "turism och restaurang"
+    "arkkitehtuuri": {
+      "fi": "arkkitehtuuri",
+      "en": "architecture",
+      "sv": "arkitektur"
     },
-    "kansantaloustieteet": {
-      "fi": "kansantaloustieteet",
-      "en": "economics",
-      "sv": "nationalekonomi"
+    "asioimistulkkaus": {
+      "fi": "asioimistulkkaus",
+      "en": "community interpreting",
+      "sv": "dialogtolkning"
     },
-    "kotitalous- ja käsityöopettaja": {
-      "fi": "kotitalous- ja käsityöopettaja",
-      "en": "home economics and crafts teacher",
-      "sv": "hemkunskaps- och slöjdlärare"
+    "automaatio- ja systeemitekniikka": {
+      "fi": "automaatio- ja systeemitekniikka",
+      "en": "automation and systems technology",
+      "sv": "automations- och systemteknik"
     },
-    "kauppatieteet": {
-      "fi": "kauppatieteet",
-      "en": "business studies",
-      "sv": "handelsvetenskaper"
+    "automaatiotekniikka": {
+      "fi": "automaatiotekniikka",
+      "en": "automation technology",
+      "sv": "automationsteknik"
     },
-    "ruotsin kieli": { "fi": "ruotsin kieli", "en": "Swedish language", "sv": "svenska" },
-    "biologia": { "fi": "biologia", "en": "biology", "sv": "biologi" },
-    "erityispedagogiikka": {
-      "fi": "erityispedagogiikka",
-      "en": "special education",
-      "sv": "specialpedagogik"
+    "baltologia": {
+      "fi": "baltologia",
+      "en": "Baltic studies",
+      "sv": "baltologi"
     },
-    "maantiede": { "fi": "maantiede", "en": "geography", "sv": "geografi" },
-    "yhteiskuntamaantiede": {
-      "fi": "yhteiskuntamaantiede",
-      "en": "human geography",
-      "sv": "samhällsgeografi"
+    "balttilaiset kielet ja kulttuurit": {
+      "fi": "balttilaiset kielet ja kulttuurit",
+      "en": "Baltic languages and cultures",
+      "sv": "baltiska språk och kulturer"
     },
-    "ympäristöpolitiikka ja -oikeus": {
-      "fi": "ympäristöpolitiikka ja -oikeus",
-      "en": "environmental policy and law",
-      "sv": "miljöpolitik och rätt"
+    "bio- ja ympäristötieteet": {
+      "fi": "bio- ja ympäristötieteet",
+      "en": "bio and environmental sciences",
+      "sv": "bio- och miljövetenskaper"
     },
-    "energia- ja ympäristötekniikka": {
-      "fi": "energia- ja ympäristötekniikka",
-      "en": "energy and environmental technology",
-      "sv": "energi- och miljöteknik"
+    "bioanalyytikko": {
+      "fi": "bioanalyytikko",
+      "en": "biomedical laboratory scientist",
+      "sv": "bioanalytiker"
     },
-    "metsätalousinsinööri": {
-      "fi": "metsätalousinsinööri",
-      "en": "forestry engineer",
-      "sv": "skogsbruksingenjör"
+    "bioinformaatioteknologia": {
+      "fi": "bioinformaatioteknologia",
+      "en": "bioinformation technology",
+      "sv": "bioinformationsteknik"
     },
-    "luokanopettaja": { "fi": "luokanopettaja", "en": "class teacher", "sv": "klasslärare" },
-    "suomen kieli": { "fi": "suomen kieli", "en": "Finnish language", "sv": "finska" },
-    "kirjallisuus": { "fi": "kirjallisuus", "en": "literature", "sv": "litteratur" },
-    "kulttuuri- ja media-ala": {
-      "fi": "kulttuuri- ja media-ala",
-      "en": "culture and media",
-      "sv": "kultur- och mediaområdet"
+    "biokemia": {
+      "fi": "biokemia",
+      "en": "biochemistry",
+      "sv": "biokemi"
     },
-    "tietojenkäsittelytiede": {
-      "fi": "tietojenkäsittelytiede",
-      "en": "computer science",
-      "sv": "datavetenskap"
+    "biologia": {
+      "fi": "biologia",
+      "en": "biology",
+      "sv": "biologi"
     },
-    "läntinen teologia": {
-      "fi": "läntinen teologia",
-      "en": "Western theology",
-      "sv": "västerländsk teologi"
+    "biolääketiede": {
+      "fi": "biolääketiede",
+      "en": "biomedicine",
+      "sv": "biomedicin"
     },
-    "ortodoksinen teologia": {
-      "fi": "ortodoksinen teologia",
-      "en": "Orthodox theology",
-      "sv": "ortodox teologi"
+    "biotekniikan ja elintarvikekehityksen DI": {
+      "fi": "biotekniikan ja elintarvikekehityksen DI",
+      "en": "Master's in biotechnology and food development",
+      "sv": "DI i bioteknik och livsmedelsutveckling"
     },
-    "tekniikka": { "fi": "tekniikka", "en": "technology", "sv": "teknik" },
-    "kulttuuri": { "fi": "kulttuuri", "en": "culture", "sv": "kultur" },
-    "yhteiskuntapolitiikka": {
-      "fi": "yhteiskuntapolitiikka",
-      "en": "social policy",
-      "sv": "samhällspolitik"
+    "biotekniikka": {
+      "fi": "biotekniikka",
+      "en": "biotechnology",
+      "sv": "bioteknik"
     },
-    "englannin kieli": { "fi": "englannin kieli", "en": "English language", "sv": "engelska" },
-    "yhteisöpedagogi": {
-      "fi": "yhteisöpedagogi",
-      "en": "community educator",
-      "sv": "samhällspedagog"
+    "bioteknologia": {
+      "fi": "bioteknologia",
+      "en": "biotechnology",
+      "sv": "bioteknologi"
     },
-    "kulttuurituottaja": {
-      "fi": "kulttuurituottaja",
-      "en": "cultural producer",
-      "sv": "kulturproducent"
+    "biotieteet": {
+      "fi": "biotieteet",
+      "en": "biosciences",
+      "sv": "biovetenskaper"
     },
-    "tieto- ja ohjelmistotekniikka": {
-      "fi": "tieto- ja ohjelmistotekniikka",
-      "en": "information and software technology",
-      "sv": "information och mjukvaruteknik"
-    },
-    "ympäristötekniikka": {
-      "fi": "ympäristötekniikka",
-      "en": "environmental engineering",
-      "sv": "miljöteknik"
-    },
-    "tekstiili- ja materiaalitekniikka": {
-      "fi": "tekstiili- ja materiaalitekniikka",
-      "en": "textile and material engineering",
-      "sv": "textil- och materialteknik"
-    },
-    "international business": {
-      "fi": "international business",
-      "en": "international business",
-      "sv": "internationell handel"
+    "biotuote- ja prosessitekniikka": {
+      "fi": "biotuote- ja prosessitekniikka",
+      "en": "bioproduct and process engineering",
+      "sv": "bioprodukt- och processteknik"
     },
     "computer applications": {
       "fi": "computer applications",
       "en": "computer applications",
       "sv": "datorapplikationer"
     },
+    "elektroniikka": {
+      "fi": "elektroniikka",
+      "en": "electronics",
+      "sv": "elektronik"
+    },
+    "elinikäinen oppiminen ja kasvatus": {
+      "fi": "elinikäinen oppiminen ja kasvatus",
+      "en": "lifelong learning and education",
+      "sv": "livslångt lärande och fostran"
+    },
+    "elintarviketiede": {
+      "fi": "elintarviketiede",
+      "en": "food science",
+      "sv": "livsmedelsvetenskap"
+    },
+    "elintarviketieteet": {
+      "fi": "elintarviketieteet",
+      "en": "food sciences",
+      "sv": "livsmedelsvetenskaper"
+    },
+    "eläinlääketiede": {
+      "fi": "eläinlääketiede",
+      "en": "veterinary medicine",
+      "sv": "veterinärmedicin"
+    },
+    "energia- ja ympäristötekniikka": {
+      "fi": "energia- ja ympäristötekniikka",
+      "en": "energy and environmental technology",
+      "sv": "energi- och miljöteknik"
+    },
+    "energiamurros": {
+      "fi": "energiamurros",
+      "en": "energy transition",
+      "sv": "energiomställning"
+    },
+    "energiatekniikka": {
+      "fi": "energiatekniikka",
+      "en": "energy technology",
+      "sv": "energiteknik"
+    },
+    "englannin kieli": {
+      "fi": "englannin kieli",
+      "en": "English language",
+      "sv": "engelska"
+    },
+    "ensihoitaja": {
+      "fi": "ensihoitaja",
+      "en": "paramedic",
+      "sv": "förstavårdare"
+    },
+    "erityispedagogiikka": {
+      "fi": "erityispedagogiikka",
+      "en": "special education",
+      "sv": "specialpedagogik"
+    },
+    "espanjan kieli ja kääntäminen": {
+      "fi": "espanjan kieli ja kääntäminen",
+      "en": "Spanish language and translation",
+      "sv": "spanska och översättning"
+    },
+    "estenomi": {
+      "fi": "estenomi",
+      "en": "beauty and cosmetics",
+      "sv": "skönhetsbranschen"
+    },
+    "estetiikka": {
+      "fi": "estetiikka",
+      "en": "aesthetics",
+      "sv": "estetik"
+    },
+    "etnologia": {
+      "fi": "etnologia",
+      "en": "ethnology",
+      "sv": "etnologi"
+    },
+    "farmasia": {
+      "fi": "farmasia",
+      "en": "pharmacy",
+      "sv": "farmaci"
+    },
+    "filosofia": {
+      "fi": "filosofia",
+      "en": "philosophy",
+      "sv": "filosofi"
+    },
+    "folkloristiikka": {
+      "fi": "folkloristiikka",
+      "en": "folklore studies",
+      "sv": "folkloristik"
+    },
+    "fonetiikka": {
+      "fi": "fonetiikka",
+      "en": "phonetics",
+      "sv": "fonetik"
+    },
+    "fysiikka": {
+      "fi": "fysiikka",
+      "en": "physics",
+      "sv": "fysik"
+    },
+    "fysikaaliset tieteet": {
+      "fi": "fysikaaliset tieteet",
+      "en": "physical sciences",
+      "sv": "fysikaliska vetenskaper"
+    },
+    "fysioterapeutti": {
+      "fi": "fysioterapeutti",
+      "en": "physiotherapist",
+      "sv": "fysioterapeut"
+    },
+    "fysioterapia": {
+      "fi": "fysioterapia",
+      "en": "physiotherapy",
+      "sv": "fysioterapi"
+    },
+    "geofysiikka": {
+      "fi": "geofysiikka",
+      "en": "geophysics",
+      "sv": "geofysik"
+    },
+    "geologia": {
+      "fi": "geologia",
+      "en": "geology",
+      "sv": "geologi"
+    },
+    "geomatiikka": {
+      "fi": "geomatiikka",
+      "en": "geomatics",
+      "sv": "geomatik"
+    },
+    "geotieteet": {
+      "fi": "geotieteet",
+      "en": "geosciences",
+      "sv": "geovetenskaper"
+    },
+    "germaaninen filologia": {
+      "fi": "germaaninen filologia",
+      "en": "Germanic philology",
+      "sv": "germansk filologi"
+    },
+    "geronomi": {
+      "fi": "geronomi",
+      "en": "gerontology",
+      "sv": "geronom"
+    },
+    "hallinto": {
+      "fi": "hallinto",
+      "en": "administration",
+      "sv": "förvaltning"
+    },
+    "hallintotieteet": {
+      "fi": "hallintotieteet",
+      "en": "administrative sciences",
+      "sv": "förvaltningsvetenskaper"
+    },
+    "hammaslääketiede": {
+      "fi": "hammaslääketiede",
+      "en": "dentistry",
+      "sv": "tandvård"
+    },
+    "hammasteknikko": {
+      "fi": "hammasteknikko",
+      "en": "dental technician",
+      "sv": "tandtekniker"
+    },
     "hevostalouden liiketoiminta": {
       "fi": "hevostalouden liiketoiminta",
       "en": "equine business",
       "sv": "hästnäring"
+    },
+    "historia": {
+      "fi": "historia",
+      "en": "history",
+      "sv": "historia"
+    },
+    "historia (ruotsiksi)": {
+      "fi": "historia (ruotsiksi)",
+      "en": "history (in Swedish)",
+      "sv": "historia (på svenska)"
+    },
+    "hoitoala": {
+      "fi": "hoitoala",
+      "en": "nursing and care",
+      "sv": "vårdbranschen"
+    },
+    "hoitotiede": {
+      "fi": "hoitotiede",
+      "en": "nursing science",
+      "sv": "vårdvetenskap"
+    },
+    "hoitotyö": {
+      "fi": "hoitotyö",
+      "en": "nursing",
+      "sv": "vårdarbete"
+    },
+    "hortonomi": {
+      "fi": "hortonomi",
+      "en": "horticulture",
+      "sv": "hortonomi"
+    },
+    "hyvinvointi": {
+      "fi": "hyvinvointi",
+      "en": "wellbeing",
+      "sv": "välbefinnande"
+    },
+    "IB-tradenomi": {
+      "fi": "IB-tradenomi",
+      "en": "IB business administration",
+      "sv": "IB-tradenom"
+    },
+    "iberoromaaniset kielet: espanja": {
+      "fi": "iberoromaaniset kielet: espanja",
+      "en": "Ibero-Romance languages: Spanish",
+      "sv": "iberoromanska språk: spanska"
+    },
+    "iberoromaaniset kielet: portugali": {
+      "fi": "iberoromaaniset kielet: portugali",
+      "en": "Ibero-Romance languages: Portuguese",
+      "sv": "iberoromanska språk: portugisiska"
+    },
+    "informaatiotutkimus": {
+      "fi": "informaatiotutkimus",
+      "en": "information studies",
+      "sv": "informationsvetenskap"
+    },
+    "informaatioverkostot": {
+      "fi": "informaatioverkostot",
+      "en": "information networks",
+      "sv": "informationsnätverk"
+    },
+    "insinööri": {
+      "fi": "insinööri",
+      "en": "engineer",
+      "sv": "ingenjör"
+    },
+    "insinööritiede": {
+      "fi": "insinööritiede",
+      "en": "engineering",
+      "sv": "teknik"
+    },
+    "international business": {
+      "fi": "international business",
+      "en": "international business",
+      "sv": "internationell handel"
+    },
+    "italialainen filologia": {
+      "fi": "italialainen filologia",
+      "en": "Italian philology",
+      "sv": "italiensk filologi"
+    },
+    "italian kieli": {
+      "fi": "italian kieli",
+      "en": "Italian language",
+      "sv": "italienska"
+    },
+    "jalkaterapeutti": {
+      "fi": "jalkaterapeutti",
+      "en": "podiatrist",
+      "sv": "fotterapeut"
+    },
+    "johtaminen": {
+      "fi": "johtaminen",
+      "en": "management",
+      "sv": "ledning"
+    },
+    "journalistiikka": {
+      "fi": "journalistiikka",
+      "en": "journalism",
+      "sv": "journalistik"
+    },
+    "julkisoikeus": {
+      "fi": "julkisoikeus",
+      "en": "public law",
+      "sv": "offentlig rätt"
+    },
+    "kaikki alat": {
+      "fi": "kaikki alat",
+      "en": "all fields",
+      "sv": "alla områden"
+    },
+    "kansainvälinen liiketoiminta": {
+      "fi": "kansainvälinen liiketoiminta",
+      "en": "international business",
+      "sv": "internationell affärsverksamhet"
+    },
+    "kansantaloustieteet": {
+      "fi": "kansantaloustieteet",
+      "en": "economics",
+      "sv": "nationalekonomi"
+    },
+    "kansanterveystiede": {
+      "fi": "kansanterveystiede",
+      "en": "public health",
+      "sv": "folkhälsovetenskap"
+    },
+    "kansatiede": {
+      "fi": "kansatiede",
+      "en": "ethnology",
+      "sv": "etnologi"
+    },
+    "kasvatus- ja aikauskasvatustiede": {
+      "fi": "kasvatus- ja aikauskasvatustiede",
+      "en": "education and adult education",
+      "sv": "pedagogik och vuxenpedagogik"
+    },
+    "kasvatus- ja aikuiskasvatustiede (ruotsiksi)": {
+      "fi": "kasvatus- ja aikuiskasvatustiede (ruotsiksi)",
+      "en": "education and adult education (in Swedish)",
+      "sv": "pedagogik och vuxenpedagogik (på svenska)"
+    },
+    "kasvatuspsykologia": {
+      "fi": "kasvatuspsykologia",
+      "en": "educational psychology",
+      "sv": "pedagogisk psykologi"
+    },
+    "kasvatustiede": {
+      "fi": "kasvatustiede",
+      "en": "education",
+      "sv": "pedagogik"
+    },
+    "kauppa ja kulttuuri": {
+      "fi": "kauppa ja kulttuuri",
+      "en": "commerce and culture",
+      "sv": "handel och kultur"
+    },
+    "kauppatiede": {
+      "fi": "kauppatiede",
+      "en": "business",
+      "sv": "handel"
+    },
+    "kauppatieteet": {
+      "fi": "kauppatieteet",
+      "en": "business studies",
+      "sv": "handelsvetenskaper"
+    },
+    "kehityspsykologia": {
+      "fi": "kehityspsykologia",
+      "en": "developmental psychology",
+      "sv": "utvecklingspsykologi"
+    },
+    "kemia": {
+      "fi": "kemia",
+      "en": "chemistry",
+      "sv": "kemi"
+    },
+    "kemiantekniikka": {
+      "fi": "kemiantekniikka",
+      "en": "chemical engineering",
+      "sv": "kemiteknik"
+    },
+    "kestävä kehitys": {
+      "fi": "kestävä kehitys",
+      "en": "sustainable development",
+      "sv": "hållbar utveckling"
+    },
+    "kestävät yhdyskunnat": {
+      "fi": "kestävät yhdyskunnat",
+      "en": "sustainable communities",
+      "sv": "hållbara samhällen"
+    },
+    "kieliteknologia": {
+      "fi": "kieliteknologia",
+      "en": "language technology",
+      "sv": "språkteknologi"
+    },
+    "kielitiede": {
+      "fi": "kielitiede",
+      "en": "linguistics",
+      "sv": "lingvistik"
+    },
+    "kiinteistötalous": {
+      "fi": "kiinteistötalous",
+      "en": "real estate economics",
+      "sv": "fastighetsekonomi"
+    },
+    "kiinteistötalous ja geoinformatiikka": {
+      "fi": "kiinteistötalous ja geoinformatiikka",
+      "en": "real estate economics and geoinformatics",
+      "sv": "fastighetsekonomi och geoinformatik"
+    },
+    "kirjallisuus": {
+      "fi": "kirjallisuus",
+      "en": "literature",
+      "sv": "litteratur"
+    },
+    "kirjallisuustiede": {
+      "fi": "kirjallisuustiede",
+      "en": "literary studies",
+      "sv": "litteraturvetenskap"
+    },
+    "kirjasto- ja tietopalveluala": {
+      "fi": "kirjasto- ja tietopalveluala",
+      "en": "library and information services",
+      "sv": "biblioteks- och informationstjänster"
+    },
+    "klassillinen filologia": {
+      "fi": "klassillinen filologia",
+      "en": "classical philology",
+      "sv": "klassisk filologi"
+    },
+    "klassilliset kielet ja antiikin kulttuuri": {
+      "fi": "klassilliset kielet ja antiikin kulttuuri",
+      "en": "classical languages and ancient culture",
+      "sv": "klassiska språk och antikens kultur"
+    },
+    "kognitiotiede": {
+      "fi": "kognitiotiede",
+      "en": "cognitive science",
+      "sv": "kognitionsvetenskap"
+    },
+    "kone- ja rakennustekniikka": {
+      "fi": "kone- ja rakennustekniikka",
+      "en": "mechanical and civil engineering",
+      "sv": "maskin- och byggnadsteknik"
+    },
+    "konetekniikka": {
+      "fi": "konetekniikka",
+      "en": "mechanical engineering",
+      "sv": "maskinteknik"
+    },
+    "kotimainen kirjallisuus": {
+      "fi": "kotimainen kirjallisuus",
+      "en": "Finnish literature",
+      "sv": "inhemsk litteratur"
+    },
+    "kotitalous- ja käsityöopettaja": {
+      "fi": "kotitalous- ja käsityöopettaja",
+      "en": "home economics and crafts teacher",
+      "sv": "hemkunskaps- och slöjdlärare"
+    },
+    "kotitalouspedagogiikka": {
+      "fi": "kotitalouspedagogiikka",
+      "en": "home economics education",
+      "sv": "hushållspedagogik"
+    },
+    "kotitaloustiede": {
+      "fi": "kotitaloustiede",
+      "en": "home economics",
+      "sv": "hushållsvetenskap"
+    },
+    "kulttuuri": {
+      "fi": "kulttuuri",
+      "en": "culture",
+      "sv": "kultur"
+    },
+    "kulttuuri- ja media-ala": {
+      "fi": "kulttuuri- ja media-ala",
+      "en": "culture and media",
+      "sv": "kultur- och mediaområdet"
+    },
+    "kulttuuriala": {
+      "fi": "kulttuuriala",
+      "en": "culture sector",
+      "sv": "kulturbranschen"
+    },
+    "kulttuuriantropologia": {
+      "fi": "kulttuuriantropologia",
+      "en": "cultural anthropology",
+      "sv": "kulturantropologi"
+    },
+    "kulttuurien tutkimuksen kandiohjelma": {
+      "fi": "kulttuurien tutkimuksen kandiohjelma",
+      "en": "Bachelor's programme in cultural studies",
+      "sv": "kandidatprogram i kulturstudier"
+    },
+    "kulttuurintuottaja": {
+      "fi": "kulttuurintuottaja",
+      "en": "cultural producer",
+      "sv": "kulturproducent"
+    },
+    "kulttuuripolitiikka": {
+      "fi": "kulttuuripolitiikka",
+      "en": "cultural policy",
+      "sv": "kulturpolitik"
+    },
+    "Kulttuurit ja yhteisöt muuttuvassa maailmassa (KUMU)": {
+      "fi": "Kulttuurit ja yhteisöt muuttuvassa maailmassa (KUMU)",
+      "en": "Cultures and Communities in a Changing World (KUMU)",
+      "sv": "Kulturer och gemenskaper i en föränderlig värld (KUMU)"
+    },
+    "kulttuurituotanto": {
+      "fi": "kulttuurituotanto",
+      "en": "cultural production",
+      "sv": "kulturproduktion"
+    },
+    "kulttuurituottaja": {
+      "fi": "kulttuurituottaja",
+      "en": "cultural producer",
+      "sv": "kulturproducent"
+    },
+    "kuluttajaekonomia": {
+      "fi": "kuluttajaekonomia",
+      "en": "consumer economics",
+      "sv": "konsumentekonomi"
+    },
+    "Kumpulan kampuksen aineet (matematiikka": {
+      "fi": "Kumpulan kampuksen aineet (matematiikka",
+      "en": "Kumpula campus subjects (mathematics",
+      "sv": "Kumpula campus ämnen (matematik"
+    },
+    "kuntoutus": {
+      "fi": "kuntoutus",
+      "en": "rehabilitation",
+      "sv": "rehabilitering"
+    },
+    "kuvataide": {
+      "fi": "kuvataide",
+      "en": "fine arts",
+      "sv": "bildkonst"
+    },
+    "kuvataidekasvatus": {
+      "fi": "kuvataidekasvatus",
+      "en": "art education",
+      "sv": "bildkonstfostran"
+    },
+    "kyberturvallisuus": {
+      "fi": "kyberturvallisuus",
+      "en": "cybersecurity",
+      "sv": "cybersäkerhet"
+    },
+    "käsityön aineenopettaja": {
+      "fi": "käsityön aineenopettaja",
+      "en": "crafts subject teacher",
+      "sv": "slöjdämneslärare"
+    },
+    "käsityönopettaja": {
+      "fi": "käsityönopettaja",
+      "en": "crafts teacher",
+      "sv": "slöjdlärare"
+    },
+    "käsityötiede": {
+      "fi": "käsityötiede",
+      "en": "craft science",
+      "sv": "slöjdvetenskap"
+    },
+    "kätilö": {
+      "fi": "kätilö",
+      "en": "midwife",
+      "sv": "barnmorska"
+    },
+    "käännöstiede": {
+      "fi": "käännöstiede",
+      "en": "translation studies",
+      "sv": "översättningsvetenskap"
+    },
+    "kääntäminen": {
+      "fi": "kääntäminen",
+      "en": "translation",
+      "sv": "översättning"
+    },
+    "laskennallinen tekniikka": {
+      "fi": "laskennallinen tekniikka",
+      "en": "computational engineering",
+      "sv": "beräkningsteknik"
+    },
+    "laskentatoimi": {
+      "fi": "laskentatoimi",
+      "en": "accounting",
+      "sv": "redovisning"
+    },
+    "liikenne": {
+      "fi": "liikenne",
+      "en": "transport",
+      "sv": "trafik"
+    },
+    "liikeranska": {
+      "fi": "liikeranska",
+      "en": "business French",
+      "sv": "affärsfranska"
+    },
+    "liikesaksa": {
+      "fi": "liikesaksa",
+      "en": "business German",
+      "sv": "affärstyska"
+    },
+    "liiketalous": {
+      "fi": "liiketalous",
+      "en": "business economics",
+      "sv": "företagsekonomi"
+    },
+    "liikunnanohjaaja": {
+      "fi": "liikunnanohjaaja",
+      "en": "sports instructor",
+      "sv": "idrottsinstruktör"
+    },
+    "liikunta ja vapaa-aika": {
+      "fi": "liikunta ja vapaa-aika",
+      "en": "sports and leisure",
+      "sv": "idrott och fritid"
+    },
+    "liikunta- ja terveystieteet": {
+      "fi": "liikunta- ja terveystieteet",
+      "en": "sport and health sciences",
+      "sv": "idrotts- och hälsovetenskaper"
+    },
+    "logistiikka": {
+      "fi": "logistiikka",
+      "en": "logistics",
+      "sv": "logistik"
+    },
+    "logopedia": {
+      "fi": "logopedia",
+      "en": "speech-language pathology",
+      "sv": "logopedi"
+    },
+    "luokanopettaja": {
+      "fi": "luokanopettaja",
+      "en": "class teacher",
+      "sv": "klasslärare"
+    },
+    "luonnonvara-ala": {
+      "fi": "luonnonvara-ala",
+      "en": "natural resources",
+      "sv": "naturresursområdet"
+    },
+    "läntinen teologia": {
+      "fi": "läntinen teologia",
+      "en": "Western theology",
+      "sv": "västerländsk teologi"
+    },
+    "lääketiede": {
+      "fi": "lääketiede",
+      "en": "medicine",
+      "sv": "medicin"
+    },
+    "Lääketieteellinen tekniikka ja terveysteknologia": {
+      "fi": "Lääketieteellinen tekniikka ja terveysteknologia",
+      "en": "biomedical engineering and health technology",
+      "sv": "medicinsk teknik och hälsoteknik"
+    },
+    "lääketieteellinen tiedekunta (LTK)": {
+      "fi": "lääketieteellinen tiedekunta (LTK)",
+      "en": "Faculty of Medicine (LTK)",
+      "sv": "medicinska fakulteten (LTK)"
+    },
+    "maanmittaustekniikka": {
+      "fi": "maanmittaustekniikka",
+      "en": "surveying technology",
+      "sv": "lantmäteriteknik"
+    },
+    "maantiede": {
+      "fi": "maantiede",
+      "en": "geography",
+      "sv": "geografi"
+    },
+    "maatalous": {
+      "fi": "maatalous",
+      "en": "agriculture",
+      "sv": "jordbruk"
+    },
+    "maatalous- ja metsätiede (ruotsiksi)": {
+      "fi": "maatalous- ja metsätiede (ruotsiksi)",
+      "en": "agriculture and forestry (in Swedish)",
+      "sv": "jord- och skogsbruksvetenskap (på svenska)"
+    },
+    "maataloustieteet": {
+      "fi": "maataloustieteet",
+      "en": "agricultural sciences",
+      "sv": "jordbruksvetenskaper"
+    },
+    "maisemantutkimus": {
+      "fi": "maisemantutkimus",
+      "en": "landscape studies",
+      "sv": "landskapsstudier"
+    },
+    "markkinointi": {
+      "fi": "markkinointi",
+      "en": "marketing",
+      "sv": "marknadsföring"
+    },
+    "matematiikka": {
+      "fi": "matematiikka",
+      "en": "mathematics",
+      "sv": "matematik"
+    },
+    "materiaalitekniikka": {
+      "fi": "materiaalitekniikka",
+      "en": "materials engineering",
+      "sv": "materialteknik"
+    },
+    "matkailu": {
+      "fi": "matkailu",
+      "en": "tourism",
+      "sv": "turism"
+    },
+    "matkailu- ja palveluliiketoiminta": {
+      "fi": "matkailu- ja palveluliiketoiminta",
+      "en": "tourism and service business",
+      "sv": "turism och tjänsteföretagande"
+    },
+    "matkailu- ja ravitsemisala": {
+      "fi": "matkailu- ja ravitsemisala",
+      "en": "tourism and hospitality",
+      "sv": "turism och restaurang"
+    },
+    "matkailututkimus": {
+      "fi": "matkailututkimus",
+      "en": "tourism studies",
+      "sv": "turismforskning"
+    },
+    "media": {
+      "fi": "media",
+      "en": "media",
+      "sv": "media"
+    },
+    "media-ala": {
+      "fi": "media-ala",
+      "en": "media field",
+      "sv": "medieområdet"
+    },
+    "mediakasvatus": {
+      "fi": "mediakasvatus",
+      "en": "media education",
+      "sv": "mediepedagogik"
+    },
+    "mediatutkimus": {
+      "fi": "mediatutkimus",
+      "en": "media studies",
+      "sv": "medieforskning"
+    },
+    "merenkulku": {
+      "fi": "merenkulku",
+      "en": "maritime studies",
+      "sv": "sjöfart"
+    },
+    "meteorologia": {
+      "fi": "meteorologia",
+      "en": "meteorology",
+      "sv": "meteorologi"
+    },
+    "metsätalous": {
+      "fi": "metsätalous",
+      "en": "forestry",
+      "sv": "skogsbruk"
+    },
+    "metsätalousinsinööri": {
+      "fi": "metsätalousinsinööri",
+      "en": "forestry engineer",
+      "sv": "skogsbruksingenjör"
+    },
+    "metsätiede": {
+      "fi": "metsätiede",
+      "en": "forestry",
+      "sv": "skogsvetenskap"
+    },
+    "metsätieteet": {
+      "fi": "metsätieteet",
+      "en": "forest sciences",
+      "sv": "skogsvetenskaper"
+    },
+    "muotoilu": {
+      "fi": "muotoilu",
+      "en": "design",
+      "sv": "formgivning"
+    },
+    "museologia": {
+      "fi": "museologia",
+      "en": "museology",
+      "sv": "museologi"
+    },
+    "musiikki": {
+      "fi": "musiikki",
+      "en": "music",
+      "sv": "musik"
+    },
+    "musiikki ja tanssi": {
+      "fi": "musiikki ja tanssi",
+      "en": "music and dance",
+      "sv": "musik och dans"
+    },
+    "musiikkikasvatus": {
+      "fi": "musiikkikasvatus",
+      "en": "music education",
+      "sv": "musikpedagogik"
+    },
+    "musiikkipedagogi": {
+      "fi": "musiikkipedagogi",
+      "en": "music pedagogue",
+      "sv": "musikpedagog"
+    },
+    "musiikkitiede": {
+      "fi": "musiikkitiede",
+      "en": "musicology",
+      "sv": "musikvetenskap"
+    },
+    "oikeustiede": {
+      "fi": "oikeustiede",
+      "en": "law",
+      "sv": "rättsvetenskap"
+    },
+    "oikeustiede (ruotsiksi)": {
+      "fi": "oikeustiede (ruotsiksi)",
+      "en": "law (in Swedish)",
+      "sv": "rättsvetenskap (på svenska)"
+    },
+    "opinto-ohjaaja": {
+      "fi": "opinto-ohjaaja",
+      "en": "study counselor",
+      "sv": "studievägledare"
+    },
+    "optometria": {
+      "fi": "optometria",
+      "en": "optometry",
+      "sv": "optometri"
+    },
+    "ortodoksinen teologia": {
+      "fi": "ortodoksinen teologia",
+      "en": "Orthodox theology",
+      "sv": "ortodox teologi"
+    },
+    "palveluliiketoiminta": {
+      "fi": "palveluliiketoiminta",
+      "en": "service business",
+      "sv": "tjänsteföretagande"
+    },
+    "pedagogiikka": {
+      "fi": "pedagogiikka",
+      "en": "pedagogy",
+      "sv": "pedagogik"
+    },
+    "pohjoismainen kirjallisuus": {
+      "fi": "pohjoismainen kirjallisuus",
+      "en": "Nordic literature",
+      "sv": "nordisk litteratur"
+    },
+    "pohjoismaiset kielet": {
+      "fi": "pohjoismaiset kielet",
+      "en": "Nordic languages",
+      "sv": "nordiska språk"
+    },
+    "poliittinen historia": {
+      "fi": "poliittinen historia",
+      "en": "political history",
+      "sv": "politisk historia"
+    },
+    "politiikan tutkimus": {
+      "fi": "politiikan tutkimus",
+      "en": "political science",
+      "sv": "statsvetenskap"
+    },
+    "prosessi- ja materiaalitekniikka": {
+      "fi": "prosessi- ja materiaalitekniikka",
+      "en": "process and materials engineering",
+      "sv": "process- och materialteknik"
+    },
+    "prosessitekniikka": {
+      "fi": "prosessitekniikka",
+      "en": "process engineering",
+      "sv": "processteknik"
+    },
+    "psykologia": {
+      "fi": "psykologia",
+      "en": "psychology",
+      "sv": "psykologi"
+    },
+    "puheviestintä": {
+      "fi": "puheviestintä",
+      "en": "speech communication",
+      "sv": "talkommunikation"
+    },
+    "Puunjalostustekniikka": {
+      "fi": "Puunjalostustekniikka",
+      "en": "wood processing technology",
+      "sv": "träförädlingsteknik"
+    },
+    "rahoitus": {
+      "fi": "rahoitus",
+      "en": "finance",
+      "sv": "finansiering"
+    },
+    "rakennettu ympäristö": {
+      "fi": "rakennettu ympäristö",
+      "en": "built environment",
+      "sv": "byggd miljö"
+    },
+    "rakennus- ja yhdyskuntatekniikka": {
+      "fi": "rakennus- ja yhdyskuntatekniikka",
+      "en": "civil and environmental engineering",
+      "sv": "byggnads- och samhällsteknik"
+    },
+    "rakennusala": {
+      "fi": "rakennusala",
+      "en": "construction",
+      "sv": "byggbranschen"
+    },
+    "rakennusarkkitehti": {
+      "fi": "rakennusarkkitehti",
+      "en": "construction architect",
+      "sv": "byggnadsarkitekt"
+    },
+    "rakennustekniikka": {
+      "fi": "rakennustekniikka",
+      "en": "civil engineering",
+      "sv": "byggnadsteknik"
+    },
+    "ranskalainen filologia": {
+      "fi": "ranskalainen filologia",
+      "en": "French philology",
+      "sv": "fransk filologi"
+    },
+    "ranskan ja romanian kieli": {
+      "fi": "ranskan ja romanian kieli",
+      "en": "French and Romanian language",
+      "sv": "franska och rumänska"
+    },
+    "ranskan kieli": {
+      "fi": "ranskan kieli",
+      "en": "French language",
+      "sv": "franska"
+    },
+    "ravitsemustiede": {
+      "fi": "ravitsemustiede",
+      "en": "nutrition science",
+      "sv": "näringslära"
+    },
+    "restonomi": {
+      "fi": "restonomi",
+      "en": "hospitality management",
+      "sv": "restonom"
+    },
+    "rikosseuraamusalan sosionomi": {
+      "fi": "rikosseuraamusalan sosionomi",
+      "en": "social services in corrections",
+      "sv": "socionom inom kriminalvård"
+    },
+    "robotiikka": {
+      "fi": "robotiikka",
+      "en": "robotics",
+      "sv": "robotik"
+    },
+    "romaaninen filologia": {
+      "fi": "romaaninen filologia",
+      "en": "Romance philology",
+      "sv": "romansk filologi"
+    },
+    "ruotsin kieli": {
+      "fi": "ruotsin kieli",
+      "en": "Swedish language",
+      "sv": "svenska"
+    },
+    "röntgenhoitaja": {
+      "fi": "röntgenhoitaja",
+      "en": "radiographer",
+      "sv": "röntgenskötare"
+    },
+    "saamelainen kulttuuri": {
+      "fi": "saamelainen kulttuuri",
+      "en": "Sámi culture",
+      "sv": "samisk kultur"
+    },
+    "saamen kieli": {
+      "fi": "saamen kieli",
+      "en": "Sámi language",
+      "sv": "samiska"
+    },
+    "sairaanhoitaja": {
+      "fi": "sairaanhoitaja",
+      "en": "nurse",
+      "sv": "sjuksköterska"
+    },
+    "saksan kieli": {
+      "fi": "saksan kieli",
+      "en": "German language",
+      "sv": "tyska"
+    },
+    "Saksan kieli ja kulttuuri": {
+      "fi": "Saksan kieli ja kulttuuri",
+      "en": "German language and culture",
+      "sv": "tyska språket och kulturen"
+    },
+    "Sibelius-Akatemia": {
+      "fi": "Sibelius-Akatemia",
+      "en": "Sibelius Academy",
+      "sv": "Sibelius-Akademin"
+    },
+    "slavistiikka": {
+      "fi": "slavistiikka",
+      "en": "Slavic studies",
+      "sv": "slavistik"
+    },
+    "solu- ja molekyylibiologia": {
+      "fi": "solu- ja molekyylibiologia",
+      "en": "cell and molecular biology",
+      "sv": "cell- och molekylärbiologi"
+    },
+    "sosiaali- ja terveysala": {
+      "fi": "sosiaali- ja terveysala",
+      "en": "social and health care",
+      "sv": "social- och hälsovård"
+    },
+    "sosiaali- ja terveysalat": {
+      "fi": "sosiaali- ja terveysalat",
+      "en": "social and health care fields",
+      "sv": "social- och hälsovårdsområden"
+    },
+    "sosiaali-, terveys- ja kirkon alat": {
+      "fi": "sosiaali-, terveys- ja kirkon alat",
+      "en": "social health and church fields",
+      "sv": "social- hälso- och kyrkoområden"
+    },
+    "sosiaaliala": {
+      "fi": "sosiaaliala",
+      "en": "social services",
+      "sv": "socialområdet"
+    },
+    "sosiaalitieteet": {
+      "fi": "sosiaalitieteet",
+      "en": "social sciences",
+      "sv": "socialvetenskaper"
+    },
+    "sosiaalityö": {
+      "fi": "sosiaalityö",
+      "en": "social work",
+      "sv": "socialt arbete"
+    },
+    "sosiologia": {
+      "fi": "sosiologia",
+      "en": "sociology",
+      "sv": "sociologi"
+    },
+    "sosionomi": {
+      "fi": "sosionomi",
+      "en": "social services",
+      "sv": "socionom"
+    },
+    "sotatieteet": {
+      "fi": "sotatieteet",
+      "en": "military sciences",
+      "sv": "krigsvetenskaper"
+    },
+    "sovellettu fysiikka": {
+      "fi": "sovellettu fysiikka",
+      "en": "applied physics",
+      "sv": "tillämpad fysik"
+    },
+    "soveltava psykologia": {
+      "fi": "soveltava psykologia",
+      "en": "applied psychology",
+      "sv": "tillämpad psykologi"
+    },
+    "sukupuolentutkimus": {
+      "fi": "sukupuolentutkimus",
+      "en": "gender studies",
+      "sv": "genusforskning"
+    },
+    "suomalais-ugrilainen kielentutkimus": {
+      "fi": "suomalais-ugrilainen kielentutkimus",
+      "en": "Finno-Ugric linguistics",
+      "sv": "finsk-ugrisk språkforskning"
+    },
+    "suomalais-ugrilaiset kielet": {
+      "fi": "suomalais-ugrilaiset kielet",
+      "en": "Finno-Ugric languages",
+      "sv": "finsk-ugriska språk"
+    },
+    "suomen kieli": {
+      "fi": "suomen kieli",
+      "en": "Finnish language",
+      "sv": "finska"
+    },
+    "Suomen kieli ja kulttuuri": {
+      "fi": "Suomen kieli ja kulttuuri",
+      "en": "Finnish language and culture",
+      "sv": "finska språket och kulturen"
+    },
+    "sustainable urban development": {
+      "fi": "sustainable urban development",
+      "en": "sustainable urban development",
+      "sv": "hållbar stadsutveckling"
+    },
+    "suuhygienisti": {
+      "fi": "suuhygienisti",
+      "en": "oral hygienist",
+      "sv": "munhygienist"
+    },
+    "sähkötekniikka": {
+      "fi": "sähkötekniikka",
+      "en": "electrical engineering",
+      "sv": "elektroteknik"
+    },
+    "taide": {
+      "fi": "taide",
+      "en": "arts",
+      "sv": "konst"
+    },
+    "taideaineet": {
+      "fi": "taideaineet",
+      "en": "arts subjects",
+      "sv": "konstämnen"
+    },
+    "Taideakatemia": {
+      "fi": "Taideakatemia",
+      "en": "Academy of Arts",
+      "sv": "Konstakademin"
+    },
+    "taidehistoria": {
+      "fi": "taidehistoria",
+      "en": "art history",
+      "sv": "konsthistoria"
+    },
+    "taidekasvatus": {
+      "fi": "taidekasvatus",
+      "en": "arts education",
+      "sv": "konstfostran"
+    },
+    "taloustiede (kauppatieteet)": {
+      "fi": "taloustiede (kauppatieteet)",
+      "en": "economics (business studies)",
+      "sv": "nationalekonomi (handelsvetenskaper)"
+    },
+    "taloustiede (valtiotieteet)": {
+      "fi": "taloustiede (valtiotieteet)",
+      "en": "economics (political science)",
+      "sv": "nationalekonomi (statsvetenskaper)"
+    },
+    "teatteritiede": {
+      "fi": "teatteritiede",
+      "en": "theatre studies",
+      "sv": "teatervetenskap"
+    },
+    "tekniikka": {
+      "fi": "tekniikka",
+      "en": "technology",
+      "sv": "teknik"
+    },
+    "tekniikka (kaikki)": {
+      "fi": "tekniikka (kaikki)",
+      "en": "technology (all)",
+      "sv": "teknik (alla)"
+    },
+    "tekniikka (Karamalmin kampus)": {
+      "fi": "tekniikka (Karamalmin kampus)",
+      "en": "technology (Karamalmi campus)",
+      "sv": "teknik (Karamalmi campus)"
+    },
+    "tekniikka (paitsi energia- ja ympäristö-)": {
+      "fi": "tekniikka (paitsi energia- ja ympäristö-)",
+      "en": "technology (excluding energy and environment)",
+      "sv": "teknik (utom energi och miljö)"
+    },
+    "teknillinen fysiikka": {
+      "fi": "teknillinen fysiikka",
+      "en": "engineering physics",
+      "sv": "teknisk fysik"
+    },
+    "teknis-luonnontieteellinen koulutusohjelma": {
+      "fi": "teknis-luonnontieteellinen koulutusohjelma",
+      "en": "science and engineering programme",
+      "sv": "teknisk-naturvetenskapligt utbildningsprogram"
+    },
+    "tekstiili- ja materiaalitekniikka": {
+      "fi": "tekstiili- ja materiaalitekniikka",
+      "en": "textile and material engineering",
+      "sv": "textil- och materialteknik"
+    },
+    "teologia": {
+      "fi": "teologia",
+      "en": "theology",
+      "sv": "teologi"
+    },
+    "terveydenhoitaja": {
+      "fi": "terveydenhoitaja",
+      "en": "public health nurse",
+      "sv": "hälsovårdare"
+    },
+    "terveydenhoitaja; sosionomi": {
+      "fi": "terveydenhoitaja; sosionomi",
+      "en": "public health nurse; social services",
+      "sv": "hälsovårdare; socionom"
+    },
+    "terveys": {
+      "fi": "terveys",
+      "en": "health",
+      "sv": "hälsa"
+    },
+    "terveys- ja hoitoala": {
+      "fi": "terveys- ja hoitoala",
+      "en": "health and care",
+      "sv": "hälso- och vårdbranschen"
+    },
+    "terveysala": {
+      "fi": "terveysala",
+      "en": "health care",
+      "sv": "hälsovård"
+    },
+    "terveysalat": {
+      "fi": "terveysalat",
+      "en": "health care fields",
+      "sv": "hälsovårdsområden"
+    },
+    "terveystieteet": {
+      "fi": "terveystieteet",
+      "en": "health sciences",
+      "sv": "hälsovetenskaper"
+    },
+    "tieto- ja ohjelmistotekniikka": {
+      "fi": "tieto- ja ohjelmistotekniikka",
+      "en": "information and software technology",
+      "sv": "information och mjukvaruteknik"
+    },
+    "tieto- ja viestintätekniikan DI": {
+      "fi": "tieto- ja viestintätekniikan DI",
+      "en": "Master's in ICT",
+      "sv": "DI i informations- och kommunikationsteknik"
+    },
+    "tietojenkäsittely": {
+      "fi": "tietojenkäsittely",
+      "en": "information technology",
+      "sv": "databehandling"
+    },
+    "tietojenkäsittelytiede": {
+      "fi": "tietojenkäsittelytiede",
+      "en": "computer science",
+      "sv": "datavetenskap"
+    },
+    "tietojenkäsittelytiede (englanniksi)": {
+      "fi": "tietojenkäsittelytiede (englanniksi)",
+      "en": "computer science (in English)",
+      "sv": "datavetenskap (på engelska)"
+    },
+    "tietojenkäsittelytiede (ruotsiksi)": {
+      "fi": "tietojenkäsittelytiede (ruotsiksi)",
+      "en": "computer science (in Swedish)",
+      "sv": "datavetenskap (på svenska)"
+    },
+    "tietojenkäsittelytiede)": {
+      "fi": "tietojenkäsittelytiede)",
+      "en": "computer science)",
+      "sv": "datavetenskap)"
+    },
+    "tietojenkäsittelytieteet": {
+      "fi": "tietojenkäsittelytieteet",
+      "en": "computer sciences",
+      "sv": "datavetenskaper"
+    },
+    "tietojohtaminen": {
+      "fi": "tietojohtaminen",
+      "en": "knowledge management",
+      "sv": "informationsledning"
+    },
+    "tietojärjestelmätiede": {
+      "fi": "tietojärjestelmätiede",
+      "en": "information systems",
+      "sv": "informationssystem"
+    },
+    "tietoliikenne": {
+      "fi": "tietoliikenne",
+      "en": "telecommunications",
+      "sv": "telekommunikation"
+    },
+    "tietotekniikka": {
+      "fi": "tietotekniikka",
+      "en": "computer science",
+      "sv": "datavetenskap"
+    },
+    "tilastotiede": {
+      "fi": "tilastotiede",
+      "en": "statistics",
+      "sv": "statistik"
+    },
+    "toimitusketjujen johtaminen": {
+      "fi": "toimitusketjujen johtaminen",
+      "en": "supply chain management",
+      "sv": "leveranskedjeledning"
+    },
+    "tradenomi": {
+      "fi": "tradenomi",
+      "en": "business administration",
+      "sv": "handelshögskoleexamen"
+    },
+    "translationaalinen lääketiede": {
+      "fi": "translationaalinen lääketiede",
+      "en": "translational medicine",
+      "sv": "translationell medicin"
+    },
+    "tulevaisuudentutkimus": {
+      "fi": "tulevaisuudentutkimus",
+      "en": "futures studies",
+      "sv": "framtidsstudier"
+    },
+    "tulkkaus": {
+      "fi": "tulkkaus",
+      "en": "interpreting",
+      "sv": "tolkning"
+    },
+    "tulkki": {
+      "fi": "tulkki",
+      "en": "interpreter",
+      "sv": "tolk"
+    },
+    "tuotantotalous": {
+      "fi": "tuotantotalous",
+      "en": "industrial engineering and management",
+      "sv": "produktionsekonomi"
+    },
+    "turismi": {
+      "fi": "turismi",
+      "en": "tourism",
+      "sv": "turism"
+    },
+    "turvallisuus": {
+      "fi": "turvallisuus",
+      "en": "security",
+      "sv": "säkerhet"
+    },
+    "tähtitiede": {
+      "fi": "tähtitiede",
+      "en": "astronomy",
+      "sv": "astronomi"
+    },
+    "uskontotiede": {
+      "fi": "uskontotiede",
+      "en": "study of religion",
+      "sv": "religionsvetenskap"
+    },
+    "vaihto-opiskelijat": {
+      "fi": "vaihto-opiskelijat",
+      "en": "exchange students",
+      "sv": "utbytesstudenter"
+    },
+    "valtio-oppi": {
+      "fi": "valtio-oppi",
+      "en": "political science",
+      "sv": "statskunskap"
+    },
+    "valtiotiede": {
+      "fi": "valtiotiede",
+      "en": "political science",
+      "sv": "statsvetenskap"
+    },
+    "varhaiskasvatuksen opettaja": {
+      "fi": "varhaiskasvatuksen opettaja",
+      "en": "early childhood education teacher",
+      "sv": "lärare i småbarnspedagogik"
+    },
+    "varhaiskasvatus": {
+      "fi": "varhaiskasvatus",
+      "en": "early childhood education",
+      "sv": "småbarnspedagogik"
+    },
+    "venäjän kieli": {
+      "fi": "venäjän kieli",
+      "en": "Russian language",
+      "sv": "ryska"
+    },
+    "vieraat kielet": {
+      "fi": "vieraat kielet",
+      "en": "foreign languages",
+      "sv": "främmande språk"
+    },
+    "viestintä": {
+      "fi": "viestintä",
+      "en": "communication",
+      "sv": "kommunikation"
+    },
+    "viittomakieli": {
+      "fi": "viittomakieli",
+      "en": "sign language",
+      "sv": "teckenspråk"
+    },
+    "yhteiskuntamaantiede": {
+      "fi": "yhteiskuntamaantiede",
+      "en": "human geography",
+      "sv": "samhällsgeografi"
+    },
+    "yhteiskuntapolitiikka": {
+      "fi": "yhteiskuntapolitiikka",
+      "en": "social policy",
+      "sv": "samhällspolitik"
+    },
+    "yhteiskuntatieteet": {
+      "fi": "yhteiskuntatieteet",
+      "en": "social sciences",
+      "sv": "samhällsvetenskaper"
+    },
+    "yhteiskuntatieteet (ruotsiksi)": {
+      "fi": "yhteiskuntatieteet (ruotsiksi)",
+      "en": "social sciences (in Swedish)",
+      "sv": "samhällsvetenskaper (på svenska)"
+    },
+    "yhteiskuntatutkimus": {
+      "fi": "yhteiskuntatutkimus",
+      "en": "social research",
+      "sv": "samhällsforskning"
+    },
+    "yhteisöpedagogi": {
+      "fi": "yhteisöpedagogi",
+      "en": "community educator",
+      "sv": "samhällspedagog"
+    },
+    "yhteisöpedagogiikka": {
+      "fi": "yhteisöpedagogiikka",
+      "en": "community education",
+      "sv": "samhällspedagogik"
+    },
+    "yleinen kielitiede": {
+      "fi": "yleinen kielitiede",
+      "en": "general linguistics",
+      "sv": "allmän språkvetenskap"
+    },
+    "yleinen kirjallisuustiede": {
+      "fi": "yleinen kirjallisuustiede",
+      "en": "comparative literature",
+      "sv": "allmän litteraturvetenskap"
+    },
+    "ympäristö- ja elintarviketalous": {
+      "fi": "ympäristö- ja elintarviketalous",
+      "en": "environmental and food economics",
+      "sv": "miljö- och livsmedelsekonomi"
+    },
+    "ympäristöekonomia": {
+      "fi": "ympäristöekonomia",
+      "en": "environmental economics",
+      "sv": "miljöekonomi"
+    },
+    "ympäristöpolitiikka ja -oikeus": {
+      "fi": "ympäristöpolitiikka ja -oikeus",
+      "en": "environmental policy and law",
+      "sv": "miljöpolitik och rätt"
+    },
+    "ympäristötekniikka": {
+      "fi": "ympäristötekniikka",
+      "en": "environmental engineering",
+      "sv": "miljöteknik"
+    },
+    "ympäristötiede": {
+      "fi": "ympäristötiede",
+      "en": "environmental science",
+      "sv": "miljövetenskap"
+    },
+    "ympäristötiede (ruotsiksi)": {
+      "fi": "ympäristötiede (ruotsiksi)",
+      "en": "environmental science (in Swedish)",
+      "sv": "miljövetenskap (på svenska)"
+    },
+    "ympäristötieteet": {
+      "fi": "ympäristötieteet",
+      "en": "environmental sciences",
+      "sv": "miljövetenskaper"
+    },
+    "yritysjuridiikka": {
+      "fi": "yritysjuridiikka",
+      "en": "business law",
+      "sv": "affärsjuridik"
     }
   },
   "colors": {
-    "sininen": { "fi": "sininen", "en": "blue", "sv": "blå" },
-    "punainen": { "fi": "punainen", "en": "red", "sv": "röd" },
-    "vihreä": { "fi": "vihreä", "en": "green", "sv": "grön" },
-    "keltainen": { "fi": "keltainen", "en": "yellow", "sv": "gul" },
-    "oranssi": { "fi": "oranssi", "en": "orange", "sv": "orange" },
-    "violetti": { "fi": "violetti", "en": "violet", "sv": "violett" },
-    "musta": { "fi": "musta", "en": "black", "sv": "svart" },
-    "valkoinen": { "fi": "valkoinen", "en": "white", "sv": "vit" },
-    "harmaa": { "fi": "harmaa", "en": "gray", "sv": "grå" },
-    "ruskea": { "fi": "ruskea", "en": "brown", "sv": "brun" },
-    "pinkki": { "fi": "pinkki", "en": "pink", "sv": "rosa" },
-    "turkoosi": { "fi": "turkoosi", "en": "turquoise", "sv": "turkos" },
-    "beige": { "fi": "beige", "en": "beige", "sv": "beige" },
-    "lila": { "fi": "lila", "en": "lilac", "sv": "lila" },
-    "metsänvihreä": { "fi": "metsänvihreä", "en": "forest green", "sv": "skogsgrön" },
-    "liila": { "fi": "liila", "en": "lilac", "sv": "lila" },
-    "fuksianpunainen": { "fi": "fuksianpunainen", "en": "fuchsia red", "sv": "fuchsia röd" },
-    "viininpunainen": { "fi": "viininpunainen", "en": "wine red", "sv": "vinröd" },
-    "bolognanpunainen": { "fi": "bolognanpunainen", "en": "Bologna red", "sv": "bologna röd" },
-    "limenvihreä": { "fi": "limenvihreä", "en": "lime green", "sv": "limegrön" },
-    "tummansininen": { "fi": "tummansininen", "en": "dark blue", "sv": "mörkblå" },
-    "hopeanharmaa": { "fi": "hopeanharmaa", "en": "silver gray", "sv": "silvergrå" },
-    "tummanharmaa": { "fi": "tummanharmaa", "en": "dark gray", "sv": "mörkgrå" },
+    "sininen": {
+      "fi": "sininen",
+      "en": "blue",
+      "sv": "blå"
+    },
+    "punainen": {
+      "fi": "punainen",
+      "en": "red",
+      "sv": "röd"
+    },
+    "vihreä": {
+      "fi": "vihreä",
+      "en": "green",
+      "sv": "grön"
+    },
+    "keltainen": {
+      "fi": "keltainen",
+      "en": "yellow",
+      "sv": "gul"
+    },
+    "oranssi": {
+      "fi": "oranssi",
+      "en": "orange",
+      "sv": "orange"
+    },
+    "violetti": {
+      "fi": "violetti",
+      "en": "violet",
+      "sv": "violett"
+    },
+    "musta": {
+      "fi": "musta",
+      "en": "black",
+      "sv": "svart"
+    },
+    "valkoinen": {
+      "fi": "valkoinen",
+      "en": "white",
+      "sv": "vit"
+    },
+    "harmaa": {
+      "fi": "harmaa",
+      "en": "gray",
+      "sv": "grå"
+    },
+    "ruskea": {
+      "fi": "ruskea",
+      "en": "brown",
+      "sv": "brun"
+    },
+    "pinkki": {
+      "fi": "pinkki",
+      "en": "pink",
+      "sv": "rosa"
+    },
+    "turkoosi": {
+      "fi": "turkoosi",
+      "en": "turquoise",
+      "sv": "turkos"
+    },
+    "beige": {
+      "fi": "beige",
+      "en": "beige",
+      "sv": "beige"
+    },
+    "lila": {
+      "fi": "lila",
+      "en": "lilac",
+      "sv": "lila"
+    },
+    "metsänvihreä": {
+      "fi": "metsänvihreä",
+      "en": "forest green",
+      "sv": "skogsgrön"
+    },
+    "liila": {
+      "fi": "liila",
+      "en": "lilac",
+      "sv": "lila"
+    },
+    "fuksianpunainen": {
+      "fi": "fuksianpunainen",
+      "en": "fuchsia red",
+      "sv": "fuchsia röd"
+    },
+    "viininpunainen": {
+      "fi": "viininpunainen",
+      "en": "wine red",
+      "sv": "vinröd"
+    },
+    "bolognanpunainen": {
+      "fi": "bolognanpunainen",
+      "en": "Bologna red",
+      "sv": "bologna röd"
+    },
+    "limenvihreä": {
+      "fi": "limenvihreä",
+      "en": "lime green",
+      "sv": "limegrön"
+    },
+    "tummansininen": {
+      "fi": "tummansininen",
+      "en": "dark blue",
+      "sv": "mörkblå"
+    },
+    "hopeanharmaa": {
+      "fi": "hopeanharmaa",
+      "en": "silver gray",
+      "sv": "silvergrå"
+    },
+    "tummanharmaa": {
+      "fi": "tummanharmaa",
+      "en": "dark gray",
+      "sv": "mörkgrå"
+    },
     "vaaleanpuna-musta": {
       "fi": "vaaleanpuna-musta",
       "en": "light pink-black",
@@ -230,7 +1707,11 @@
       "en": "Finnish flag blue",
       "sv": "Finlands flaggblå"
     },
-    "Ahvenanmaan sininen": { "fi": "Ahvenanmaan sininen", "en": "Åland blue", "sv": "Ålands blå" },
+    "Ahvenanmaan sininen": {
+      "fi": "Ahvenanmaan sininen",
+      "en": "Åland blue",
+      "sv": "Ålands blå"
+    },
     "Filosofinvalkoinen": {
       "fi": "Filosofinvalkoinen",
       "en": "philosopher white",
@@ -241,12 +1722,36 @@
       "en": "Pantone 690C / wine red",
       "sv": "Pantone 690C / vinröd"
     },
-    "aniliininpunainen": { "fi": "aniliininpunainen", "en": "aniline red", "sv": "anilinröd" },
-    "baby blue": { "fi": "baby blue", "en": "baby blue", "sv": "babyblå" },
-    "betoninharmaa": { "fi": "betoninharmaa", "en": "concrete gray", "sv": "betonggrå" },
-    "dollarinvihreä": { "fi": "dollarinvihreä", "en": "dollar green", "sv": "dollargrön" },
-    "ei haalaria": { "fi": "ei haalaria", "en": "no overall", "sv": "ingen overall" },
-    "iloisen musta": { "fi": "iloisen musta", "en": "cheerful black", "sv": "glad svart" },
+    "aniliininpunainen": {
+      "fi": "aniliininpunainen",
+      "en": "aniline red",
+      "sv": "anilinröd"
+    },
+    "baby blue": {
+      "fi": "baby blue",
+      "en": "baby blue",
+      "sv": "babyblå"
+    },
+    "betoninharmaa": {
+      "fi": "betoninharmaa",
+      "en": "concrete gray",
+      "sv": "betonggrå"
+    },
+    "dollarinvihreä": {
+      "fi": "dollarinvihreä",
+      "en": "dollar green",
+      "sv": "dollargrön"
+    },
+    "ei haalaria": {
+      "fi": "ei haalaria",
+      "en": "no overall",
+      "sv": "ingen overall"
+    },
+    "iloisen musta": {
+      "fi": "iloisen musta",
+      "en": "cheerful black",
+      "sv": "glad svart"
+    },
     "juriströd (pykälänpunainen)": {
       "fi": "juriströd (pykälänpunainen)",
       "en": "lawyer red (paragraph red)",
@@ -257,18 +1762,66 @@
       "en": "beer crate blue",
       "sv": "ölbackeblå"
     },
-    "kelta-musta": { "fi": "kelta-musta", "en": "yellow-black", "sv": "gul-svart" },
-    "kelta-sininen": { "fi": "kelta-sininen", "en": "yellow-blue", "sv": "gul-blå" },
-    "kelta-vihreä": { "fi": "kelta-vihreä", "en": "yellow-green", "sv": "gul-grön" },
-    "kemistinpunainen": { "fi": "kemistinpunainen", "en": "chemist red", "sv": "kemiströd" },
-    "kiiltävänmusta": { "fi": "kiiltävänmusta", "en": "shiny black", "sv": "glanssvart" },
-    "laivastonsininen": { "fi": "laivastonsininen", "en": "navy blue", "sv": "marinblå" },
-    "luonnonvalkoinen": { "fi": "luonnonvalkoinen", "en": "natural white", "sv": "naturvit" },
-    "maalarinvalkoinen": { "fi": "maalarinvalkoinen", "en": "painter white", "sv": "målarvit" },
-    "maastonvihreä": { "fi": "maastonvihreä", "en": "camouflage green", "sv": "kamouflagegrön" },
-    "mattamusta": { "fi": "mattamusta", "en": "matte black", "sv": "mattsvart" },
-    "mintunvihreä": { "fi": "mintunvihreä", "en": "mint green", "sv": "myntgrön" },
-    "musta viitta": { "fi": "musta viitta", "en": "black cape", "sv": "svart kappa" },
+    "kelta-musta": {
+      "fi": "kelta-musta",
+      "en": "yellow-black",
+      "sv": "gul-svart"
+    },
+    "kelta-sininen": {
+      "fi": "kelta-sininen",
+      "en": "yellow-blue",
+      "sv": "gul-blå"
+    },
+    "kelta-vihreä": {
+      "fi": "kelta-vihreä",
+      "en": "yellow-green",
+      "sv": "gul-grön"
+    },
+    "kemistinpunainen": {
+      "fi": "kemistinpunainen",
+      "en": "chemist red",
+      "sv": "kemiströd"
+    },
+    "kiiltävänmusta": {
+      "fi": "kiiltävänmusta",
+      "en": "shiny black",
+      "sv": "glanssvart"
+    },
+    "laivastonsininen": {
+      "fi": "laivastonsininen",
+      "en": "navy blue",
+      "sv": "marinblå"
+    },
+    "luonnonvalkoinen": {
+      "fi": "luonnonvalkoinen",
+      "en": "natural white",
+      "sv": "naturvit"
+    },
+    "maalarinvalkoinen": {
+      "fi": "maalarinvalkoinen",
+      "en": "painter white",
+      "sv": "målarvit"
+    },
+    "maastonvihreä": {
+      "fi": "maastonvihreä",
+      "en": "camouflage green",
+      "sv": "kamouflagegrön"
+    },
+    "mattamusta": {
+      "fi": "mattamusta",
+      "en": "matte black",
+      "sv": "mattsvart"
+    },
+    "mintunvihreä": {
+      "fi": "mintunvihreä",
+      "en": "mint green",
+      "sv": "myntgrön"
+    },
+    "musta viitta": {
+      "fi": "musta viitta",
+      "en": "black cape",
+      "sv": "svart kappa"
+    },
     "musta-neonkeltainen": {
       "fi": "musta-neonkeltainen",
       "en": "black-neon yellow",
@@ -279,29 +1832,101 @@
       "en": "black-red-yellow",
       "sv": "svart-röd-gul"
     },
-    "musta-sininen": { "fi": "musta-sininen", "en": "black-blue", "sv": "svart-blå" },
-    "musta-turkoosi": { "fi": "musta-turkoosi", "en": "black-turquoise", "sv": "svart-turkos" },
-    "musta-valkoinen": { "fi": "musta-valkoinen", "en": "black-white", "sv": "svart-vit" },
+    "musta-sininen": {
+      "fi": "musta-sininen",
+      "en": "black-blue",
+      "sv": "svart-blå"
+    },
+    "musta-turkoosi": {
+      "fi": "musta-turkoosi",
+      "en": "black-turquoise",
+      "sv": "svart-turkos"
+    },
+    "musta-valkoinen": {
+      "fi": "musta-valkoinen",
+      "en": "black-white",
+      "sv": "svart-vit"
+    },
     "musta-viininpunainen": {
       "fi": "musta-viininpunainen",
       "en": "black-wine red",
       "sv": "svart-vinröd"
     },
-    "navy blue": { "fi": "navy blue", "en": "navy blue", "sv": "marinblå" },
-    "neonkeltainen": { "fi": "neonkeltainen", "en": "neon yellow", "sv": "neongul" },
-    "oliivinvihreä": { "fi": "oliivinvihreä", "en": "olive green", "sv": "olivgrön" },
-    "oranssi-musta": { "fi": "oranssi-musta", "en": "orange-black", "sv": "orange-svart" },
-    "oranssi-vihreä": { "fi": "oranssi-vihreä", "en": "orange-green", "sv": "orange-grön" },
-    "petroolinsininen": { "fi": "petroolinsininen", "en": "petrol blue", "sv": "petrolblå" },
-    "piinharmaa": { "fi": "piinharmaa", "en": "pine gray", "sv": "tallgrå" },
-    "puhtaanvalkoinen": { "fi": "puhtaanvalkoinen", "en": "pure white", "sv": "renvit" },
-    "puna-keltainen": { "fi": "puna-keltainen", "en": "red-yellow", "sv": "röd-gul" },
-    "puna-musta": { "fi": "puna-musta", "en": "red-black", "sv": "röd-svart" },
-    "puna-sininen": { "fi": "puna-sininen", "en": "red-blue", "sv": "röd-blå" },
-    "puna-vihreä": { "fi": "puna-vihreä", "en": "red-green", "sv": "röd-grön" },
-    "punaiset housut": { "fi": "punaiset housut", "en": "red pants", "sv": "röda byxor" },
-    "punaruskea": { "fi": "punaruskea", "en": "reddish brown", "sv": "rödbrun" },
-    "pykälänpunainen": { "fi": "pykälänpunainen", "en": "paragraph red", "sv": "paragrafröd" },
+    "navy blue": {
+      "fi": "navy blue",
+      "en": "navy blue",
+      "sv": "marinblå"
+    },
+    "neonkeltainen": {
+      "fi": "neonkeltainen",
+      "en": "neon yellow",
+      "sv": "neongul"
+    },
+    "oliivinvihreä": {
+      "fi": "oliivinvihreä",
+      "en": "olive green",
+      "sv": "olivgrön"
+    },
+    "oranssi-musta": {
+      "fi": "oranssi-musta",
+      "en": "orange-black",
+      "sv": "orange-svart"
+    },
+    "oranssi-vihreä": {
+      "fi": "oranssi-vihreä",
+      "en": "orange-green",
+      "sv": "orange-grön"
+    },
+    "petroolinsininen": {
+      "fi": "petroolinsininen",
+      "en": "petrol blue",
+      "sv": "petrolblå"
+    },
+    "piinharmaa": {
+      "fi": "piinharmaa",
+      "en": "pine gray",
+      "sv": "tallgrå"
+    },
+    "puhtaanvalkoinen": {
+      "fi": "puhtaanvalkoinen",
+      "en": "pure white",
+      "sv": "renvit"
+    },
+    "puna-keltainen": {
+      "fi": "puna-keltainen",
+      "en": "red-yellow",
+      "sv": "röd-gul"
+    },
+    "puna-musta": {
+      "fi": "puna-musta",
+      "en": "red-black",
+      "sv": "röd-svart"
+    },
+    "puna-sininen": {
+      "fi": "puna-sininen",
+      "en": "red-blue",
+      "sv": "röd-blå"
+    },
+    "puna-vihreä": {
+      "fi": "puna-vihreä",
+      "en": "red-green",
+      "sv": "röd-grön"
+    },
+    "punaiset housut": {
+      "fi": "punaiset housut",
+      "en": "red pants",
+      "sv": "röda byxor"
+    },
+    "punaruskea": {
+      "fi": "punaruskea",
+      "en": "reddish brown",
+      "sv": "rödbrun"
+    },
+    "pykälänpunainen": {
+      "fi": "pykälänpunainen",
+      "en": "paragraph red",
+      "sv": "paragrafröd"
+    },
     "samppanjankultainen": {
       "fi": "samppanjankultainen",
       "en": "champagne gold",
@@ -312,12 +1937,36 @@
       "en": "blue-yellow-red",
       "sv": "blå-gul-röd"
     },
-    "sini-musta": { "fi": "sini-musta", "en": "blue-black", "sv": "blå-svart" },
-    "sini-valkoinen": { "fi": "sini-valkoinen", "en": "blue-white", "sv": "blå-vit" },
-    "suonvihreä": { "fi": "suonvihreä", "en": "marsh green", "sv": "kärrgrön" },
-    "sähkönsininen": { "fi": "sähkönsininen", "en": "electric blue", "sv": "elektriskt blå" },
-    "takki": { "fi": "takki", "en": "jacket", "sv": "jacka" },
-    "tekniikanpunainen": { "fi": "tekniikanpunainen", "en": "engineering red", "sv": "teknikröd" },
+    "sini-musta": {
+      "fi": "sini-musta",
+      "en": "blue-black",
+      "sv": "blå-svart"
+    },
+    "sini-valkoinen": {
+      "fi": "sini-valkoinen",
+      "en": "blue-white",
+      "sv": "blå-vit"
+    },
+    "suonvihreä": {
+      "fi": "suonvihreä",
+      "en": "marsh green",
+      "sv": "kärrgrön"
+    },
+    "sähkönsininen": {
+      "fi": "sähkönsininen",
+      "en": "electric blue",
+      "sv": "elektriskt blå"
+    },
+    "takki": {
+      "fi": "takki",
+      "en": "jacket",
+      "sv": "jacka"
+    },
+    "tekniikanpunainen": {
+      "fi": "tekniikanpunainen",
+      "en": "engineering red",
+      "sv": "teknikröd"
+    },
     "tumman luumunpunainen": {
       "fi": "tumman luumunpunainen",
       "en": "dark plum red",
@@ -328,24 +1977,56 @@
       "en": "dark gray-fuchsia",
       "sv": "mörkgrå-fuchsia"
     },
-    "tummanpunainen": { "fi": "tummanpunainen", "en": "dark red", "sv": "mörkröd" },
-    "tummanruskea": { "fi": "tummanruskea", "en": "dark brown", "sv": "mörkbrun" },
+    "tummanpunainen": {
+      "fi": "tummanpunainen",
+      "en": "dark red",
+      "sv": "mörkröd"
+    },
+    "tummanruskea": {
+      "fi": "tummanruskea",
+      "en": "dark brown",
+      "sv": "mörkbrun"
+    },
     "tummansini-valko-punainen": {
       "fi": "tummansini-valko-punainen",
       "en": "dark blue-white-red",
       "sv": "mörkblå-vit-röd"
     },
-    "tummanturkoosi": { "fi": "tummanturkoosi", "en": "dark turquoise", "sv": "mörkturkos" },
-    "tummanvihreä": { "fi": "tummanvihreä", "en": "dark green", "sv": "mörkgrön" },
+    "tummanturkoosi": {
+      "fi": "tummanturkoosi",
+      "en": "dark turquoise",
+      "sv": "mörkturkos"
+    },
+    "tummanvihreä": {
+      "fi": "tummanvihreä",
+      "en": "dark green",
+      "sv": "mörkgrön"
+    },
     "tummanvihreä-musta": {
       "fi": "tummanvihreä-musta",
       "en": "dark green-black",
       "sv": "mörkgrön-svart"
     },
-    "vaaleanpunainen": { "fi": "vaaleanpunainen", "en": "light pink", "sv": "ljusrosa" },
-    "vaaleansininen": { "fi": "vaaleansininen", "en": "light blue", "sv": "ljusblå" },
-    "vaaleanvihreä": { "fi": "vaaleanvihreä", "en": "light green", "sv": "ljusgrön" },
-    "vaaleanvioletti": { "fi": "vaaleanvioletti", "en": "light violet", "sv": "ljusviolett" },
+    "vaaleanpunainen": {
+      "fi": "vaaleanpunainen",
+      "en": "light pink",
+      "sv": "ljusrosa"
+    },
+    "vaaleansininen": {
+      "fi": "vaaleansininen",
+      "en": "light blue",
+      "sv": "ljusblå"
+    },
+    "vaaleanvihreä": {
+      "fi": "vaaleanvihreä",
+      "en": "light green",
+      "sv": "ljusgrön"
+    },
+    "vaaleanvioletti": {
+      "fi": "vaaleanvioletti",
+      "en": "light violet",
+      "sv": "ljusviolett"
+    },
     "valko-harmaa takki": {
       "fi": "valko-harmaa takki",
       "en": "white-gray jacket",
@@ -356,25 +2037,61 @@
       "en": "white-sea green",
       "sv": "vit-havsgrön"
     },
-    "valko-musta": { "fi": "valko-musta", "en": "white-black", "sv": "vit-svart" },
-    "valko-oranssi": { "fi": "valko-oranssi", "en": "white-orange", "sv": "vit-orange" },
-    "viher-musta": { "fi": "viher-musta", "en": "green-black", "sv": "grön-svart" },
+    "valko-musta": {
+      "fi": "valko-musta",
+      "en": "white-black",
+      "sv": "vit-svart"
+    },
+    "valko-oranssi": {
+      "fi": "valko-oranssi",
+      "en": "white-orange",
+      "sv": "vit-orange"
+    },
+    "viher-musta": {
+      "fi": "viher-musta",
+      "en": "green-black",
+      "sv": "grön-svart"
+    },
     "viher-valko-punainen": {
       "fi": "viher-valko-punainen",
       "en": "green-white-red",
       "sv": "grön-vit-röd"
     },
-    "viher-valkoinen": { "fi": "viher-valkoinen", "en": "green-white", "sv": "grön-vit" },
-    "vihreänharmaa": { "fi": "vihreänharmaa", "en": "greenish gray", "sv": "grönaktig grå" },
-    "violetti-musta": { "fi": "violetti-musta", "en": "violet-black", "sv": "violett-svart" },
-    "yökerhonmusta": { "fi": "yökerhonmusta", "en": "nightclub black", "sv": "nattklubbssvart" },
-    "yönsininen": { "fi": "yönsininen", "en": "night blue", "sv": "nattblå" },
+    "viher-valkoinen": {
+      "fi": "viher-valkoinen",
+      "en": "green-white",
+      "sv": "grön-vit"
+    },
+    "vihreänharmaa": {
+      "fi": "vihreänharmaa",
+      "en": "greenish gray",
+      "sv": "grönaktig grå"
+    },
+    "violetti-musta": {
+      "fi": "violetti-musta",
+      "en": "violet-black",
+      "sv": "violett-svart"
+    },
+    "yökerhonmusta": {
+      "fi": "yökerhonmusta",
+      "en": "nightclub black",
+      "sv": "nattklubbssvart"
+    },
+    "yönsininen": {
+      "fi": "yönsininen",
+      "en": "night blue",
+      "sv": "nattblå"
+    },
     "\"vapputakki\"": {
       "fi": "\"vapputakki\"",
       "en": "\"May Day jacket\"",
       "sv": "\"valborgsjacka\""
     },
-    "poliisinsininen": { "fi": "poliisinsininen", "en": "police blue", "sv": "polisblå" }
+    "poliisinsininen": {
+      "fi": "poliisinsininen",
+      "en": "police blue",
+      "sv": "polisblå"
+    }
   },
   "universities": {
     "Helsingin yliopisto": {
@@ -417,9 +2134,21 @@
       "en": "University of Lapland",
       "sv": "Lapplands universitet"
     },
-    "LUT-yliopisto": { "fi": "LUT-yliopisto", "en": "LUT University", "sv": "LUT-universitetet" },
-    "Åbo Akademi": { "fi": "Åbo Akademi", "en": "Åbo Akademi University", "sv": "Åbo Akademi" },
-    "Hanken": { "fi": "Hanken", "en": "Hanken School of Economics", "sv": "Hanken" },
+    "LUT-yliopisto": {
+      "fi": "LUT-yliopisto",
+      "en": "LUT University",
+      "sv": "LUT-universitetet"
+    },
+    "Åbo Akademi": {
+      "fi": "Åbo Akademi",
+      "en": "Åbo Akademi University",
+      "sv": "Åbo Akademi"
+    },
+    "Hanken": {
+      "fi": "Hanken",
+      "en": "Hanken School of Economics",
+      "sv": "Hanken"
+    },
     "Taideyliopisto": {
       "fi": "Taideyliopisto",
       "en": "University of the Arts Helsinki",
@@ -490,7 +2219,11 @@
       "en": "South-Eastern Finland University of Applied Sciences",
       "sv": "Sydöstra Finlands yrkeshögskola"
     },
-    "LAB": { "fi": "LAB", "en": "LAB University of Applied Sciences", "sv": "LAB yrkeshögskola" },
+    "LAB": {
+      "fi": "LAB",
+      "en": "LAB University of Applied Sciences",
+      "sv": "LAB yrkeshögskola"
+    },
     "Metropolia": {
       "fi": "Metropolia",
       "en": "Metropolia University of Applied Sciences",
@@ -543,44 +2276,200 @@
     }
   },
   "areas": {
-    "Helsinki": { "fi": "Helsinki", "en": "Helsinki", "sv": "Helsingfors" },
-    "Tampere": { "fi": "Tampere", "en": "Tampere", "sv": "Tammerfors" },
-    "Turku": { "fi": "Turku", "en": "Turku", "sv": "Åbo" },
-    "Oulu": { "fi": "Oulu", "en": "Oulu", "sv": "Uleåborg" },
-    "Jyväskylä": { "fi": "Jyväskylä", "en": "Jyväskylä", "sv": "Jyväskylä" },
-    "Espoo": { "fi": "Espoo", "en": "Espoo", "sv": "Esbo" },
-    "Vantaa": { "fi": "Vantaa", "en": "Vantaa", "sv": "Vanda" },
-    "Lahti": { "fi": "Lahti", "en": "Lahti", "sv": "Lahtis" },
-    "Kuopio": { "fi": "Kuopio", "en": "Kuopio", "sv": "Kuopio" },
-    "Pori": { "fi": "Pori", "en": "Pori", "sv": "Björneborg" },
-    "Joensuu": { "fi": "Joensuu", "en": "Joensuu", "sv": "Joensuu" },
-    "Lappeenranta": { "fi": "Lappeenranta", "en": "Lappeenranta", "sv": "Villmanstrand" },
-    "Vaasa": { "fi": "Vaasa", "en": "Vaasa", "sv": "Vasa" },
-    "Rovaniemi": { "fi": "Rovaniemi", "en": "Rovaniemi", "sv": "Rovaniemi" },
-    "Hattula": { "fi": "Hattula", "en": "Hattula", "sv": "Hattula" },
-    "Hyvinkää": { "fi": "Hyvinkää", "en": "Hyvinkää", "sv": "Hyvinge" },
-    "Hämeenlinna": { "fi": "Hämeenlinna", "en": "Hämeenlinna", "sv": "Tavastehus" },
-    "Forssa": { "fi": "Forssa", "en": "Forssa", "sv": "Forssa" },
-    "Valkeakoski": { "fi": "Valkeakoski", "en": "Valkeakoski", "sv": "Valkeakoski" },
-    "Iisalmi": { "fi": "Iisalmi", "en": "Iisalmi", "sv": "Idensalmi" },
-    "Kokkola": { "fi": "Kokkola", "en": "Kokkola", "sv": "Karleby" },
-    "Kotka": { "fi": "Kotka", "en": "Kotka", "sv": "Kotka" },
-    "Kouvola": { "fi": "Kouvola", "en": "Kouvola", "sv": "Kouvola" },
-    "Lohja": { "fi": "Lohja", "en": "Lohja", "sv": "Lojo" },
-    "Maarianhamina": { "fi": "Maarianhamina", "en": "Mariehamn", "sv": "Mariehamn" },
-    "Mikkeli": { "fi": "Mikkeli", "en": "Mikkeli", "sv": "S:t Michel" },
-    "Nurmijärvi": { "fi": "Nurmijärvi", "en": "Nurmijärvi", "sv": "Nurmijärvi" },
-    "Pieksämäki": { "fi": "Pieksämäki", "en": "Pieksämäki", "sv": "Pieksämäki" },
-    "Pietarsaari": { "fi": "Pietarsaari", "en": "Pietarsaari", "sv": "Jakobstad" },
-    "Porvoo": { "fi": "Porvoo", "en": "Porvoo", "sv": "Borgå" },
-    "Raasepori": { "fi": "Raasepori", "en": "Raasepori", "sv": "Raseborg" },
-    "Rauma": { "fi": "Rauma", "en": "Rauma", "sv": "Raumo" },
-    "Riihimäki": { "fi": "Riihimäki", "en": "Riihimäki", "sv": "Riihimäki" },
-    "Salo": { "fi": "Salo", "en": "Salo", "sv": "Salo" },
-    "Savonlinna": { "fi": "Savonlinna", "en": "Savonlinna", "sv": "Nyslott" },
-    "Seinäjoki": { "fi": "Seinäjoki", "en": "Seinäjoki", "sv": "Seinäjoki" },
-    "Varkaus": { "fi": "Varkaus", "en": "Varkaus", "sv": "Varkaus" },
-    "Vierumäki": { "fi": "Vierumäki", "en": "Vierumäki", "sv": "Vierumäki" },
-    "Ylivieska": { "fi": "Ylivieska", "en": "Ylivieska", "sv": "Ylivieska" }
+    "Helsinki": {
+      "fi": "Helsinki",
+      "en": "Helsinki",
+      "sv": "Helsingfors"
+    },
+    "Tampere": {
+      "fi": "Tampere",
+      "en": "Tampere",
+      "sv": "Tammerfors"
+    },
+    "Turku": {
+      "fi": "Turku",
+      "en": "Turku",
+      "sv": "Åbo"
+    },
+    "Oulu": {
+      "fi": "Oulu",
+      "en": "Oulu",
+      "sv": "Uleåborg"
+    },
+    "Jyväskylä": {
+      "fi": "Jyväskylä",
+      "en": "Jyväskylä",
+      "sv": "Jyväskylä"
+    },
+    "Espoo": {
+      "fi": "Espoo",
+      "en": "Espoo",
+      "sv": "Esbo"
+    },
+    "Vantaa": {
+      "fi": "Vantaa",
+      "en": "Vantaa",
+      "sv": "Vanda"
+    },
+    "Lahti": {
+      "fi": "Lahti",
+      "en": "Lahti",
+      "sv": "Lahtis"
+    },
+    "Kuopio": {
+      "fi": "Kuopio",
+      "en": "Kuopio",
+      "sv": "Kuopio"
+    },
+    "Pori": {
+      "fi": "Pori",
+      "en": "Pori",
+      "sv": "Björneborg"
+    },
+    "Joensuu": {
+      "fi": "Joensuu",
+      "en": "Joensuu",
+      "sv": "Joensuu"
+    },
+    "Lappeenranta": {
+      "fi": "Lappeenranta",
+      "en": "Lappeenranta",
+      "sv": "Villmanstrand"
+    },
+    "Vaasa": {
+      "fi": "Vaasa",
+      "en": "Vaasa",
+      "sv": "Vasa"
+    },
+    "Rovaniemi": {
+      "fi": "Rovaniemi",
+      "en": "Rovaniemi",
+      "sv": "Rovaniemi"
+    },
+    "Hattula": {
+      "fi": "Hattula",
+      "en": "Hattula",
+      "sv": "Hattula"
+    },
+    "Hyvinkää": {
+      "fi": "Hyvinkää",
+      "en": "Hyvinkää",
+      "sv": "Hyvinge"
+    },
+    "Hämeenlinna": {
+      "fi": "Hämeenlinna",
+      "en": "Hämeenlinna",
+      "sv": "Tavastehus"
+    },
+    "Forssa": {
+      "fi": "Forssa",
+      "en": "Forssa",
+      "sv": "Forssa"
+    },
+    "Valkeakoski": {
+      "fi": "Valkeakoski",
+      "en": "Valkeakoski",
+      "sv": "Valkeakoski"
+    },
+    "Iisalmi": {
+      "fi": "Iisalmi",
+      "en": "Iisalmi",
+      "sv": "Idensalmi"
+    },
+    "Kokkola": {
+      "fi": "Kokkola",
+      "en": "Kokkola",
+      "sv": "Karleby"
+    },
+    "Kotka": {
+      "fi": "Kotka",
+      "en": "Kotka",
+      "sv": "Kotka"
+    },
+    "Kouvola": {
+      "fi": "Kouvola",
+      "en": "Kouvola",
+      "sv": "Kouvola"
+    },
+    "Lohja": {
+      "fi": "Lohja",
+      "en": "Lohja",
+      "sv": "Lojo"
+    },
+    "Maarianhamina": {
+      "fi": "Maarianhamina",
+      "en": "Mariehamn",
+      "sv": "Mariehamn"
+    },
+    "Mikkeli": {
+      "fi": "Mikkeli",
+      "en": "Mikkeli",
+      "sv": "S:t Michel"
+    },
+    "Nurmijärvi": {
+      "fi": "Nurmijärvi",
+      "en": "Nurmijärvi",
+      "sv": "Nurmijärvi"
+    },
+    "Pieksämäki": {
+      "fi": "Pieksämäki",
+      "en": "Pieksämäki",
+      "sv": "Pieksämäki"
+    },
+    "Pietarsaari": {
+      "fi": "Pietarsaari",
+      "en": "Pietarsaari",
+      "sv": "Jakobstad"
+    },
+    "Porvoo": {
+      "fi": "Porvoo",
+      "en": "Porvoo",
+      "sv": "Borgå"
+    },
+    "Raasepori": {
+      "fi": "Raasepori",
+      "en": "Raasepori",
+      "sv": "Raseborg"
+    },
+    "Rauma": {
+      "fi": "Rauma",
+      "en": "Rauma",
+      "sv": "Raumo"
+    },
+    "Riihimäki": {
+      "fi": "Riihimäki",
+      "en": "Riihimäki",
+      "sv": "Riihimäki"
+    },
+    "Salo": {
+      "fi": "Salo",
+      "en": "Salo",
+      "sv": "Salo"
+    },
+    "Savonlinna": {
+      "fi": "Savonlinna",
+      "en": "Savonlinna",
+      "sv": "Nyslott"
+    },
+    "Seinäjoki": {
+      "fi": "Seinäjoki",
+      "en": "Seinäjoki",
+      "sv": "Seinäjoki"
+    },
+    "Varkaus": {
+      "fi": "Varkaus",
+      "en": "Varkaus",
+      "sv": "Varkaus"
+    },
+    "Vierumäki": {
+      "fi": "Vierumäki",
+      "en": "Vierumäki",
+      "sv": "Vierumäki"
+    },
+    "Ylivieska": {
+      "fi": "Ylivieska",
+      "en": "Ylivieska",
+      "sv": "Ylivieska"
+    }
   }
 }

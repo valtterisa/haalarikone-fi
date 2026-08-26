@@ -1,5 +1,9 @@
 {
-  "slug": "haalarit-saannot-4-saantoa",
+  "slug": {
+    "fi": "haalarit-saannot-4-saantoa",
+    "en": "the-4-most-important-rules-for-student-overalls",
+    "sv": "de-4-viktigaste-reglerna-for-studentoverall"
+  },
   "title": {
     "fi": "Haalareiden 4 tärkeintä sääntöä",
     "en": "The 4 Most Important Rules for Student Overalls",

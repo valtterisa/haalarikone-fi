@@ -62,9 +62,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const { canonical: university, localized: translatedUniversity, rows: universityData } = hub;
-  const fields = Array.from(
-    new Set(universityData.flatMap((u) => (u.ala ? u.ala.split(', ') : [])).filter(Boolean)),
-  );
+  const fields = Array.from(new Set(universityData.flatMap((u) => splitCsv(u.ala))));
 
   const t = await getTranslations({ locale });
   const capitalizedUniversity = capitalizeFirstLetter(translatedUniversity);

@@ -1,4 +1,5 @@
 import type { University } from '@/types/university';
+import { splitCsv } from '@/lib/popular-destinations';
 
 export function getUniqueUniversities(universities: University[]): string[] {
   return Array.from(new Set(universities.map((u) => u.oppilaitos))).sort((a, b) =>
@@ -9,10 +10,8 @@ export function getUniqueUniversities(universities: University[]): string[] {
 export function getUniqueFields(universities: University[]): string[] {
   const fields = new Set<string>();
   universities.forEach((u) => {
-    if (u.ala) {
-      u.ala.split(', ').forEach((field) => {
-        fields.add(field.trim());
-      });
+    for (const field of splitCsv(u.ala)) {
+      fields.add(field);
     }
   });
   return Array.from(fields).sort((a, b) => a.localeCompare(b));
@@ -33,10 +32,8 @@ export function getUniqueColors(universities: University[]): string[] {
 export function getUniqueAreas(universities: University[]): string[] {
   const areas = new Set<string>();
   universities.forEach((u) => {
-    if (u.alue) {
-      u.alue.split(', ').forEach((area) => {
-        areas.add(area.trim());
-      });
+    for (const area of splitCsv(u.alue)) {
+      areas.add(area);
     }
   });
   return Array.from(areas).sort((a, b) => a.localeCompare(b));

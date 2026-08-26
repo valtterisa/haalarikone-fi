@@ -1,14 +1,13 @@
 import { Metadata } from 'next';
 import { Link } from '@/i18n/routing';
 import { Page } from '@/components/page';
-import { loadBlogPosts, loadBlogPost } from '@/lib/load-blog-posts';
+import { loadBlogPosts, loadBlogPost, blogSlugAlternates } from '@/lib/load-blog-posts';
 import Script from 'next/script';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { localeSiteBaseUrl, SITE_ORIGIN } from '@/lib/site-url';
 import {
   absoluteTranslatedRoute,
-  alternateLanguageUrls,
   getTranslatedRoute,
 } from '@/lib/use-translated-routes';
 
@@ -19,10 +18,10 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  const posts = await loadBlogPosts('fi');
   const params = [];
-  for (const post of posts) {
-    for (const locale of ['fi', 'en', 'sv'] as const) {
+  for (const locale of ['fi', 'en', 'sv'] as const) {
+    const posts = await loadBlogPosts(locale);
+    for (const post of posts) {
       params.push({
         locale,
         slug: post.slug,
@@ -42,22 +41,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const titleString =
-    typeof post.title === 'string'
-      ? post.title
-      : post.title[locale as keyof typeof post.title] || post.title.en || post.title.fi || '';
-  const descriptionString =
-    typeof post.description === 'string'
-      ? post.description
-      : post.description[locale as keyof typeof post.description] ||
-        post.description.en ||
-        post.description.fi ||
-        '';
-  const authorString =
-    typeof post.author === 'string'
-      ? post.author
-      : post.author[locale as keyof typeof post.author] || post.author.en || post.author.fi || '';
+  const titleString = post.title;
+  const descriptionString = post.description;
+  const authorString = post.author;
   const category = 'Opiskelijakulttuuri';
+  const slugAlts = blogSlugAlternates(slug);
 
   return {
     title: `${titleString} | Haalarikone`,
@@ -88,7 +76,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       authors: [authorString],
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: absoluteTranslatedRoute('blog', locale, slug),
+      url: absoluteTranslatedRoute('blog', locale, post.slug),
     },
     twitter: {
       card: 'summary_large_image',
@@ -97,8 +85,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: absoluteTranslatedRoute('blog', locale, slug),
-      languages: alternateLanguageUrls('blog', slug),
+      canonical: absoluteTranslatedRoute('blog', locale, post.slug),
+      languages: {
+        fi: absoluteTranslatedRoute('blog', 'fi', slugAlts.fi),
+        en: absoluteTranslatedRoute('blog', 'en', slugAlts.en),
+        sv: absoluteTranslatedRoute('blog', 'sv', slugAlts.sv),
+      },
     },
     other: {
       'article:author': authorString,
@@ -118,25 +110,10 @@ export default async function BlogPostPage({ params }: Props) {
     notFound();
   }
 
-  const contentString =
-    typeof post.content === 'string'
-      ? post.content
-      : post.content[locale as keyof typeof post.content] || post.content.fi || '';
-  const titleString =
-    typeof post.title === 'string'
-      ? post.title
-      : post.title[locale as keyof typeof post.title] || post.title.en || post.title.fi || '';
-  const descriptionString =
-    typeof post.description === 'string'
-      ? post.description
-      : post.description[locale as keyof typeof post.description] ||
-        post.description.en ||
-        post.description.fi ||
-        '';
-  const authorString =
-    typeof post.author === 'string'
-      ? post.author
-      : post.author[locale as keyof typeof post.author] || post.author.en || post.author.fi || '';
+  const contentString = post.content;
+  const titleString = post.title;
+  const descriptionString = post.description;
+  const authorString = post.author;
   const wordCount = contentString.replace(/<[^>]*>/g, '').split(/\s+/).length;
   const timeRequired = post.readingTime ? `PT${post.readingTime}M` : undefined;
   const baseUrl = localeSiteBaseUrl(locale);
@@ -170,10 +147,10 @@ export default async function BlogPostPage({ params }: Props) {
     },
     datePublished: post.publishDate,
     dateModified: post.publishDate,
-    url: `${baseUrl}${getTranslatedRoute('blog', locale, slug)}`,
+    url: `${baseUrl}${getTranslatedRoute('blog', locale, post.slug)}`,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${baseUrl}${getTranslatedRoute('blog', locale, slug)}`,
+      '@id': `${baseUrl}${getTranslatedRoute('blog', locale, post.slug)}`,
     },
     articleSection: 'Opiskelijakulttuuri',
     wordCount: wordCount,
@@ -200,7 +177,7 @@ export default async function BlogPostPage({ params }: Props) {
         '@type': 'ListItem',
         position: 3,
         name: titleString,
-        item: `${baseUrl}${getTranslatedRoute('blog', locale, slug)}`,
+        item: `${baseUrl}${getTranslatedRoute('blog', locale, post.slug)}`,
       },
     ],
   };
@@ -208,14 +185,14 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <>
       <Script
-        id={`blogposting-schema-${slug}`}
+        id={`blogposting-schema-${post.slug}`}
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(blogPostingSchema),
         }}
       />
       <Script
-        id={`breadcrumb-schema-${slug}`}
+        id={`breadcrumb-schema-${post.slug}`}
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbSchema),

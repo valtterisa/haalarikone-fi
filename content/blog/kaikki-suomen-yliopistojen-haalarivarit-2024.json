@@ -1,5 +1,9 @@
 {
-  "slug": "kaikki-suomen-yliopistojen-haalarivarit-2024",
+  "slug": {
+    "fi": "kaikki-suomen-yliopistojen-haalarivarit-2024",
+    "en": "all-finnish-university-overall-colors-2024",
+    "sv": "alla-finska-universitets-overallsfarger-2024"
+  },
   "title": {
     "fi": "Kaikki Suomen yliopistojen haalarivärit 2024",
     "en": "All Finnish University Overall Colors 2024",

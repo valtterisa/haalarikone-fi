@@ -23,14 +23,28 @@ export function translationsMap(type: 'university' | 'color' | 'area' | 'field')
 }
 
 export function getLocalizedName(
-  finnishName: string,
+  name: string,
   locale: 'fi' | 'en' | 'sv',
   type: 'university' | 'color' | 'area' | 'field',
 ): string {
-  if (locale === 'fi') {
-    return finnishName;
+  const map = translationsMap(type);
+  const direct = map[name];
+  if (direct?.[locale]) {
+    return direct[locale];
   }
-  return translationsMap(type)[finnishName]?.[locale] ?? finnishName;
+
+  const normalized = name.trim().toLowerCase();
+  for (const entry of Object.values(map)) {
+    if (
+      entry.fi.trim().toLowerCase() === normalized ||
+      entry.en.trim().toLowerCase() === normalized ||
+      entry.sv.trim().toLowerCase() === normalized
+    ) {
+      return entry[locale];
+    }
+  }
+
+  return name;
 }
 
 export function getFinnishName(

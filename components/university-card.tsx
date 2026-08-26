@@ -29,7 +29,6 @@ export default function UniversityCard({ uni, source = 'search' }: UniversityCar
   const schoolSlug = entitySlug(uni.oppilaitos, locale, 'university');
   const city = splitCsv(uni.alue)[0];
   const citySlug = city ? entitySlug(city, locale, 'area') : null;
-  const primaryField = uni.ala?.split(',')[0]?.trim();
 
   return (
     <li className="[content-visibility:auto] [contain-intrinsic-size:0_88px]">
@@ -59,9 +58,9 @@ export default function UniversityCard({ uni, source = 'search' }: UniversityCar
             <p className="text-sm font-semibold leading-snug tracking-tight text-foreground sm:text-[15px]">
               {uni.ainejarjesto ?? t('unknownOrganization')}
             </p>
-            {primaryField ? (
+            {uni.ala ? (
               <p className="mt-0.5 truncate text-xs text-muted-foreground sm:mt-1 sm:text-[13px]">
-                {primaryField}
+                {uni.ala}
               </p>
             ) : null}
           </div>
