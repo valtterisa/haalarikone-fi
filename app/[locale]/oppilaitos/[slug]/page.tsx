@@ -8,8 +8,8 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Page } from '@/components/page';
 import { loadUniversities } from '@/lib/load-universities';
-import { getUniversitiesByUniversity } from '@/lib/get-universities-by-criteria';
-import { getSlugForEntity, getEntityFromSlug, getEntityTranslation } from '@/lib/slug-translations';
+import { getTaxonomyEntities, resolveTaxonomyHub } from '@/lib/taxonomy-hub';
+import { getSlugForEntity } from '@/lib/slug-translations';
 import { capitalizeFirstLetter } from '@/lib/utils';
 import { Metadata } from 'next';
 import { Link } from '@/i18n/routing';
@@ -35,7 +35,7 @@ export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const universities = await loadUniversities('fi');
-  const uniqueUniversities = Array.from(new Set(universities.map((u) => u.oppilaitos)));
+  const uniqueUniversities = getTaxonomyEntities(universities, 'university');
 
   const params = [];
   for (const locale of routing.locales) {
@@ -52,23 +52,21 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const universities = await loadUniversities(locale);
-  const uniqueUniversities = Array.from(new Set(universities.map((u) => u.oppilaitos)));
-  const university = getEntityFromSlug(slug, locale, 'university', uniqueUniversities);
+  const hub = resolveTaxonomyHub(universities, slug, locale, 'university');
 
-  if (!university) {
+  if (!hub) {
     const t = await getTranslations({ locale, namespace: 'universities' });
     return {
       title: `${t('notFound')} | Haalarikone`,
     };
   }
 
-  const universityData = getUniversitiesByUniversity(universities, university);
+  const { canonical: university, localized: translatedUniversity, rows: universityData } = hub;
   const fields = Array.from(
     new Set(universityData.flatMap((u) => (u.ala ? u.ala.split(', ') : [])).filter(Boolean)),
   );
 
   const t = await getTranslations({ locale });
-  const translatedUniversity = getEntityTranslation(university, locale, 'university');
   const capitalizedUniversity = capitalizeFirstLetter(translatedUniversity);
   const baseUrl = localeSiteBaseUrl(locale);
   const universitySlug = getSlugForEntity(university, locale, 'university');
@@ -130,16 +128,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function UniversityPage({ params }: Props) {
   const { locale, slug } = await params;
   const universities = await loadUniversities(locale as 'fi' | 'en' | 'sv');
-  const uniqueUniversities = Array.from(new Set(universities.map((u) => u.oppilaitos)));
-  const university = getEntityFromSlug(
-    slug,
-    locale as 'fi' | 'en' | 'sv',
-    'university',
-    uniqueUniversities,
-  );
+  const hub = resolveTaxonomyHub(universities, slug, locale as 'fi' | 'en' | 'sv', 'university');
   const t = await getTranslations({ locale });
 
-  if (!university) {
+  if (!hub) {
     return (
       <Page.Missing>
         <h1 className="text-2xl font-bold mb-4">{t('universities.notFound')}</h1>
@@ -150,18 +142,12 @@ export default async function UniversityPage({ params }: Props) {
     );
   }
 
-  const universityData = getUniversitiesByUniversity(universities, university);
+  const { canonical: university, localized: translatedUniversity, rows: universityData } = hub;
   const fields = Array.from(
     new Set(universityData.flatMap((u) => splitCsv(u.ala)).filter(Boolean)),
   );
   const colors = Array.from(new Set(universityData.map((u) => u.vari)));
   const areas = Array.from(new Set(universityData.flatMap((u) => splitCsv(u.alue))));
-
-  const translatedUniversity = getEntityTranslation(
-    university,
-    locale as 'fi' | 'en' | 'sv',
-    'university',
-  );
   const capitalizedUniversity = capitalizeFirstLetter(translatedUniversity);
   const baseUrl = localeSiteBaseUrl(locale);
 
