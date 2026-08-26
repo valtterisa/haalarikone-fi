@@ -24,7 +24,11 @@ export type TaxonomyHub = {
   rows: University[];
 };
 
-/** The entity values a hub route is built from, in the locale the rows were loaded in. */
+/**
+ * Entity values used to build hub routes.
+ * For university/field/area these match the locale of `rows`.
+ * For color these are always canonical Finnish `variBase` values when present.
+ */
 export function getTaxonomyEntities(rows: University[], type: TaxonomyType): string[] {
   if (type === 'university') return getUniqueUniversities(rows);
   if (type === 'field') return getUniqueFields(rows);
