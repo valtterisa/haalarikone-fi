@@ -2,8 +2,8 @@ import type { BlogPost } from '@/types/blog-post';
 import { RAW_BLOG_POSTS } from '@/lib/blog-posts-data';
 
 type LocaleString = string | { fi: string; en?: string; sv?: string };
-
-type BlogSlugLocales = { fi: string; en: string; sv: string };
+type BlogSlugLocales = BlogPost['slug'];
+type BlogLocale = keyof BlogSlugLocales;
 
 export function getLocaleString(value: LocaleString, locale: string): string {
   if (typeof value === 'string') {
@@ -12,23 +12,18 @@ export function getLocaleString(value: LocaleString, locale: string): string {
   return value[locale as keyof typeof value] || value.en || value.fi;
 }
 
-export function blogSlugMatches(slugField: LocaleString, candidate: string): boolean {
-  if (typeof slugField === 'string') {
-    return slugField === candidate;
-  }
-  return Object.values(slugField).some((value) => value === candidate);
+function isBlogLocale(locale: string): locale is BlogLocale {
+  return locale === 'fi' || locale === 'en' || locale === 'sv';
+}
+
+function slugForLocale(slugs: BlogSlugLocales, locale: string): string {
+  return isBlogLocale(locale) ? slugs[locale] : slugs.fi;
 }
 
 export function findRawBlogPost(slug: string): BlogPost | null {
-  return RAW_BLOG_POSTS.find((post) => blogSlugMatches(post.slug, slug)) ?? null;
-}
-
-function slugLocalesFromPost(post: BlogPost): BlogSlugLocales {
-  return {
-    fi: getLocaleString(post.slug, 'fi'),
-    en: getLocaleString(post.slug, 'en'),
-    sv: getLocaleString(post.slug, 'sv'),
-  };
+  return (
+    RAW_BLOG_POSTS.find((post) => Object.values(post.slug).includes(slug)) ?? null
+  );
 }
 
 export function resolveBlogSlug(slug: string, toLocale: string): string {
@@ -36,7 +31,7 @@ export function resolveBlogSlug(slug: string, toLocale: string): string {
   if (!post) {
     return slug;
   }
-  return getLocaleString(post.slug, toLocale);
+  return slugForLocale(post.slug, toLocale);
 }
 
 export function blogSlugAlternates(slug: string): BlogSlugLocales {
@@ -44,7 +39,7 @@ export function blogSlugAlternates(slug: string): BlogSlugLocales {
   if (!post) {
     return { fi: slug, en: slug, sv: slug };
   }
-  return slugLocalesFromPost(post);
+  return post.slug;
 }
 
 export type ResolvedBlogPost = {
@@ -59,7 +54,7 @@ export type ResolvedBlogPost = {
 
 function selectLocaleForPost(post: BlogPost, locale: string): ResolvedBlogPost {
   return {
-    slug: getLocaleString(post.slug, locale),
+    slug: slugForLocale(post.slug, locale),
     title: getLocaleString(post.title, locale),
     description: getLocaleString(post.description, locale),
     content: getLocaleString(post.content, locale),
