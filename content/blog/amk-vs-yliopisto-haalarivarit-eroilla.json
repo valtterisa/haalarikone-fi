@@ -1,5 +1,9 @@
 {
-  "slug": "amk-vs-yliopisto-haalarivarit-eroilla",
+  "slug": {
+    "fi": "amk-vs-yliopisto-haalarivarit-eroilla",
+    "en": "uas-vs-university-overall-color-differences",
+    "sv": "hogskola-vs-universitet-overallsfarger-med-skillnader"
+  },
   "title": {
     "fi": "AMK vs yliopisto - haalarivärit eroilla",
     "en": "University of Applied Sciences vs University - Overall Color Differences",

@@ -1,5 +1,9 @@
 {
-  "slug": "miten-haalarivarit-valitaan-opiskelijakulttuurin-perusteet",
+  "slug": {
+    "fi": "miten-haalarivarit-valitaan-opiskelijakulttuurin-perusteet",
+    "en": "how-are-overall-colors-chosen-basics-of-student-culture",
+    "sv": "hur-valjs-overallsfarger-grunderna-i-studentkultur"
+  },
   "title": {
     "fi": "Miten haalarivärit valitaan? Opiskelijakulttuurin perusteet",
     "en": "How are Overall Colors Chosen? Basics of Student Culture",

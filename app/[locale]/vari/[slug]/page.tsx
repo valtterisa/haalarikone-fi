@@ -145,9 +145,7 @@ export default async function ColorPage({ params }: Props) {
 
   const { canonical: color, localized: translatedColor, rows: colorData } = hub;
   const universitiesList = Array.from(new Set(colorData.map((u) => u.oppilaitos)));
-  const fields = Array.from(
-    new Set(colorData.flatMap((u) => (u.ala ? u.ala.split(', ') : [])).filter(Boolean)),
-  );
+  const fields = Array.from(new Set(colorData.flatMap((u) => splitCsv(u.ala))));
   const areas = Array.from(new Set(colorData.flatMap((u) => splitCsv(u.alue))));
 
   const firstColorData = colorData[0];

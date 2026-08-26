@@ -136,28 +136,6 @@ export default async function BlogPage({
             <p className="text-muted-foreground">{t('blog.noPosts')}</p>
           ) : (
             posts.map((post) => {
-              const titleString =
-                typeof post.title === 'string'
-                  ? post.title
-                  : post.title[locale as keyof typeof post.title] ||
-                    post.title.en ||
-                    post.title.fi ||
-                    '';
-              const descriptionString =
-                typeof post.description === 'string'
-                  ? post.description
-                  : post.description[locale as keyof typeof post.description] ||
-                    post.description.en ||
-                    post.description.fi ||
-                    '';
-              const authorString =
-                typeof post.author === 'string'
-                  ? post.author
-                  : post.author[locale as keyof typeof post.author] ||
-                    post.author.en ||
-                    post.author.fi ||
-                    '';
-
               return (
                 <article
                   key={post.slug}
@@ -165,10 +143,10 @@ export default async function BlogPage({
                 >
                   <Link href={routeHref('blog', post.slug)}>
                     <h2 className="text-xl font-bold mb-2 hover:text-green transition">
-                      {titleString}
+                      {post.title}
                     </h2>
                   </Link>
-                  <p className="text-muted-foreground mb-4">{descriptionString}</p>
+                  <p className="text-muted-foreground mb-4">{post.description}</p>
                   <div className="flex items-center gap-4 text-sm text-muted-foreground">
                     <time dateTime={post.publishDate}>
                       {new Date(post.publishDate).toLocaleDateString(
@@ -186,7 +164,7 @@ export default async function BlogPage({
                       </span>
                     )}
                     <span>
-                      {t('blog.author')}: {authorString}
+                      {t('blog.author')}: {post.author}
                     </span>
                   </div>
                   <Link

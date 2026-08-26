@@ -1,5 +1,9 @@
 {
-  "slug": "opiskelijakulttuurin-historia-suomessa",
+  "slug": {
+    "fi": "opiskelijakulttuurin-historia-suomessa",
+    "en": "history-of-student-culture-in-finland",
+    "sv": "studentkulturens-historia-i-finland"
+  },
   "title": {
     "fi": "Opiskelijakulttuurin historia Suomessa",
     "en": "History of Student Culture in Finland",

@@ -7,6 +7,7 @@ import {
   getUniqueUniversities,
 } from '@/lib/get-unique-values';
 import { getEntityFromSlug, getSlugForEntity, type Locale } from '@/lib/slug-translations';
+import { resolveBlogSlug } from '@/lib/load-blog-posts';
 import { routing } from '@/i18n/routing';
 
 type DynamicRouteDef = {
@@ -74,6 +75,30 @@ function taxonomyEntityType(
   return null;
 }
 
+const LOCALES: Locale[] = ['fi', 'en', 'sv'];
+
+function findDynamicRoute(first: string): DynamicRouteDef | undefined {
+  return DYNAMIC_ROUTES.find((d) => Object.values(d.firstSeg).includes(first));
+}
+
+function resolveTaxonomyEntity(
+  slug: string,
+  fromLocale: Locale,
+  entityType: 'field' | 'color' | 'university' | 'area',
+  allEntities: string[],
+): string | null {
+  const direct = getEntityFromSlug(slug, fromLocale, entityType, allEntities);
+  if (direct) return direct;
+
+  for (const locale of LOCALES) {
+    if (locale === fromLocale) continue;
+    const entity = getEntityFromSlug(slug, locale, entityType, allEntities);
+    if (entity) return entity;
+  }
+
+  return null;
+}
+
 export function resolveLocaleSwitchHref(
   pathname: string,
   params: Record<string, string | string[] | undefined>,
@@ -98,7 +123,7 @@ export function resolveLocaleSwitchHref(
 
   if (parts.length === 1) {
     const first = parts[0];
-    const def = DYNAMIC_ROUTES.find((d) => d.firstSeg[fromLocale] === first);
+    const def = findDynamicRoute(first);
     if (!def) return null;
     if (def.routeType === 'overall') {
       return '/';
@@ -111,15 +136,19 @@ export function resolveLocaleSwitchHref(
   }
 
   const [first] = parts;
-  const def = DYNAMIC_ROUTES.find((d) => d.firstSeg[fromLocale] === first);
+  const def = findDynamicRoute(first);
   if (!def) return null;
 
   if (!slug) {
     return null;
   }
 
-  if (def.kind === 'overall' || def.kind === 'blog') {
+  if (def.kind === 'overall') {
     return routeHref(def.routeType, slug);
+  }
+
+  if (def.kind === 'blog') {
+    return routeHref(def.routeType, resolveBlogSlug(slug, toLocale));
   }
 
   const entityType = taxonomyEntityType(def.routeType);
@@ -127,7 +156,7 @@ export function resolveLocaleSwitchHref(
 
   const universities = getUniversitiesFi();
   const allEntities = taxonomyEntityList(def.routeType, universities);
-  const entity = getEntityFromSlug(slug, fromLocale, entityType, allEntities);
+  const entity = resolveTaxonomyEntity(slug, fromLocale, entityType, allEntities);
   const newSlug = entity ? getSlugForEntity(entity, toLocale, entityType) : slug;
   return routeHref(def.routeType, newSlug);
 }

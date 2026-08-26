@@ -19,6 +19,7 @@ import { getTranslatedRoute, routeHref, withXDefault } from '@/lib/use-translate
 import type { Locale } from '@/lib/slug-translations';
 import { localeSiteBaseUrl } from '@/lib/site-url';
 import { getFinnishName } from '@/lib/get-finnish-name';
+import { splitCsv } from '@/lib/popular-destinations';
 import { Buildings, CaretRight, GraduationCap, MapPin } from '@phosphor-icons/react/dist/ssr';
 
 export const revalidate = 86400;
@@ -66,7 +67,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   ];
 
   if (overall.ala) {
-    overall.ala.split(', ').forEach((field) => {
+    splitCsv(overall.ala).forEach((field) => {
       keywords.push(
         `${field} ${t('colors.title').toLowerCase()}`,
         `${overall.oppilaitos} ${field}`,
@@ -148,8 +149,8 @@ export default async function OverallPage({ params }: Props) {
   const baseUrl = localeSiteBaseUrl(locale);
 
   const logoName = getLogoName(overall.oppilaitos, locale);
-  const areas = overall.alue ? overall.alue.split(', ').map((area) => area.trim()) : [];
-  const fields = overall.ala ? overall.ala.split(', ').map((field) => field.trim()) : [];
+  const areas = splitCsv(overall.alue);
+  const fields = splitCsv(overall.ala);
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',

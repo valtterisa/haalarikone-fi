@@ -28,11 +28,12 @@ export function pinPopularFirst(
 
 export function splitCsv(value: string | null | undefined): string[] {
   if (!value) return [];
+  const protectedValue = value.replace(/([\p{L}\p{M}]+)-,\s+/gu, '$1-\u0000 ');
   return [
     ...new Set(
-      value
+      protectedValue
         .split(',')
-        .map((part) => part.trim())
+        .map((part) => part.replace(/\u0000/g, ',').trim())
         .filter(Boolean),
     ),
   ];

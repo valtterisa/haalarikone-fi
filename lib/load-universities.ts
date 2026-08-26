@@ -1,6 +1,7 @@
 import type { University } from '@/types/university';
 import translationsData from '@/data/translations.json';
 import universitiesData from '@/data/overall_data.json';
+import { splitCsv } from '@/lib/popular-destinations';
 
 type Translations = {
   fields: Record<string, { fi: string; en: string; sv: string }>;
@@ -86,18 +87,13 @@ function normalizeJsonToUniversity(
     variBase: normalizedVariBase,
     hex: metadata.hex ?? '',
     alue: alue
-      ? alue
-          .split(', ')
-          .map((a: string) => getLocalizedValue(a.trim(), 'area'))
+      ? splitCsv(alue)
+          .map((a: string) => getLocalizedValue(a, 'area'))
           .join(', ')
       : '',
     ala: ala
-      ? ala
-          .split(', ')
-          .map((f: string) => {
-            const field = f.trim();
-            return getLocalizedValue(field, 'field');
-          })
+      ? splitCsv(ala)
+          .map((field: string) => getLocalizedValue(field, 'field'))
           .join(', ')
       : null,
     ainejarjesto: content.ainejarjesto || null,

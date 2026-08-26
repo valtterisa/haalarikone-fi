@@ -16,7 +16,6 @@ export const revalidate = 86400;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const universities = await loadUniversities('fi');
-  const blogPosts = await loadBlogPosts();
 
   let dataLastModified = new Date();
 
@@ -24,6 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   for (const locale of routing.locales) {
     const siteBase = localeSiteBaseUrl(locale);
+    const blogPosts = await loadBlogPosts(locale);
 
     entries.push({
       url: siteBase,
