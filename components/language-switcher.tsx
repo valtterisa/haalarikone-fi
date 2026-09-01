@@ -11,14 +11,21 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Check, CaretDown } from '@phosphor-icons/react';
-import { useState } from 'react';
+import { useState, type ComponentType } from 'react';
 import type { Locale } from '@/lib/slug-translations';
 import { resolveLocaleSwitchHref } from '@/lib/locale-switch-navigation';
+import { FlagFi } from '@/components/flags/flag-fi';
+import { FlagGb } from '@/components/flags/flag-gb';
+import { FlagSe } from '@/components/flags/flag-se';
 
-const languages: { code: Locale; name: string; flag: string }[] = [
-  { code: 'fi', name: 'Suomi', flag: '🇫🇮' },
-  { code: 'en', name: 'English', flag: '🇬🇧' },
-  { code: 'sv', name: 'Svenska', flag: '🇸🇪' },
+const languages: {
+  code: Locale;
+  name: string;
+  Flag: ComponentType<{ className?: string }>;
+}[] = [
+  { code: 'fi', name: 'Suomi', Flag: FlagFi },
+  { code: 'en', name: 'English', Flag: FlagGb },
+  { code: 'sv', name: 'Svenska', Flag: FlagSe },
 ];
 
 type LanguageSwitcherProps = {
@@ -36,6 +43,7 @@ export function LanguageSwitcher({ instanceId }: LanguageSwitcherProps) {
   const locale: Locale = (localeFromParams || localeFromHook || 'fi') as Locale;
 
   const currentLanguage = languages.find((lang) => lang.code === locale) || languages[0];
+  const CurrentFlag = currentLanguage.Flag;
   const triggerId = `language-switcher-trigger-${instanceId}`;
   const contentId = `language-switcher-content-${instanceId}`;
 
@@ -72,11 +80,14 @@ export function LanguageSwitcher({ instanceId }: LanguageSwitcherProps) {
           size="sm"
           className="h-11 min-h-11 gap-1.5 px-2 font-medium text-muted-foreground hover:bg-transparent hover:text-foreground group data-[state=open]:bg-transparent data-[state=open]:text-foreground sm:gap-2 sm:px-2.5"
         >
-          <span className="text-base leading-none">{currentLanguage.flag}</span>
+          <CurrentFlag className="h-3.5 w-5 shrink-0 rounded-[1px] ring-1 ring-border/50" />
           <span className="hidden text-xs font-semibold tracking-wide sm:inline">
             {currentLanguage.code.toUpperCase()}
           </span>
-          <CaretDown className="h-3.5 w-3.5 opacity-50 transition-transform duration-200 group-data-[state=open]:rotate-180" weight="regular" />
+          <CaretDown
+            className="h-3.5 w-3.5 opacity-50 transition-transform duration-200 group-data-[state=open]:rotate-180"
+            weight="regular"
+          />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -88,6 +99,7 @@ export function LanguageSwitcher({ instanceId }: LanguageSwitcherProps) {
       >
         {languages.map((lang) => {
           const isActive = locale === lang.code;
+          const Flag = lang.Flag;
           return (
             <DropdownMenuItem
               key={lang.code}
@@ -99,9 +111,11 @@ export function LanguageSwitcher({ instanceId }: LanguageSwitcherProps) {
                   : 'text-muted-foreground hover:bg-green/10 hover:text-foreground'
               }`}
             >
-              <span className="mr-2.5 text-lg leading-none">{lang.flag}</span>
+              <Flag className="mr-2.5 h-3.5 w-5 shrink-0 rounded-[1px] ring-1 ring-border/50" />
               <span className="flex-1 text-sm font-semibold">{lang.name}</span>
-              {isActive && !isTranslating && <Check className="h-4 w-4 shrink-0 text-green" weight="regular" />}
+              {isActive && !isTranslating && (
+                <Check className="h-4 w-4 shrink-0 text-green" weight="regular" />
+              )}
               {isTranslating && !isActive && (
                 <div className="h-4 w-4 shrink-0 rounded-full border-2 border-green border-t-transparent motion-safe:animate-spin" />
               )}

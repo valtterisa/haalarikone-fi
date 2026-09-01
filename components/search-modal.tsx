@@ -247,7 +247,7 @@ export function SearchModalInput() {
             aria-hidden="true"
           />
           <Input
-            type="search"
+            type="text"
             name="q"
             autoComplete="off"
             spellCheck={false}

@@ -559,7 +559,7 @@ export function SearchFormTextField({
           ref={inputRef}
           id="text-search"
           name="q"
-          type="search"
+          type="text"
           autoComplete="off"
           spellCheck={false}
           value={value}
