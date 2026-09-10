@@ -11,7 +11,9 @@ export function getUniversitiesByField(
   universities: University[],
   fieldName: string,
 ): University[] {
-  return universities.filter((u) => u.ala?.toLowerCase().includes(fieldName.toLowerCase()));
+  return universities.filter(
+    (u) => !u.ala || u.ala.toLowerCase().includes(fieldName.toLowerCase()),
+  );
 }
 
 /**

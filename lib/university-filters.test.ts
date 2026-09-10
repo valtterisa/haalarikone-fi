@@ -35,9 +35,9 @@ describe('advanced filters integration', () => {
   it('filters by field only', () => {
     const results = filterUniversities(universities, { field: 'oikeustiede' }, colorData);
     expect(results.length).toBeGreaterThan(0);
-    expect(results.every((uni) => (uni.ala || '').toLowerCase().includes('oikeustiede'))).toBe(
-      true,
-    );
+    expect(
+      results.every((uni) => !uni.ala || uni.ala.toLowerCase().includes('oikeustiede')),
+    ).toBe(true);
   });
 
   it('filters by school only', () => {

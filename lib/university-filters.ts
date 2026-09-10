@@ -48,7 +48,7 @@ export function matchesUniversityFilters(
     return false;
   }
 
-  if (filters.field && !normalize(uni.ala || '').includes(normalize(filters.field))) {
+  if (filters.field && uni.ala && !normalize(uni.ala).includes(normalize(filters.field))) {
     return false;
   }
 

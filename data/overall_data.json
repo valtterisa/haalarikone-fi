@@ -2268,7 +2268,7 @@
         "base": ["sininen"]
       },
       "alue": "Maarianhamina",
-      "ala": "(kaikki alat)",
+      "ala": "",
       "oppilaitos": "Ahvenanmaan AMK",
       "ainejarjesto": "Studerandekåren Skåhla",
       "ainejarjestoSlug": "studerandekaren-skahla"
@@ -8643,7 +8643,7 @@
         "base": ["punainen"]
       },
       "alue": "Vaasa",
-      "ala": "kaikki alat",
+      "ala": "",
       "oppilaitos": "Vaasan yliopisto",
       "ainejarjesto": "VYY",
       "ainejarjestoSlug": "vyy"
