@@ -12,9 +12,11 @@ Find out what color overall a student in a specific field wears.
 - **Explore culture:**  
   Discover and learn about the colorful traditions of Finnish student life.
 
-## Live Site
+## Live Site and Analytics
 
 Check out the live project at: [haalarikone.fi](https://haalarikone.fi)
+
+Live analytics: https://app.databuddy.cc/public/Uu3N9TuBuUAa3wAS4pHNw
 
 ## Tech Stack
 
