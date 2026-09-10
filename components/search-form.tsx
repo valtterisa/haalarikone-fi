@@ -32,6 +32,7 @@ import { track } from '@databuddy/sdk';
 import { trackFilterSelect } from '@/lib/analytics-events';
 import { useTranslations, useLocale } from 'next-intl';
 import type { Locale } from '@/lib/slug-translations';
+import { capitalizeFirstLetter } from '@/lib/utils';
 import translationsData from '../data/translations.json';
 import {
   ActiveFilterChips,
@@ -165,6 +166,7 @@ function SearchFilterPanel({
             searchPlaceholder={t('optionSearchField')}
             emptyLabel={t('noMatchingOptions')}
             clearSearchLabel={t('clearSearch')}
+            formatLabel={capitalizeFirstLetter}
           />
         ) : null}
         {activeTab === 'school' ? (
@@ -365,7 +367,7 @@ export function SearchFormRoot({
     activeFilters.push({
       key: 'field',
       value: selectedCriteria.field,
-      display: selectedCriteria.field,
+      display: capitalizeFirstLetter(selectedCriteria.field),
     });
   }
   if (selectedCriteria.school) {

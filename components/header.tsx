@@ -11,6 +11,7 @@ import {
   GraduationCapIcon,
   CaretDownIcon,
   MapPinIcon,
+  NewspaperIcon,
 } from '@phosphor-icons/react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Logo from '@/components/logo';
@@ -80,18 +81,22 @@ export function HeaderCategoryLink({
   return (
     <Link
       href={link.href}
-      className="group flex items-baseline justify-between gap-4 py-3 text-foreground transition-colors active:scale-[0.98]"
+      className="group flex items-center gap-3 py-4 text-foreground transition-colors active:scale-[0.98]"
       onClick={() => {
         trackHubClick('header', link.hubType, 'index');
         onNavigate?.();
       }}
     >
-      <span className="text-3xl font-semibold tracking-tight leading-[1.1] transition-colors group-hover:text-green">
-        {link.label}
-      </span>
-      <span className="shrink-0 text-sm text-muted-foreground">{link.description}</span>
-      <span className="sr-only">
-        <Icon className="h-4 w-4" weight="regular" aria-hidden="true" />
+      <Icon
+        className="h-6 w-6 shrink-0 text-green"
+        weight="regular"
+        aria-hidden="true"
+      />
+      <span className="min-w-0">
+        <span className="block text-3xl font-semibold tracking-tight leading-[1.1] transition-colors group-hover:text-green">
+          {link.label}
+        </span>
+        <span className="mt-1 block text-sm text-muted-foreground">{link.description}</span>
       </span>
     </Link>
   );
@@ -108,7 +113,7 @@ export function HeaderCategories({
 }) {
   if (variant === 'mobile') {
     return (
-      <nav className="flex flex-col divide-y divide-border/40" aria-label="Categories">
+      <nav className="flex flex-col divide-y divide-border" aria-label="Categories">
         {links.map((link) => (
           <Header.CategoryLink
             key={`mobile-nav-${internalHrefKey(link.href)}`}
@@ -149,18 +154,25 @@ export function HeaderNavLinks({
   if (variant === 'mobile') {
     if (links.length === 0) return null;
     return (
-      <div className="flex flex-wrap gap-2">
+      <nav className="flex flex-col border-t border-border pt-2" aria-label="Pages">
         {links.map((link) => (
           <Link
             key={`mobile-nav-${internalHrefKey(link.href)}`}
             href={link.href}
-            className="rounded-full border border-border/60 px-4 py-2 text-sm font-semibold text-muted-foreground transition hover:border-green hover:bg-green/10 hover:text-green"
+            className="group flex items-center gap-3 py-4 text-foreground transition-colors hover:text-green active:scale-[0.98]"
             onClick={onNavigate}
           >
-            {link.label}
+            <NewspaperIcon
+              className="h-6 w-6 shrink-0 text-green"
+              weight="regular"
+              aria-hidden="true"
+            />
+            <span className="text-3xl font-semibold tracking-tight leading-[1.1]">
+              {link.label}
+            </span>
           </Link>
         ))}
-      </div>
+      </nav>
     );
   }
 
@@ -383,22 +395,20 @@ export function HeaderMobileMenu({
 }) {
   return (
     <motion.div
-      className="absolute inset-x-0 top-full origin-top overflow-hidden border-t border-border/60 bg-background shadow-overlay md:hidden"
+      className="absolute inset-x-0 top-full origin-top overflow-hidden border-y border-border bg-background md:hidden"
       initial={reduceMotion ? false : { opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
       transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
     >
       <motion.div
-        className={cn(PAGE_WIDTH, 'py-5')}
+        className={cn(PAGE_WIDTH, 'space-y-2 py-1')}
         initial={reduceMotion ? false : { opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
         exit={reduceMotion ? undefined : { opacity: 0 }}
         transition={{ duration: 0.32, delay: reduceMotion ? 0 : 0.04, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="rounded-xl border border-border/40 bg-card p-5">
-          <div className="space-y-6">{children}</div>
-        </div>
+        {children}
       </motion.div>
     </motion.div>
   );

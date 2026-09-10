@@ -201,6 +201,7 @@ export function OptionList({
   searchPlaceholder,
   emptyLabel,
   clearSearchLabel,
+  formatLabel,
 }: {
   options: string[];
   selected: string;
@@ -210,6 +211,7 @@ export function OptionList({
   searchPlaceholder?: string;
   emptyLabel?: string;
   clearSearchLabel?: string;
+  formatLabel?: (option: string) => string;
 }) {
   const [query, setQuery] = useState('');
 
@@ -220,8 +222,14 @@ export function OptionList({
   const filteredOptions = useMemo(() => {
     const normalized = query.trim().toLocaleLowerCase('fi-FI');
     if (!normalized) return options;
-    return options.filter((option) => option.toLocaleLowerCase('fi-FI').includes(normalized));
-  }, [options, query]);
+    return options.filter((option) => {
+      const label = formatLabel ? formatLabel(option) : option;
+      return (
+        option.toLocaleLowerCase('fi-FI').includes(normalized) ||
+        label.toLocaleLowerCase('fi-FI').includes(normalized)
+      );
+    });
+  }, [options, query, formatLabel]);
 
   const list =
     variant === 'row' ? (
@@ -243,7 +251,7 @@ export function OptionList({
                   : 'bg-muted text-foreground active:bg-muted/80',
               )}
             >
-              {option}
+              {formatLabel ? formatLabel(option) : option}
             </button>
           );
         })}
@@ -271,7 +279,7 @@ export function OptionList({
                   : 'bg-muted text-foreground hover:bg-muted/80',
               )}
             >
-              {option}
+              {formatLabel ? formatLabel(option) : option}
             </button>
           );
         })}
