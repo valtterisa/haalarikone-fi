@@ -314,7 +314,11 @@
     "orSelect": "OR SELECT",
     "filter": "Filter",
     "clear": "Clear",
-    "close": "Close"
+    "close": "Close",
+    "optionSearchCity": "Search city…",
+    "optionSearchField": "Search field…",
+    "optionSearchSchool": "Search institution…",
+    "noMatchingOptions": "No matches"
   },
   "fields": {
     "title": "Fields of Study",

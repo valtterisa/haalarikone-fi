@@ -314,7 +314,11 @@
     "orSelect": "TAI VALITSE",
     "filter": "Suodata",
     "clear": "Tyhjennä",
-    "close": "Sulje"
+    "close": "Sulje",
+    "optionSearchCity": "Etsi kaupunkia…",
+    "optionSearchField": "Etsi alaa…",
+    "optionSearchSchool": "Etsi oppilaitosta…",
+    "noMatchingOptions": "Ei osumia"
   },
   "fields": {
     "title": "Opiskelualat",

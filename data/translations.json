@@ -460,11 +460,6 @@
       "en": "commerce and culture",
       "sv": "handel och kultur"
     },
-    "kauppatiede": {
-      "fi": "kauppatiede",
-      "en": "business",
-      "sv": "handel"
-    },
     "kauppatieteet": {
       "fi": "kauppatieteet",
       "en": "business studies",
@@ -1340,15 +1335,10 @@
       "en": "Master's in ICT",
       "sv": "DI i informations- och kommunikationsteknik"
     },
-    "tietojenkäsittely": {
-      "fi": "tietojenkäsittely",
-      "en": "information technology",
-      "sv": "databehandling"
-    },
     "tietojenkäsittelytiede": {
       "fi": "tietojenkäsittelytiede",
-      "en": "computer science",
-      "sv": "datavetenskap"
+      "en": "information technology",
+      "sv": "databehandling"
     },
     "tietojenkäsittelytiede (englanniksi)": {
       "fi": "tietojenkäsittelytiede (englanniksi)",
@@ -1361,14 +1351,9 @@
       "sv": "datavetenskap (på svenska)"
     },
     "tietojenkäsittelytiede)": {
-      "fi": "tietojenkäsittelytiede)",
+      "fi": "tietojenkäsittelytiede",
       "en": "computer science)",
       "sv": "datavetenskap)"
-    },
-    "tietojenkäsittelytieteet": {
-      "fi": "tietojenkäsittelytieteet",
-      "en": "computer sciences",
-      "sv": "datavetenskaper"
     },
     "tietojohtaminen": {
       "fi": "tietojohtaminen",

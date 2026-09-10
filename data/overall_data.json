@@ -58,7 +58,7 @@
         "base": ["keltainen"]
       },
       "alue": "Hämeenlinna, Forssa, Valkeakoski",
-      "ala": "liiketalous, muotoilu, tietojenkäsittely, international business, computer applications, hevostalouden liiketoiminta",
+      "ala": "liiketalous, muotoilu, tietojenkäsittelytiede, international business, computer applications, hevostalouden liiketoiminta",
       "oppilaitos": "Hämeen AMK",
       "ainejarjesto": "HÄTÄ ry",
       "ainejarjestoSlug": "hata-ry"
@@ -415,7 +415,7 @@
         "base": ["oranssi"]
       },
       "alue": "Joensuu",
-      "ala": "liiketalous, international business, tietojenkäsittely",
+      "ala": "liiketalous, international business, tietojenkäsittelytiede",
       "oppilaitos": "Karelia",
       "ainejarjesto": "Joensuun Tradenomiopiskelijoiden Kilta",
       "ainejarjestoSlug": "joensuun-tradenomiopiskelijoiden-kilta"
@@ -840,7 +840,7 @@
         "base": ["punainen"]
       },
       "alue": "Jyväskylä",
-      "ala": "tietojenkäsittely",
+      "ala": "tietojenkäsittelytiede",
       "oppilaitos": "Jyväskylän AMK",
       "ainejarjesto": "Konkurssi",
       "ainejarjestoSlug": "konkurssi"
@@ -1724,7 +1724,7 @@
         "base": ["punainen"]
       },
       "alue": "Kuopio",
-      "ala": "kauppatiede",
+      "ala": "kauppatieteet",
       "oppilaitos": "Itä-Suomen yliopisto",
       "ainejarjesto": "Preemio",
       "ainejarjestoSlug": "preemio"
@@ -2829,7 +2829,7 @@
         "base": ["sininen"]
       },
       "alue": "Oulu",
-      "ala": "tietojenkäsittelytieteet",
+      "ala": "tietojenkäsittelytiede",
       "oppilaitos": "Oulun yliopisto",
       "ainejarjesto": "Blanko",
       "ainejarjestoSlug": "blanko"
@@ -4767,7 +4767,7 @@
         "base": ["violetti"]
       },
       "alue": "Espoo",
-      "ala": "sairaanhoitaja, terveydenhoitaja, fysioterapeutti, sosionomi, tradenomi, restonomi, tietojenkäsittely, turvallisuus",
+      "ala": "sairaanhoitaja, terveydenhoitaja, fysioterapeutti, sosionomi, tradenomi, restonomi, tietojenkäsittelytiede, turvallisuus",
       "oppilaitos": "Laurea",
       "ainejarjesto": "Laureamko",
       "ainejarjestoSlug": "laureamko-281"
@@ -6671,7 +6671,7 @@
         "base": ["harmaa"]
       },
       "alue": "Tampere",
-      "ala": "matematiikka, tilastotiede, tietojenkäsittelytieteet",
+      "ala": "matematiikka, tilastotiede, tietojenkäsittelytiede",
       "oppilaitos": "Tampereen yliopisto",
       "ainejarjesto": "Luuppi",
       "ainejarjestoSlug": "luuppi"
@@ -6739,7 +6739,7 @@
         "base": ["musta"]
       },
       "alue": "Tampere",
-      "ala": "tietojenkäsittely",
+      "ala": "tietojenkäsittelytiede",
       "oppilaitos": "Tampereen AMK",
       "ainejarjesto": "",
       "ainejarjestoSlug": "tampereen-amk-yokerhonmusta"
@@ -7963,7 +7963,7 @@
         "base": ["sininen"]
       },
       "alue": "Turku",
-      "ala": "kauppatiede",
+      "ala": "kauppatieteet",
       "oppilaitos": "Turun yliopisto",
       "ainejarjesto": "Turun KY",
       "ainejarjestoSlug": "turun-ky"

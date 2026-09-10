@@ -92,16 +92,22 @@ function SearchFilterPanel({
   schools: string[];
   onDraftChange: (field: FilterTabKey, value: string) => void;
 }) {
+  const t = useTranslations('search');
+
   return (
     <>
       <FilterTabs
         tabs={tabs}
         active={activeTab}
         onChange={onTabChange}
-        className={variant === 'mobile' ? 'flex-shrink-0 border-border' : undefined}
+        className={variant === 'mobile' ? 'shrink-0 border-border' : undefined}
         tabClassName={variant === 'mobile' ? 'px-3 py-3' : undefined}
       />
-      <div className={variant === 'mobile' ? 'flex-1 overflow-y-auto p-4' : 'pt-4'}>
+      <div
+        className={
+          variant === 'mobile' ? 'min-h-0 flex-1 overflow-y-auto p-4' : 'pt-4'
+        }
+      >
         {activeTab === 'color' ? (
           variant === 'mobile' ? (
             <div className="grid grid-cols-4 gap-3">
@@ -137,26 +143,41 @@ function SearchFilterPanel({
         ) : null}
         {activeTab === 'area' ? (
           <OptionList
+            key="area"
             options={areas}
             selected={draftAdvancedFilters.area}
             onSelect={(value) => onDraftChange('area', value)}
             variant={variant === 'mobile' ? 'row' : 'chip'}
+            searchable
+            searchPlaceholder={t('optionSearchCity')}
+            emptyLabel={t('noMatchingOptions')}
+            clearSearchLabel={t('clearSearch')}
           />
         ) : null}
         {activeTab === 'field' ? (
           <OptionList
+            key="field"
             options={fields}
             selected={draftAdvancedFilters.field}
             onSelect={(value) => onDraftChange('field', value)}
             variant={variant === 'mobile' ? 'row' : 'chip'}
+            searchable
+            searchPlaceholder={t('optionSearchField')}
+            emptyLabel={t('noMatchingOptions')}
+            clearSearchLabel={t('clearSearch')}
           />
         ) : null}
         {activeTab === 'school' ? (
           <OptionList
+            key="school"
             options={schools}
             selected={draftAdvancedFilters.school}
             onSelect={(value) => onDraftChange('school', value)}
             variant={variant === 'mobile' ? 'row' : 'chip'}
+            searchable
+            searchPlaceholder={t('optionSearchSchool')}
+            emptyLabel={t('noMatchingOptions')}
+            clearSearchLabel={t('clearSearch')}
           />
         ) : null}
       </div>
@@ -379,7 +400,7 @@ export function SearchFormRoot({
         />
 
         <div className="relative border-t border-border/50 bg-card px-3 pb-1 pt-1 sm:hidden">
-          <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+          <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen} handleOnly>
             <DrawerTrigger asChild>
               <button
                 id="search-filters-trigger"
@@ -399,7 +420,7 @@ export function SearchFormRoot({
               </button>
             </DrawerTrigger>
             <DrawerContent id="search-filters-content" className="flex h-[85vh] flex-col">
-              <DrawerHeader className="flex-shrink-0 border-b border-border text-left">
+              <DrawerHeader className="shrink-0 border-b border-border text-left">
                 <DrawerTitle className="flex items-center justify-between">
                   <span>{t('filters')}</span>
                   {hasActiveFilters ? (
@@ -425,7 +446,7 @@ export function SearchFormRoot({
                 schools={schools}
                 onDraftChange={handleDraftChange}
               />
-              <DrawerFooter className="flex-shrink-0 border-t border-border pt-4">
+              <DrawerFooter className="shrink-0 border-t border-border pt-4">
                 <Button
                   type="button"
                   onClick={handleApplyFilters}

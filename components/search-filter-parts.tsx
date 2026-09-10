@@ -1,9 +1,9 @@
 'use client';
 
-import { CheckIcon, XIcon } from '@phosphor-icons/react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { CheckIcon, MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react';
 import { cn } from '@/lib/utils';
 import type { FilterTabKey } from '@/lib/use-university-search';
-import type { ReactNode } from 'react';
 
 export type { FilterTabKey };
 
@@ -197,16 +197,36 @@ export function OptionList({
   selected,
   onSelect,
   variant = 'chip',
+  searchable = false,
+  searchPlaceholder,
+  emptyLabel,
+  clearSearchLabel,
 }: {
   options: string[];
   selected: string;
   onSelect: (value: string) => void;
   variant?: 'chip' | 'row';
+  searchable?: boolean;
+  searchPlaceholder?: string;
+  emptyLabel?: string;
+  clearSearchLabel?: string;
 }) {
-  if (variant === 'row') {
-    return (
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    setQuery('');
+  }, [options]);
+
+  const filteredOptions = useMemo(() => {
+    const normalized = query.trim().toLocaleLowerCase('fi-FI');
+    if (!normalized) return options;
+    return options.filter((option) => option.toLocaleLowerCase('fi-FI').includes(normalized));
+  }, [options, query]);
+
+  const list =
+    variant === 'row' ? (
       <div className="flex flex-col gap-2" role="listbox" aria-multiselectable={false}>
-        {options.map((option) => {
+        {filteredOptions.map((option) => {
           const isSelected = selected === option;
           return (
             <button
@@ -228,36 +248,79 @@ export function OptionList({
           );
         })}
       </div>
+    ) : (
+      <div
+        className="flex max-h-64 flex-wrap gap-2 overflow-y-auto overscroll-contain scrollbar-none"
+        role="listbox"
+        aria-multiselectable={false}
+      >
+        {filteredOptions.map((option) => {
+          const isSelected = selected === option;
+          return (
+            <button
+              key={option}
+              type="button"
+              role="option"
+              aria-selected={isSelected}
+              onClick={() => onSelect(isSelected ? '' : option)}
+              className={cn(
+                'touch-manipulation rounded-lg px-3 py-1.5 text-sm shadow-sm transition-[background-color,color] duration-150',
+                focusRing,
+                isSelected
+                  ? 'bg-green text-white'
+                  : 'bg-muted text-foreground hover:bg-muted/80',
+              )}
+            >
+              {option}
+            </button>
+          );
+        })}
+      </div>
     );
-  }
+
+  if (!searchable) return list;
 
   return (
-    <div
-      className="flex max-h-64 flex-wrap gap-2 overflow-y-auto overscroll-contain scrollbar-none"
-      role="listbox"
-      aria-multiselectable={false}
-    >
-      {options.map((option) => {
-        const isSelected = selected === option;
-        return (
+    <div className="flex flex-col gap-3">
+      <label className="relative block">
+        <span className="sr-only">{searchPlaceholder}</span>
+        <MagnifyingGlassIcon
+          aria-hidden="true"
+          className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+        />
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder={searchPlaceholder}
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck={false}
+          className={cn(
+            'h-11 w-full rounded-xl border border-border/70 bg-muted/40 pl-9 pr-10 text-sm text-foreground placeholder:text-muted-foreground',
+            'touch-manipulation transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green/50',
+          )}
+        />
+        {query ? (
           <button
-            key={option}
             type="button"
-            role="option"
-            aria-selected={isSelected}
-            onClick={() => onSelect(isSelected ? '' : option)}
+            onClick={() => setQuery('')}
+            aria-label={clearSearchLabel}
             className={cn(
-              'touch-manipulation rounded-lg px-3 py-1.5 text-sm shadow-sm transition-[background-color,color] duration-150',
+              'absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-muted-foreground',
+              'touch-manipulation active:bg-muted',
               focusRing,
-              isSelected
-                ? 'bg-green text-white'
-                : 'bg-muted text-foreground hover:bg-muted/80',
             )}
           >
-            {option}
+            <XIcon aria-hidden="true" className="h-4 w-4" />
           </button>
-        );
-      })}
+        ) : null}
+      </label>
+      {filteredOptions.length === 0 ? (
+        <p className="px-1 py-6 text-center text-sm text-muted-foreground">{emptyLabel}</p>
+      ) : (
+        list
+      )}
     </div>
   );
 }

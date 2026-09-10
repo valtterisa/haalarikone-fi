@@ -12,6 +12,7 @@ import {
   CaretDownIcon,
   MapPinIcon,
 } from '@phosphor-icons/react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Logo from '@/components/logo';
 import { PAGE_WIDTH } from '@/components/page';
 import { cn } from '@/lib/utils';
@@ -79,21 +80,19 @@ export function HeaderCategoryLink({
   return (
     <Link
       href={link.href}
-      className="flex min-h-11 items-center justify-between rounded-lg border border-border/60 bg-muted/30 px-4 py-3 text-foreground transition hover:border-green hover:bg-green/10"
+      className="group flex items-baseline justify-between gap-4 py-3 text-foreground transition-colors active:scale-[0.98]"
       onClick={() => {
         trackHubClick('header', link.hubType, 'index');
         onNavigate?.();
       }}
     >
-      <div className="flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-md bg-background text-green">
-          <Icon className="h-4 w-4" weight="regular" aria-hidden="true" />
-        </div>
-        <div className="flex flex-col">
-          <span className="text-sm font-semibold">{link.label}</span>
-          <span className="text-xs text-muted-foreground">{link.description}</span>
-        </div>
-      </div>
+      <span className="text-3xl font-semibold tracking-tight leading-[1.1] transition-colors group-hover:text-green">
+        {link.label}
+      </span>
+      <span className="shrink-0 text-sm text-muted-foreground">{link.description}</span>
+      <span className="sr-only">
+        <Icon className="h-4 w-4" weight="regular" aria-hidden="true" />
+      </span>
     </Link>
   );
 }
@@ -109,7 +108,7 @@ export function HeaderCategories({
 }) {
   if (variant === 'mobile') {
     return (
-      <div className="grid gap-3">
+      <nav className="flex flex-col divide-y divide-border/40" aria-label="Categories">
         {links.map((link) => (
           <Header.CategoryLink
             key={`mobile-nav-${internalHrefKey(link.href)}`}
@@ -118,7 +117,7 @@ export function HeaderCategories({
             onNavigate={onNavigate}
           />
         ))}
-      </div>
+      </nav>
     );
   }
 
@@ -189,6 +188,7 @@ export function HeaderRoot() {
   const closeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isHoveringDropdown = useRef(false);
   const closeByHoverRef = useRef(false);
+  const reduceMotion = useReducedMotion();
   const t = useTranslations();
   const tNav = useTranslations('nav');
   const routes = useTranslatedRoutes();
@@ -309,45 +309,98 @@ export function HeaderRoot() {
           <div className="flex items-center gap-1 md:hidden">
             <ThemeSwitcher />
             <LanguageSwitcher instanceId="mobile" />
-            <button
+            <Button
               type="button"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-md border border-border/80 text-muted-foreground transition-colors hover:border-green hover:text-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green"
+              variant="ghost"
+              size="sm"
+              className="h-11 min-h-11 w-11 shrink-0 px-0 text-muted-foreground hover:bg-transparent hover:text-foreground"
               aria-label={mobileOpen ? tNav('closeMenu') : tNav('openMenu')}
               aria-expanded={mobileOpen}
               onClick={() => setMobileOpen((prev) => !prev)}
             >
-              {mobileOpen ? (
-                <XIcon className="h-5 w-5" weight="regular" aria-hidden="true" />
-              ) : (
-                <ListIcon className="h-5 w-5" weight="regular" aria-hidden="true" />
-              )}
-            </button>
+              <span className="relative block h-5 w-5">
+                <motion.span
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={false}
+                  animate={
+                    reduceMotion
+                      ? { opacity: mobileOpen ? 0 : 1 }
+                      : {
+                          opacity: mobileOpen ? 0 : 1,
+                          rotate: mobileOpen ? 90 : 0,
+                          scale: mobileOpen ? 0.65 : 1,
+                        }
+                  }
+                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                  aria-hidden={mobileOpen}
+                >
+                  <ListIcon className="h-5 w-5" weight="regular" aria-hidden="true" />
+                </motion.span>
+                <motion.span
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={false}
+                  animate={
+                    reduceMotion
+                      ? { opacity: mobileOpen ? 1 : 0 }
+                      : {
+                          opacity: mobileOpen ? 1 : 0,
+                          rotate: mobileOpen ? 0 : -90,
+                          scale: mobileOpen ? 1 : 0.65,
+                        }
+                  }
+                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                  aria-hidden={!mobileOpen}
+                >
+                  <XIcon className="h-5 w-5" weight="regular" aria-hidden="true" />
+                </motion.span>
+              </span>
+            </Button>
           </div>
         </nav>
-        {mobileOpen && (
-          <Header.MobileMenu>
-            <Header.Categories
-              links={dropdownLinks}
-              variant="mobile"
-              onNavigate={closeMobileMenu}
-            />
-            <Header.NavLinks links={navLinks} variant="mobile" onNavigate={closeMobileMenu} />
-          </Header.MobileMenu>
-        )}
+        <AnimatePresence initial={false}>
+          {mobileOpen && (
+            <Header.MobileMenu reduceMotion={!!reduceMotion}>
+              <Header.Categories
+                links={dropdownLinks}
+                variant="mobile"
+                onNavigate={closeMobileMenu}
+              />
+              <Header.NavLinks links={navLinks} variant="mobile" onNavigate={closeMobileMenu} />
+            </Header.MobileMenu>
+          )}
+        </AnimatePresence>
       </div>
     </header>
   );
 }
 
-export function HeaderMobileMenu({ children }: { children: ReactNode }) {
+export function HeaderMobileMenu({
+  children,
+  reduceMotion = false,
+}: {
+  children: ReactNode;
+  reduceMotion?: boolean;
+}) {
   return (
-    <div className="absolute inset-x-0 top-full border-t border-border/60 bg-background shadow-overlay md:hidden">
-      <div className={cn(PAGE_WIDTH, 'py-5')}>
+    <motion.div
+      className="absolute inset-x-0 top-full origin-top overflow-hidden border-t border-border/60 bg-background shadow-overlay md:hidden"
+      initial={reduceMotion ? false : { opacity: 0, y: -12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+      transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <motion.div
+        className={cn(PAGE_WIDTH, 'py-5')}
+        initial={reduceMotion ? false : { opacity: 0, y: -6 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={reduceMotion ? undefined : { opacity: 0 }}
+        transition={{ duration: 0.32, delay: reduceMotion ? 0 : 0.04, ease: [0.16, 1, 0.3, 1] }}
+      >
         <div className="rounded-xl border border-border/40 bg-card p-5">
           <div className="space-y-6">{children}</div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 

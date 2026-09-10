@@ -314,7 +314,11 @@
     "orSelect": "ELLER VÄLJ",
     "filter": "Filtrera",
     "clear": "Rensa",
-    "close": "Stäng"
+    "close": "Stäng",
+    "optionSearchCity": "Sök stad…",
+    "optionSearchField": "Sök område…",
+    "optionSearchSchool": "Sök institution…",
+    "noMatchingOptions": "Inga träffar"
   },
   "fields": {
     "title": "Studieområden",
