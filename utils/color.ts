@@ -21,6 +21,7 @@ export function parseHexFromMetadata(hexString: string): string | null {
     olive: '#808000',
     lightgrey: '#D3D3D3',
     dimgrey: '#696969',
+    silver: '#C0C0C0',
   };
 
   return cssToHex[name] ?? null;

@@ -5205,8 +5205,8 @@
     "id": "307",
     "content": {
       "vari": {
-        "label": "kiiltävänmusta",
-        "base": ["musta"]
+        "label": "kiiltävänhopea",
+        "base": ["harmaa", "musta"]
       },
       "alue": "Espoo",
       "ala": "tietojenkäsittelytiede (englanniksi)",
@@ -5215,7 +5215,7 @@
       "ainejarjestoSlug": "data-guild"
     },
     "metadata": {
-      "hex": "background: black; background-image: linear-gradient(to top right, black 80%, lightgrey 81%);"
+      "hex": "background: #272727; background-image: linear-gradient(to top right, #272727 80%, black 81%); color: white;"
     }
   },
   {

@@ -1,7 +1,7 @@
 'use client';
 
 import { Link } from '@/i18n/routing';
-import { useRef, useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import type { Icon } from '@phosphor-icons/react';
 import {
   ListIcon,
@@ -9,7 +9,6 @@ import {
   PaletteIcon,
   StackIcon,
   GraduationCapIcon,
-  CaretDownIcon,
   MapPinIcon,
   NewspaperIcon,
 } from '@phosphor-icons/react';
@@ -17,12 +16,6 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Logo from '@/components/logo';
 import { PAGE_WIDTH } from '@/components/page';
 import { cn } from '@/lib/utils';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from './language-switcher';
@@ -36,47 +29,28 @@ function internalHrefKey(href: InternalHref): string {
   return `${href.pathname}:${href.params.slug}`;
 }
 
+function pathMatches(pathname: string, root: string): boolean {
+  return pathname === root || pathname.startsWith(`${root}/`);
+}
+
 type CategoryLink = {
   label: string;
+  shortLabel: string;
   href: InternalHref;
   description: string;
   icon: Icon;
   hubType: HubType;
+  matchRoot: string;
 };
 
 export function HeaderCategoryLink({
   link,
-  variant,
   onNavigate,
 }: {
   link: CategoryLink;
-  variant: 'desktop' | 'mobile';
   onNavigate?: () => void;
 }) {
   const Icon = link.icon;
-
-  if (variant === 'desktop') {
-    return (
-      <DropdownMenuItem asChild className="rounded-lg p-0 focus:bg-transparent">
-        <Link
-          href={link.href}
-          className="group/item flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-green/10 focus:bg-green/10 focus-visible:ring-2 focus-visible:ring-green"
-          onClick={() => {
-            trackHubClick('header', link.hubType, 'index');
-            onNavigate?.();
-          }}
-        >
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-muted text-green transition-colors group-hover/item:bg-green group-hover/item:text-white">
-            <Icon className="h-5 w-5" weight="regular" aria-hidden="true" />
-          </span>
-          <span className="flex min-w-0 flex-col">
-            <span className="text-sm font-semibold text-foreground">{link.label}</span>
-            <span className="truncate text-xs text-muted-foreground">{link.description}</span>
-          </span>
-        </Link>
-      </DropdownMenuItem>
-    );
-  }
 
   return (
     <Link
@@ -87,11 +61,7 @@ export function HeaderCategoryLink({
         onNavigate?.();
       }}
     >
-      <Icon
-        className="h-6 w-6 shrink-0 text-green"
-        weight="regular"
-        aria-hidden="true"
-      />
+      <Icon className="h-6 w-6 shrink-0 text-green" weight="regular" aria-hidden="true" />
       <span className="min-w-0">
         <span className="block text-3xl font-semibold tracking-tight leading-[1.1] transition-colors group-hover:text-green">
           {link.label}
@@ -104,221 +74,196 @@ export function HeaderCategoryLink({
 
 export function HeaderCategories({
   links,
-  variant,
   onNavigate,
 }: {
   links: CategoryLink[];
-  variant: 'desktop' | 'mobile';
   onNavigate?: () => void;
 }) {
-  if (variant === 'mobile') {
-    return (
-      <nav className="flex flex-col divide-y divide-border" aria-label="Categories">
-        {links.map((link) => (
-          <Header.CategoryLink
-            key={`mobile-nav-${internalHrefKey(link.href)}`}
-            link={link}
-            variant="mobile"
-            onNavigate={onNavigate}
-          />
-        ))}
-      </nav>
-    );
-  }
-
   return (
-    <>
+    <nav className="flex flex-col divide-y divide-border" aria-label="Categories">
       {links.map((link) => (
         <Header.CategoryLink
-          key={`kategoriat-${internalHrefKey(link.href)}`}
+          key={`mobile-nav-${internalHrefKey(link.href)}`}
           link={link}
-          variant="desktop"
           onNavigate={onNavigate}
         />
       ))}
-    </>
+    </nav>
+  );
+}
+
+export function HeaderDesktopNav({
+  links,
+  blogHref,
+  blogLabel,
+  pathname,
+}: {
+  links: CategoryLink[];
+  blogHref: InternalHref;
+  blogLabel: string;
+  pathname: string;
+}) {
+  return (
+    <nav
+      className="flex items-center gap-1 text-[13px] font-semibold tracking-tight"
+      aria-label="Primary"
+    >
+      {links.map((link) => {
+        const active = pathMatches(pathname, link.matchRoot);
+        return (
+          <Link
+            key={internalHrefKey(link.href)}
+            href={link.href}
+            onClick={() => trackHubClick('header', link.hubType, 'index')}
+            className={cn(
+              'relative rounded-lg px-2.5 py-2 transition-colors duration-200 ease-smooth',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green',
+              active
+                ? 'text-foreground'
+                : 'text-muted-foreground hover:text-foreground',
+            )}
+          >
+            {link.shortLabel}
+            <span
+              aria-hidden="true"
+              className={cn(
+                'absolute inset-x-2.5 -bottom-px h-0.5 rounded-full bg-green transition-opacity duration-200',
+                active ? 'opacity-100' : 'opacity-0',
+              )}
+            />
+          </Link>
+        );
+      })}
+      <Link
+        href={blogHref}
+        className={cn(
+          'relative rounded-lg px-2.5 py-2 transition-colors duration-200 ease-smooth',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green',
+          pathMatches(pathname, '/blog')
+            ? 'text-foreground'
+            : 'text-muted-foreground hover:text-foreground',
+        )}
+      >
+        {blogLabel}
+        <span
+          aria-hidden="true"
+          className={cn(
+            'absolute inset-x-2.5 -bottom-px h-0.5 rounded-full bg-green transition-opacity duration-200',
+            pathMatches(pathname, '/blog') ? 'opacity-100' : 'opacity-0',
+          )}
+        />
+      </Link>
+    </nav>
   );
 }
 
 export function HeaderNavLinks({
   links,
-  activeHrefKey,
   onNavigate,
-  variant,
 }: {
   links: { label: string; href: InternalHref }[];
-  activeHrefKey?: string;
   onNavigate?: () => void;
-  variant: 'desktop' | 'mobile';
 }) {
-  if (variant === 'mobile') {
-    if (links.length === 0) return null;
-    return (
-      <nav className="flex flex-col border-t border-border pt-2" aria-label="Pages">
-        {links.map((link) => (
-          <Link
-            key={`mobile-nav-${internalHrefKey(link.href)}`}
-            href={link.href}
-            className="group flex items-center gap-3 py-4 text-foreground transition-colors hover:text-green active:scale-[0.98]"
-            onClick={onNavigate}
-          >
-            <NewspaperIcon
-              className="h-6 w-6 shrink-0 text-green"
-              weight="regular"
-              aria-hidden="true"
-            />
-            <span className="text-3xl font-semibold tracking-tight leading-[1.1]">
-              {link.label}
-            </span>
-          </Link>
-        ))}
-      </nav>
-    );
-  }
+  if (links.length === 0) return null;
 
   return (
-    <>
+    <nav className="flex flex-col border-t border-border pt-2" aria-label="Pages">
       {links.map((link) => (
         <Link
-          key={internalHrefKey(link.href)}
+          key={`mobile-nav-${internalHrefKey(link.href)}`}
           href={link.href}
-          className={cn(
-            'transition-colors hover:text-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green',
-            activeHrefKey === internalHrefKey(link.href) ? 'text-foreground' : '',
-          )}
+          className="group flex items-center gap-3 py-4 text-foreground transition-colors hover:text-green active:scale-[0.98]"
+          onClick={onNavigate}
         >
-          {link.label}
+          <NewspaperIcon
+            className="h-6 w-6 shrink-0 text-green"
+            weight="regular"
+            aria-hidden="true"
+          />
+          <span className="text-3xl font-semibold tracking-tight leading-[1.1]">
+            {link.label}
+          </span>
         </Link>
       ))}
-    </>
+    </nav>
   );
 }
 
 export function HeaderRoot() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const closeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const isHoveringDropdown = useRef(false);
-  const closeByHoverRef = useRef(false);
   const reduceMotion = useReducedMotion();
   const t = useTranslations();
   const tNav = useTranslations('nav');
+  const tFooter = useTranslations('footer');
   const routes = useTranslatedRoutes();
   const pathname = usePathname();
 
   const closeMobileMenu = () => setMobileOpen(false);
 
-  const handleDropdownHover = (isEntering: boolean) => {
-    if (closeTimeout.current) clearTimeout(closeTimeout.current);
-    isHoveringDropdown.current = isEntering;
-    if (isEntering) {
-      setDropdownOpen(true);
-      return;
-    }
-    closeTimeout.current = setTimeout(() => {
-      isHoveringDropdown.current = false;
-      closeByHoverRef.current = true;
-      setDropdownOpen(false);
-    }, 150);
-  };
-
-  const handleDropdownOpenChange = (open: boolean) => {
-    if (open) {
-      setDropdownOpen(true);
-      return;
-    }
-    if (!isHoveringDropdown.current) {
-      setDropdownOpen(false);
-    }
-  };
-
   const navLinks = [{ label: t('common.blog'), href: routes.blog() }];
 
-  const dropdownLinks: CategoryLink[] = [
+  const categoryLinks: CategoryLink[] = [
     {
       label: tNav('allColors'),
+      shortLabel: tFooter('colors'),
       href: routes.colors(),
       description: tNav('colorsDescription'),
       icon: PaletteIcon,
       hubType: 'color',
+      matchRoot: '/vari',
     },
     {
       label: tNav('allFields'),
+      shortLabel: tFooter('fields'),
       href: routes.fields(),
       description: tNav('fieldsDescription'),
       icon: StackIcon,
       hubType: 'field',
+      matchRoot: '/ala',
     },
     {
       label: tNav('allSchools'),
+      shortLabel: tFooter('schools'),
       href: routes.universities(),
       description: tNav('schoolsDescription'),
       icon: GraduationCapIcon,
       hubType: 'university',
+      matchRoot: '/oppilaitos',
     },
     {
       label: tNav('allAreas'),
+      shortLabel: tFooter('areas'),
       href: routes.areas(),
       description: tNav('areasDescription'),
       icon: MapPinIcon,
       hubType: 'area',
+      matchRoot: '/alue',
     },
   ];
 
-  const isBlogActive = pathname === '/blog' || pathname.startsWith('/blog/');
-
   return (
-    <header className="sticky top-0 z-sticky w-full border-b border-border/60 bg-background/90 backdrop-blur">
+    <header className="sticky top-0 z-sticky w-full border-b border-border bg-background/92 backdrop-blur-md supports-[backdrop-filter]:bg-background/80">
       <div className="relative">
-        <nav className={cn(PAGE_WIDTH, 'flex h-16 items-center justify-between')}>
-          <div onClick={closeMobileMenu}>
+        <div className={cn(PAGE_WIDTH, 'flex h-16 items-center gap-4')}>
+          <div className="shrink-0" onClick={closeMobileMenu}>
             <Logo priority />
           </div>
-          <div className="hidden items-center gap-4 text-sm font-medium text-muted-foreground md:flex">
-            <DropdownMenu modal={false} open={dropdownOpen} onOpenChange={handleDropdownOpenChange}>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  id="header-categories-trigger"
-                  variant="ghost"
-                  size="sm"
-                  className="h-11 min-h-11 gap-2 px-3 group data-[state=open]:bg-accent data-[state=open]:text-accent-foreground"
-                  onMouseEnter={() => handleDropdownHover(true)}
-                  onMouseLeave={() => handleDropdownHover(false)}
-                >
-                  <span>{t('common.categories')}</span>
-                  <CaretDownIcon
-                    className="h-4 w-4 opacity-50 transition-transform duration-200 group-data-[state=open]:rotate-180"
-                    weight="regular"
-                    aria-hidden="true"
-                  />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                id="header-categories-content"
-                align="start"
-                sideOffset={0}
-                onMouseEnter={() => handleDropdownHover(true)}
-                onMouseLeave={() => handleDropdownHover(false)}
-                onCloseAutoFocus={(e) => {
-                  if (closeByHoverRef.current) {
-                    e.preventDefault();
-                    closeByHoverRef.current = false;
-                  }
-                }}
-                className="relative w-80 rounded-xl border-border/60 p-2 pt-3 shadow-overlay before:pointer-events-auto before:absolute before:-top-2 before:left-0 before:right-0 before:h-2 before:content-['']"
-              >
-                <Header.Categories links={dropdownLinks} variant="desktop" />
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <Header.NavLinks
-              links={navLinks}
-              variant="desktop"
-              activeHrefKey={isBlogActive ? internalHrefKey(routes.blog()) : undefined}
+
+          <div className="hidden min-w-0 flex-1 items-center justify-end gap-3 md:flex">
+            <Header.DesktopNav
+              links={categoryLinks}
+              blogHref={routes.blog()}
+              blogLabel={t('common.blog')}
+              pathname={pathname}
             />
-            <LanguageSwitcher instanceId="desktop" />
-            <ThemeSwitcher />
+            <span aria-hidden="true" className="h-5 w-px bg-border" />
+            <div className="flex items-center gap-0.5">
+              <LanguageSwitcher instanceId="desktop" />
+              <ThemeSwitcher />
+            </div>
           </div>
-          <div className="flex items-center gap-1 md:hidden">
+
+          <div className="ml-auto flex items-center gap-0.5 md:hidden">
             <ThemeSwitcher />
             <LanguageSwitcher instanceId="mobile" />
             <Button
@@ -368,16 +313,13 @@ export function HeaderRoot() {
               </span>
             </Button>
           </div>
-        </nav>
+        </div>
+
         <AnimatePresence initial={false}>
           {mobileOpen && (
             <Header.MobileMenu reduceMotion={!!reduceMotion}>
-              <Header.Categories
-                links={dropdownLinks}
-                variant="mobile"
-                onNavigate={closeMobileMenu}
-              />
-              <Header.NavLinks links={navLinks} variant="mobile" onNavigate={closeMobileMenu} />
+              <Header.Categories links={categoryLinks} onNavigate={closeMobileMenu} />
+              <Header.NavLinks links={navLinks} onNavigate={closeMobileMenu} />
             </Header.MobileMenu>
           )}
         </AnimatePresence>
@@ -395,7 +337,7 @@ export function HeaderMobileMenu({
 }) {
   return (
     <motion.div
-      className="absolute inset-x-0 top-full origin-top overflow-hidden border-y border-border bg-background md:hidden"
+      className="absolute inset-x-0 top-full origin-top overflow-hidden border-b border-border bg-background md:hidden"
       initial={reduceMotion ? false : { opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
       exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
@@ -417,6 +359,7 @@ export function HeaderMobileMenu({
 export const Header = Object.assign(HeaderRoot, {
   Categories: HeaderCategories,
   CategoryLink: HeaderCategoryLink,
+  DesktopNav: HeaderDesktopNav,
   NavLinks: HeaderNavLinks,
   MobileMenu: HeaderMobileMenu,
 });
