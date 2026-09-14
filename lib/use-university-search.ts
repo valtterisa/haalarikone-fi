@@ -12,6 +12,12 @@ import {
 } from '@/lib/university-filters';
 import type { University } from '@/types/university';
 import { trackSearchApply } from '@/lib/analytics-events';
+import {
+  clearSearchLog,
+  flushSearchLog,
+  logSearchNow,
+  stageSearchLog,
+} from '@/lib/log-search-query';
 import type { Locale } from '@/lib/slug-translations';
 
 const TEXT_SEARCH_DEBOUNCE_MS = 1000;
@@ -261,6 +267,43 @@ export function useUniversitySearch({
     return filtered.toSorted(compareOppilaitosThenAinejarjesto);
   }, [searchSourceUniversities, applyFilters, selectedCriteria.textSearch]);
 
+  const stagedTextRef = useRef('');
+  const criteriaRef = useRef(selectedCriteria);
+  criteriaRef.current = selectedCriteria;
+  const applyFiltersRef = useRef(applyFilters);
+  applyFiltersRef.current = applyFilters;
+
+  useEffect(() => {
+    if (isSearching) return;
+
+    const query = debouncedTextSearch.trim();
+    if (query.length < 3) {
+      stagedTextRef.current = '';
+      clearSearchLog();
+      return;
+    }
+
+    if (stagedTextRef.current === query) return;
+    stagedTextRef.current = query;
+
+    const criteria = criteriaRef.current;
+    stageSearchLog({
+      query,
+      locale,
+      resultCount: applyFiltersRef.current(searchSourceUniversities).length,
+      source: 'listing',
+      color: criteria.color || null,
+      area: criteria.area || null,
+      field: criteria.field || null,
+      school: criteria.school || null,
+    });
+  }, [isSearching, debouncedTextSearch, searchSourceUniversities, locale]);
+
+  const flushListingSearchLog = useCallback(() => {
+    stagedTextRef.current = '';
+    flushSearchLog();
+  }, []);
+
   const handleTextSearchChange = useCallback((textSearch: string) => {
     setSelectedCriteria((prev) => ({ ...prev, textSearch }));
   }, []);
@@ -269,14 +312,9 @@ export function useUniversitySearch({
     setDraftAdvancedFilters(filters);
   }, []);
 
-  const handleApplyAdvancedFilters = useCallback(() => {
-    setSelectedCriteria((prev) => ({
-      ...prev,
-      ...draftAdvancedFilters,
-    }));
-  }, [draftAdvancedFilters]);
-
   const handleClearAll = useCallback(() => {
+    stagedTextRef.current = '';
+    clearSearchLog();
     setSelectedCriteria({
       textSearch: '',
       ...EMPTY_ADVANCED_FILTERS,
@@ -284,20 +322,48 @@ export function useUniversitySearch({
     setDraftAdvancedFilters(EMPTY_ADVANCED_FILTERS);
   }, []);
 
-  const handleRemoveFilter = useCallback((key: FilterTabKey) => {
-    setSelectedCriteria((prev) => {
+  const handleRemoveFilter = useCallback(
+    (key: FilterTabKey) => {
+      let next = selectedCriteria;
       switch (key) {
         case 'color':
-          return { ...prev, color: '' };
+          next = { ...selectedCriteria, color: '' };
+          break;
         case 'area':
-          return { ...prev, area: '' };
+          next = { ...selectedCriteria, area: '' };
+          break;
         case 'field':
-          return { ...prev, field: '' };
+          next = { ...selectedCriteria, field: '' };
+          break;
         case 'school':
-          return { ...prev, school: '' };
+          next = { ...selectedCriteria, school: '' };
+          break;
       }
-    });
-  }, []);
+      setSelectedCriteria(next);
+
+      const query = next.textSearch.trim();
+      logSearchNow({
+        query: query.length >= 3 ? query : '',
+        locale,
+        resultCount: filterUniversities(
+          searchSourceUniversities,
+          {
+            color: next.color || undefined,
+            area: next.area || undefined,
+            field: next.field || undefined,
+            school: next.school || undefined,
+          },
+          colorData,
+        ).length,
+        source: 'listing',
+        color: next.color || null,
+        area: next.area || null,
+        field: next.field || null,
+        school: next.school || null,
+      });
+    },
+    [selectedCriteria, searchSourceUniversities, colorData, locale],
+  );
 
   useEffect(() => {
     setDraftAdvancedFilters({
@@ -331,6 +397,25 @@ export function useUniversitySearch({
     [searchSourceUniversities, matchesDraftFilters],
   );
 
+  const handleApplyAdvancedFilters = useCallback(() => {
+    setSelectedCriteria((prev) => ({
+      ...prev,
+      ...draftAdvancedFilters,
+    }));
+
+    const query = selectedCriteria.textSearch.trim();
+    logSearchNow({
+      query: query.length >= 3 ? query : '',
+      locale,
+      resultCount: draftFilterResultCount,
+      source: 'listing',
+      color: draftAdvancedFilters.color || null,
+      area: draftAdvancedFilters.area || null,
+      field: draftAdvancedFilters.field || null,
+      school: draftAdvancedFilters.school || null,
+    });
+  }, [selectedCriteria.textSearch, draftAdvancedFilters, draftFilterResultCount, locale]);
+
   const { areaOptions, fieldOptions, schoolOptions } = useMemo(() => {
     const forArea: University[] = [];
     const forField: University[] = [];
@@ -348,6 +433,13 @@ export function useUniversitySearch({
       schoolOptions: getUniqueUniversities(forSchool),
     };
   }, [initialUniversities, matchesDraftFilters]);
+
+  useEffect(() => {
+    return () => {
+      stagedTextRef.current = '';
+      flushSearchLog();
+    };
+  }, []);
 
   const lastSearchApplyKey = useRef('');
   useEffect(() => {
@@ -395,6 +487,7 @@ export function useUniversitySearch({
       colorData,
       handleTextSearchChange,
       handleDraftAdvancedFilterChange,
+      handleSearchBlur: flushListingSearchLog,
       handleApplyAdvancedFilters,
       handleClearAll,
       handleRemoveFilter,
@@ -413,6 +506,7 @@ export function useUniversitySearch({
       colorData,
       handleTextSearchChange,
       handleDraftAdvancedFilterChange,
+      flushListingSearchLog,
       handleApplyAdvancedFilters,
       handleClearAll,
       handleRemoveFilter,

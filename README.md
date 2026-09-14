@@ -25,6 +25,7 @@ Live analytics: https://app.databuddy.cc/public/Uu3N9TuBuUAa3wAS4pHNw
 - **Styling:** Tailwind CSS with Radix UI components (Shadcn/ui)
 - **Internationalization:** next-intl (Finnish, English, Swedish)
 - **Search:** Deterministic in-memory filtering + fuzzy ranking, with AI fallback only on zero-result deterministic queries
+- **Search logging:** Turso (libSQL) + Drizzle ORM
 - **AI/ML:** Vercel AI SDK with Anthropic Claude 3 Haiku (zero-result fallback only)
 - **Email:** Resend (for feedback forms)
 - **Analytics:** Databuddy
@@ -137,6 +138,26 @@ flowchart TD
 - **Predictable Results:** One deterministic pipeline handles normal search traffic.
 - **Natural Color Queries:** Finnish singular/plural color forms match reliably.
 - **Fast Runtime:** Local in-memory filtering + fuzzy ranking avoids network/model latency on common paths.
+
+## Search query logging (Turso)
+
+Completed search intents are stored in Turso (libSQL) via Drizzle. Each row is a full criteria snapshot: text query plus optional advanced filters.
+
+**Env vars** (local `.env` / `.env.local`, and Cloudflare Worker secrets):
+
+- `TURSO_DATABASE_URL` — Turso database URL
+- `TURSO_AUTH_TOKEN` — Turso auth token
+
+```bash
+# apply schema to Turso
+pnpm db:push
+
+# Cloudflare production secrets
+npx wrangler secret put TURSO_DATABASE_URL
+npx wrangler secret put TURSO_AUTH_TOKEN
+```
+
+Logging is fire-and-forget (`POST /api/log-search`). Missing env or insert failures are silent and never affect search UX.
 
 ## Testing
 
