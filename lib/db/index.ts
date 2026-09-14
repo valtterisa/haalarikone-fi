@@ -17,9 +17,13 @@ function createDb() {
 
 type Db = ReturnType<typeof createDb>;
 
-let db: Db;
+let db: Db | undefined;
 
 export function getDb() {
   if (db === undefined) db = createDb();
   return db;
+}
+
+export function resetDb() {
+  db = undefined;
 }

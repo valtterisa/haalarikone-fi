@@ -161,20 +161,25 @@ Logging is fire-and-forget (`POST /api/log-search`). Missing env or insert failu
 
 ## Testing
 
-Automated tests use **Vitest only** (no Playwright / React Testing Library). Coverage is search-first and runs against the real `data/overall_data.json` dataset.
+Primary suite is **Vitest** (search + filters + search-log). Turso pipeline + Playwright listing leave are **local-only** (same `TURSO_*` as the app; skip if unset; not in CI).
 
 | Suite | Role |
 |-------|------|
 | `app/api/search/route.test.ts` | Text search API integration (AI mocked) |
 | `lib/university-filters.test.ts` | Advanced filters (+ text ∩ filters) |
 | `lib/reconcile-field-organization.test.ts` | Guild vs field reconcile unit tests |
+| `lib/log-search-*.test.ts` + `app/api/log-search/route.test.ts` | Search-log helpers + mocked API |
+| `lib/log-search-pipeline.test.ts` | Local: stage/flush → Turso |
+| `lib/use-university-search.log.test.ts` | Listing debounce/blur/Apply logging |
+| `e2e/search-log-leave.spec.ts` | Local Playwright: listing blur/pagehide → Turso |
 
 ```bash
 pnpm test
 pnpm test:watch
+pnpm test:e2e   # local; needs TURSO_* + Chromium (`pnpm exec playwright install chromium`)
 ```
 
-Non-draft pull requests run `pnpm test` in GitHub Actions. Full policy and when to add tests: [CONTRIBUTING.md](./CONTRIBUTING.md#testing).
+Full policy: [CONTRIBUTING.md](./CONTRIBUTING.md#testing).
 
 ## Contributing
 

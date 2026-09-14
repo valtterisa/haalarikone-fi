@@ -48,7 +48,7 @@ type SearchModalContextValue = {
 
 const SearchModalContext = createContext<SearchModalContextValue | null>(null);
 
-function useSearchModal() {
+export function useSearchModal() {
   const ctx = useContext(SearchModalContext);
   if (!ctx) {
     throw new Error('SearchModal compound parts must be used within SearchModal');
