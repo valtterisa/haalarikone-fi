@@ -293,11 +293,23 @@ export function SearchFormRoot({
   };
 
   const handleTextSearchBlur = (event: FocusEvent<HTMLInputElement>) => {
-    const next = event.relatedTarget;
-    if (next instanceof Node && formRootRef.current?.contains(next)) {
+    const isInsideSearchUi = (node: EventTarget | null) => {
+      if (!(node instanceof Node)) return false;
+      if (formRootRef.current?.contains(node)) return true;
+      const filtersDrawer = document.getElementById('search-filters-content');
+      return Boolean(filtersDrawer?.contains(node));
+    };
+
+    if (isInsideSearchUi(event.relatedTarget)) {
       return;
     }
-    onTextSearchBlur?.();
+
+    window.setTimeout(() => {
+      if (isInsideSearchUi(document.activeElement)) {
+        return;
+      }
+      onTextSearchBlur?.();
+    }, 0);
   };
 
   const handleDraftChange = (field: FilterTabKey, value: string) => {

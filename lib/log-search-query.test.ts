@@ -1,10 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  clearSearchLog,
-  flushSearchLog,
-  logSearchNow,
-  stageSearchLog,
-} from '@/lib/log-search-query';
+import { clearSearchLog, flushSearchLog, stageSearchLog } from '@/lib/log-search-query';
 
 describe('log-search-query client helper', () => {
   const fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 200 }));
@@ -66,26 +61,6 @@ describe('log-search-query client helper', () => {
       query: 'helsinki',
       locale: 'fi',
       resultCount: 8,
-      source: 'modal',
-    });
-    flushSearchLog();
-
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(lastBody().query).toBe('helsinki');
-    expect(lastBody().resultCount).toBe(8);
-  });
-
-  it('logSearchNow supersedes pending text and sends the apply snapshot', () => {
-    stageSearchLog({
-      query: 'helsinki',
-      locale: 'fi',
-      resultCount: 10,
-      source: 'listing',
-    });
-    logSearchNow({
-      query: 'helsinki',
-      locale: 'fi',
-      resultCount: 3,
       source: 'listing',
       color: 'punainen',
     });
@@ -94,8 +69,8 @@ describe('log-search-query client helper', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(lastBody()).toMatchObject({
       query: 'helsinki',
+      resultCount: 8,
       color: 'punainen',
-      resultCount: 3,
       source: 'listing',
     });
   });
@@ -108,12 +83,6 @@ describe('log-search-query client helper', () => {
       source: 'listing',
     });
     flushSearchLog();
-    logSearchNow({
-      query: '',
-      locale: 'fi',
-      resultCount: 0,
-      source: 'listing',
-    });
 
     expect(fetchMock).not.toHaveBeenCalled();
   });

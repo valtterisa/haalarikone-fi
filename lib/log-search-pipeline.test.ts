@@ -1,12 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { POST } from '@/app/api/log-search/route';
-import {
-  clearSearchLog,
-  flushSearchLog,
-  logSearchNow,
-  stageSearchLog,
-} from '@/lib/log-search-query';
+import { clearSearchLog, flushSearchLog, stageSearchLog } from '@/lib/log-search-query';
 import {
   ensureDb,
   findLogByQuery,
@@ -49,7 +44,7 @@ describe.skipIf(!hasTursoDb)('search logging pipeline → Turso', () => {
     });
   });
 
-  it('logSearchNow supersedes pending and inserts filter snapshot once', async () => {
+  it('restaging before flush keeps a single final snapshot', async () => {
     const query = `__vitest_pipeline_${randomUUID()}`;
     stageSearchLog({
       query,
@@ -57,8 +52,7 @@ describe.skipIf(!hasTursoDb)('search logging pipeline → Turso', () => {
       resultCount: 12,
       source: 'listing',
     });
-
-    logSearchNow({
+    stageSearchLog({
       query,
       locale: 'fi',
       resultCount: 3,
@@ -66,12 +60,10 @@ describe.skipIf(!hasTursoDb)('search logging pipeline → Turso', () => {
       color: 'punainen',
     });
 
+    flushSearchLog();
     await vi.waitFor(async () => {
       expect(await findLogByQuery(query)).not.toBeNull();
     });
-
-    flushSearchLog();
-    await Promise.resolve();
 
     expect(await findLogByQuery(query)).toMatchObject({
       query,

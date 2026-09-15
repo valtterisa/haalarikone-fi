@@ -147,7 +147,7 @@ describe('useUniversitySearch search logging', () => {
     expect(lastBody().resultCount).toBe(1);
   });
 
-  it('Apply logs query + filters and blur does not double-insert', async () => {
+  it('apply updates staged filters and blur sends once', async () => {
     const { result } = renderHook(() =>
       useUniversitySearch({
         initialUniversities: universities,
@@ -156,6 +156,7 @@ describe('useUniversitySearch search logging', () => {
     );
 
     await settleTextSearch(result, 'helsinki');
+    expect(fetchMock).not.toHaveBeenCalled();
 
     await act(async () => {
       result.current.handleDraftAdvancedFilterChange({
@@ -169,17 +170,23 @@ describe('useUniversitySearch search logging', () => {
       result.current.handleApplyAdvancedFilters();
     });
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(lastBody()).toMatchObject({
-      query: 'helsinki',
-      color: 'punainen',
-      source: 'listing',
+    expect(fetchMock).not.toHaveBeenCalled();
+
+    await waitFor(() => {
+      expect(result.current.isSearching).toBe(false);
     });
 
     await act(async () => {
       result.current.handleSearchBlur();
     });
+
     expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(lastBody()).toMatchObject({
+      query: 'helsinki',
+      color: 'punainen',
+      source: 'listing',
+      resultCount: 1,
+    });
   });
 
   it('does not POST while typing before debounce', async () => {

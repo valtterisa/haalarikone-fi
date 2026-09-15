@@ -69,11 +69,3 @@ export function flushSearchLog(keepalive = false) {
   pending = null;
   send(payload, keepalive);
 }
-
-export function logSearchNow(payload: SearchLogPayload) {
-  pending = null;
-  const next = toPayload(payload);
-  if (!next) return;
-  attachUnloadListeners();
-  send(next, false);
-}
