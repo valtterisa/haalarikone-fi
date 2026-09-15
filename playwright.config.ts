@@ -1,8 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-import { loadProjectEnv } from './lib/test/load-project-env';
-
-const rootDir = process.cwd();
-const env = loadProjectEnv(rootDir);
+import 'dotenv/config';
 
 export default defineConfig({
   testDir: './e2e',
@@ -20,9 +17,5 @@ export default defineConfig({
     url: 'http://127.0.0.1:3000',
     reuseExistingServer: true,
     timeout: 120_000,
-    env: {
-      ...process.env,
-      ...env,
-    },
   },
 });

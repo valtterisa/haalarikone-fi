@@ -1,8 +1,6 @@
 import { createClient } from '@libsql/client/web';
 import { expect } from '@playwright/test';
-import { loadProjectEnv } from '../../lib/test/load-project-env';
-
-loadProjectEnv(process.cwd());
+import 'dotenv/config';
 
 const url = process.env.TURSO_DATABASE_URL;
 const token = process.env.TURSO_AUTH_TOKEN;
