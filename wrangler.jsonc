@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "student-overall-app",
+  "name": "haalarikone-fi",
   "compatibility_date": "2026-03-30",
   "main": ".open-next/worker.js",
 
