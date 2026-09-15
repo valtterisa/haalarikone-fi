@@ -2,7 +2,7 @@ import { createClient } from '@libsql/client/web';
 import { drizzle } from 'drizzle-orm/libsql/web';
 import * as schema from './schema';
 
-function createDb() {
+export function getDb() {
   const url = process.env.TURSO_DATABASE_URL;
   if (!url) return null;
 
@@ -15,15 +15,4 @@ function createDb() {
   });
 }
 
-type Db = ReturnType<typeof createDb>;
-
-let db: Db | undefined;
-
-export function getDb() {
-  if (db === undefined) db = createDb();
-  return db;
-}
-
-export function resetDb() {
-  db = undefined;
-}
+export function resetDb() {}

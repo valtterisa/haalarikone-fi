@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
+  serverExternalPackages: ['@libsql/isomorphic-ws'],
   experimental: {
     optimizePackageImports: ['@phosphor-icons/react', 'framer-motion'],
   },
