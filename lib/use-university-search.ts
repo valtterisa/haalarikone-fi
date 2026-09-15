@@ -12,7 +12,6 @@ import {
 } from '@/lib/university-filters';
 import type { University } from '@/types/university';
 import { trackSearchApply } from '@/lib/analytics-events';
-import { clearSearchLog, flushSearchLog, stageSearchLog } from '@/lib/log-search-query';
 import type { Locale } from '@/lib/slug-translations';
 
 const TEXT_SEARCH_DEBOUNCE_MS = 1000;
@@ -179,6 +178,7 @@ export function useUniversitySearch({
 
       if (debouncedTextSearch.trim().length >= 3) {
         try {
+          const criteria = criteriaRef.current;
           searchResults = await searchUniversitiesAPI(
             debouncedTextSearch.trim(),
             locale,
@@ -188,6 +188,13 @@ export function useUniversitySearch({
             },
             {
               waitForSemanticEnrichment: true,
+              log: {
+                source: 'listing',
+                color: criteria.color || null,
+                area: criteria.area || null,
+                field: criteria.field || null,
+                school: criteria.school || null,
+              },
             },
           );
         } catch (error) {
@@ -195,7 +202,37 @@ export function useUniversitySearch({
           searchResults = [];
         }
       } else {
-        searchResults = initialUniversities;
+        const criteria = criteriaRef.current;
+        const hasFilters = Boolean(
+          criteria.color || criteria.area || criteria.field || criteria.school,
+        );
+        if (hasFilters) {
+          try {
+            searchResults = await searchUniversitiesAPI('', locale, undefined, {
+              log: {
+                source: 'listing',
+                color: criteria.color || null,
+                area: criteria.area || null,
+                field: criteria.field || null,
+                school: criteria.school || null,
+              },
+            });
+          } catch (error) {
+            console.error('Search failed', error);
+            searchResults = filterUniversities(
+              initialUniversities,
+              {
+                color: criteria.color || undefined,
+                area: criteria.area || undefined,
+                field: criteria.field || undefined,
+                school: criteria.school || undefined,
+              },
+              colorData,
+            );
+          }
+        } else {
+          searchResults = initialUniversities;
+        }
       }
 
       if (searchRequestIdRef.current !== currentRequestId) {
@@ -203,30 +240,6 @@ export function useUniversitySearch({
       }
       setSearchSourceUniversities(searchResults);
       setHasSearched(true);
-
-      const criteria = criteriaRef.current;
-      const query = debouncedTextSearch.trim();
-      const normalizedQuery = query.length >= 3 ? query : '';
-      const filtered = filterUniversities(
-        searchResults,
-        {
-          color: criteria.color || undefined,
-          area: criteria.area || undefined,
-          field: criteria.field || undefined,
-          school: criteria.school || undefined,
-        },
-        colorData,
-      );
-      stageSearchLog({
-        query: normalizedQuery,
-        locale,
-        resultCount: filtered.length,
-        source: 'listing',
-        color: criteria.color || null,
-        area: criteria.area || null,
-        field: criteria.field || null,
-        school: criteria.school || null,
-      });
     } finally {
       if (searchRequestIdRef.current === currentRequestId) {
         setIsSearching(false);
@@ -247,7 +260,6 @@ export function useUniversitySearch({
     const hasTextSearchDebounced = debouncedTextSearch.trim().length >= 3;
 
     if (hasSearchedRef.current && !hasTextSearchLive && !hasFilters) {
-      clearSearchLog();
       if (showResultsByDefault) {
         setSearchSourceUniversities(sortedInitialUniversities);
       } else {
@@ -299,7 +311,6 @@ export function useUniversitySearch({
   }, []);
 
   const handleClearAll = useCallback(() => {
-    clearSearchLog();
     setSelectedCriteria({
       textSearch: '',
       ...EMPTY_ADVANCED_FILTERS,
@@ -379,12 +390,6 @@ export function useUniversitySearch({
     };
   }, [initialUniversities, matchesDraftFilters]);
 
-  useEffect(() => {
-    return () => {
-      flushSearchLog();
-    };
-  }, []);
-
   const lastSearchApplyKey = useRef('');
   useEffect(() => {
     if (!hasActiveQuery || isSearching) {
@@ -431,7 +436,6 @@ export function useUniversitySearch({
       colorData,
       handleTextSearchChange,
       handleDraftAdvancedFilterChange,
-      handleSearchBlur: flushSearchLog,
       handleApplyAdvancedFilters,
       handleClearAll,
       handleRemoveFilter,

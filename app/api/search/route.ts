@@ -5,16 +5,32 @@ import {
   buildDeterministicQueryUnderstanding,
   buildSearchResponse,
 } from '@/lib/build-search-response';
+import { insertSearchLog } from '@/lib/insert-search-log';
+import { filterUniversities } from '@/lib/university-filters';
 import { NextResponse } from 'next/server';
 
 const ALLOWED_LOCALES = new Set(['fi', 'en', 'sv']);
 const MAX_QUERY_LENGTH = 200;
 
+type SearchBody = {
+  query?: string;
+  locale?: 'fi' | 'en' | 'sv';
+  source?: 'modal' | 'listing';
+  color?: string | null;
+  area?: string | null;
+  field?: string | null;
+  school?: string | null;
+};
+
+function hasAdvancedFilters(body: SearchBody) {
+  return Boolean(body.color || body.area || body.field || body.school);
+}
+
 export async function POST(req: Request) {
-  let parsed: { query?: string; locale?: 'fi' | 'en' | 'sv' } = {};
+  let parsed: SearchBody = {};
 
   try {
-    parsed = (await req.json()) as typeof parsed;
+    parsed = (await req.json()) as SearchBody;
   } catch {
     // If body is missing or invalid JSON, fall back to empty query.
   }
@@ -22,8 +38,16 @@ export async function POST(req: Request) {
   const query = (parsed.query ?? '').trim();
   const rawLocale = parsed.locale ?? 'fi';
   const locale = ALLOWED_LOCALES.has(rawLocale) ? rawLocale : 'fi';
+  const source = parsed.source === 'modal' ? 'modal' : 'listing';
+  const filters = {
+    color: parsed.color || undefined,
+    area: parsed.area || undefined,
+    field: parsed.field || undefined,
+    school: parsed.school || undefined,
+  };
+  const withFilters = hasAdvancedFilters(parsed);
 
-  if (!query || query.length < 3) {
+  if ((!query || query.length < 3) && !withFilters) {
     return NextResponse.json({ results: [], totalCount: 0 });
   }
   if (query.length > MAX_QUERY_LENGTH) {
@@ -35,6 +59,22 @@ export async function POST(req: Request) {
       loadUniversities(locale),
       loadColorData(),
     ]);
+
+    if (query.length < 3) {
+      const filtered = filterUniversities(universities, filters, colorData);
+      void insertSearchLog({
+        query: '',
+        locale,
+        resultCount: filtered.length,
+        source,
+        color: parsed.color,
+        area: parsed.area,
+        field: parsed.field,
+        school: parsed.school,
+      }).catch(() => {});
+
+      return NextResponse.json({ results: filtered, totalCount: filtered.length });
+    }
 
     const deterministicQu = buildDeterministicQueryUnderstanding(query, universities, colorData);
     let body = buildSearchResponse(query, deterministicQu, universities, colorData);
@@ -50,6 +90,21 @@ export async function POST(req: Request) {
         console.error('AI fallback error:', error);
       }
     }
+
+    const resultCount = withFilters
+      ? filterUniversities(body.results, filters, colorData).length
+      : body.totalCount;
+
+    void insertSearchLog({
+      query,
+      locale,
+      resultCount,
+      source,
+      color: parsed.color,
+      area: parsed.area,
+      field: parsed.field,
+      school: parsed.school,
+    }).catch(() => {});
 
     return NextResponse.json(body);
   } catch (error) {

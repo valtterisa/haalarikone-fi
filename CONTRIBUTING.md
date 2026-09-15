@@ -267,10 +267,8 @@ pnpm test:e2e    # Playwright listing leave (local; needs TURSO_* + Chromium)
 - `app/api/search/route.test.ts` — text search API integration (real data, AI mocked)
 - `lib/university-filters.test.ts` — advanced filters integration (real data, including text ∩ filters)
 - `lib/reconcile-field-organization.test.ts` — unit tests for guild/field reconciliation
-- `lib/log-search-*.test.ts` / `app/api/log-search/route.test.ts` — search-log unit + mocked API
-- `lib/log-search-pipeline.test.ts` — local Turso: stage/flush → insert (skipped without `TURSO_DATABASE_URL`)
-- `lib/use-university-search.log.test.ts` — listing debounce/blur/Apply logging
-- `e2e/search-log-leave.spec.ts` — Playwright listing blur/pagehide → Turso (local only)
+- `lib/log-search-pipeline.test.ts` — local Turso: insertSearchLog → insert (skipped without Turso creds)
+- `e2e/search-log.spec.ts` — Playwright settled search → Turso (local only)
 
 ### CI
 

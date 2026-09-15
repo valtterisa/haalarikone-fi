@@ -14,11 +14,6 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { MagnifyingGlass as SearchIcon, X, CircleNotch, CaretRight } from '@phosphor-icons/react';
 import { searchUniversitiesAPI, type ClientSearchContext } from '@/lib/search-utils';
-import {
-  clearSearchLog,
-  flushSearchLog,
-  stageSearchLog,
-} from '@/lib/log-search-query';
 import { parseStyles } from '@/lib/utils';
 import type { University } from '@/types/university';
 import { useTranslations } from 'next-intl';
@@ -39,7 +34,6 @@ type SearchModalContextValue = {
   handleSelect: (uni: University) => void;
   handleColorClick: (color: string) => void;
   handleInstitutionClick: (institution: string) => void;
-  handleSearchBlur: () => void;
   groupedByColor: Map<string, { unis: University[]; hex: string | null }>;
   groupedByInstitution: Map<string, University[]>;
   placeholder: string;
@@ -81,7 +75,6 @@ export function SearchModalRoot({
 
   useEffect(() => {
     if (!open) {
-      flushSearchLog();
       setSearchQuery('');
       setResults([]);
       setShowAllHaalarit(false);
@@ -91,7 +84,6 @@ export function SearchModalRoot({
   useEffect(() => {
     if (searchQuery.trim().length < 3) {
       requestIdRef.current += 1;
-      clearSearchLog();
       setResults([]);
       setIsSearching(false);
       return;
@@ -108,17 +100,12 @@ export function SearchModalRoot({
             searchQuery.trim(),
             locale,
             clientSearchContext,
+            { log: { source: 'modal' } },
           );
           if (requestIdRef.current !== currentRequestId) {
             return;
           }
           setResults(searchResults);
-          stageSearchLog({
-            query: searchQuery.trim(),
-            locale,
-            resultCount: searchResults.length,
-            source: 'modal',
-          });
         } catch (error) {
           if (requestIdRef.current !== currentRequestId) {
             return;
@@ -197,7 +184,6 @@ export function SearchModalRoot({
         handleSelect,
         handleColorClick,
         handleInstitutionClick,
-        handleSearchBlur: flushSearchLog,
         groupedByColor,
         groupedByInstitution,
         placeholder,
@@ -251,8 +237,7 @@ export function SearchModalContent({ children }: { children?: ReactNode }) {
 export function SearchModalInput() {
   const t = useTranslations('search');
   const tCommon = useTranslations('common');
-  const { searchQuery, setSearchQuery, isSearching, setOpen, placeholder, handleSearchBlur } =
-    useSearchModal();
+  const { searchQuery, setSearchQuery, isSearching, setOpen, placeholder } = useSearchModal();
 
   return (
     <div className="border-b px-3 pb-3 pt-4 sm:px-6 sm:pb-6 sm:pt-8">
@@ -269,7 +254,6 @@ export function SearchModalInput() {
             spellCheck={false}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onBlur={handleSearchBlur}
             placeholder={placeholder}
             aria-label={placeholder}
             className="h-12 border-2 border-input bg-background pl-10 pr-24 text-base shadow-sm transition-shadow touch-manipulation hover:shadow-card focus-visible:ring-2 focus-visible:ring-green/30 sm:h-16 sm:pl-16 sm:pr-28 sm:text-lg"

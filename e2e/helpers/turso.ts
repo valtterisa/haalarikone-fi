@@ -14,16 +14,38 @@ function client() {
   return createClient({ url, authToken: token });
 }
 
-export async function waitForLogRow(query: string) {
+export async function waitForLogRow(args: {
+  query?: string;
+  color?: string | null;
+  source?: string;
+  sinceMs?: number;
+}) {
   const db = client();
   let row: Record<string, unknown> | undefined;
+  const since = args.sinceMs ?? 0;
 
   await expect
     .poll(
       async () => {
+        const clauses = ['created_at >= ?'];
+        const params: Array<string | number> = [since];
+        if (args.query !== undefined) {
+          clauses.push('query = ?');
+          params.push(args.query);
+        }
+        if (args.color === null) {
+          clauses.push('color IS NULL');
+        } else if (args.color !== undefined) {
+          clauses.push('color = ?');
+          params.push(args.color);
+        }
+        if (args.source !== undefined) {
+          clauses.push('source = ?');
+          params.push(args.source);
+        }
         const result = await db.execute({
-          sql: 'SELECT query, source, locale, result_count FROM search_queries WHERE query = ? LIMIT 1',
-          args: [query],
+          sql: `SELECT query, source, locale, result_count, color FROM search_queries WHERE ${clauses.join(' AND ')} ORDER BY created_at DESC LIMIT 1`,
+          args: params,
         });
         row = result.rows[0] as Record<string, unknown> | undefined;
         return row ?? null;

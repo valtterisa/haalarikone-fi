@@ -1,66 +1,38 @@
 import { randomUUID } from 'node:crypto';
+import { eq } from 'drizzle-orm';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { POST } from '@/app/api/log-search/route';
-import { clearSearchLog, flushSearchLog, stageSearchLog } from '@/lib/log-search-query';
+import { insertSearchLog } from '@/lib/insert-search-log';
+import { searchQueries } from '@/lib/db/schema';
 import {
   deleteLogByQuery,
   ensureDb,
   findLogByQuery,
   hasTursoDb,
-  wireFetchToLogSearchPost,
 } from '@/lib/test/turso-search-log';
 
-describe.skipIf(!hasTursoDb)('search logging pipeline → Turso', () => {
+describe.skipIf(!hasTursoDb)('search logging → Turso', () => {
   const createdQueries: string[] = [];
+  const createdSchools: string[] = [];
 
   beforeEach(() => {
-    clearSearchLog();
     ensureDb();
-    wireFetchToLogSearchPost(POST);
   });
 
   afterEach(async () => {
-    clearSearchLog();
     for (const query of createdQueries.splice(0)) {
       await deleteLogByQuery(query);
     }
-    vi.unstubAllGlobals();
+    const db = ensureDb();
+    for (const school of createdSchools.splice(0)) {
+      await db.delete(searchQueries).where(eq(searchQueries.school, school));
+    }
   });
 
-  it('flush after stage inserts one Turso row', async () => {
-    const query = `__vitest_pipeline_${randomUUID()}`;
+  it('insertSearchLog writes one Turso row', async () => {
+    const query = `__vitest_search_log_${randomUUID()}`;
     createdQueries.push(query);
-    stageSearchLog({
-      query,
-      locale: 'fi',
-      resultCount: 12,
-      source: 'listing',
-    });
 
-    flushSearchLog();
-    await vi.waitFor(async () => {
-      expect(await findLogByQuery(query)).not.toBeNull();
-    });
-
-    expect(await findLogByQuery(query)).toMatchObject({
-      query,
-      locale: 'fi',
-      resultCount: 12,
-      source: 'listing',
-      color: null,
-    });
-  });
-
-  it('restaging before flush keeps a single final snapshot', async () => {
-    const query = `__vitest_pipeline_${randomUUID()}`;
-    createdQueries.push(query);
-    stageSearchLog({
-      query,
-      locale: 'fi',
-      resultCount: 12,
-      source: 'listing',
-    });
-    stageSearchLog({
+    await insertSearchLog({
       query,
       locale: 'fi',
       resultCount: 3,
@@ -68,16 +40,40 @@ describe.skipIf(!hasTursoDb)('search logging pipeline → Turso', () => {
       color: 'punainen',
     });
 
-    flushSearchLog();
     await vi.waitFor(async () => {
       expect(await findLogByQuery(query)).not.toBeNull();
     });
 
     expect(await findLogByQuery(query)).toMatchObject({
       query,
-      color: 'punainen',
+      locale: 'fi',
       resultCount: 3,
       source: 'listing',
+      color: 'punainen',
+    });
+  });
+
+  it('insertSearchLog writes filter-only rows with empty query', async () => {
+    const school = `__vitest_filter_${randomUUID()}`;
+    createdSchools.push(school);
+
+    await insertSearchLog({
+      query: '',
+      locale: 'fi',
+      resultCount: 2,
+      source: 'listing',
+      school,
+    });
+
+    await vi.waitFor(async () => {
+      const db = ensureDb();
+      const rows = await db.select().from(searchQueries).where(eq(searchQueries.school, school));
+      expect(rows[0] ?? null).toMatchObject({
+        query: '',
+        school,
+        resultCount: 2,
+        source: 'listing',
+      });
     });
   });
 });

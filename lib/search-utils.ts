@@ -23,10 +23,23 @@ export type ClientSearchContext = {
   colorData: ColorData;
 };
 
+export type SearchLogMeta = {
+  source: 'modal' | 'listing';
+  color?: string | null;
+  area?: string | null;
+  field?: string | null;
+  school?: string | null;
+};
+
 export type SearchOptions = {
   onSemanticEnrichment?: (results: University[]) => void;
   waitForSemanticEnrichment?: boolean;
+  log?: SearchLogMeta;
 };
+
+function hasLogFilters(log?: SearchLogMeta) {
+  return Boolean(log?.color || log?.area || log?.field || log?.school);
+}
 
 export async function searchUniversitiesAPI(
   query: string,
@@ -34,15 +47,18 @@ export async function searchUniversitiesAPI(
   clientContext?: ClientSearchContext,
   options?: SearchOptions,
 ): Promise<University[]> {
-  if (!query || query.trim().length < 3) {
-    return [];
+  const trimmed = query.trim();
+  const hasText = trimmed.length >= 3;
+
+  if (!hasText) {
+    if (!hasLogFilters(options?.log)) return [];
+    return fetchApiResults('', locale, options?.log);
   }
 
-  const trimmed = query.trim();
   if (clientContext) {
     const localResults = searchLocalHybrid(trimmed, clientContext);
     if (options?.waitForSemanticEnrichment) {
-      const apiResults = await fetchApiResults(trimmed, locale);
+      const apiResults = await fetchApiResults(trimmed, locale, options.log);
       const merged = mergePreferLocal(localResults, apiResults);
       if (merged.length > 0) {
         options.onSemanticEnrichment?.(merged);
@@ -50,19 +66,18 @@ export async function searchUniversitiesAPI(
       return merged;
     }
 
-    if (options?.onSemanticEnrichment) {
-      void fetchApiResults(trimmed, locale).then((apiResults) => {
-        const merged = mergePreferLocal(localResults, apiResults);
-        if (merged.length > 0) {
-          options.onSemanticEnrichment?.(merged);
-        }
-      });
-    }
+    void fetchApiResults(trimmed, locale, options?.log).then((apiResults) => {
+      if (!options?.onSemanticEnrichment) return;
+      const merged = mergePreferLocal(localResults, apiResults);
+      if (merged.length > 0) {
+        options.onSemanticEnrichment(merged);
+      }
+    });
 
     return localResults;
   }
 
-  return fetchApiResults(trimmed, locale);
+  return fetchApiResults(trimmed, locale, options?.log);
 }
 
 function searchLocalHybrid(query: string, clientContext: ClientSearchContext): University[] {
@@ -87,12 +102,24 @@ function mergePreferLocal(localResults: University[], apiResults: University[]):
   return Array.from(mergedById.values());
 }
 
-async function fetchApiResults(query: string, locale: 'fi' | 'en' | 'sv'): Promise<University[]> {
+async function fetchApiResults(
+  query: string,
+  locale: 'fi' | 'en' | 'sv',
+  log?: SearchLogMeta,
+): Promise<University[]> {
   try {
     const res = await fetch('/api/search', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query, locale }),
+      body: JSON.stringify({
+        query,
+        locale,
+        source: log?.source ?? 'listing',
+        color: log?.color ?? null,
+        area: log?.area ?? null,
+        field: log?.field ?? null,
+        school: log?.school ?? null,
+      }),
     });
 
     if (!res.ok) {

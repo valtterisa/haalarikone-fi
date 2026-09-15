@@ -157,21 +157,19 @@ npx wrangler secret put TURSO_DATABASE_URL
 npx wrangler secret put TURSO_AUTH_TOKEN
 ```
 
-Logging is fire-and-forget (`POST /api/log-search`). Missing env or insert failures are silent and never affect search UX.
+Logging runs server-side inside `POST /api/search` (fire-and-forget insert). Missing env or insert failures are silent and never affect search UX.
 
 ## Testing
 
-Primary suite is **Vitest** (search + filters + search-log). Turso pipeline + Playwright listing leave are **local-only** (same `TURSO_*` as the app; skip if unset; not in CI).
+Primary suite is **Vitest** (search + filters + search-log). Turso pipeline + Playwright search-log are **local-only** (same `TURSO_*` as the app; skip if unset; not in CI).
 
 | Suite | Role |
 |-------|------|
 | `app/api/search/route.test.ts` | Text search API integration (AI mocked) |
 | `lib/university-filters.test.ts` | Advanced filters (+ text ∩ filters) |
 | `lib/reconcile-field-organization.test.ts` | Guild vs field reconcile unit tests |
-| `lib/log-search-*.test.ts` + `app/api/log-search/route.test.ts` | Search-log helpers + mocked API |
-| `lib/log-search-pipeline.test.ts` | Local: stage/flush → Turso |
-| `lib/use-university-search.log.test.ts` | Listing debounce/blur/Apply logging |
-| `e2e/search-log-leave.spec.ts` | Local Playwright: listing blur/pagehide → Turso |
+| `lib/log-search-pipeline.test.ts` | Local: insertSearchLog → Turso |
+| `e2e/search-log.spec.ts` | Local Playwright: settled search → Turso |
 
 ```bash
 pnpm test

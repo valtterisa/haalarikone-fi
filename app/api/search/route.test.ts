@@ -3,10 +3,15 @@ import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 const hoisted = vi.hoisted(() => ({
   understandQueryWithAIMock: vi.fn(),
   loadUniversitiesMock: vi.fn(),
+  insertSearchLogMock: vi.fn().mockResolvedValue(undefined),
 }));
 
 vi.mock('@/lib/query-understanding', () => ({
   understandQueryWithAI: hoisted.understandQueryWithAIMock,
+}));
+
+vi.mock('@/lib/insert-search-log', () => ({
+  insertSearchLog: (...args: unknown[]) => hoisted.insertSearchLogMock(...args),
 }));
 
 vi.mock('@/lib/load-universities', async () => {
@@ -38,6 +43,7 @@ describe('search API integration', () => {
   beforeEach(() => {
     hoisted.understandQueryWithAIMock.mockReset();
     hoisted.loadUniversitiesMock.mockReset();
+    hoisted.insertSearchLogMock.mockClear();
     hoisted.understandQueryWithAIMock.mockResolvedValue({
       isGibberish: false,
       filters: {},
@@ -67,6 +73,51 @@ describe('search API integration', () => {
     expect(
       body.results.every((uni: { alue: string }) => uni.alue.toLowerCase().includes('helsinki')),
     ).toBe(true);
+    expect(hoisted.understandQueryWithAIMock).not.toHaveBeenCalled();
+    expect(hoisted.insertSearchLogMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        query: 'Helsinki',
+        locale: 'fi',
+        source: 'listing',
+        resultCount: body.totalCount,
+      }),
+    );
+  });
+
+  it('still returns search results when insertSearchLog rejects', async () => {
+    hoisted.insertSearchLogMock.mockRejectedValueOnce(new Error('turso down'));
+    const { res, body } = await runSearch('Helsinki');
+    expect(res.status).toBe(200);
+    expect(body.results.length).toBeGreaterThan(0);
+    expect(body.totalCount).toBe(body.results.length);
+  });
+
+  it('logs filter-only searches without text', async () => {
+    const req = new Request('http://localhost/api/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: '',
+        locale: 'fi',
+        source: 'listing',
+        color: 'punainen',
+      }),
+    });
+    const res = await POST(req);
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(body.results.length).toBeGreaterThan(0);
+    expect(body.totalCount).toBe(body.results.length);
+    expect(hoisted.insertSearchLogMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        query: '',
+        locale: 'fi',
+        source: 'listing',
+        color: 'punainen',
+        resultCount: body.totalCount,
+      }),
+    );
     expect(hoisted.understandQueryWithAIMock).not.toHaveBeenCalled();
   });
 
