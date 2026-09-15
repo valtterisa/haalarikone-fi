@@ -73,7 +73,7 @@
   },
   "legal": {
     "updatedLabel": "Gäller från",
-    "updatedDate": "17 augusti 2026",
+    "updatedDate": "15 september 2026",
     "privacy": {
       "title": "Integritetspolicy",
       "pageTitle": "Integritetspolicy | Haalarikone",
@@ -106,7 +106,7 @@
             },
             {
               "name": "Sök",
-              "detail": "Sökfrågan behandlas på servern mot det lokala datasetet. Om lokal sök inte ger träffar kan frågan skickas till Anthropic (Claude) för att tolka avsikten. Haalarikone lagrar inte sökfrågor i en egen databas."
+              "detail": "Sökfrågan behandlas på servern mot det lokala datasetet. Om lokal sök inte ger träffar kan frågan skickas till Anthropic (Claude) för att tolka avsikten. Vi lagrar söktexten (och eventuella sökfilter) anonymt i vår egen databas för att förbättra sökningen och katalogens underliggande data. Loggrader kopplas inte till användarkonto, IP-adress eller annan identifierare som skulle låta oss känna igen dig."
             },
             {
               "name": "Tema",
@@ -130,7 +130,7 @@
             },
             {
               "name": "Sök och AI",
-              "detail": "Berättigat intresse (6.1 f): erbjuda fungerande sök. AI används bara när lokal sök inte ger träffar."
+              "detail": "Berättigat intresse (6.1 f): erbjuda fungerande sök och förbättra datasetet med anonyma sökloggar. AI används bara när lokal sök inte ger träffar."
             },
             {
               "name": "Hosting och säkerhet",
@@ -165,6 +165,10 @@
             {
               "name": "Anthropic",
               "detail": "Tolkning av sökfrågan bara när lokal sök inte ger träffar. Integritet: https://www.anthropic.com/privacy"
+            },
+            {
+              "name": "Turso (ChiselStrike, Inc.)",
+              "detail": "Lagring av anonyma sökloggar (libSQL). Integritet: https://turso.tech/privacy"
             }
           ]
         },
@@ -179,7 +183,7 @@
           "title": "7. Lagringstid",
           "paragraphs": [
             "Feedback sparas så länge hanteringen kräver och raderas vanligtvis inom 12 månader, om inte samtalet fortsätter eller lagen kräver längre lagring.",
-            "Analysdata sparas aggregerat enligt Databuddys praxis. Sökfrågor lagras inte i Haalarikones egen databas. Temavalet stannar på din enhet tills du rensar webbplatsdata."
+            "Analysdata sparas aggregerat enligt Databuddys praxis. Anonyma sökloggar sparas så länge de behövs för att förbättra sök och katalogen, och granskas utan att identifiera användare. Temavalet stannar på din enhet tills du rensar webbplatsdata."
           ]
         },
         {
@@ -192,14 +196,14 @@
         {
           "title": "9. Säkerhet",
           "paragraphs": [
-            "Anslutningar skyddas med TLS. Tillgång till feedback är begränsad till den personuppgiftsansvariga. Feedbackformuläret har ett honeypot-fält mot skräppost. Vi samlar inte in betal- eller inloggningsuppgifter eftersom det inte finns konton."
+            "Anslutningar skyddas med TLS. Tillgång till feedback och sökloggar är begränsad till den personuppgiftsansvariga. Feedbackformuläret har ett honeypot-fält mot skräppost. Vi samlar inte in betal- eller inloggningsuppgifter eftersom det inte finns konton."
           ]
         },
         {
           "title": "10. Dina rättigheter",
           "paragraphs": [
             "Enligt GDPR kan du begära tillgång, rättelse, radering, begränsning, dataportabilitet och invända mot behandling som bygger på berättigat intresse. Samtycke för valfri e-post kan du återkalla när som helst.",
-            "Eftersom analysen är anonymiserad kan vi inte peka ut en enskild besökare i analysdata. För feedback kan vi hantera en begäran om meddelandet eller e-posten räcker för att hitta den.",
+            "Eftersom analys och sökloggar saknar användaridentifierare kan vi inte peka ut en enskild besökare från dem. För feedback kan vi hantera en begäran om meddelandet eller e-posten räcker för att hitta den.",
             "Skicka begäran till savonen.emppu@gmail.com. Vi svarar utan onödigt dröjsmål, senast inom en månad."
           ]
         },

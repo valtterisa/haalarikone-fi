@@ -8,11 +8,11 @@ const url = process.env.TURSO_DATABASE_URL;
 const token = process.env.TURSO_AUTH_TOKEN;
 
 export function hasTursoDb() {
-  return Boolean(url);
+  return Boolean(url && token);
 }
 
 function client() {
-  if (!url) throw new Error('TURSO_DATABASE_URL required');
+  if (!url || !token) throw new Error('TURSO_DATABASE_URL and TURSO_AUTH_TOKEN required');
   return createClient({ url, authToken: token });
 }
 

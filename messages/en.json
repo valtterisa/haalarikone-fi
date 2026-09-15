@@ -73,7 +73,7 @@
   },
   "legal": {
     "updatedLabel": "Effective",
-    "updatedDate": "17 August 2026",
+    "updatedDate": "15 September 2026",
     "privacy": {
       "title": "Privacy notice",
       "pageTitle": "Privacy notice | Haalarikone",
@@ -106,7 +106,7 @@
             },
             {
               "name": "Search",
-              "detail": "Search queries are processed on the server against the local dataset. If local search returns no results, the query may be sent to Anthropic (Claude) to interpret intent. Haalarikone does not store search queries in its own database."
+              "detail": "Search queries are processed on the server against the local dataset. If local search returns no results, the query may be sent to Anthropic (Claude) to interpret intent. We store the search text (and any search filters) anonymously in our own database to improve search and the underlying directory data. Log rows are not linked to a user account, IP address, or other identifier that would let us recognise you."
             },
             {
               "name": "Theme",
@@ -130,7 +130,7 @@
             },
             {
               "name": "Search and AI",
-              "detail": "Legitimate interest (6(1)(f)): provide working search. AI is used only when local search returns no results."
+              "detail": "Legitimate interest (6(1)(f)): provide working search and improve the dataset using anonymous search logs. AI is used only when local search returns no results."
             },
             {
               "name": "Hosting and security",
@@ -165,6 +165,10 @@
             {
               "name": "Anthropic",
               "detail": "Query interpretation only when local search returns no results. Privacy: https://www.anthropic.com/privacy"
+            },
+            {
+              "name": "Turso (ChiselStrike, Inc.)",
+              "detail": "Storage of anonymous search logs (libSQL). Privacy: https://turso.tech/privacy"
             }
           ]
         },
@@ -179,7 +183,7 @@
           "title": "7. Retention",
           "paragraphs": [
             "Feedback is kept for as long as handling it requires, and is usually deleted within 12 months unless the conversation continues or law requires longer retention.",
-            "Analytics is retained in aggregated form under Databuddy's policy. Search queries are not stored in Haalarikone's own database. Theme preference stays on your device until you clear site data."
+            "Analytics is retained in aggregated form under Databuddy's policy. Anonymous search logs are kept for as long as they are needed to improve search and the directory, and they are reviewed without identifying users. Theme preference stays on your device until you clear site data."
           ]
         },
         {
@@ -192,14 +196,14 @@
         {
           "title": "9. Security",
           "paragraphs": [
-            "Connections are protected with TLS. Access to feedback is limited to the controller. The feedback form includes a honeypot field to reduce spam. We do not collect payment or login data because there are no accounts."
+            "Connections are protected with TLS. Access to feedback and search logs is limited to the controller. The feedback form includes a honeypot field to reduce spam. We do not collect payment or login data because there are no accounts."
           ]
         },
         {
           "title": "10. Your rights",
           "paragraphs": [
             "Under the GDPR you may request access, rectification, erasure, restriction, data portability, and object to processing based on legitimate interest. You can withdraw consent for an optional email at any time.",
-            "Because analytics is anonymised, we cannot identify one visitor in analytics data. For feedback we can act on a request if the message or email is enough to find it.",
+            "Because analytics and search logs do not include user identifiers, we cannot identify one visitor from them. For feedback we can act on a request if the message or email is enough to find it.",
             "Send requests to savonen.emppu@gmail.com. We will reply without undue delay, and within one month at the latest."
           ]
         },

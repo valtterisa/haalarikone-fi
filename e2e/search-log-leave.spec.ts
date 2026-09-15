@@ -5,7 +5,7 @@ import { hasTursoDb, waitForLogRow } from './helpers/turso';
 const enabled = hasTursoDb();
 
 test.describe('search log listing (browser)', () => {
-  test.skip(!enabled, 'TURSO_DATABASE_URL not set');
+  test.skip(!enabled, 'TURSO_DATABASE_URL and TURSO_AUTH_TOKEN required');
 
   test.beforeEach(async ({ page }) => {
     await page.route('**/api/search', async (route) => {

@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { POST } from '@/app/api/log-search/route';
 import { clearSearchLog, flushSearchLog, stageSearchLog } from '@/lib/log-search-query';
 import {
+  deleteLogByQuery,
   ensureDb,
   findLogByQuery,
   hasTursoDb,
@@ -10,19 +11,25 @@ import {
 } from '@/lib/test/turso-search-log';
 
 describe.skipIf(!hasTursoDb)('search logging pipeline → Turso', () => {
+  const createdQueries: string[] = [];
+
   beforeEach(() => {
     clearSearchLog();
     ensureDb();
     wireFetchToLogSearchPost(POST);
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     clearSearchLog();
+    for (const query of createdQueries.splice(0)) {
+      await deleteLogByQuery(query);
+    }
     vi.unstubAllGlobals();
   });
 
   it('flush after stage inserts one Turso row', async () => {
     const query = `__vitest_pipeline_${randomUUID()}`;
+    createdQueries.push(query);
     stageSearchLog({
       query,
       locale: 'fi',
@@ -46,6 +53,7 @@ describe.skipIf(!hasTursoDb)('search logging pipeline → Turso', () => {
 
   it('restaging before flush keeps a single final snapshot', async () => {
     const query = `__vitest_pipeline_${randomUUID()}`;
+    createdQueries.push(query);
     stageSearchLog({
       query,
       locale: 'fi',

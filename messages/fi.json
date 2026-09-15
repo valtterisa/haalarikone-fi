@@ -73,7 +73,7 @@
   },
   "legal": {
     "updatedLabel": "Voimaantulo",
-    "updatedDate": "17.8.2026",
+    "updatedDate": "15.9.2026",
     "privacy": {
       "title": "Tietosuojaseloste",
       "pageTitle": "Tietosuojaseloste | Haalarikone",
@@ -106,7 +106,7 @@
             },
             {
               "name": "Haku",
-              "detail": "Hakulause käsitellään palvelimella paikallisesta aineistosta. Jos paikallinen haku ei tuota tuloksia, hakulause voidaan lähettää Anthropicin tekoälypalveluun (Claude) hakuaikeen tulkitsemiseksi. Haalarikone ei tallenna hakulauseita omaan tietokantaan."
+              "detail": "Hakulause käsitellään palvelimella paikallisesta aineistosta. Jos paikallinen haku ei tuota tuloksia, hakulause voidaan lähettää Anthropicin tekoälypalveluun (Claude) hakuaikeen tulkitsemiseksi. Tallennamme hakulauseen (ja mahdolliset hakusuodattimet) anonyymisti omaan tietokantaamme parantaaksemme hakua ja hakemiston sisältöä. Lokiriviä ei yhdistetä käyttäjätiliin, IP-osoitteeseen tai muuhun tunnisteeseen, jolla sinut voisi tunnistaa."
             },
             {
               "name": "Teema",
@@ -130,7 +130,7 @@
             },
             {
               "name": "Haku ja tekoäly",
-              "detail": "Oikeutettu etu (6(1)(f)): tarjota toimiva haku. Tekoälyä käytetään vain, kun paikallinen haku ei tuota tuloksia."
+              "detail": "Oikeutettu etu (6(1)(f)): tarjota toimiva haku ja parantaa aineistoa anonyymien hakulokien perusteella. Tekoälyä käytetään vain, kun paikallinen haku ei tuota tuloksia."
             },
             {
               "name": "Hosting ja tietoturva",
@@ -165,6 +165,10 @@
             {
               "name": "Anthropic",
               "detail": "Hakulauseen tulkinta vain, kun paikallinen haku ei tuota tuloksia. Tietosuoja: https://www.anthropic.com/privacy"
+            },
+            {
+              "name": "Turso (ChiselStrike, Inc.)",
+              "detail": "Anonyymien hakulokien tallennus (libSQL). Tietosuoja: https://turso.tech/privacy"
             }
           ]
         },
@@ -179,7 +183,7 @@
           "title": "7. Säilytysajat",
           "paragraphs": [
             "Palaute säilytetään niin kauan kuin sen käsittely vaatii, ja poistetaan yleensä 12 kuukauden kuluessa, ellei keskustelu jatku tai laki edellytä pidempää säilytystä.",
-            "Analytiikka säilyy aggregoituna Databuddyn käytännön mukaan. Hakulauseita ei tallenneta Haalarikoneen omaan tietokantaan. Teemavalinta säilyy laitteellasi, kunnes tyhjennät sivuston tiedot."
+            "Analytiikka säilyy aggregoituna Databuddyn käytännön mukaan. Anonyymit hakulokit säilytetään niin kauan kuin niitä tarvitaan haun ja hakemiston parantamiseen, ja niitä tarkastellaan ilman käyttäjän tunnistamista. Teemavalinta säilyy laitteellasi, kunnes tyhjennät sivuston tiedot."
           ]
         },
         {
@@ -192,14 +196,14 @@
         {
           "title": "9. Tietoturva",
           "paragraphs": [
-            "Yhteydet suojataan TLS-salauksella. Pääsy palautteeseen on rajattu rekisterinpitäjälle. Palautelomakkeessa on honeypot-kenttä roskapostin vähentämiseksi. Emme kerää maksu- tai tunnistautumistietoja, koska tilejä ei ole."
+            "Yhteydet suojataan TLS-salauksella. Pääsy palautteeseen ja hakulokeihin on rajattu rekisterinpitäjälle. Palautelomakkeessa on honeypot-kenttä roskapostin vähentämiseksi. Emme kerää maksu- tai tunnistautumistietoja, koska tilejä ei ole."
           ]
         },
         {
           "title": "10. Rekisteröidyn oikeudet",
           "paragraphs": [
             "Sinulla on GDPR:n mukainen oikeus pyytää pääsy tietoihin, oikaisu, poistaminen, käsittelyn rajoittaminen, tietojen siirto ja vastustaa käsittelyä, joka perustuu oikeutettuun etuun. Suostumuksen (vapaaehtoinen sähköposti) voit perua milloin tahansa.",
-            "Koska analytiikka on anonymisoitua, emme voi yksilöidä yhtä kävijää analytiikasta. Palautteen osalta voimme käsitellä pyynnön, jos viesti tai sähköposti riittää tunnistamaan sen.",
+            "Koska analytiikka ja hakulokit eivät sisällä käyttäjätunnisteita, emme voi yksilöidä yhtä kävijää niistä. Palautteen osalta voimme käsitellä pyynnön, jos viesti tai sähköposti riittää tunnistamaan sen.",
             "Lähetä pyyntö osoitteeseen savonen.emppu@gmail.com. Vastaamme ilman aiheetonta viivytystä, viimeistään kuukauden kuluessa."
           ]
         },
