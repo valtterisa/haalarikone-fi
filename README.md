@@ -25,6 +25,7 @@ Live analytics: https://app.databuddy.cc/public/Uu3N9TuBuUAa3wAS4pHNw
 - **Styling:** Tailwind CSS with Radix UI components (Shadcn/ui)
 - **Internationalization:** next-intl (Finnish, English, Swedish)
 - **Search:** Deterministic in-memory filtering + fuzzy ranking, with AI fallback only on zero-result deterministic queries
+- **Search logging:** Turso (libSQL) + Drizzle ORM
 - **AI/ML:** Vercel AI SDK with Anthropic Claude 3 Haiku (zero-result fallback only)
 - **Email:** Resend (for feedback forms)
 - **Analytics:** Databuddy
@@ -138,22 +139,47 @@ flowchart TD
 - **Natural Color Queries:** Finnish singular/plural color forms match reliably.
 - **Fast Runtime:** Local in-memory filtering + fuzzy ranking avoids network/model latency on common paths.
 
+## Search query logging (Turso)
+
+Completed search intents are stored in Turso (libSQL) via Drizzle. Each row is a full criteria snapshot: text query plus optional advanced filters.
+
+**Env vars** (local `.env` / `.env.local`, and Cloudflare Worker secrets):
+
+- `TURSO_DATABASE_URL` — Turso database URL
+- `TURSO_AUTH_TOKEN` — Turso auth token
+
+```bash
+# apply schema to Turso
+pnpm db:push
+
+# Cloudflare production secrets
+npx wrangler secret put TURSO_DATABASE_URL
+npx wrangler secret put TURSO_AUTH_TOKEN
+```
+
+Logging is fire-and-forget (`POST /api/log-search`). Missing env or insert failures are silent and never affect search UX.
+
 ## Testing
 
-Automated tests use **Vitest only** (no Playwright / React Testing Library). Coverage is search-first and runs against the real `data/overall_data.json` dataset.
+Primary suite is **Vitest** (search + filters + search-log). Turso pipeline + Playwright listing leave are **local-only** (same `TURSO_*` as the app; skip if unset; not in CI).
 
 | Suite | Role |
 |-------|------|
 | `app/api/search/route.test.ts` | Text search API integration (AI mocked) |
 | `lib/university-filters.test.ts` | Advanced filters (+ text ∩ filters) |
 | `lib/reconcile-field-organization.test.ts` | Guild vs field reconcile unit tests |
+| `lib/log-search-*.test.ts` + `app/api/log-search/route.test.ts` | Search-log helpers + mocked API |
+| `lib/log-search-pipeline.test.ts` | Local: stage/flush → Turso |
+| `lib/use-university-search.log.test.ts` | Listing debounce/blur/Apply logging |
+| `e2e/search-log-leave.spec.ts` | Local Playwright: listing blur/pagehide → Turso |
 
 ```bash
 pnpm test
 pnpm test:watch
+pnpm test:e2e   # local; needs TURSO_* + Chromium (`pnpm exec playwright install chromium`)
 ```
 
-Non-draft pull requests run `pnpm test` in GitHub Actions. Full policy and when to add tests: [CONTRIBUTING.md](./CONTRIBUTING.md#testing).
+Full policy: [CONTRIBUTING.md](./CONTRIBUTING.md#testing).
 
 ## Contributing
 

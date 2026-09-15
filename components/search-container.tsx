@@ -75,6 +75,7 @@ export function SearchContainerRoot({
 export function SearchContainerForm() {
   const {
     handleTextSearchChange,
+    handleSearchBlur,
     handleDraftAdvancedFilterChange,
     handleApplyAdvancedFilters,
     handleClearAll,
@@ -92,6 +93,7 @@ export function SearchContainerForm() {
   return (
     <SearchForm
       onTextSearchChange={handleTextSearchChange}
+      onTextSearchBlur={handleSearchBlur}
       onDraftAdvancedFilterChange={handleDraftAdvancedFilterChange}
       onApplyAdvancedFilters={handleApplyAdvancedFilters}
       onClearAll={handleClearAll}

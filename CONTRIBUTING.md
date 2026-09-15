@@ -243,19 +243,23 @@ docs: clarify environment setup
 
 ## Testing
 
-Haalarikone uses **Vitest** for automated tests. Almost all coverage is search-focused (text search + advanced filters) against the real `data/overall_data.json` dataset. AI is mocked in API tests so CI does not need Anthropic credentials.
+Haalarikone uses **Vitest** as the primary test runner. Search-log listing wiring uses jsdom + Testing Library. Turso pipeline and Playwright listing leave are **local-only** (not in CI).
+
+AI is mocked in search API tests so CI does not need Anthropic credentials. Turso-backed suites **skip** unless `TURSO_DATABASE_URL` is set locally (same env as the app).
 
 ### When to add tests
 
 - Changing **search** or **advanced filters** → update the search integration suites
+- Changing **search logging** → update Vitest log suites; run pipeline + `pnpm test:e2e` locally if leave/flush behavior changed
 - Changing the **reconcile** (guild vs field) helper → update its unit test
 - Otherwise → no new automated tests by default
 
 ### Commands
 
 ```bash
-pnpm test        # Run the full suite once
-pnpm test:watch  # Watch mode during development
+pnpm test        # Vitest once
+pnpm test:watch  # Vitest watch
+pnpm test:e2e    # Playwright listing leave (local; needs TURSO_* + Chromium)
 ```
 
 ### Suite layout
@@ -263,10 +267,14 @@ pnpm test:watch  # Watch mode during development
 - `app/api/search/route.test.ts` — text search API integration (real data, AI mocked)
 - `lib/university-filters.test.ts` — advanced filters integration (real data, including text ∩ filters)
 - `lib/reconcile-field-organization.test.ts` — unit tests for guild/field reconciliation
+- `lib/log-search-*.test.ts` / `app/api/log-search/route.test.ts` — search-log unit + mocked API
+- `lib/log-search-pipeline.test.ts` — local Turso: stage/flush → insert (skipped without `TURSO_DATABASE_URL`)
+- `lib/use-university-search.log.test.ts` — listing debounce/blur/Apply logging
+- `e2e/search-log-leave.spec.ts` — Playwright listing blur/pagehide → Turso (local only)
 
 ### CI
 
-Non-draft pull requests run `pnpm test` via GitHub Actions (on open, push, reopen, and when a draft is marked ready for review). Draft PRs skip CI. The Test workflow must pass before merge.
+Non-draft pull requests run `pnpm test` via GitHub Actions (no Turso / Playwright). Draft PRs skip CI. The Test workflow must pass before merge.
 
 ## Pull Request Process
 

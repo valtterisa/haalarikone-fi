@@ -130,10 +130,11 @@ function rankCandidates(
   }
 
   const queryTokens = tokenize(query);
-  const baseCandidates =
-    !keepAllCandidates && fuzzyResults.length > 0
-      ? fuzzyResults.map((item) => item.university)
-      : candidates;
+  const baseCandidates = keepAllCandidates
+    ? candidates
+    : fuzzyResults.map((item) => item.university);
+
+  if (baseCandidates.length === 0) return [];
 
   return [...baseCandidates].sort((a, b) => {
     const aOrgExact = hasExactOrganizationTokenMatch(a, queryTokens);

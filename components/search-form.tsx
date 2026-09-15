@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, useMemo, type Ref } from 'react';
+import { useState, useRef, useEffect, useMemo, type FocusEvent, type Ref } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
@@ -45,6 +45,7 @@ import {
 
 interface SearchFormProps {
   onTextSearchChange: (textSearch: string) => void;
+  onTextSearchBlur?: () => void;
   onDraftAdvancedFilterChange: (filters: AdvancedFilters) => void;
   onApplyAdvancedFilters: () => void;
   onClearAll: () => void;
@@ -189,6 +190,7 @@ function SearchFilterPanel({
 
 export function SearchFormRoot({
   onTextSearchChange,
+  onTextSearchBlur,
   onDraftAdvancedFilterChange,
   onApplyAdvancedFilters,
   onClearAll,
@@ -205,6 +207,7 @@ export function SearchFormRoot({
   const t = useTranslations('search');
   const locale = useLocale() as Locale;
   const reduceMotion = useReducedMotion();
+  const formRootRef = useRef<HTMLDivElement>(null);
 
   const translateEntity = (
     value: string,
@@ -287,6 +290,26 @@ export function SearchFormRoot({
   const handleTextSearchChange = (value: string) => {
     setLocalSearchValue(value);
     onTextSearchChange(value);
+  };
+
+  const handleTextSearchBlur = (event: FocusEvent<HTMLInputElement>) => {
+    const isInsideSearchUi = (node: EventTarget | null) => {
+      if (!(node instanceof Node)) return false;
+      if (formRootRef.current?.contains(node)) return true;
+      const filtersDrawer = document.getElementById('search-filters-content');
+      return Boolean(filtersDrawer?.contains(node));
+    };
+
+    if (isInsideSearchUi(event.relatedTarget)) {
+      return;
+    }
+
+    window.setTimeout(() => {
+      if (isInsideSearchUi(document.activeElement)) {
+        return;
+      }
+      onTextSearchBlur?.();
+    }, 0);
   };
 
   const handleDraftChange = (field: FilterTabKey, value: string) => {
@@ -385,6 +408,7 @@ export function SearchFormRoot({
 
   return (
     <motion.div
+      ref={formRootRef}
       initial={reduceMotion ? false : { opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
@@ -395,6 +419,7 @@ export function SearchFormRoot({
           inputRef={searchInputRef}
           value={localSearchValue}
           onChange={handleTextSearchChange}
+          onBlur={handleTextSearchBlur}
           placeholder={t('placeholder')}
           clearLabel={t('clearSearch')}
           isSearching={isSearching}
@@ -556,6 +581,7 @@ export function SearchFormTextField({
   inputRef,
   value,
   onChange,
+  onBlur,
   placeholder,
   clearLabel,
   isSearching,
@@ -564,6 +590,7 @@ export function SearchFormTextField({
   inputRef: Ref<HTMLInputElement>;
   value: string;
   onChange: (value: string) => void;
+  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
   placeholder: string;
   clearLabel: string;
   isSearching: boolean;
@@ -587,6 +614,7 @@ export function SearchFormTextField({
           spellCheck={false}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onBlur={onBlur}
           placeholder={placeholder}
           aria-label={placeholder}
           data-testid="text-search-input"

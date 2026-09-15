@@ -13,7 +13,11 @@
     "preview": "opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare deploy",
     "upload": "opennextjs-cloudflare upload",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "test:e2e": "playwright test"
   },
   "lint-staged": {
     "*.{ts,tsx,md,json}": [
@@ -24,6 +28,7 @@
     "@ai-sdk/anthropic": "^3.0.111",
     "@ai-sdk/cohere": "^3.0.55",
     "@databuddy/sdk": "^2.6.0",
+    "@libsql/client": "^0.18.0",
     "@opennextjs/cloudflare": "^1.20.2",
     "@phosphor-icons/react": "^2.1.10",
     "@radix-ui/react-checkbox": "^1.3.11",
@@ -38,6 +43,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
+    "drizzle-orm": "^0.45.2",
     "framer-motion": "^11.18.2",
     "fuse.js": "^7.5.0",
     "geist": "^1.7.2",
@@ -51,12 +57,16 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/typography": "^0.5.20",
+    "@testing-library/react": "^16.3.3",
     "@types/node": "22.9.0",
     "@types/react": "^18.3.31",
     "@types/react-dom": "18.3.1",
     "baseline-browser-mapping": "^2.11.14",
+    "drizzle-kit": "^0.31.10",
     "husky": "9.1.7",
+    "jsdom": "^30.0.1",
     "lint-staged": "15.5.1",
     "postcss": "8.4.49",
     "prettier": "^3.9.6",

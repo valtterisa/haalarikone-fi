@@ -113,12 +113,18 @@ describe('search API integration', () => {
   });
 
   it('returns empty results when AI fallback throws', async () => {
-    hoisted.loadUniversitiesMock.mockResolvedValueOnce([]);
-    hoisted.understandQueryWithAIMock.mockRejectedValueOnce(new Error('AI offline'));
-    const { res, body } = await runSearch('xyzzyplughqqq');
-    expect(res.status).toBe(200);
-    expect(body.results).toEqual([]);
-    expect(body.totalCount).toBe(0);
-    expect(hoisted.understandQueryWithAIMock).toHaveBeenCalledTimes(1);
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+    try {
+      hoisted.loadUniversitiesMock.mockResolvedValueOnce([]);
+      hoisted.understandQueryWithAIMock.mockRejectedValueOnce(new Error('AI offline'));
+      const { res, body } = await runSearch('xyzzyplughqqq');
+      expect(res.status).toBe(200);
+      expect(body.results).toEqual([]);
+      expect(body.totalCount).toBe(0);
+      expect(hoisted.understandQueryWithAIMock).toHaveBeenCalledTimes(1);
+      expect(consoleError).toHaveBeenCalled();
+    } finally {
+      consoleError.mockRestore();
+    }
   });
 });
