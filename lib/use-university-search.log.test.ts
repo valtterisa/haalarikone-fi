@@ -123,8 +123,28 @@ describe('useUniversitySearch search logging', () => {
       query: 'helsinki',
       locale: 'fi',
       source: 'listing',
-      resultCount: expect.any(Number),
+      resultCount: 1,
     });
+  });
+
+  it('stages resultCount from search results, not the full initial list', async () => {
+    const { result } = renderHook(() =>
+      useUniversitySearch({
+        initialUniversities: universities,
+        colorData,
+        showResultsByDefault: true,
+      }),
+    );
+
+    expect(result.current.results).toHaveLength(2);
+
+    await settleTextSearch(result, 'helsinki');
+
+    await act(async () => {
+      result.current.handleSearchBlur();
+    });
+
+    expect(lastBody().resultCount).toBe(1);
   });
 
   it('Apply logs query + filters and blur does not double-insert', async () => {

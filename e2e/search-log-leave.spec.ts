@@ -44,6 +44,7 @@ test.describe('search log listing (browser)', () => {
     const row = await waitForLogRow(marker);
     expect(String(row.query)).toBe(marker);
     expect(String(row.source)).toBe('listing');
+    expect(Number(row.result_count)).toBe(0);
   });
 
   test('pagehide flushes staged listing query to Turso', async ({ page }) => {
@@ -76,5 +77,6 @@ test.describe('search log listing (browser)', () => {
     const row = await waitForLogRow(marker);
     expect(String(row.query)).toBe(marker);
     expect(String(row.source)).toBe('listing');
+    expect(Number(row.result_count)).toBe(0);
   });
 });

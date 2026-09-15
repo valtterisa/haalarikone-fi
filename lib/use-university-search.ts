@@ -268,12 +268,16 @@ export function useUniversitySearch({
   }, [searchSourceUniversities, applyFilters, selectedCriteria.textSearch]);
 
   const stagedTextRef = useRef('');
+  const wasSearchingRef = useRef(false);
   const criteriaRef = useRef(selectedCriteria);
   criteriaRef.current = selectedCriteria;
   const applyFiltersRef = useRef(applyFilters);
   applyFiltersRef.current = applyFilters;
 
   useEffect(() => {
+    const searchJustFinished = wasSearchingRef.current && !isSearching;
+    wasSearchingRef.current = isSearching;
+
     if (isSearching) return;
 
     const query = debouncedTextSearch.trim();
@@ -283,6 +287,7 @@ export function useUniversitySearch({
       return;
     }
 
+    if (!searchJustFinished) return;
     if (stagedTextRef.current === query) return;
     stagedTextRef.current = query;
 
