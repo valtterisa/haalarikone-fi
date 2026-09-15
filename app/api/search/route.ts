@@ -62,16 +62,20 @@ export async function POST(req: Request) {
 
     if (query.length < 3) {
       const filtered = filterUniversities(universities, filters, colorData);
-      void insertSearchLog({
-        query: '',
-        locale,
-        resultCount: filtered.length,
-        source,
-        color: parsed.color,
-        area: parsed.area,
-        field: parsed.field,
-        school: parsed.school,
-      }).catch(() => {});
+      try {
+        await insertSearchLog({
+          query: '',
+          locale,
+          resultCount: filtered.length,
+          source,
+          color: parsed.color,
+          area: parsed.area,
+          field: parsed.field,
+          school: parsed.school,
+        });
+      } catch (error) {
+        console.error('search log insert failed:', error);
+      }
 
       return NextResponse.json({ results: filtered, totalCount: filtered.length });
     }
@@ -95,16 +99,20 @@ export async function POST(req: Request) {
       ? filterUniversities(body.results, filters, colorData).length
       : body.totalCount;
 
-    void insertSearchLog({
-      query,
-      locale,
-      resultCount,
-      source,
-      color: parsed.color,
-      area: parsed.area,
-      field: parsed.field,
-      school: parsed.school,
-    }).catch(() => {});
+    try {
+      await insertSearchLog({
+        query,
+        locale,
+        resultCount,
+        source,
+        color: parsed.color,
+        area: parsed.area,
+        field: parsed.field,
+        school: parsed.school,
+      });
+    } catch (error) {
+      console.error('search log insert failed:', error);
+    }
 
     return NextResponse.json(body);
   } catch (error) {

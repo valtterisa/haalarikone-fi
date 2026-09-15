@@ -19,7 +19,10 @@ function hasFilters(entry: SearchLogInsert) {
 
 export async function insertSearchLog(entry: SearchLogInsert) {
   const db = getDb();
-  if (!db) return;
+  if (!db) {
+    console.error('search log skipped: TURSO_DATABASE_URL not set');
+    return;
+  }
 
   const query = entry.query.trim().slice(0, 200);
   if (query.length < 3 && !hasFilters(entry)) return;
