@@ -324,6 +324,17 @@
     "optionSearchSchool": "Etsi oppilaitosta…",
     "noMatchingOptions": "Ei osumia"
   },
+  "ads": {
+    "badge": "Mainos",
+    "items": {
+      "drophost": {
+        "brand": "drophost",
+        "title": "Drophost – Jaa tiedostoja helposti",
+        "description": "Hostaa tiedosto tai sivu. Saat jaettavan linkin sekunneissa.",
+        "cta": "Kokeile"
+      }
+    }
+  },
   "fields": {
     "title": "Opiskelualat",
     "description": "Valitse ala nähdäksesi siihen liittyvät haalarit eri oppilaitoksissa. {count} eri haalaria {schoolCount} eri oppilaitoksella.",

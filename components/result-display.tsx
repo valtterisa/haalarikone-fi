@@ -4,6 +4,8 @@ import { useState, useEffect, useRef, useDeferredValue, type ReactNode } from 'r
 import Image from 'next/image';
 import type { University } from '@/types/university';
 import UniversityCard from '@/components/university-card';
+import { ResultsAdCard } from '@/components/ads/results-ad-card';
+import { resolveResultsAds } from '@/lib/ads/results-ads';
 import { useTranslations } from 'next-intl';
 import type { HubSource } from '@/lib/analytics-events';
 
@@ -121,11 +123,22 @@ export function ResultsDisplayList({
     );
   }
 
+  const items: ReactNode[] = [];
+  const adsByAfterResult = new Map(
+    resolveResultsAds(results.length).map((ad) => [ad.afterResult, ad]),
+  );
+
+  results.forEach((uni, index) => {
+    items.push(<UniversityCard key={uni.id} uni={uni} source={source} />);
+    const ad = adsByAfterResult.get(index + 1);
+    if (ad) {
+      items.push(<ResultsAdCard key={`ad-${ad.id}-${ad.afterResult}`} ad={ad} />);
+    }
+  });
+
   return (
     <ul className="space-y-2.5 sm:space-y-3" data-testid="results-list">
-      {results.map((uni) => (
-        <UniversityCard key={uni.id} uni={uni} source={source} />
-      ))}
+      {items}
     </ul>
   );
 }

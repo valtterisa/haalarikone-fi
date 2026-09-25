@@ -324,6 +324,17 @@
     "optionSearchSchool": "Search institution…",
     "noMatchingOptions": "No matches"
   },
+  "ads": {
+    "badge": "Ad",
+    "items": {
+      "drophost": {
+        "brand": "drophost",
+        "title": "Drophost – Share your files easily",
+        "description": "Host a file or a site. Get a shareable link in seconds.",
+        "cta": "Try it"
+      }
+    }
+  },
   "fields": {
     "title": "Fields of Study",
     "description": "Select a field to see related overalls at different institutions.",

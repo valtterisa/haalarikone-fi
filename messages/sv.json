@@ -324,6 +324,17 @@
     "optionSearchSchool": "Sök institution…",
     "noMatchingOptions": "Inga träffar"
   },
+  "ads": {
+    "badge": "Annons",
+    "items": {
+      "drophost": {
+        "brand": "drophost",
+        "title": "Drophost – Dela dina filer enkelt",
+        "description": "Hosta en fil eller en sajt. Få en delbar länk på sekunder.",
+        "cta": "Prova"
+      }
+    }
+  },
   "fields": {
     "title": "Studieområden",
     "description": "Välj ett område för att se relaterade overallar vid olika institutioner.",

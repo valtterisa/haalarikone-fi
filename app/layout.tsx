@@ -10,7 +10,7 @@ const arvo = Arvo({
   display: "swap",
   variable: "--font-display",
 });
-
+  
 export default async function RootLayout({
   children,
 }: {
