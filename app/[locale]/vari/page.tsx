@@ -18,12 +18,7 @@ import VariSearchSection from '@/components/vari-search-section';
 import { getTranslations } from 'next-intl/server';
 import type { Locale } from '@/lib/slug-translations';
 import { capitalizeFirstLetter } from '@/lib/utils';
-import {
-  absoluteHomeUrl,
-  absoluteTranslatedRoute,
-  alternateLanguageUrls,
-  routeHref,
-} from '@/lib/use-translated-routes';
+import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 
 const FALLBACK_HEX = '#D1D5DB';
 const DARK_FOREGROUND = '#1c1a17';
@@ -106,7 +101,7 @@ export async function generateMetadata({
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: absoluteTranslatedRoute('colors', locale),
+      url: absoluteUrl(locale, routeHref('colors')),
     },
     twitter: {
       card: 'summary_large_image',
@@ -115,8 +110,13 @@ export async function generateMetadata({
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: absoluteTranslatedRoute('colors', locale),
-      languages: alternateLanguageUrls('colors'),
+      canonical: absoluteUrl(locale, routeHref('colors')),
+      languages: {
+        fi: absoluteUrl('fi', routeHref('colors')),
+        en: absoluteUrl('en', routeHref('colors')),
+        sv: absoluteUrl('sv', routeHref('colors')),
+        'x-default': absoluteUrl('fi', routeHref('colors')),
+      },
     },
   };
 }
@@ -137,13 +137,13 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: absoluteHomeUrl(locale),
+        item: absoluteUrl(locale, '/'),
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: t('colors.title'),
-        item: absoluteTranslatedRoute('colors', locale),
+        item: absoluteUrl(locale, routeHref('colors')),
       },
     ],
   };
@@ -158,7 +158,7 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
       '@type': 'ListItem',
       position: index + 1,
       name: capitalizeFirstLetter(getEntityTranslation(color, locale, 'color')),
-      url: absoluteTranslatedRoute('colors', locale, getSlugForEntity(color, locale, 'color')),
+      url: absoluteUrl(locale, routeHref('colors', getSlugForEntity(color, locale, 'color'))),
     })),
   };
 

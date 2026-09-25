@@ -12,12 +12,7 @@ import { Page } from '@/components/page';
 import Script from 'next/script';
 import { loadBlogPosts } from '@/lib/load-blog-posts';
 import { getTranslations } from 'next-intl/server';
-import {
-  absoluteHomeUrl,
-  absoluteTranslatedRoute,
-  alternateLanguageUrls,
-  routeHref,
-} from '@/lib/use-translated-routes';
+import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 
 export const revalidate = 86400;
 
@@ -45,11 +40,16 @@ export async function generateMetadata({
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: absoluteTranslatedRoute('blog', locale),
+      url: absoluteUrl(locale, routeHref('blog')),
     },
     alternates: {
-      canonical: absoluteTranslatedRoute('blog', locale),
-      languages: alternateLanguageUrls('blog'),
+      canonical: absoluteUrl(locale, routeHref('blog')),
+      languages: {
+        fi: absoluteUrl('fi', routeHref('blog')),
+        en: absoluteUrl('en', routeHref('blog')),
+        sv: absoluteUrl('sv', routeHref('blog')),
+        'x-default': absoluteUrl('fi', routeHref('blog')),
+      },
     },
   };
 }
@@ -74,7 +74,7 @@ export default async function BlogPage({
     '@type': 'CollectionPage',
     name: t('blog.pageTitle'),
     description: t('blog.pageDescription'),
-    url: absoluteTranslatedRoute('blog', locale),
+    url: absoluteUrl(locale, routeHref('blog')),
   };
 
   const breadcrumbSchema = {
@@ -85,13 +85,13 @@ export default async function BlogPage({
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: absoluteHomeUrl(locale),
+        item: absoluteUrl(locale, '/'),
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: t('blog.title'),
-        item: absoluteTranslatedRoute('blog', locale),
+        item: absoluteUrl(locale, routeHref('blog')),
       },
     ],
   };

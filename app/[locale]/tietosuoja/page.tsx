@@ -8,8 +8,7 @@ import {
   parseLegalSections,
 } from '@/components/legal-document';
 import { SITE_ORIGIN } from '@/lib/site-url';
-import { absoluteHomeUrl } from '@/lib/use-translated-routes';
-import { absoluteLegalUrl, legalLanguageUrls } from '@/lib/legal-urls';
+import { absoluteUrl } from '@/lib/use-translated-routes';
 
 const HREF = '/tietosuoja' as const;
 
@@ -24,7 +23,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'legal' });
-  const url = absoluteLegalUrl(HREF, locale);
+  const url = absoluteUrl(locale, HREF);
 
   return {
     title: t('privacy.pageTitle'),
@@ -39,7 +38,12 @@ export async function generateMetadata({
     },
     alternates: {
       canonical: url,
-      languages: legalLanguageUrls(HREF),
+      languages: {
+        fi: absoluteUrl('fi', HREF),
+        en: absoluteUrl('en', HREF),
+        sv: absoluteUrl('sv', HREF),
+        'x-default': absoluteUrl('fi', HREF),
+      },
     },
   };
 }
@@ -47,7 +51,7 @@ export async function generateMetadata({
 export default async function PrivacyPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale });
-  const pageUrl = absoluteLegalUrl(HREF, locale);
+  const pageUrl = absoluteUrl(locale, HREF);
 
   const webPageSchema = {
     '@context': 'https://schema.org',
@@ -71,7 +75,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: absoluteHomeUrl(locale),
+        item: absoluteUrl(locale, '/'),
       },
       {
         '@type': 'ListItem',

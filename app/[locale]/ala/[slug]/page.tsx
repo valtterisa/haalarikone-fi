@@ -21,8 +21,7 @@ import RelatedTopics, {
 } from '@/components/related-topic-chips';
 import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
-import { getTranslatedRoute, routeHref, withXDefault } from '@/lib/use-translated-routes';
-import { localeSiteBaseUrl } from '@/lib/site-url';
+import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 import { splitCsv } from '@/lib/popular-destinations';
 
 export const revalidate = 86400;
@@ -64,8 +63,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const t = await getTranslations({ locale });
   const capitalizedField = capitalizeFirstLetter(translatedField);
-  const baseUrl = localeSiteBaseUrl(locale);
   const fieldSlug = getSlugForEntity(field, locale, 'field');
+  const pageUrl = absoluteUrl(locale, routeHref('fields', fieldSlug));
 
   return {
     title: `${capitalizedField} - ${t('colors.title')} | Haalarikone`,
@@ -99,7 +98,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('fields', locale, fieldSlug)}`,
+      url: pageUrl,
     },
     twitter: {
       card: 'summary_large_image',
@@ -111,12 +110,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('fields', locale, fieldSlug)}`,
-      languages: withXDefault({
-        fi: `${localeSiteBaseUrl('fi')}${getTranslatedRoute('fields', 'fi', getSlugForEntity(field, 'fi', 'field'))}`,
-        en: `${localeSiteBaseUrl('en')}${getTranslatedRoute('fields', 'en', getSlugForEntity(field, 'en', 'field'))}`,
-        sv: `${localeSiteBaseUrl('sv')}${getTranslatedRoute('fields', 'sv', getSlugForEntity(field, 'sv', 'field'))}`,
-      }),
+      canonical: pageUrl,
+      languages: {
+        fi: absoluteUrl('fi', routeHref('fields', getSlugForEntity(field, 'fi', 'field'))),
+        en: absoluteUrl('en', routeHref('fields', getSlugForEntity(field, 'en', 'field'))),
+        sv: absoluteUrl('sv', routeHref('fields', getSlugForEntity(field, 'sv', 'field'))),
+        'x-default': absoluteUrl('fi', routeHref('fields', getSlugForEntity(field, 'fi', 'field'))),
+      },
     },
   };
 }
@@ -143,8 +143,8 @@ export default async function FieldPage({ params }: Props) {
   const colors = Array.from(new Set(fieldData.map((u) => u.vari)));
   const areas = Array.from(new Set(fieldData.flatMap((u) => splitCsv(u.alue))));
   const capitalizedField = capitalizeFirstLetter(translatedField);
-  const baseUrl = localeSiteBaseUrl(locale);
   const fieldSlug = getSlugForEntity(field, locale as 'fi' | 'en' | 'sv', 'field');
+  const pageUrl = absoluteUrl(locale, routeHref('fields', fieldSlug));
 
   const credentialSchema = {
     '@context': 'https://schema.org',
@@ -154,7 +154,7 @@ export default async function FieldPage({ params }: Props) {
       count: fieldData.length,
       schoolCount: universitiesList.length,
     }),
-    url: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('fields', locale, fieldSlug)}`,
+    url: pageUrl,
   };
 
   const itemListSchema = {
@@ -169,7 +169,7 @@ export default async function FieldPage({ params }: Props) {
     itemListElement: fieldData.slice(0, 50).map((uni, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('overall', locale, uni.slug)}`,
+      item: absoluteUrl(locale, routeHref('overall', uni.slug)),
     })),
   };
 
@@ -181,13 +181,13 @@ export default async function FieldPage({ params }: Props) {
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: baseUrl,
+        item: absoluteUrl(locale, '/'),
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: capitalizedField,
-        item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('fields', locale, fieldSlug)}`,
+        item: pageUrl,
       },
     ],
   };

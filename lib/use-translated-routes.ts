@@ -53,43 +53,6 @@ export function useTranslatedRoutes() {
   };
 }
 
-export function getTranslatedRoute(routeType: RouteType, locale: Locale, slug?: string): string {
-  return getPathname({
-    locale,
-    href: routeHref(routeType, slug) as never, // next-intl getPathname typings are stricter than routeHref; this href is valid for localized resolution.
-  });
-}
-
-export function absoluteTranslatedRoute(
-  routeType: RouteType,
-  locale: Locale,
-  slug?: string,
-): string {
-  return `${SITE_ORIGIN}${getTranslatedRoute(routeType, locale, slug)}`;
-}
-
-export function absoluteHomeUrl(locale: Locale): string {
-  return `${SITE_ORIGIN}${getPathname({ locale, href: '/' })}`;
-}
-
-const TAXONOMY_ROUTE_TYPES: RouteType[] = ['fields', 'colors', 'universities', 'areas'];
-
-export function withXDefault(languages: { fi: string; en: string; sv: string }) {
-  return {
-    ...languages,
-    'x-default': languages.fi,
-  };
-}
-
-export function alternateLanguageUrls(routeType: RouteType, slug?: string) {
-  if (slug !== undefined && TAXONOMY_ROUTE_TYPES.includes(routeType)) {
-    throw new Error(
-      'alternateLanguageUrls: taxonomy routes with a slug need per-locale slugs; use explicit alternates with getSlugForEntity or extend this API with a Record<Locale, string> slug map',
-    );
-  }
-  return withXDefault({
-    fi: absoluteTranslatedRoute(routeType, 'fi', slug),
-    en: absoluteTranslatedRoute(routeType, 'en', slug),
-    sv: absoluteTranslatedRoute(routeType, 'sv', slug),
-  });
+export function absoluteUrl(locale: Locale, href: InternalHref): string {
+  return `${SITE_ORIGIN}${getPathname({ locale, href: href as never })}`;
 }

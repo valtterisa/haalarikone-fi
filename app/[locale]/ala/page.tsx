@@ -18,12 +18,7 @@ import FieldSearchSection from '@/components/field-search-section';
 import { getTranslations } from 'next-intl/server';
 import type { Locale } from '@/lib/slug-translations';
 import { capitalizeFirstLetter } from '@/lib/utils';
-import {
-  absoluteHomeUrl,
-  absoluteTranslatedRoute,
-  alternateLanguageUrls,
-  routeHref,
-} from '@/lib/use-translated-routes';
+import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 
 export const revalidate = 86400;
 
@@ -61,7 +56,7 @@ export async function generateMetadata({
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: absoluteTranslatedRoute('fields', locale),
+      url: absoluteUrl(locale, routeHref('fields')),
     },
     twitter: {
       card: 'summary_large_image',
@@ -70,8 +65,13 @@ export async function generateMetadata({
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: absoluteTranslatedRoute('fields', locale),
-      languages: alternateLanguageUrls('fields'),
+      canonical: absoluteUrl(locale, routeHref('fields')),
+      languages: {
+        fi: absoluteUrl('fi', routeHref('fields')),
+        en: absoluteUrl('en', routeHref('fields')),
+        sv: absoluteUrl('sv', routeHref('fields')),
+        'x-default': absoluteUrl('fi', routeHref('fields')),
+      },
     },
   };
 }
@@ -101,13 +101,13 @@ export default async function FieldIndexPage({ params }: { params: Promise<{ loc
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: absoluteHomeUrl(locale),
+        item: absoluteUrl(locale, '/'),
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: t('fields.title'),
-        item: absoluteTranslatedRoute('fields', locale),
+        item: absoluteUrl(locale, routeHref('fields')),
       },
     ],
   };
@@ -122,11 +122,7 @@ export default async function FieldIndexPage({ params }: { params: Promise<{ loc
       '@type': 'ListItem',
       position: index + 1,
       name: field.translatedName,
-      url: absoluteTranslatedRoute(
-        'fields',
-        locale,
-        getSlugForEntity(field.finnishName, locale, 'field'),
-      ),
+      url: absoluteUrl(locale, routeHref('fields', getSlugForEntity(field.finnishName, locale, 'field'))),
     })),
   };
 

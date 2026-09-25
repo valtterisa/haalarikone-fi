@@ -21,8 +21,7 @@ import RelatedTopics, {
 } from '@/components/related-topic-chips';
 import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
-import { getTranslatedRoute, routeHref, withXDefault } from '@/lib/use-translated-routes';
-import { localeSiteBaseUrl } from '@/lib/site-url';
+import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 import { joinNames, splitCsv } from '@/lib/popular-destinations';
 
 export const revalidate = 86400;
@@ -66,8 +65,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const t = await getTranslations({ locale });
   const capitalizedUniversity = capitalizeFirstLetter(translatedUniversity);
-  const baseUrl = localeSiteBaseUrl(locale);
   const universitySlug = getSlugForEntity(university, locale, 'university');
+  const pageUrl = absoluteUrl(locale, routeHref('universities', universitySlug));
 
   return {
     title: `${capitalizedUniversity} - ${t('colors.title')} | Haalarikone`,
@@ -101,7 +100,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('universities', locale, universitySlug)}`,
+      url: pageUrl,
     },
     twitter: {
       card: 'summary_large_image',
@@ -113,12 +112,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('universities', locale, universitySlug)}`,
-      languages: withXDefault({
-        fi: `${localeSiteBaseUrl('fi')}${getTranslatedRoute('universities', 'fi', getSlugForEntity(university, 'fi', 'university'))}`,
-        en: `${localeSiteBaseUrl('en')}${getTranslatedRoute('universities', 'en', getSlugForEntity(university, 'en', 'university'))}`,
-        sv: `${localeSiteBaseUrl('sv')}${getTranslatedRoute('universities', 'sv', getSlugForEntity(university, 'sv', 'university'))}`,
-      }),
+      canonical: pageUrl,
+      languages: {
+        fi: absoluteUrl('fi', routeHref('universities', getSlugForEntity(university, 'fi', 'university'))),
+        en: absoluteUrl('en', routeHref('universities', getSlugForEntity(university, 'en', 'university'))),
+        sv: absoluteUrl('sv', routeHref('universities', getSlugForEntity(university, 'sv', 'university'))),
+        'x-default': absoluteUrl('fi', routeHref('universities', getSlugForEntity(university, 'fi', 'university'))),
+      },
     },
   };
 }
@@ -147,7 +147,6 @@ export default async function UniversityPage({ params }: Props) {
   const colors = Array.from(new Set(universityData.map((u) => u.vari)));
   const areas = Array.from(new Set(universityData.flatMap((u) => splitCsv(u.alue))));
   const capitalizedUniversity = capitalizeFirstLetter(translatedUniversity);
-  const baseUrl = localeSiteBaseUrl(locale);
 
   const organizationSchema = {
     '@context': 'https://schema.org',
@@ -157,7 +156,7 @@ export default async function UniversityPage({ params }: Props) {
       university: capitalizedUniversity,
       count: universityData.length,
     }),
-    url: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('universities', locale, getSlugForEntity(university, locale, 'university'))}`,
+    url: absoluteUrl(locale, routeHref('universities', getSlugForEntity(university, locale, 'university'))),
   };
 
   const itemListSchema = {
@@ -172,7 +171,7 @@ export default async function UniversityPage({ params }: Props) {
     itemListElement: universityData.slice(0, 50).map((uni, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('overall', locale, uni.slug)}`,
+      item: absoluteUrl(locale, routeHref('overall', uni.slug)),
     })),
   };
 
@@ -184,19 +183,19 @@ export default async function UniversityPage({ params }: Props) {
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: baseUrl,
+        item: absoluteUrl(locale, '/'),
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: t('universities.title'),
-        item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('universities', locale)}`,
+        item: absoluteUrl(locale, routeHref('universities')),
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: capitalizedUniversity,
-        item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('universities', locale, slug)}`,
+        item: absoluteUrl(locale, routeHref('universities', slug)),
       },
     ],
   };

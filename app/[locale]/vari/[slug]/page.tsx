@@ -22,8 +22,7 @@ import RelatedTopics, {
 import Script from 'next/script';
 import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
-import { getTranslatedRoute, routeHref, withXDefault } from '@/lib/use-translated-routes';
-import { localeSiteBaseUrl } from '@/lib/site-url';
+import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 import { splitCsv } from '@/lib/popular-destinations';
 
 export const revalidate = 86400;
@@ -65,8 +64,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const t = await getTranslations({ locale });
   const capitalizedColor = capitalizeFirstLetter(translatedColor);
-  const baseUrl = localeSiteBaseUrl(locale);
   const colorSlug = getSlugForEntity(color, locale as 'fi' | 'en' | 'sv', 'color');
+  const pageUrl = absoluteUrl(locale, routeHref('colors', colorSlug));
 
   return {
     title: `${capitalizedColor} - ${t('colors.title')} | Haalarikone`,
@@ -102,7 +101,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: `${baseUrl}${getTranslatedRoute('colors', locale, colorSlug)}`,
+      url: pageUrl,
     },
     twitter: {
       card: 'summary_large_image',
@@ -115,12 +114,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: `${baseUrl}${getTranslatedRoute('colors', locale, colorSlug)}`,
-      languages: withXDefault({
-        fi: `${localeSiteBaseUrl('fi')}${getTranslatedRoute('colors', 'fi', getSlugForEntity(color, 'fi', 'color'))}`,
-        en: `${localeSiteBaseUrl('en')}${getTranslatedRoute('colors', 'en', getSlugForEntity(color, 'en', 'color'))}`,
-        sv: `${localeSiteBaseUrl('sv')}${getTranslatedRoute('colors', 'sv', getSlugForEntity(color, 'sv', 'color'))}`,
-      }),
+      canonical: pageUrl,
+      languages: {
+        fi: absoluteUrl('fi', routeHref('colors', getSlugForEntity(color, 'fi', 'color'))),
+        en: absoluteUrl('en', routeHref('colors', getSlugForEntity(color, 'en', 'color'))),
+        sv: absoluteUrl('sv', routeHref('colors', getSlugForEntity(color, 'sv', 'color'))),
+        'x-default': absoluteUrl('fi', routeHref('colors', getSlugForEntity(color, 'fi', 'color'))),
+      },
     },
   };
 }
@@ -154,8 +154,8 @@ export default async function ColorPage({ params }: Props) {
     ? ({ backgroundColor: canonicalHex } as const)
     : parseStyles(firstColorData?.hex || null);
   const capitalizedColor = capitalizeFirstLetter(translatedColor);
-  const baseUrl = localeSiteBaseUrl(locale);
   const colorSlug = getSlugForEntity(color, locale as 'fi' | 'en' | 'sv', 'color');
+  const pageUrl = absoluteUrl(locale, routeHref('colors', colorSlug));
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -165,13 +165,13 @@ export default async function ColorPage({ params }: Props) {
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: baseUrl,
+        item: absoluteUrl(locale, '/'),
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: `${capitalizedColor} haalari`,
-        item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('colors', locale, colorSlug)}`,
+        item: pageUrl,
       },
     ],
   };
@@ -189,7 +189,7 @@ export default async function ColorPage({ params }: Props) {
     itemListElement: colorData.slice(0, 50).map((uni, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('overall', locale, uni.slug)}`,
+      item: absoluteUrl(locale, routeHref('overall', uni.slug)),
     })),
   };
 

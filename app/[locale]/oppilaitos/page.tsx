@@ -19,12 +19,7 @@ import type { Locale } from '@/lib/slug-translations';
 import { pinPopularFirst, POPULAR_SCHOOLS } from '@/lib/popular-destinations';
 import { entitySlug } from '@/lib/entity-slug';
 import { HubGrid, HubGridItem } from '@/components/hub-grid';
-import {
-  absoluteHomeUrl,
-  absoluteTranslatedRoute,
-  alternateLanguageUrls,
-  routeHref,
-} from '@/lib/use-translated-routes';
+import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 
 export const revalidate = 86400;
 
@@ -62,7 +57,7 @@ export async function generateMetadata({
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: absoluteTranslatedRoute('universities', locale),
+      url: absoluteUrl(locale, routeHref('universities')),
     },
     twitter: {
       card: 'summary_large_image',
@@ -71,8 +66,13 @@ export async function generateMetadata({
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: absoluteTranslatedRoute('universities', locale),
-      languages: alternateLanguageUrls('universities'),
+      canonical: absoluteUrl(locale, routeHref('universities')),
+      languages: {
+        fi: absoluteUrl('fi', routeHref('universities')),
+        en: absoluteUrl('en', routeHref('universities')),
+        sv: absoluteUrl('sv', routeHref('universities')),
+        'x-default': absoluteUrl('fi', routeHref('universities')),
+      },
     },
   };
 }
@@ -101,13 +101,13 @@ export default async function UniversityIndexPage({
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: absoluteHomeUrl(locale),
+        item: absoluteUrl(locale, '/'),
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: t('universities.title'),
-        item: absoluteTranslatedRoute('universities', locale),
+        item: absoluteUrl(locale, routeHref('universities')),
       },
     ],
   };
@@ -122,11 +122,7 @@ export default async function UniversityIndexPage({
       '@type': 'ListItem',
       position: index + 1,
       name: uni,
-      url: absoluteTranslatedRoute(
-        'universities',
-        locale,
-        entitySlug(uni, locale, 'university'),
-      ),
+      url: absoluteUrl(locale, routeHref('universities', entitySlug(uni, locale, 'university'))),
     })),
   };
 

@@ -21,8 +21,7 @@ import RelatedTopics, {
 } from '@/components/related-topic-chips';
 import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
-import { getTranslatedRoute, routeHref, withXDefault } from '@/lib/use-translated-routes';
-import { localeSiteBaseUrl } from '@/lib/site-url';
+import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 import { joinNames, splitCsv } from '@/lib/popular-destinations';
 
 export const revalidate = 86400;
@@ -64,8 +63,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const t = await getTranslations({ locale });
   const capitalizedArea = capitalizeFirstLetter(translatedArea);
-  const baseUrl = localeSiteBaseUrl(locale);
   const areaSlug = getSlugForEntity(area, locale, 'area');
+  const pageUrl = absoluteUrl(locale, routeHref('areas', areaSlug));
 
   return {
     title: `${capitalizedArea} - ${t('colors.title')} | Haalarikone`,
@@ -101,7 +100,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('areas', locale, areaSlug)}`,
+      url: pageUrl,
     },
     twitter: {
       card: 'summary_large_image',
@@ -114,12 +113,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('areas', locale, areaSlug)}`,
-      languages: withXDefault({
-        fi: `${localeSiteBaseUrl('fi')}${getTranslatedRoute('areas', 'fi', getSlugForEntity(area, 'fi', 'area'))}`,
-        en: `${localeSiteBaseUrl('en')}${getTranslatedRoute('areas', 'en', getSlugForEntity(area, 'en', 'area'))}`,
-        sv: `${localeSiteBaseUrl('sv')}${getTranslatedRoute('areas', 'sv', getSlugForEntity(area, 'sv', 'area'))}`,
-      }),
+      canonical: pageUrl,
+      languages: {
+        fi: absoluteUrl('fi', routeHref('areas', getSlugForEntity(area, 'fi', 'area'))),
+        en: absoluteUrl('en', routeHref('areas', getSlugForEntity(area, 'en', 'area'))),
+        sv: absoluteUrl('sv', routeHref('areas', getSlugForEntity(area, 'sv', 'area'))),
+        'x-default': absoluteUrl('fi', routeHref('areas', getSlugForEntity(area, 'fi', 'area'))),
+      },
     },
   };
 }
@@ -146,7 +146,6 @@ export default async function AreaPage({ params }: Props) {
   const fields = Array.from(new Set(areaData.flatMap((u) => splitCsv(u.ala)).filter(Boolean)));
   const colors = Array.from(new Set(areaData.map((u) => u.vari)));
   const capitalizedArea = capitalizeFirstLetter(translatedArea);
-  const baseUrl = localeSiteBaseUrl(locale);
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -156,19 +155,19 @@ export default async function AreaPage({ params }: Props) {
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: baseUrl,
+        item: absoluteUrl(locale, '/'),
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: t('areas.title'),
-        item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('areas', locale)}`,
+        item: absoluteUrl(locale, routeHref('areas')),
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: capitalizedArea,
-        item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('areas', locale, slug)}`,
+        item: absoluteUrl(locale, routeHref('areas', slug)),
       },
     ],
   };
@@ -186,7 +185,7 @@ export default async function AreaPage({ params }: Props) {
     itemListElement: areaData.slice(0, 50).map((uni, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('overall', locale, uni.slug)}`,
+      item: absoluteUrl(locale, routeHref('overall', uni.slug)),
     })),
   };
 

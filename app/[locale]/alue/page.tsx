@@ -16,12 +16,7 @@ import { getSlugForEntity, type Locale } from '@/lib/slug-translations';
 import { getTranslations } from 'next-intl/server';
 import { pinPopularFirst, POPULAR_AREAS } from '@/lib/popular-destinations';
 import { entitySlug } from '@/lib/entity-slug';
-import {
-  absoluteHomeUrl,
-  absoluteTranslatedRoute,
-  alternateLanguageUrls,
-  routeHref,
-} from '@/lib/use-translated-routes';
+import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 import { HubGrid, HubGridItem } from '@/components/hub-grid';
 import { capitalizeFirstLetter } from '@/lib/utils';
 
@@ -52,7 +47,7 @@ export async function generateMetadata({
       type: 'website',
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: absoluteTranslatedRoute('areas', locale),
+      url: absoluteUrl(locale, routeHref('areas')),
     },
     twitter: {
       card: 'summary_large_image',
@@ -61,8 +56,13 @@ export async function generateMetadata({
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: absoluteTranslatedRoute('areas', locale),
-      languages: alternateLanguageUrls('areas'),
+      canonical: absoluteUrl(locale, routeHref('areas')),
+      languages: {
+        fi: absoluteUrl('fi', routeHref('areas')),
+        en: absoluteUrl('en', routeHref('areas')),
+        sv: absoluteUrl('sv', routeHref('areas')),
+        'x-default': absoluteUrl('fi', routeHref('areas')),
+      },
     },
   };
 }
@@ -81,13 +81,13 @@ export default async function AreaIndexPage({ params }: { params: Promise<{ loca
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: absoluteHomeUrl(locale),
+        item: absoluteUrl(locale, '/'),
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: t('areas.title'),
-        item: absoluteTranslatedRoute('areas', locale),
+        item: absoluteUrl(locale, routeHref('areas')),
       },
     ],
   };
@@ -102,7 +102,7 @@ export default async function AreaIndexPage({ params }: { params: Promise<{ loca
       '@type': 'ListItem',
       position: index + 1,
       name: area,
-      url: absoluteTranslatedRoute('areas', locale, getSlugForEntity(area, locale, 'area')),
+      url: absoluteUrl(locale, routeHref('areas', getSlugForEntity(area, locale, 'area'))),
     })),
   };
 

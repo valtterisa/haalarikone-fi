@@ -6,10 +6,10 @@ import { Databuddy } from '@databuddy/sdk/react';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { getPathname, routing } from '@/i18n/routing';
+import { routing } from '@/i18n/routing';
 import { getTranslations } from 'next-intl/server';
 import { SITE_ORIGIN } from '@/lib/site-url';
-import { withXDefault } from '@/lib/use-translated-routes';
+import { absoluteUrl } from '@/lib/use-translated-routes';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -25,9 +25,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const locale = localeRaw as (typeof routing.locales)[number];
 
   const t = await getTranslations({ locale, namespace: 'meta' });
-
-  const absoluteHome = (loc: typeof locale) =>
-    `${SITE_ORIGIN}${getPathname({ locale: loc, href: '/' })}`;
 
   return {
     metadataBase: new URL(SITE_ORIGIN),
@@ -71,7 +68,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       type: 'website',
       siteName: t('siteName'),
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: absoluteHome(locale),
+      url: absoluteUrl(locale, '/'),
     },
     twitter: {
       card: 'summary_large_image',
@@ -80,12 +77,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: absoluteHome(locale),
-      languages: withXDefault({
-        fi: absoluteHome('fi'),
-        en: absoluteHome('en'),
-        sv: absoluteHome('sv'),
-      }),
+      canonical: absoluteUrl(locale, '/'),
+      languages: {
+        fi: absoluteUrl('fi', '/'),
+        en: absoluteUrl('en', '/'),
+        sv: absoluteUrl('sv', '/'),
+        'x-default': absoluteUrl('fi', '/'),
+      },
     },
   };
 }

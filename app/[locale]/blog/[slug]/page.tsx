@@ -5,11 +5,8 @@ import { loadBlogPosts, loadBlogPost, blogSlugAlternates } from '@/lib/load-blog
 import Script from 'next/script';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { localeSiteBaseUrl, SITE_ORIGIN } from '@/lib/site-url';
-import {
-  absoluteTranslatedRoute,
-  getTranslatedRoute,
-} from '@/lib/use-translated-routes';
+import { SITE_ORIGIN } from '@/lib/site-url';
+import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 
 export const revalidate = 86400;
 
@@ -76,7 +73,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       authors: [authorString],
       siteName: 'Haalarikone',
       locale: locale === 'fi' ? 'fi_FI' : locale === 'en' ? 'en_US' : 'sv_SE',
-      url: absoluteTranslatedRoute('blog', locale, post.slug),
+      url: absoluteUrl(locale, routeHref('blog', post.slug)),
     },
     twitter: {
       card: 'summary_large_image',
@@ -85,11 +82,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: ['/haalarikone-og.png'],
     },
     alternates: {
-      canonical: absoluteTranslatedRoute('blog', locale, post.slug),
+      canonical: absoluteUrl(locale, routeHref('blog', post.slug)),
       languages: {
-        fi: absoluteTranslatedRoute('blog', 'fi', slugAlts.fi),
-        en: absoluteTranslatedRoute('blog', 'en', slugAlts.en),
-        sv: absoluteTranslatedRoute('blog', 'sv', slugAlts.sv),
+        fi: absoluteUrl('fi', routeHref('blog', slugAlts.fi)),
+        en: absoluteUrl('en', routeHref('blog', slugAlts.en)),
+        sv: absoluteUrl('sv', routeHref('blog', slugAlts.sv)),
       },
     },
     other: {
@@ -116,7 +113,7 @@ export default async function BlogPostPage({ params }: Props) {
   const authorString = post.author;
   const wordCount = contentString.replace(/<[^>]*>/g, '').split(/\s+/).length;
   const timeRequired = post.readingTime ? `PT${post.readingTime}M` : undefined;
-  const baseUrl = localeSiteBaseUrl(locale);
+  const postUrl = absoluteUrl(locale, routeHref('blog', post.slug));
 
   const blogPostingSchema = {
     '@context': 'https://schema.org',
@@ -147,10 +144,10 @@ export default async function BlogPostPage({ params }: Props) {
     },
     datePublished: post.publishDate,
     dateModified: post.publishDate,
-    url: `${baseUrl}${getTranslatedRoute('blog', locale, post.slug)}`,
+    url: postUrl,
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${baseUrl}${getTranslatedRoute('blog', locale, post.slug)}`,
+      '@id': postUrl,
     },
     articleSection: 'Opiskelijakulttuuri',
     wordCount: wordCount,
@@ -165,19 +162,19 @@ export default async function BlogPostPage({ params }: Props) {
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: baseUrl,
+        item: absoluteUrl(locale, '/'),
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: t('blog.title'),
-        item: `${baseUrl}${getTranslatedRoute('blog', locale)}`,
+        item: absoluteUrl(locale, routeHref('blog')),
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: titleString,
-        item: `${baseUrl}${getTranslatedRoute('blog', locale, post.slug)}`,
+        item: postUrl,
       },
     ],
   };

@@ -15,9 +15,8 @@ import { parseStyles } from '@/lib/utils';
 import { getSlugForEntity } from '@/lib/slug-translations';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
-import { getTranslatedRoute, routeHref, withXDefault } from '@/lib/use-translated-routes';
+import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 import type { Locale } from '@/lib/slug-translations';
-import { localeSiteBaseUrl } from '@/lib/site-url';
 import { getFinnishName } from '@/lib/get-finnish-name';
 import { splitCsv } from '@/lib/popular-destinations';
 import { Buildings, CaretRight, GraduationCap, MapPin } from '@phosphor-icons/react/dist/ssr';
@@ -55,8 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const t = await getTranslations({ locale });
-  const baseUrl = localeSiteBaseUrl(locale);
-  const overallPageUrl = `${localeSiteBaseUrl(locale)}${getTranslatedRoute('overall', locale, overall.slug)}`;
+  const overallPageUrl = absoluteUrl(locale, routeHref('overall', overall.slug));
 
   const keywords = [
     `${overall.vari} haalari`,
@@ -111,11 +109,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     alternates: {
       canonical: overallPageUrl,
-      languages: withXDefault({
-        fi: `${localeSiteBaseUrl('fi')}${getTranslatedRoute('overall', 'fi', overall.slug)}`,
-        en: `${localeSiteBaseUrl('en')}${getTranslatedRoute('overall', 'en', overall.slug)}`,
-        sv: `${localeSiteBaseUrl('sv')}${getTranslatedRoute('overall', 'sv', overall.slug)}`,
-      }),
+      languages: {
+        fi: absoluteUrl('fi', routeHref('overall', overall.slug)),
+        en: absoluteUrl('en', routeHref('overall', overall.slug)),
+        sv: absoluteUrl('sv', routeHref('overall', overall.slug)),
+        'x-default': absoluteUrl('fi', routeHref('overall', overall.slug)),
+      },
     },
   };
 }
@@ -146,8 +145,6 @@ export default async function OverallPage({ params }: Props) {
     .filter((u) => u.oppilaitos === overall.oppilaitos && u.id !== overall.id)
     .slice(0, 5);
 
-  const baseUrl = localeSiteBaseUrl(locale);
-
   const logoName = getLogoName(overall.oppilaitos, locale);
   const areas = splitCsv(overall.alue);
   const fields = splitCsv(overall.ala);
@@ -160,19 +157,19 @@ export default async function OverallPage({ params }: Props) {
         '@type': 'ListItem',
         position: 1,
         name: t('footer.home'),
-        item: baseUrl,
+        item: absoluteUrl(locale, '/'),
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: overall.oppilaitos,
-        item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('universities', locale, getSlugForEntity(overall.oppilaitos, locale, 'university'))}`,
+        item: absoluteUrl(locale, routeHref('universities', getSlugForEntity(overall.oppilaitos, locale, 'university'))),
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: overall.ainejarjesto ?? `${overall.vari} haalari`,
-        item: `${localeSiteBaseUrl(locale)}${getTranslatedRoute('overall', locale, overall.slug)}`,
+        item: absoluteUrl(locale, routeHref('overall', overall.slug)),
       },
     ],
   };

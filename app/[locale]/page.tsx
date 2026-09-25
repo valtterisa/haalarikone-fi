@@ -14,13 +14,12 @@ import PopularDestinations, {
 } from '@/components/popular-destinations';
 import Script from 'next/script';
 import { getTranslations } from 'next-intl/server';
-import { getPathname } from '@/i18n/routing';
 import { entitySlug } from '@/lib/entity-slug';
 import { getLocalizedName } from '@/lib/get-finnish-name';
 import { POPULAR_AREAS, POPULAR_SCHOOLS } from '@/lib/popular-destinations';
 import { SITE_ORIGIN } from '@/lib/site-url';
 import type { Locale } from '@/lib/slug-translations';
-import { routeHref } from '@/lib/use-translated-routes';
+import { absoluteUrl, routeHref } from '@/lib/use-translated-routes';
 import { capitalizeFirstLetter } from '@/lib/utils';
 import { Page } from '@/components/page';
 import { ConsoleArt } from '@/components/console-art';
@@ -50,7 +49,7 @@ export default async function Index({
   const colorData = await loadColorData();
   const t = await getTranslations({ locale });
   const loc = locale as Locale;
-  const homeUrl = `${SITE_ORIGIN}${getPathname({ locale: loc, href: '/' })}`;
+  const homeUrl = absoluteUrl(loc, '/');
   const atmosphereHexes = Object.values(colorData.colors)
     .map((entry) => entry.color)
     .filter(Boolean);
