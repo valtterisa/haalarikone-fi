@@ -11,5 +11,10 @@
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS",
+    "run_worker_first": ["/llms.txt", "/llms-full.txt", "/*.txt", "/*.md", "/*.mdx"],
+  },
+  "vars": {
+    "NEXT_PUBLIC_DATABUDDY_CLIENT_ID": "Uu3N9TuBuUAa3wAS4pHNw",
+    "DATABUDDY_WEBSITE_ID": "Uu3N9TuBuUAa3wAS4pHNw",
   },
 }

@@ -24,10 +24,6 @@ export default function middleware(request: NextRequest, event: NextFetchEvent) 
 
 export const config = {
   matcher: [
-    '/((?!api|_next|_vercel|.*\\..*).*)',
-    '/(fi|en|sv)/:path*',
-    '/:path*.md',
-    '/:path*.mdx',
-    '/:path*.txt',
+    '/((?!api|_next|_vercel|.*\\.(?:js|mjs|css|map|png|jpe?g|gif|webp|avif|svg|ico|woff2?|ttf|otf|eot|mp4|webm|mp3|wav|pdf|zip)$).*)',
   ],
 };
