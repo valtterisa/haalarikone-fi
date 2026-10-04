@@ -15,8 +15,8 @@ importers:
         specifier: ^3.0.55
         version: 3.0.55(zod@4.4.3)
       '@databuddy/sdk':
-        specifier: ^2.6.0
-        version: 2.6.0(react@19.2.4)(vue@3.5.26(typescript@5.6.3))
+        specifier: ^3.2.0
+        version: 3.2.0(react@19.2.4)(vue@3.5.26(typescript@5.6.3))
       '@libsql/client':
         specifier: ^0.18.0
         version: 0.18.0
@@ -555,8 +555,8 @@ packages:
     resolution: {integrity: sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==}
     engines: {node: '>=20.19.0'}
 
-  '@databuddy/sdk@2.6.0':
-    resolution: {integrity: sha512-coQVa/AJoesgsFSGWPFtlrl7xZx1nTTvoX3A9YLD+9f3+JDwr3ajVog3WOiLBJSLqk7xC+G+FnR/W/Wda5eWbw==}
+  '@databuddy/sdk@3.2.0':
+    resolution: {integrity: sha512-rDIFuYT359qA90rT341oELTSOLbI9EvTJBjWNcO/qepgXrHT8ZrdvBpEkSMu45u9dcpTml/PiQWAyLueU5RAMg==}
     peerDependencies:
       react: '>=18'
       vue: '>=3'
@@ -5159,7 +5159,7 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.0': {}
 
-  '@databuddy/sdk@2.6.0(react@19.2.4)(vue@3.5.26(typescript@5.6.3))':
+  '@databuddy/sdk@3.2.0(react@19.2.4)(vue@3.5.26(typescript@5.6.3))':
     optionalDependencies:
       react: 19.2.4
       vue: 3.5.26(typescript@5.6.3)

@@ -27,7 +27,7 @@
   "dependencies": {
     "@ai-sdk/anthropic": "^3.0.111",
     "@ai-sdk/cohere": "^3.0.55",
-    "@databuddy/sdk": "^2.6.0",
+    "@databuddy/sdk": "^3.2.0",
     "@libsql/client": "^0.18.0",
     "@opennextjs/cloudflare": "^1.20.2",
     "@phosphor-icons/react": "^2.1.10",
