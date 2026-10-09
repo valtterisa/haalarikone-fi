@@ -118,9 +118,9 @@ export function useUniversitySearch({
     selectedCriteria.textSearch.trim().length >= 3 ||
     Boolean(
       selectedCriteria.color ||
-        selectedCriteria.area ||
-        selectedCriteria.field ||
-        selectedCriteria.school,
+      selectedCriteria.area ||
+      selectedCriteria.field ||
+      selectedCriteria.school,
     );
   const sortedInitialUniversities = useMemo(
     () => initialUniversities.toSorted(compareOppilaitosThenAinejarjesto),
@@ -139,10 +139,7 @@ export function useUniversitySearch({
     const timeoutId = setTimeout(() => {
       setDebouncedTextSearch(raw);
     }, TEXT_SEARCH_DEBOUNCE_MS);
-    return () => {
-      clearTimeout(timeoutId);
-      searchRequestIdRef.current += 1;
-    };
+    return () => clearTimeout(timeoutId);
   }, [selectedCriteria.textSearch]);
 
   const appliedFilterCriteria = useMemo((): UniversityFilterCriteria => {
@@ -252,32 +249,29 @@ export function useUniversitySearch({
 
   useEffect(() => {
     const hasTextSearchLive = selectedCriteria.textSearch.trim().length >= 3;
-    const hasFilters =
+    const hasFilters = Boolean(
       selectedCriteria.color ||
       selectedCriteria.area ||
       selectedCriteria.field ||
-      selectedCriteria.school;
-    const hasTextSearchDebounced = debouncedTextSearch.trim().length >= 3;
+      selectedCriteria.school,
+    );
 
-    if (hasSearchedRef.current && !hasTextSearchLive && !hasFilters) {
+    if (hasTextSearchLive || hasFilters) {
+      return;
+    }
+
+    searchRequestIdRef.current += 1;
+    setIsSearching(false);
+
+    if (hasSearchedRef.current) {
       if (showResultsByDefault) {
         setSearchSourceUniversities(sortedInitialUniversities);
       } else {
         setSearchSourceUniversities([]);
         setHasSearched(false);
       }
-      setIsSearching(false);
-      return undefined;
     }
-
-    if (hasTextSearchDebounced || hasFilters) {
-      void performSearchRef.current();
-      return undefined;
-    }
-
-    return undefined;
   }, [
-    debouncedTextSearch,
     selectedCriteria.textSearch,
     selectedCriteria.color,
     selectedCriteria.area,
@@ -285,6 +279,30 @@ export function useUniversitySearch({
     selectedCriteria.school,
     showResultsByDefault,
     sortedInitialUniversities,
+  ]);
+
+  useEffect(() => {
+    const trimmed = debouncedTextSearch.trim();
+    const hasTextSearchDebounced = trimmed.length >= 3;
+    const hasFilters = Boolean(
+      selectedCriteria.color ||
+      selectedCriteria.area ||
+      selectedCriteria.field ||
+      selectedCriteria.school,
+    );
+
+    if (!hasTextSearchDebounced && !hasFilters) {
+      return;
+    }
+
+    void performSearchRef.current();
+  }, [
+    debouncedTextSearch,
+    selectedCriteria.color,
+    selectedCriteria.area,
+    selectedCriteria.field,
+    selectedCriteria.school,
+    locale,
   ]);
 
   useEffect(() => {
@@ -404,9 +422,9 @@ export function useUniversitySearch({
       has_query: selectedCriteria.textSearch.trim().length >= 3,
       has_filters: Boolean(
         selectedCriteria.color ||
-          selectedCriteria.area ||
-          selectedCriteria.field ||
-          selectedCriteria.school,
+        selectedCriteria.area ||
+        selectedCriteria.field ||
+        selectedCriteria.school,
       ),
       result_count: results.length,
     });

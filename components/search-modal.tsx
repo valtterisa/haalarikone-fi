@@ -71,6 +71,8 @@ export function SearchModalRoot({
   const [isSearching, setIsSearching] = useState(false);
   const [showAllHaalarit, setShowAllHaalarit] = useState(false);
   const requestIdRef = useRef(0);
+  const clientSearchContextRef = useRef(clientSearchContext);
+  clientSearchContextRef.current = clientSearchContext;
   const router = useRouter();
 
   useEffect(() => {
@@ -82,7 +84,8 @@ export function SearchModalRoot({
   }, [open]);
 
   useEffect(() => {
-    if (searchQuery.trim().length < 3) {
+    const trimmed = searchQuery.trim();
+    if (trimmed.length < 3) {
       requestIdRef.current += 1;
       setResults([]);
       setIsSearching(false);
@@ -97,9 +100,9 @@ export function SearchModalRoot({
         setIsSearching(true);
         try {
           const searchResults = await searchUniversitiesAPI(
-            searchQuery.trim(),
+            trimmed,
             locale,
-            clientSearchContext,
+            clientSearchContextRef.current,
             { log: { source: 'modal' } },
           );
           if (requestIdRef.current !== currentRequestId) {
@@ -123,7 +126,7 @@ export function SearchModalRoot({
     }, 1000);
 
     return () => clearTimeout(timeoutId);
-  }, [searchQuery, locale, clientSearchContext]);
+  }, [searchQuery, locale]);
 
   const handleSelect = (uni: University) => {
     router.push(routes.overall(uni.slug));
@@ -259,7 +262,10 @@ export function SearchModalInput() {
             className="h-12 border-2 border-input bg-background pl-10 pr-24 text-base shadow-sm transition-shadow touch-manipulation hover:shadow-card focus-visible:ring-2 focus-visible:ring-green/30 sm:h-16 sm:pl-16 sm:pr-28 sm:text-lg"
           />
           {isSearching ? (
-            <div className="absolute right-3 top-1/2 z-10 -translate-y-1/2 sm:right-6" aria-hidden="true">
+            <div
+              className="absolute right-3 top-1/2 z-10 -translate-y-1/2 sm:right-6"
+              aria-hidden="true"
+            >
               <div className="h-4 w-4 rounded-full border-2 border-green border-t-transparent motion-safe:animate-spin sm:h-6 sm:w-6" />
             </div>
           ) : null}
@@ -289,12 +295,7 @@ export function SearchModalInput() {
 export function SearchModalOveralls() {
   const t = useTranslations('search');
   const tOverall = useTranslations('overall');
-  const {
-    results,
-    handleSelect,
-    showAllHaalarit,
-    setShowAllHaalarit,
-  } = useSearchModal();
+  const { results, handleSelect, showAllHaalarit, setShowAllHaalarit } = useSearchModal();
   const visibleCount = showAllHaalarit ? results.length : 5;
 
   return (
@@ -414,13 +415,11 @@ export function SearchModalResults() {
   const t = useTranslations('search');
   const { results, isSearching, searchQuery } = useSearchModal();
 
-  if (
-    !(
-      results.length > 0 ||
-      isSearching ||
-      (searchQuery.trim().length >= 3 && results.length === 0)
-    )
-  ) {
+  if (!(
+    results.length > 0 ||
+    isSearching ||
+    (searchQuery.trim().length >= 3 && results.length === 0)
+  )) {
     return null;
   }
 
