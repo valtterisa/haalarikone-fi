@@ -54,6 +54,10 @@
     "areas": "Areas",
     "navigation": "Navigation",
     "contact": "Contact",
+    "feedback": "Feedback",
+    "feedbackModalTitle": "Send feedback",
+    "feedbackModalDescription": "Share ideas, bugs, or other feedback. Messages go to the maintainers via a Discord channel.",
+    "feedbackSubmit": "Send feedback",
     "email": "Email",
     "github": "GitHub",
     "description": "Inspiration, colors and traditions for student overalls. Keep culture easily discoverable.",
@@ -159,6 +163,10 @@
               "detail": "Delivery of feedback email to the controller. Privacy: https://resend.com/legal/privacy-policy"
             },
             {
+              "name": "Discord",
+              "detail": "Delivery of feedback and correction reports to the maintainers' Discord channel via webhook. Privacy: https://discord.com/privacy"
+            },
+            {
               "name": "Databuddy",
               "detail": "Cookieless, aggregated visitor analytics. Privacy: https://www.databuddy.cc/privacy"
             },
@@ -175,7 +183,7 @@
         {
           "title": "6. Transfers outside the EU/EEA",
           "paragraphs": [
-            "Cloudflare, Resend, and Anthropic may process data outside the EEA, including in the United States. Transfers rely on the processors' safeguards, such as the European Commission's standard contractual clauses. Databuddy processes visitor data in anonymised form.",
+            "Cloudflare, Resend, Discord, and Anthropic may process data outside the EEA, including in the United States. Transfers rely on the processors' safeguards, such as the European Commission's standard contractual clauses. Databuddy processes visitor data in anonymised form.",
             "Only the search query that local search could not interpret is sent to the AI provider. Feedback messages and email addresses are not sent to Anthropic."
           ]
         },
@@ -420,12 +428,15 @@
   "feedback": {
     "message": "Message",
     "messagePlaceholder": "Share your thoughts...",
+    "emailLabel": "Email (optional)",
     "emailPlaceholder": "you@example.com",
+    "successTitle": "Feedback sent!",
     "success": "Thank you for your feedback.",
     "error": "Failed to send feedback, please try again in a moment.",
     "validation": "Fill in required fields and tell us a bit more.",
     "submitting": "Submitting...",
-    "submit": "Send feedback"
+    "submit": "Send feedback",
+    "close": "Close"
   },
   "popular": {
     "title": "Popular",

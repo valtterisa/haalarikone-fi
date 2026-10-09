@@ -54,6 +54,10 @@
     "areas": "Städer",
     "navigation": "Navigation",
     "contact": "Kontakt",
+    "feedback": "Feedback",
+    "feedbackModalTitle": "Skicka feedback",
+    "feedbackModalDescription": "Dela idéer, buggar eller annan feedback. Meddelanden går till underhållarna via en Discord-kanal.",
+    "feedbackSubmit": "Skicka feedback",
     "email": "E-post",
     "github": "GitHub",
     "description": "Inspiration, färger och traditioner för studentoverallar. Håll kulturen lätt att upptäcka.",
@@ -159,6 +163,10 @@
               "detail": "Leverans av feedbackmejl till den personuppgiftsansvariga. Integritet: https://resend.com/legal/privacy-policy"
             },
             {
+              "name": "Discord",
+              "detail": "Leverans av feedback och rättelser till underhållarnas Discord-kanal via webhook. Integritet: https://discord.com/privacy"
+            },
+            {
               "name": "Databuddy",
               "detail": "Cookielös, aggregerad besökaranalys. Integritet: https://www.databuddy.cc/privacy"
             },
@@ -175,7 +183,7 @@
         {
           "title": "6. Överföringar utanför EU/EES",
           "paragraphs": [
-            "Cloudflare, Resend och Anthropic kan behandla uppgifter även utanför EES, särskilt i USA. Överföringarna bygger på biträdenas skyddsåtgärder, till exempel EU-kommissionens standardavtalsklausuler. Databuddy behandlar besökardata i anonymiserad form.",
+            "Cloudflare, Resend, Discord och Anthropic kan behandla uppgifter även utanför EES, särskilt i USA. Överföringarna bygger på biträdenas skyddsåtgärder, till exempel EU-kommissionens standardavtalsklausuler. Databuddy behandlar besökardata i anonymiserad form.",
             "Till AI-leverantören skickas bara den sökfråga som lokal sök inte kunde tolka. Feedbackmeddelanden och e-postadresser skickas inte till Anthropic."
           ]
         },
@@ -420,12 +428,15 @@
   "feedback": {
     "message": "Meddelande",
     "messagePlaceholder": "Dela dina tankar...",
+    "emailLabel": "E-post (valfritt)",
     "emailPlaceholder": "du@exempel.com",
+    "successTitle": "Feedback skickad!",
     "success": "Tack för din feedback.",
     "error": "Kunde inte skicka feedback, försök igen om en stund.",
     "validation": "Fyll i obligatoriska fält och berätta lite mer.",
     "submitting": "Skickar...",
-    "submit": "Skicka feedback"
+    "submit": "Skicka feedback",
+    "close": "Stäng"
   },
   "popular": {
     "title": "Populära",

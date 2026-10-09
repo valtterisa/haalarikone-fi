@@ -108,7 +108,10 @@ Create a `.env.local` file in the root directory with at least the following var
 # Anthropic (optional - AI fallback when deterministic search returns no results)
 ANTHROPIC_API_KEY=your_anthropic_api_key
 
-# Resend (optional - feedback form)
+# Discord webhook (recommended - general feedback + correction reports)
+DISCORD_FEEDBACK_WEBHOOK_URL=https://discord.com/api/webhooks/...
+
+# Resend (optional email fallback for feedback)
 RESEND_API_KEY=your_resend_api_key
 FEEDBACK_EMAIL_TO=your_email@example.com
 ```
@@ -116,7 +119,8 @@ FEEDBACK_EMAIL_TO=your_email@example.com
 Notes:
 
 - Optional: `ANTHROPIC_API_KEY` (AI fallback on zero-result searches)
-- Optional: `RESEND_API_KEY`, `FEEDBACK_EMAIL_TO` (feedback form fails silently if missing)
+- Optional: `DISCORD_FEEDBACK_WEBHOOK_URL` (posts feedback embeds to a Discord channel)
+- Optional: `RESEND_API_KEY`, `FEEDBACK_EMAIL_TO` (email fallback; if neither Discord nor Resend is set, feedback is skipped silently)
 - The app uses `localePrefix: 'as-needed'` – Finnish (default) has no prefix, other locales use `/en` or `/sv`
 
 ### 4. Start the development server

@@ -54,6 +54,10 @@
     "areas": "Alueet",
     "navigation": "Navigaatio",
     "contact": "Yhteystiedot",
+    "feedback": "Palaute",
+    "feedbackModalTitle": "Lähetä palautetta",
+    "feedbackModalDescription": "Kerro ideoista, bugeista tai muusta palautteesta. Viesti menee ylläpidolle Discord-kanavan kautta.",
+    "feedbackSubmit": "Lähetä palaute",
     "email": "Sähköposti",
     "github": "GitHub",
     "description": "Inspiraatiota, värejä ja perinteitä opiskelijahaalareihin. Pidä kulttuuri helposti löydettävänä.",
@@ -159,6 +163,10 @@
               "detail": "Palautesähköpostin toimitus rekisterinpitäjälle. Tietosuoja: https://resend.com/legal/privacy-policy"
             },
             {
+              "name": "Discord",
+              "detail": "Palautteiden ja korjausilmoitusten toimitus ylläpidon Discord-kanavaan webhookilla. Tietosuoja: https://discord.com/privacy"
+            },
+            {
               "name": "Databuddy",
               "detail": "Evästeetön, aggregoitu kävijäanalytiikka. Tietosuoja: https://www.databuddy.cc/privacy"
             },
@@ -175,7 +183,7 @@
         {
           "title": "6. Siirrot EU- ja ETA-alueen ulkopuolelle",
           "paragraphs": [
-            "Cloudflare, Resend ja Anthropic voivat käsitellä tietoja myös ETA-alueen ulkopuolella, erityisesti Yhdysvalloissa. Siirrot perustuvat käsittelijöiden tietosuojajärjestelyihin, kuten Euroopan komission vakiosopimuslausekkeisiin. Databuddy käsittelee kävijätiedot anonymisoituina.",
+            "Cloudflare, Resend, Discord ja Anthropic voivat käsitellä tietoja myös ETA-alueen ulkopuolella, erityisesti Yhdysvalloissa. Siirrot perustuvat käsittelijöiden tietosuojajärjestelyihin, kuten Euroopan komission vakiosopimuslausekkeisiin. Databuddy käsittelee kävijätiedot anonymisoituina.",
             "Tekoälyyn lähtee vain se hakulause, jota paikallinen haku ei pystynyt tulkitsemaan. Palautteen sähköposti ja viesti eivät mene Anthropicille."
           ]
         },
@@ -420,12 +428,15 @@
   "feedback": {
     "message": "Viesti",
     "messagePlaceholder": "Kerro ajatuksesi...",
+    "emailLabel": "Sähköposti (vapaaehtoinen)",
     "emailPlaceholder": "sina@example.com",
+    "successTitle": "Palaute lähetetty!",
     "success": "Kiitos palautteesta.",
     "error": "Palautteen lähetys epäonnistui, yritä hetken päästä uudelleen.",
     "validation": "Täytä pakolliset kentät ja kerro hieman tarkemmin.",
     "submitting": "Lähetetään...",
-    "submit": "Lähetä palaute"
+    "submit": "Lähetä palaute",
+    "close": "Sulje"
   },
   "popular": {
     "title": "Suosituimmat",

@@ -23,6 +23,7 @@ import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 import { joinNames, splitCsv } from '@/lib/popular-destinations';
+import SuggestChangeCard from '@/components/suggest-change-card';
 
 export const revalidate = 86400;
 
@@ -114,10 +115,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical: pageUrl,
       languages: {
-        fi: absoluteUrl('fi', routeHref('universities', getSlugForEntity(university, 'fi', 'university'))),
-        en: absoluteUrl('en', routeHref('universities', getSlugForEntity(university, 'en', 'university'))),
-        sv: absoluteUrl('sv', routeHref('universities', getSlugForEntity(university, 'sv', 'university'))),
-        'x-default': absoluteUrl('fi', routeHref('universities', getSlugForEntity(university, 'fi', 'university'))),
+        fi: absoluteUrl(
+          'fi',
+          routeHref('universities', getSlugForEntity(university, 'fi', 'university')),
+        ),
+        en: absoluteUrl(
+          'en',
+          routeHref('universities', getSlugForEntity(university, 'en', 'university')),
+        ),
+        sv: absoluteUrl(
+          'sv',
+          routeHref('universities', getSlugForEntity(university, 'sv', 'university')),
+        ),
+        'x-default': absoluteUrl(
+          'fi',
+          routeHref('universities', getSlugForEntity(university, 'fi', 'university')),
+        ),
       },
     },
   };
@@ -147,6 +160,7 @@ export default async function UniversityPage({ params }: Props) {
   const colors = Array.from(new Set(universityData.map((u) => u.vari)));
   const areas = Array.from(new Set(universityData.flatMap((u) => splitCsv(u.alue))));
   const capitalizedUniversity = capitalizeFirstLetter(translatedUniversity);
+  const universitySlug = getSlugForEntity(university, locale, 'university');
 
   const organizationSchema = {
     '@context': 'https://schema.org',
@@ -156,7 +170,10 @@ export default async function UniversityPage({ params }: Props) {
       university: capitalizedUniversity,
       count: universityData.length,
     }),
-    url: absoluteUrl(locale, routeHref('universities', getSlugForEntity(university, locale, 'university'))),
+    url: absoluteUrl(
+      locale,
+      routeHref('universities', getSlugForEntity(university, locale, 'university')),
+    ),
   };
 
   const itemListSchema = {
@@ -292,6 +309,19 @@ export default async function UniversityPage({ params }: Props) {
             <UniversityCard key={uni.id} uni={uni} source="university" />
           ))}
         </ul>
+
+        <SuggestChangeCard
+          title={t('overall.errorTitle')}
+          description={t('overall.errorDescription')}
+          buttonLabel={t('overall.errorButton')}
+          modalTitle={t('overall.errorModalTitle')}
+          modalDescription={t('overall.errorModalDescription')}
+          submitLabel={t('overall.errorSubmit')}
+          messageLabel={t('overall.errorLabel')}
+          messagePlaceholder={t('overall.errorPlaceholder')}
+          sourceId={universitySlug}
+          sourceName={capitalizedUniversity}
+        />
       </Page>
     </>
   );

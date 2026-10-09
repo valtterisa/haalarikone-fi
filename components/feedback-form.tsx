@@ -2,16 +2,16 @@
 
 import { useId, useRef, useState, FormEvent } from 'react';
 import { Check, Warning } from '@phosphor-icons/react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/cn';
-import { sendFeedbackEmail } from '@/lib/send-feedback-email';
+import type { FeedbackType } from '@/lib/feedback-schema';
+import { sendFeedback } from '@/lib/send-feedback';
 
 type FeedbackStatus =
-  | { type: 'idle' }
-  | { type: 'success'; message: string }
-  | { type: 'error'; message: string };
+  { type: 'idle' } | { type: 'success'; message: string } | { type: 'error'; message: string };
 
 export type FeedbackFormProps = {
   title: string;
@@ -19,6 +19,7 @@ export type FeedbackFormProps = {
   description?: string;
   submitLabel: string;
   className?: string;
+  feedbackType?: FeedbackType;
   sourceId?: string;
   sourceName?: string;
   includeEmailField?: boolean;
@@ -34,18 +35,24 @@ export function FeedbackForm({
   description,
   submitLabel,
   className,
+  feedbackType = 'general',
   sourceId,
   sourceName,
   includeEmailField = true,
-  messageLabel = 'Viesti',
-  messagePlaceholder = 'Kerro ajatuksesi...',
-  emailPlaceholder = 'sina@example.com',
+  messageLabel,
+  messagePlaceholder,
+  emailPlaceholder,
   onClose,
 }: FeedbackFormProps) {
+  const t = useTranslations('feedback');
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<FeedbackStatus>({ type: 'idle' });
   const [pending, setPending] = useState(false);
   const id = useId();
+
+  const resolvedMessageLabel = messageLabel ?? t('message');
+  const resolvedMessagePlaceholder = messagePlaceholder ?? t('messagePlaceholder');
+  const resolvedEmailPlaceholder = emailPlaceholder ?? t('emailPlaceholder');
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -57,7 +64,7 @@ export function FeedbackForm({
     const websiteEntry = formData.get('website');
     const honeypot = typeof websiteEntry === 'string' ? websiteEntry : '';
     if (honeypot) {
-      setStatus({ type: 'success', message: 'Kiitos palautteesta!' });
+      setStatus({ type: 'success', message: t('success') });
       return;
     }
 
@@ -67,7 +74,7 @@ export function FeedbackForm({
     if (message.length < 10) {
       setStatus({
         type: 'error',
-        message: 'Täytä pakolliset kentät ja kerro hieman tarkemmin.',
+        message: t('validation'),
       });
       return;
     }
@@ -79,25 +86,26 @@ export function FeedbackForm({
       const emailEntry = formData.get('email');
       const email = typeof emailEntry === 'string' ? emailEntry.trim() : '';
 
-      await sendFeedbackEmail({
-        type: 'general',
+      await sendFeedback({
+        type: feedbackType,
         message,
         email: email || null,
         sourceId: sourceId ?? null,
         sourceName: sourceName ?? null,
+        pageUrl: window.location.href,
         origin: window.location.origin,
         referer: document.referrer || null,
       });
 
       setStatus({
         type: 'success',
-        message: 'Kiitos palautteesta!',
+        message: t('success'),
       });
       formRef.current.reset();
     } catch {
       setStatus({
         type: 'error',
-        message: 'Palautteen lähetys epäonnistui, yritä hetken päästä uudelleen.',
+        message: t('error'),
       });
     } finally {
       setPending(false);
@@ -113,14 +121,14 @@ export function FeedbackForm({
               <Check className="h-5 w-5 text-green" weight="bold" />
             </div>
             <div>
-              <h3 className="font-semibold text-green">Palaute lähetetty!</h3>
+              <h3 className="font-semibold text-green">{t('successTitle')}</h3>
               <p className="text-sm text-muted-foreground">{status.message}</p>
             </div>
           </div>
         </div>
         {onClose && (
           <Button type="button" variant="outline" onClick={onClose}>
-            Sulje
+            {t('close')}
           </Button>
         )}
       </div>
@@ -157,25 +165,25 @@ export function FeedbackForm({
       )}
       {includeEmailField ? (
         <div className="space-y-2">
-          <Label htmlFor={`${id}-email`}>Sähköposti (vapaaehtoinen)</Label>
+          <Label htmlFor={`${id}-email`}>{t('emailLabel')}</Label>
           <Input
             id={`${id}-email`}
             name="email"
             type="email"
-            placeholder={emailPlaceholder}
+            placeholder={resolvedEmailPlaceholder}
             autoComplete="email"
           />
         </div>
       ) : null}
       <div className="space-y-2">
-        <Label htmlFor={`${id}-message`}>{messageLabel}</Label>
+        <Label htmlFor={`${id}-message`}>{resolvedMessageLabel}</Label>
         <textarea
           id={`${id}-message`}
           name="message"
           data-testid="feedback-message"
           required
           minLength={10}
-          placeholder={messagePlaceholder}
+          placeholder={resolvedMessagePlaceholder}
           className="min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green focus-visible:ring-offset-2"
         />
       </div>
@@ -186,11 +194,11 @@ export function FeedbackForm({
           className="bg-green text-white hover:bg-green/90"
           data-testid="feedback-submit"
         >
-          {pending ? 'Lähetetään...' : submitLabel}
+          {pending ? t('submitting') : submitLabel}
         </Button>
         {onClose && (
           <Button type="button" variant="outline" onClick={onClose}>
-            Sulje
+            {t('close')}
           </Button>
         )}
       </div>

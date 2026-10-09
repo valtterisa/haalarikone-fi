@@ -1,30 +1,16 @@
-'use server';
-
 import { Resend } from 'resend';
-import { z } from 'zod';
-
-const feedbackSchema = z.object({
-  type: z.literal('general'),
-  message: z.string().min(10).max(5000),
-  email: z.email().nullable(),
-  sourceId: z.string().max(100).nullable(),
-  sourceName: z.string().max(200).nullable(),
-  origin: z.url().nullable(),
-  referer: z.string().max(500).nullable(),
-  honeypot: z.literal('').or(z.undefined()).optional(),
-});
-
-type FeedbackEmailPayload = z.infer<typeof feedbackSchema>;
+import { feedbackSchema, type FeedbackPayload } from '@/lib/feedback-schema';
 
 const resendApiKey = process.env.RESEND_API_KEY;
 const feedbackTo = process.env.FEEDBACK_EMAIL_TO;
 const feedbackFrom = 'noreply@haalarikone.fi';
 
-export async function sendFeedbackEmail(payload: FeedbackEmailPayload) {
+export function isFeedbackEmailConfigured(): boolean {
+  return Boolean(resendApiKey && feedbackTo);
+}
+
+export async function sendFeedbackEmail(payload: FeedbackPayload): Promise<void> {
   if (!resendApiKey || !feedbackTo) {
-    console.log(
-      'Resend API key or feedback email not configured. Feedback submission will be silently skipped.',
-    );
     return;
   }
 
@@ -34,13 +20,15 @@ export async function sendFeedbackEmail(payload: FeedbackEmailPayload) {
   }
 
   const validated = result.data;
-  const subject = 'Haalarikone - uusi palaute';
+  const subject =
+    validated.type === 'correction' ? 'Haalarikone - korjauspyyntö' : 'Haalarikone - uusi palaute';
 
   const metaLines = [
     ['Tyyppi', validated.type],
     ['Kohde', validated.sourceName],
     ['Kohteen ID', validated.sourceId],
     ['Yhteystieto', validated.email],
+    ['Sivu', validated.pageUrl],
     ['Origin', validated.origin],
     ['Referer', validated.referer],
   ].filter(([, value]) => value);

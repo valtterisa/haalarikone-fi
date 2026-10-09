@@ -27,7 +27,7 @@ Live analytics: https://app.databuddy.cc/public/Uu3N9TuBuUAa3wAS4pHNw
 - **Search:** Deterministic in-memory filtering + fuzzy ranking, with AI fallback only on zero-result deterministic queries
 - **Search logging:** Turso (libSQL) + Drizzle ORM
 - **AI/ML:** Vercel AI SDK with Anthropic Claude 3 Haiku (zero-result fallback only)
-- **Email:** Resend (for feedback forms)
+- **Feedback:** Discord webhook (primary) + optional Resend email
 - **Analytics:** Databuddy
 - **Testing:** Vitest only — search API + advanced filters against real `data/overall_data.json`; CI on non-draft PRs
 - **Package Manager:** pnpm
@@ -163,13 +163,13 @@ Logging runs server-side inside `POST /api/search` (fire-and-forget insert). Mis
 
 Primary suite is **Vitest** (search + filters + search-log). Turso pipeline + Playwright search-log are **local-only** (same `TURSO_*` as the app; skip if unset; not in CI).
 
-| Suite | Role |
-|-------|------|
-| `app/api/search/route.test.ts` | Text search API integration (AI mocked) |
-| `lib/university-filters.test.ts` | Advanced filters (+ text ∩ filters) |
-| `lib/reconcile-field-organization.test.ts` | Guild vs field reconcile unit tests |
-| `lib/log-search-pipeline.test.ts` | Local: insertSearchLog → Turso |
-| `e2e/search-log.spec.ts` | Local Playwright: settled search → Turso |
+| Suite                                      | Role                                     |
+| ------------------------------------------ | ---------------------------------------- |
+| `app/api/search/route.test.ts`             | Text search API integration (AI mocked)  |
+| `lib/university-filters.test.ts`           | Advanced filters (+ text ∩ filters)      |
+| `lib/reconcile-field-organization.test.ts` | Guild vs field reconcile unit tests      |
+| `lib/log-search-pipeline.test.ts`          | Local: insertSearchLog → Turso           |
+| `e2e/search-log.spec.ts`                   | Local Playwright: settled search → Turso |
 
 ```bash
 pnpm test
