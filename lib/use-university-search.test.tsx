@@ -35,11 +35,34 @@ const universities: University[] = [
     slug: 'testi',
     oppilaitos: 'HY',
   },
+  {
+    id: 2,
+    vari: 'sininen',
+    variLabel: 'Sininen',
+    variBase: ['sininen'],
+    hex: '#0000ff',
+    alue: 'Tampere',
+    ainejarjesto: 'Testi2',
+    slug: 'testi-2',
+    oppilaitos: 'TAU',
+  },
+  {
+    id: 3,
+    vari: 'punainen',
+    variLabel: 'Punainen',
+    variBase: ['punainen'],
+    hex: '#ff0000',
+    alue: 'Turku',
+    ainejarjesto: 'Testi3',
+    slug: 'testi-3',
+    oppilaitos: 'UTU',
+  },
 ];
 
 const colorData: ColorData = {
   colors: {
     punainen: { color: '#ff0000', main: ['punainen'], shades: [] },
+    sininen: { color: '#0000ff', main: ['sininen'], shades: [] },
   },
 };
 
@@ -128,6 +151,42 @@ describe('useUniversitySearch search triggers', () => {
 
     expect(searchUniversitiesAPIMock).toHaveBeenCalledTimes(2);
     expect(searchUniversitiesAPIMock.mock.calls[1]?.[3]?.log?.color).toBe('punainen');
+  });
+
+  it('updates draft filter result count when a filter is removed from draft', async () => {
+    searchUniversitiesAPIMock.mockResolvedValue(
+      universities.filter((uni) => uni.variBase?.includes('punainen')),
+    );
+    const { result } = renderSearch();
+
+    act(() => {
+      result.current.handleDraftAdvancedFilterChange({
+        color: 'punainen',
+        area: '',
+        field: '',
+        school: '',
+      });
+    });
+    expect(result.current.draftFilterResultCount).toBe(2);
+
+    act(() => {
+      result.current.handleApplyAdvancedFilters();
+    });
+    await flushMicrotasks();
+
+    expect(result.current.results).toHaveLength(2);
+    expect(result.current.draftFilterResultCount).toBe(2);
+
+    act(() => {
+      result.current.handleDraftAdvancedFilterChange({
+        color: '',
+        area: '',
+        field: '',
+        school: '',
+      });
+    });
+
+    expect(result.current.draftFilterResultCount).toBe(universities.length);
   });
 
   it('allows the same query again after clearing', async () => {
@@ -233,6 +292,6 @@ describe('useUniversitySearch search triggers', () => {
 
     expect(searchUniversitiesAPIMock).toHaveBeenCalledTimes(2);
     expect(result.current.isSearching).toBe(false);
-    expect(result.current.results.map((uni) => uni.id)).toEqual([1]);
+    expect(result.current.results.map((uni) => uni.id)).toEqual([1, 2, 3]);
   });
 });

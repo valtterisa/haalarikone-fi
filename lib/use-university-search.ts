@@ -207,9 +207,10 @@ export function useUniversitySearch({
         const hasFilters = Boolean(
           criteria.color || criteria.area || criteria.field || criteria.school,
         );
+        searchResults = initialUniversities;
         if (hasFilters) {
           try {
-            searchResults = await searchUniversitiesAPI('', locale, undefined, {
+            await searchUniversitiesAPI('', locale, undefined, {
               log: {
                 source: 'listing',
                 color: criteria.color || null,
@@ -220,19 +221,7 @@ export function useUniversitySearch({
             });
           } catch (error) {
             console.error('Search failed', error);
-            searchResults = filterUniversities(
-              initialUniversities,
-              {
-                color: criteria.color || undefined,
-                area: criteria.area || undefined,
-                field: criteria.field || undefined,
-                school: criteria.school || undefined,
-              },
-              colorData,
-            );
           }
-        } else {
-          searchResults = initialUniversities;
         }
       }
 
@@ -387,10 +376,18 @@ export function useUniversitySearch({
     [draftAdvancedFilters, colorData],
   );
 
-  const draftFilterResultCount = useMemo(
-    () => searchSourceUniversities.filter((uni) => matchesDraftFilters(uni)).length,
-    [searchSourceUniversities, matchesDraftFilters],
-  );
+  const draftFilterResultCount = useMemo(() => {
+    const base =
+      selectedCriteria.textSearch.trim().length >= 3
+        ? searchSourceUniversities
+        : initialUniversities;
+    return base.filter((uni) => matchesDraftFilters(uni)).length;
+  }, [
+    selectedCriteria.textSearch,
+    searchSourceUniversities,
+    initialUniversities,
+    matchesDraftFilters,
+  ]);
 
   const handleApplyAdvancedFilters = useCallback(() => {
     setSelectedCriteria((prev) => ({
