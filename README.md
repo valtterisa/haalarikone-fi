@@ -56,7 +56,7 @@ student-overall-app/
 │   ├── api/               # API routes (search)
 ├── components/            # React components
 │   ├── ui/                # Reusable UI components (Radix UI)
-│   ├── search-modal.tsx   # Search functionality
+│   ├── search-container.tsx  # Home/hub search
 │   ├── language-switcher.tsx  # i18n language switcher
 │   ├── theme-switcher.tsx # Dark/light mode toggle
 │   └── ...                # Feature components
@@ -163,13 +163,13 @@ Logging runs server-side inside `POST /api/search` (fire-and-forget insert). Mis
 
 Primary suite is **Vitest** (search + filters + search-log). Turso pipeline + Playwright search-log are **local-only** (same `TURSO_*` as the app; skip if unset; not in CI).
 
-| Suite | Role |
-|-------|------|
-| `app/api/search/route.test.ts` | Text search API integration (AI mocked) |
-| `lib/university-filters.test.ts` | Advanced filters (+ text ∩ filters) |
-| `lib/reconcile-field-organization.test.ts` | Guild vs field reconcile unit tests |
-| `lib/log-search-pipeline.test.ts` | Local: insertSearchLog → Turso |
-| `e2e/search-log.spec.ts` | Local Playwright: settled search → Turso |
+| Suite                                      | Role                                     |
+| ------------------------------------------ | ---------------------------------------- |
+| `app/api/search/route.test.ts`             | Text search API integration (AI mocked)  |
+| `lib/university-filters.test.ts`           | Advanced filters (+ text ∩ filters)      |
+| `lib/reconcile-field-organization.test.ts` | Guild vs field reconcile unit tests      |
+| `lib/log-search-pipeline.test.ts`          | Local: insertSearchLog → Turso           |
+| `e2e/search-log.spec.ts`                   | Local Playwright: settled search → Turso |
 
 ```bash
 pnpm test

@@ -17,7 +17,8 @@
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "knip": "knip"
   },
   "lint-staged": {
     "*.{ts,tsx,md,json}": [
@@ -68,6 +69,7 @@
     "drizzle-kit": "^0.31.10",
     "husky": "9.1.7",
     "jsdom": "^30.0.1",
+    "knip": "^6.41.0",
     "lint-staged": "15.5.1",
     "postcss": "8.4.49",
     "prettier": "^3.9.6",
