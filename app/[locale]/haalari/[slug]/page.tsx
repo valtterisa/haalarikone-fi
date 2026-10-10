@@ -19,14 +19,9 @@ import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 import type { Locale } from '@/lib/slug-translations';
 import { getFinnishName } from '@/lib/get-finnish-name';
 import { splitCsv } from '@/lib/popular-destinations';
-import {
-  Buildings,
-  CaretRight,
-  Globe,
-  GraduationCap,
-  MapPin,
-} from '@phosphor-icons/react/dist/ssr';
+import { Buildings, CaretRight, GraduationCap, MapPin } from '@phosphor-icons/react/dist/ssr';
 import SuggestChangeCard from '@/components/suggest-change-card';
+import { EnrichmentProse, EnrichmentWebsiteLink } from '@/components/enrichment-info';
 import { getEnrichedOrganization } from '@/lib/load-enrichment';
 
 export const revalidate = 86400;
@@ -258,20 +253,35 @@ export default async function OverallPage({ params }: Props) {
                 )}
               </div>
             </div>
-            <Link
-              href={routeHref(
-                'colors',
-                getSlugForEntity(overall.variBase?.[0] ?? overall.vari, locale, 'color'),
-              )}
-              className="inline-flex w-fit items-center gap-2.5 rounded-lg border border-border bg-muted/40 px-3.5 py-2.5 transition hover:border-green/40 hover:bg-green/5 sm:ml-auto"
-            >
-              <span
-                className="h-6 w-6 rounded-md ring-1 ring-black/15"
-                style={parseStyles(overall.hex)}
-              />
-              <span className="text-sm font-semibold text-foreground">{overall.vari}</span>
-            </Link>
+            <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
+              <Link
+                href={routeHref(
+                  'colors',
+                  getSlugForEntity(overall.variBase?.[0] ?? overall.vari, locale, 'color'),
+                )}
+                className="inline-flex w-fit items-center gap-2.5 rounded-lg border border-border bg-muted/40 px-3.5 py-2.5 transition hover:border-green/40 hover:bg-green/5"
+              >
+                <span
+                  className="h-6 w-6 rounded-md ring-1 ring-black/15"
+                  style={parseStyles(overall.hex)}
+                />
+                <span className="text-sm font-semibold text-foreground">{overall.vari}</span>
+              </Link>
+              {enrichment?.website ? (
+                <EnrichmentWebsiteLink
+                  href={enrichment.website}
+                  label={t('overall.visitWebsite')}
+                />
+              ) : null}
+            </div>
           </div>
+
+          {enrichment?.description ? (
+            <div className="border-b border-border px-5 py-5 sm:px-6">
+              <h2 className="mb-3 text-sm font-medium text-foreground/55">{t('overall.about')}</h2>
+              <EnrichmentProse text={enrichment.description} />
+            </div>
+          ) : null}
 
           <dl className="divide-y divide-border">
             <div className="grid gap-1 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:items-center sm:gap-4 sm:px-6">
@@ -331,41 +341,7 @@ export default async function OverallPage({ params }: Props) {
                 </dd>
               </div>
             )}
-
-            {enrichment?.website ? (
-              <div className="grid gap-1 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:items-center sm:gap-4 sm:px-6">
-                <dt className="flex items-center gap-2 text-sm font-medium text-foreground/55">
-                  <Globe className="h-4 w-4 text-green" weight="regular" />
-                  {t('overall.website')}
-                </dt>
-                <dd>
-                  <a
-                    href={enrichment.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm font-semibold text-foreground underline-offset-4 transition hover:text-green hover:underline"
-                  >
-                    {(() => {
-                      try {
-                        return new URL(enrichment.website).hostname.replace(/^www\./, '');
-                      } catch {
-                        return enrichment.website;
-                      }
-                    })()}
-                  </a>
-                </dd>
-              </div>
-            ) : null}
           </dl>
-
-          {enrichment?.description ? (
-            <div className="border-t border-border px-5 py-5 sm:px-6">
-              <h2 className="text-sm font-medium text-foreground/55">{t('overall.about')}</h2>
-              <p className="mt-2 max-w-[65ch] text-sm leading-relaxed text-foreground/80 sm:text-[15px]">
-                {enrichment.description}
-              </p>
-            </div>
-          ) : null}
         </div>
 
         {relatedOveralls.length > 0 && (

@@ -1,4 +1,4 @@
-import { EnrichmentWebsiteLink } from '@/components/enrichment-info';
+import { EnrichmentProse, EnrichmentWebsiteLink } from '@/components/enrichment-info';
 import type { EnrichedSchool } from '@/lib/load-enrichment';
 import { ArrowUpRight, Globe, MapPin, UsersThree } from '@phosphor-icons/react/dist/ssr';
 import Image from 'next/image';
@@ -91,12 +91,12 @@ export function UniversityProfile({
       </div>
 
       <div className="px-5 py-5 sm:px-6">
-        <p className="max-w-[65ch] text-[15px] leading-relaxed text-foreground/80">{description}</p>
+        <EnrichmentProse text={description} />
       </div>
 
       {studentUnion ? (
         <div className="border-t border-border bg-muted/25 px-5 py-5 sm:px-6">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
               <p className="flex items-center gap-2 text-sm font-medium text-foreground/55">
                 <UsersThree className="h-4 w-4 text-green" weight="regular" aria-hidden />
@@ -106,9 +106,10 @@ export function UniversityProfile({
                 {studentUnion.name}
               </p>
               {studentUnion.description ? (
-                <p className="mt-1.5 max-w-[55ch] text-sm leading-relaxed text-foreground/70">
-                  {studentUnion.description}
-                </p>
+                <EnrichmentProse
+                  text={studentUnion.description}
+                  className="mt-2 [&_p]:text-sm [&_p]:text-foreground/70"
+                />
               ) : null}
             </div>
             {studentUnion.website ? (

@@ -1,3 +1,4 @@
+import { splitProseParagraphs } from '@/lib/enrichment-prose';
 import { ArrowUpRight, Globe, UsersThree } from '@phosphor-icons/react/dist/ssr';
 
 function websiteHost(url: string): string {
@@ -6,6 +7,26 @@ function websiteHost(url: string): string {
   } catch {
     return url;
   }
+}
+
+type EnrichmentProseProps = {
+  text: string;
+  className?: string;
+};
+
+export function EnrichmentProse({ text, className = '' }: EnrichmentProseProps) {
+  const paragraphs = splitProseParagraphs(text);
+  if (paragraphs.length === 0) return null;
+
+  return (
+    <div className={`space-y-3 ${className}`.trim()}>
+      {paragraphs.map((paragraph) => (
+        <p key={paragraph} className="text-[15px] leading-relaxed text-foreground/80">
+          {paragraph}
+        </p>
+      ))}
+    </div>
+  );
 }
 
 type EnrichmentWebsiteLinkProps = {
@@ -54,9 +75,7 @@ export function EnrichmentAbout({
         <h2 className="text-base font-semibold tracking-tight text-foreground">{title}</h2>
       </div>
       <div className="flex flex-col gap-4 px-5 py-5 sm:px-6">
-        <p className="max-w-[65ch] text-sm leading-relaxed text-foreground/80 sm:text-[15px]">
-          {description}
-        </p>
+        <EnrichmentProse text={description} />
         {website ? <EnrichmentWebsiteLink href={website} label={websiteLabel} /> : null}
       </div>
     </section>
@@ -88,9 +107,10 @@ export function EnrichmentStudentUnion({
           </div>
           <p className="mt-1.5 text-base font-semibold tracking-tight text-foreground">{name}</p>
           {description ? (
-            <p className="mt-2 max-w-[65ch] text-sm leading-relaxed text-foreground/75">
-              {description}
-            </p>
+            <EnrichmentProse
+              text={description}
+              className="mt-2 [&_p]:text-sm [&_p]:text-foreground/75"
+            />
           ) : null}
         </div>
         {website ? (
