@@ -15,7 +15,7 @@ export type LegalFact = {
   value: string;
 };
 
-export type LegalItem = {
+type LegalItem = {
   name: string;
   detail: string;
 };
@@ -130,7 +130,7 @@ export function parseLegalSections(value: unknown): LegalSection[] {
   return value.filter(isLegalSection);
 }
 
-export function LegalDocumentRoot({
+function LegalDocumentRoot({
   homeLabel,
   title,
   updatedLabel,
@@ -156,13 +156,7 @@ export function LegalDocumentRoot({
   );
 }
 
-export function LegalDocumentBreadcrumbs({
-  homeLabel,
-  title,
-}: {
-  homeLabel: string;
-  title: string;
-}) {
+function LegalDocumentBreadcrumbs({ homeLabel, title }: { homeLabel: string; title: string }) {
   return (
     <Breadcrumb className="mb-6">
       <BreadcrumbList>
@@ -180,7 +174,7 @@ export function LegalDocumentBreadcrumbs({
   );
 }
 
-export function LegalDocumentHeader({
+function LegalDocumentHeader({
   title,
   updatedLabel,
   updatedDate,
@@ -202,7 +196,7 @@ export function LegalDocumentHeader({
   );
 }
 
-export function LegalDocumentFacts({ facts }: { facts: LegalFact[] }) {
+function LegalDocumentFacts({ facts }: { facts: LegalFact[] }) {
   if (facts.length === 0) return null;
 
   return (
@@ -217,7 +211,7 @@ export function LegalDocumentFacts({ facts }: { facts: LegalFact[] }) {
   );
 }
 
-export function LegalDocumentSections({ sections }: { sections: LegalSection[] }) {
+function LegalDocumentSections({ sections }: { sections: LegalSection[] }) {
   return (
     <div className="space-y-10">
       {sections.map((section, index) => (
@@ -230,7 +224,10 @@ export function LegalDocumentSections({ sections }: { sections: LegalSection[] }
           </h2>
           <div className="space-y-3">
             {section.paragraphs.map((paragraph, paragraphIndex) => (
-              <p key={`${index}-${paragraphIndex}`} className="max-w-[65ch] text-base leading-relaxed">
+              <p
+                key={`${index}-${paragraphIndex}`}
+                className="max-w-[65ch] text-base leading-relaxed"
+              >
                 {linkify(paragraph)}
               </p>
             ))}

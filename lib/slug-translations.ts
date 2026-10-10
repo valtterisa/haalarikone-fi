@@ -42,7 +42,3 @@ export function getEntityFromSlug(
 
   return null;
 }
-
-export function getCanonicalSlug(entity: string, type: EntityType): string {
-  return generateSlug(entity);
-}

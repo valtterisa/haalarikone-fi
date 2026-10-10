@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  createContext,
-  useContext,
-  useMemo,
-  type ReactNode,
-} from 'react';
+import { createContext, useContext, useMemo, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import SearchForm from './search-form';
@@ -14,13 +9,7 @@ import PlaceholderDisplay from './placeholder-display';
 import type { ColorData } from '@/lib/load-color-data';
 import type { University } from '@/types/university';
 import type { HubSource } from '@/lib/analytics-events';
-import {
-  useUniversitySearch,
-  type Criteria,
-  type UniversitySearchState,
-} from '@/lib/use-university-search';
-
-export type { Criteria };
+import { useUniversitySearch, type UniversitySearchState } from '@/lib/use-university-search';
 
 type SearchContainerContextValue = UniversitySearchState & {
   resultSource: HubSource;
@@ -45,7 +34,7 @@ type SearchContainerRootProps = {
   children: ReactNode;
 };
 
-export function SearchContainerRoot({
+function SearchContainerRoot({
   initialUniversities,
   colorData,
   initialTextSearch = '',
@@ -60,10 +49,7 @@ export function SearchContainerRoot({
     showResultsByDefault,
   });
 
-  const value = useMemo(
-    () => ({ ...search, resultSource }),
-    [search, resultSource],
-  );
+  const value = useMemo(() => ({ ...search, resultSource }), [search, resultSource]);
 
   return (
     <SearchContainerContext.Provider value={value}>
@@ -112,7 +98,7 @@ export function SearchContainerBelow({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
-export function SearchContainerLoading() {
+function SearchContainerLoading() {
   return (
     <div className="mb-4 w-full sm:mb-8">
       <div className="space-y-3 px-1 py-2 sm:px-0 sm:py-4">
@@ -126,7 +112,7 @@ export function SearchContainerLoading() {
   );
 }
 
-export function SearchContainerEmpty() {
+function SearchContainerEmpty() {
   const t = useTranslations('search');
   return (
     <div className="mx-auto max-w-xl rounded-xl bg-muted/50 p-8 text-center">
@@ -191,7 +177,7 @@ export function SearchContainerResults({
   return null;
 }
 
-export const SearchContainer = Object.assign(SearchContainerRoot, {
+const SearchContainer = Object.assign(SearchContainerRoot, {
   Form: SearchContainerForm,
   Below: SearchContainerBelow,
   Results: SearchContainerResults,

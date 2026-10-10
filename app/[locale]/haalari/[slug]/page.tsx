@@ -163,7 +163,10 @@ export default async function OverallPage({ params }: Props) {
         '@type': 'ListItem',
         position: 2,
         name: overall.oppilaitos,
-        item: absoluteUrl(locale, routeHref('universities', getSlugForEntity(overall.oppilaitos, locale, 'university'))),
+        item: absoluteUrl(
+          locale,
+          routeHref('universities', getSlugForEntity(overall.oppilaitos, locale, 'university')),
+        ),
       },
       {
         '@type': 'ListItem',
@@ -357,42 +360,16 @@ export default async function OverallPage({ params }: Props) {
                         <p className="truncate text-sm text-foreground/65">{rel.ala}</p>
                       ) : null}
                     </div>
-                    <CaretRight className="h-4 w-4 shrink-0 text-foreground/40 transition group-hover:text-green" weight="regular" />
+                    <CaretRight
+                      className="h-4 w-4 shrink-0 text-foreground/40 transition group-hover:text-green"
+                      weight="regular"
+                    />
                   </div>
                 </Link>
               ))}
             </div>
           </div>
         )}
-
-        {/*
-        <div className="bg-card rounded-xl border border-border/60 p-6 sm:p-8 mt-10">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold text-foreground">{t('overall.errorTitle')}</h3>
-              <p className="text-muted-foreground mt-1 text-sm">{t('overall.errorDescription')}</p>
-            </div>
-            <FeedbackModal
-              trigger={
-                <button
-                  type="button"
-                  className="flex-shrink-0 rounded-md bg-green px-4 py-2 text-white hover:bg-green/90"
-                  data-testid="feedback-trigger"
-                >
-                  {t('overall.errorButton')}
-                </button>
-              }
-              title={t('overall.errorModalTitle')}
-              description={t('overall.errorModalDescription')}
-              submitLabel={t('overall.errorSubmit')}
-              sourceId={overall.id.toString()}
-              sourceName={`${overall.vari} - ${overall.oppilaitos}`}
-              messageLabel={t('overall.errorLabel')}
-              messagePlaceholder={t('overall.errorPlaceholder')}
-            />
-          </div>
-        </div>
-        */}
       </Page>
     </>
   );

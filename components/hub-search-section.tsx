@@ -13,7 +13,7 @@ type HubSearchSectionProps = {
   previewCount?: number;
 };
 
-export function HubSearchSectionRoot({
+export default function HubSearchSection({
   universities,
   colorData,
   divider,
@@ -29,11 +29,3 @@ export function HubSearchSectionRoot({
     </>
   );
 }
-
-export { SearchDivider as HubSearchSectionDivider };
-
-export const HubSearchSection = Object.assign(HubSearchSectionRoot, {
-  Divider: SearchDivider,
-});
-
-export default HubSearchSection;

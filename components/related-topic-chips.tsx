@@ -15,7 +15,7 @@ const HUB_ROUTE = {
   color: 'colors',
 } as const satisfies Record<HubType, RouteType>;
 
-export function RelatedTopicsRoot({ title, children }: { title: string; children: ReactNode }) {
+function RelatedTopicsRoot({ title, children }: { title: string; children: ReactNode }) {
   const content = Children.toArray(children).filter(Boolean);
   if (content.length === 0) {
     return null;
@@ -63,7 +63,7 @@ export function RelatedTopicsChip({
   );
 }
 
-export const RelatedTopics = Object.assign(RelatedTopicsRoot, {
+const RelatedTopics = Object.assign(RelatedTopicsRoot, {
   Chips: RelatedTopicsChips,
   Chip: RelatedTopicsChip,
 });

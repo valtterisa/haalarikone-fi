@@ -1,6 +1,6 @@
 import type { ResultsAdConfig, ResolvedResultsAd } from '@/lib/ads/types';
 
-export const RESULTS_ADS: ResultsAdConfig[] = [
+const RESULTS_ADS: ResultsAdConfig[] = [
   {
     id: 'drophost',
     enabled: true,

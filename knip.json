@@ -1,6 +1,8 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
   "tags": ["-lintignore"],
+  "ignore": ["open-next.config.ts"],
+  "ignoreDependencies": ["lint-staged"],
   "workspaces": {
     ".": {}
   }

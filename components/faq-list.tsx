@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 import { CaretDownIcon } from '@phosphor-icons/react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
-export function FaqListRoot({ title, children }: { title: string; children: ReactNode }) {
+function FaqListRoot({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="mt-8 w-full border-t border-border/60 pt-12 md:pt-16">
       <h2 className="mb-8 font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
@@ -15,7 +15,7 @@ export function FaqListRoot({ title, children }: { title: string; children: Reac
   );
 }
 
-export function FaqListItem({ question, answer }: { question: string; answer: string }) {
+function FaqListItem({ question, answer }: { question: string; answer: string }) {
   return (
     <Collapsible>
       <h3>
@@ -35,7 +35,7 @@ export function FaqListItem({ question, answer }: { question: string; answer: st
   );
 }
 
-export const FaqList = Object.assign(FaqListRoot, {
+const FaqList = Object.assign(FaqListRoot, {
   Item: FaqListItem,
 });
 

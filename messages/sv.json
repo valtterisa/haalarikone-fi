@@ -89,17 +89,13 @@
           "title": "1. Vad policyn gäller",
           "paragraphs": [
             "Haalarikone är en gratis katalog över studentoverallfärger vid finländska universitet och yrkeshögskolor. Det finns inga användarkonton, och katalogen är inte ett register över enskilda studenter.",
-            "Personuppgifter uppstår bara om du skickar feedback, och i teknisk mening när sajten används (analys, sök och hosting). Uppgifter om lärosäten, ämnesföreningar och färger är publik kataloginformation."
+            "Personuppgifter uppstår i teknisk mening när sajten används (analys, sök och hosting). Uppgifter om lärosäten, ämnesföreningar och färger är publik kataloginformation. Om du kontaktar oss via e-post behandlar vi meddelandet för att kunna svara."
           ]
         },
         {
           "title": "2. Uppgifter vi behandlar",
           "paragraphs": ["Vi behandlar bara det som krävs för att driva tjänsten:"],
           "items": [
-            {
-              "name": "Feedback",
-              "detail": "Meddelandet (obligatoriskt), valfri e-postadress och teknisk kontext för att kunna svara (sidans adress, objektets namn/id och ev. hänvisande sida)."
-            },
             {
               "name": "Analys",
               "detail": "Databuddy samlar cookielös, aggregerad användningsdata: sidvisningar, hänvisande domän, webbläsare/enhet, land/region, interaktioner och tekniska fel. IP-adresser anonymiseras och enskilda besökare identifieras inte. Databuddys policy: https://www.databuddy.cc/privacy"
@@ -121,7 +117,7 @@
         {
           "title": "3. Ändamål och rättslig grund",
           "paragraphs": [
-            "Feedback: vi behandlar meddelandet för att svara och förbättra katalogen. Rättslig grund är GDPR 6.1 b (åtgärder på din begäran) och för valfri e-post 6.1 a (samtycke, som du kan återkalla)."
+            "Vi behandlar uppgifter bara för att tillhandahålla, skydda och utveckla tjänsten. Rättsliga grunder nedan gäller respektive ändamål."
           ],
           "items": [
             {
@@ -141,7 +137,7 @@
         {
           "title": "4. Källor",
           "paragraphs": [
-            "Feedback- och sökuppgifter kommer från dig. Analys- och hostinguppgifter uppstår när du använder sajten. Kataloginnehållet är sammanställt från publika källor och användarrapporter."
+            "Sökuppgifter kommer från dig när du använder sök. Analys- och hostinguppgifter uppstår när du använder sajten. Kataloginnehållet är sammanställt från publika källor och användarrapporter."
           ]
         },
         {
@@ -153,10 +149,6 @@
             {
               "name": "Cloudflare, Inc.",
               "detail": "Hosting, CDN och edge-beräkning. Integritet: https://www.cloudflare.com/privacypolicy/"
-            },
-            {
-              "name": "Resend",
-              "detail": "Leverans av feedbackmejl till den personuppgiftsansvariga. Integritet: https://resend.com/legal/privacy-policy"
             },
             {
               "name": "Databuddy",
@@ -175,15 +167,14 @@
         {
           "title": "6. Överföringar utanför EU/EES",
           "paragraphs": [
-            "Cloudflare, Resend och Anthropic kan behandla uppgifter även utanför EES, särskilt i USA. Överföringarna bygger på biträdenas skyddsåtgärder, till exempel EU-kommissionens standardavtalsklausuler. Databuddy behandlar besökardata i anonymiserad form.",
-            "Till AI-leverantören skickas bara den sökfråga som lokal sök inte kunde tolka. Feedbackmeddelanden och e-postadresser skickas inte till Anthropic."
+            "Cloudflare och Anthropic kan behandla uppgifter även utanför EES, särskilt i USA. Överföringarna bygger på biträdenas skyddsåtgärder, till exempel EU-kommissionens standardavtalsklausuler. Databuddy behandlar besökardata i anonymiserad form.",
+            "Till AI-leverantören skickas bara den sökfråga som lokal sök inte kunde tolka."
           ]
         },
         {
           "title": "7. Lagringstid",
           "paragraphs": [
-            "Feedback sparas så länge hanteringen kräver och raderas vanligtvis inom 12 månader, om inte samtalet fortsätter eller lagen kräver längre lagring.",
-            "Analysdata sparas aggregerat enligt Databuddys praxis. Anonyma sökloggar sparas så länge de behövs för att förbättra sök och katalogen, och granskas utan att identifiera användare. Temavalet stannar på din enhet tills du rensar webbplatsdata."
+            "Analysdata sparas aggregerat enligt Databuddys praxis. Anonyma sökloggar sparas så länge de behövs för att förbättra sök och katalogen, och granskas utan att identifiera användare. Temavalet stannar på din enhet tills du rensar webbplatsdata. E-postkontakter sparas så länge hanteringen kräver."
           ]
         },
         {
@@ -196,14 +187,14 @@
         {
           "title": "9. Säkerhet",
           "paragraphs": [
-            "Anslutningar skyddas med TLS. Tillgång till feedback och sökloggar är begränsad till den personuppgiftsansvariga. Feedbackformuläret har ett honeypot-fält mot skräppost. Vi samlar inte in betal- eller inloggningsuppgifter eftersom det inte finns konton."
+            "Anslutningar skyddas med TLS. Tillgång till sökloggar är begränsad till den personuppgiftsansvariga. Vi samlar inte in betal- eller inloggningsuppgifter eftersom det inte finns konton."
           ]
         },
         {
           "title": "10. Dina rättigheter",
           "paragraphs": [
-            "Enligt GDPR kan du begära tillgång, rättelse, radering, begränsning, dataportabilitet och invända mot behandling som bygger på berättigat intresse. Samtycke för valfri e-post kan du återkalla när som helst.",
-            "Eftersom analys och sökloggar saknar användaridentifierare kan vi inte peka ut en enskild besökare från dem. För feedback kan vi hantera en begäran om meddelandet eller e-posten räcker för att hitta den.",
+            "Enligt GDPR kan du begära tillgång, rättelse, radering, begränsning, dataportabilitet och invända mot behandling som bygger på berättigat intresse.",
+            "Eftersom analys och sökloggar saknar användaridentifierare kan vi inte peka ut en enskild besökare från dem. För e-postkontakter kan vi hantera en begäran om meddelandet eller adressen räcker för att hitta den.",
             "Skicka begäran till savonen.emppu@gmail.com. Vi svarar utan onödigt dröjsmål, senast inom en månad."
           ]
         },
@@ -244,7 +235,7 @@
           "paragraphs": [
             "Uppgifterna kommer från publika källor och användarrapporter. Overallfärger, ämnesföreningar och lärosätesstrukturer ändras. Information kan vara ofullständig, inaktuell eller felaktig.",
             "Haalarikone är inte ett officiellt register och representerar inte lärosäten, studentkårer eller ämnesföreningar. Använd den inte som enda källa om fel färg eller förening kan orsaka skada.",
-            "Rapportera fel via feedbackformuläret. Vi rättar underlaget så gott vi kan, men garanterar inte att varje rapport leder till en ändring eller att ändringen sker inom en viss tid."
+            "Rapportera fel till savonen.emppu@gmail.com. Vi rättar underlaget så gott vi kan, men garanterar inte att varje rapport leder till en ändring eller att ändringen sker inom en viss tid."
           ]
         },
         {
@@ -255,10 +246,10 @@
           ]
         },
         {
-          "title": "4. Feedback",
+          "title": "4. Kontakt",
           "paragraphs": [
-            "Via formuläret kan du skicka rättelser, idéer och felanmälningar. Valfri e-post används bara för att svara.",
-            "Genom att skicka feedback ger du operatören rätt att använda sakuppgifterna för att rätta katalogen och utveckla tjänsten. Skicka inte konfidentiellt, olagligt eller rättighetskränkande material."
+            "Du kan skicka rättelser, idéer och felanmälningar till savonen.emppu@gmail.com.",
+            "Genom att skicka ett meddelande ger du operatören rätt att använda sakuppgifterna för att rätta katalogen och utveckla tjänsten. Skicka inte konfidentiellt, olagligt eller rättighetskränkande material."
           ]
         },
         {
@@ -271,7 +262,7 @@
           "title": "6. Ansvar",
           "paragraphs": [
             "Tjänsten är ett gratis hobbyprojekt. I den mån tvingande lag, inklusive finsk konsumentskyddslag, inte kräver annat tillhandahålls den utan garanti för tillgänglighet, riktighet eller lämplighet för visst ändamål.",
-            "Operatören ansvarar inte för skada som uppstår av att uppgifterna används, av avbrott eller av tredje parts tjänster (hosting, analys, e-post, AI), utom när skadan beror på uppsåt eller grov vårdslöshet."
+            "Operatören ansvarar inte för skada som uppstår av att uppgifterna används, av avbrott eller av tredje parts tjänster (hosting, analys, AI), utom när skadan beror på uppsåt eller grov vårdslöshet."
           ]
         },
         {
