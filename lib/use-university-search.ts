@@ -169,15 +169,19 @@ export function useUniversitySearch({
   const performSearch = useCallback(async () => {
     const currentRequestId = searchRequestIdRef.current + 1;
     searchRequestIdRef.current = currentRequestId;
+    const requestQuery = debouncedTextSearch.trim();
+    const isStaleRequest = () =>
+      searchRequestIdRef.current !== currentRequestId ||
+      requestQuery !== criteriaRef.current.textSearch.trim();
     setIsSearching(true);
     try {
       let searchResults: University[] = [];
 
-      if (debouncedTextSearch.trim().length >= 3) {
+      if (requestQuery.length >= 3) {
         try {
           const criteria = criteriaRef.current;
           searchResults = await searchUniversitiesAPI(
-            debouncedTextSearch.trim(),
+            requestQuery,
             locale,
             {
               universities: initialUniversities,
@@ -232,13 +236,13 @@ export function useUniversitySearch({
         }
       }
 
-      if (searchRequestIdRef.current !== currentRequestId) {
+      if (isStaleRequest()) {
         return;
       }
       setSearchSourceUniversities(searchResults);
       setHasSearched(true);
     } finally {
-      if (searchRequestIdRef.current === currentRequestId) {
+      if (!isStaleRequest()) {
         setIsSearching(false);
       }
     }
@@ -282,6 +286,10 @@ export function useUniversitySearch({
   ]);
 
   useEffect(() => {
+    if (!hasActiveQuery) {
+      return;
+    }
+
     const trimmed = debouncedTextSearch.trim();
     const hasTextSearchDebounced = trimmed.length >= 3;
     const hasFilters = Boolean(
@@ -297,6 +305,7 @@ export function useUniversitySearch({
 
     void performSearchRef.current();
   }, [
+    hasActiveQuery,
     debouncedTextSearch,
     selectedCriteria.color,
     selectedCriteria.area,

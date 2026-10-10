@@ -131,6 +131,10 @@
             {
               "name": "Hosting ja tietoturva",
               "detail": "Oikeutettu etu (6(1)(f)): pitää palvelu saatavilla ja suojata sitä väärinkäytöltä."
+            },
+            {
+              "name": "Sähköpostiyhteydenotot",
+              "detail": "Oikeutettu etu (6(1)(f)): käsitellä sähköpostiviestisi ja yhteystietosi, jotta voimme vastata."
             }
           ]
         },

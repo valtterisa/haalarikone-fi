@@ -131,6 +131,10 @@
             {
               "name": "Hosting and security",
               "detail": "Legitimate interest (6(1)(f)): keep the service available and protect it from abuse."
+            },
+            {
+              "name": "Email contact",
+              "detail": "Legitimate interest (6(1)(f)): process your email message and contact details so we can reply."
             }
           ]
         },
