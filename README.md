@@ -56,7 +56,7 @@ student-overall-app/
 │   ├── api/               # API routes (search)
 ├── components/            # React components
 │   ├── ui/                # Reusable UI components (Radix UI)
-│   ├── search-modal.tsx   # Search functionality
+│   ├── search-container.tsx  # Home/hub search
 │   ├── language-switcher.tsx  # i18n language switcher
 │   ├── theme-switcher.tsx # Dark/light mode toggle
 │   └── ...                # Feature components

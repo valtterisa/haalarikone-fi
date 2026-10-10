@@ -1,19 +1,9 @@
 'use client';
 
 import { Slot } from '@radix-ui/react-slot';
-import {
-  useEffect,
-  useId,
-  useRef,
-  useState,
-  type ReactElement,
-  type ReactNode,
-} from 'react';
-import {
-  FeedbackForm,
-  type FeedbackFormProps,
-} from '@/components/feedback-form';
-import { cn } from '@/utils/cn';
+import { useEffect, useId, useRef, useState, type ReactElement, type ReactNode } from 'react';
+import { FeedbackForm, type FeedbackFormProps } from '@/components/feedback-form';
+import { cn } from '@/lib/utils';
 
 type FeedbackModalRootProps = FeedbackFormProps & {
   trigger: ReactElement;
@@ -53,8 +43,7 @@ export function FeedbackModalPanel({
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const previous =
-      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     panelRef.current?.focus();
 
     const onKeyDown = (e: KeyboardEvent) => {

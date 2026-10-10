@@ -5,7 +5,7 @@ import {
   buildSearchResponse,
 } from '@/lib/build-search-response';
 
-export type SearchResponse = {
+type SearchResponse = {
   results: University[];
   totalCount: number;
   filters?: {
@@ -23,7 +23,7 @@ export type ClientSearchContext = {
   colorData: ColorData;
 };
 
-export type SearchLogMeta = {
+type SearchLogMeta = {
   source: 'modal' | 'listing';
   color?: string | null;
   area?: string | null;

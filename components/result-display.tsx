@@ -16,7 +16,7 @@ interface ResultsDisplayProps {
   children?: ReactNode;
 }
 
-export function ResultsDisplayRoot({
+function ResultsDisplayRoot({
   results,
   initialVisibleCount,
   source = 'search',
@@ -99,7 +99,7 @@ export function ResultsDisplayRoot({
   );
 }
 
-export function ResultsDisplayList({
+function ResultsDisplayList({
   results,
   source = 'search',
 }: {
@@ -143,28 +143,22 @@ export function ResultsDisplayList({
   );
 }
 
-export function ResultsDisplayShowAll({
-  count,
-  onShowAll,
-}: {
-  count: number;
-  onShowAll: () => void;
-}) {
+function ResultsDisplayShowAll({ count, onShowAll }: { count: number; onShowAll: () => void }) {
   const t = useTranslations('search');
   return (
     <div className="mt-4 flex items-center justify-center p-3 sm:mt-6 sm:p-4">
-        <button
+      <button
         type="button"
-          onClick={onShowAll}
-          className="h-9 touch-manipulation rounded-md bg-green px-4 text-xs text-white transition-colors hover:bg-green/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green/50 sm:h-10 sm:text-sm"
-        >
+        onClick={onShowAll}
+        className="h-9 touch-manipulation rounded-md bg-green px-4 text-xs text-white transition-colors hover:bg-green/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green/50 sm:h-10 sm:text-sm"
+      >
         {t('showAll')} ({count})
       </button>
     </div>
   );
 }
 
-export function ResultsDisplayPagination({
+function ResultsDisplayPagination({
   currentPage,
   totalPages,
   onPageChange,
@@ -208,7 +202,7 @@ export function ResultsDisplayPagination({
   );
 }
 
-export const ResultsDisplay = Object.assign(ResultsDisplayRoot, {
+const ResultsDisplay = Object.assign(ResultsDisplayRoot, {
   List: ResultsDisplayList,
   ShowAll: ResultsDisplayShowAll,
   Pagination: ResultsDisplayPagination,

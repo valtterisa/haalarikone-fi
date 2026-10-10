@@ -118,9 +118,9 @@ export function useUniversitySearch({
     selectedCriteria.textSearch.trim().length >= 3 ||
     Boolean(
       selectedCriteria.color ||
-        selectedCriteria.area ||
-        selectedCriteria.field ||
-        selectedCriteria.school,
+      selectedCriteria.area ||
+      selectedCriteria.field ||
+      selectedCriteria.school,
     );
   const sortedInitialUniversities = useMemo(
     () => initialUniversities.toSorted(compareOppilaitosThenAinejarjesto),
@@ -139,10 +139,7 @@ export function useUniversitySearch({
     const timeoutId = setTimeout(() => {
       setDebouncedTextSearch(raw);
     }, TEXT_SEARCH_DEBOUNCE_MS);
-    return () => {
-      clearTimeout(timeoutId);
-      searchRequestIdRef.current += 1;
-    };
+    return () => clearTimeout(timeoutId);
   }, [selectedCriteria.textSearch]);
 
   const appliedFilterCriteria = useMemo((): UniversityFilterCriteria => {
@@ -172,15 +169,19 @@ export function useUniversitySearch({
   const performSearch = useCallback(async () => {
     const currentRequestId = searchRequestIdRef.current + 1;
     searchRequestIdRef.current = currentRequestId;
+    const requestQuery = debouncedTextSearch.trim();
+    const isStaleRequest = () =>
+      searchRequestIdRef.current !== currentRequestId ||
+      requestQuery !== criteriaRef.current.textSearch.trim();
     setIsSearching(true);
     try {
       let searchResults: University[] = [];
 
-      if (debouncedTextSearch.trim().length >= 3) {
+      if (requestQuery.length >= 3) {
         try {
           const criteria = criteriaRef.current;
           searchResults = await searchUniversitiesAPI(
-            debouncedTextSearch.trim(),
+            requestQuery,
             locale,
             {
               universities: initialUniversities,
@@ -235,13 +236,13 @@ export function useUniversitySearch({
         }
       }
 
-      if (searchRequestIdRef.current !== currentRequestId) {
+      if (isStaleRequest()) {
         return;
       }
       setSearchSourceUniversities(searchResults);
       setHasSearched(true);
     } finally {
-      if (searchRequestIdRef.current === currentRequestId) {
+      if (!isStaleRequest()) {
         setIsSearching(false);
       }
     }
@@ -252,32 +253,29 @@ export function useUniversitySearch({
 
   useEffect(() => {
     const hasTextSearchLive = selectedCriteria.textSearch.trim().length >= 3;
-    const hasFilters =
+    const hasFilters = Boolean(
       selectedCriteria.color ||
       selectedCriteria.area ||
       selectedCriteria.field ||
-      selectedCriteria.school;
-    const hasTextSearchDebounced = debouncedTextSearch.trim().length >= 3;
+      selectedCriteria.school,
+    );
 
-    if (hasSearchedRef.current && !hasTextSearchLive && !hasFilters) {
+    if (hasTextSearchLive || hasFilters) {
+      return;
+    }
+
+    searchRequestIdRef.current += 1;
+    setIsSearching(false);
+
+    if (hasSearchedRef.current) {
       if (showResultsByDefault) {
         setSearchSourceUniversities(sortedInitialUniversities);
       } else {
         setSearchSourceUniversities([]);
         setHasSearched(false);
       }
-      setIsSearching(false);
-      return undefined;
     }
-
-    if (hasTextSearchDebounced || hasFilters) {
-      void performSearchRef.current();
-      return undefined;
-    }
-
-    return undefined;
   }, [
-    debouncedTextSearch,
     selectedCriteria.textSearch,
     selectedCriteria.color,
     selectedCriteria.area,
@@ -285,6 +283,35 @@ export function useUniversitySearch({
     selectedCriteria.school,
     showResultsByDefault,
     sortedInitialUniversities,
+  ]);
+
+  useEffect(() => {
+    if (!hasActiveQuery) {
+      return;
+    }
+
+    const trimmed = debouncedTextSearch.trim();
+    const hasTextSearchDebounced = trimmed.length >= 3;
+    const hasFilters = Boolean(
+      selectedCriteria.color ||
+      selectedCriteria.area ||
+      selectedCriteria.field ||
+      selectedCriteria.school,
+    );
+
+    if (!hasTextSearchDebounced && !hasFilters) {
+      return;
+    }
+
+    void performSearchRef.current();
+  }, [
+    hasActiveQuery,
+    debouncedTextSearch,
+    selectedCriteria.color,
+    selectedCriteria.area,
+    selectedCriteria.field,
+    selectedCriteria.school,
+    locale,
   ]);
 
   useEffect(() => {
@@ -404,9 +431,9 @@ export function useUniversitySearch({
       has_query: selectedCriteria.textSearch.trim().length >= 3,
       has_filters: Boolean(
         selectedCriteria.color ||
-          selectedCriteria.area ||
-          selectedCriteria.field ||
-          selectedCriteria.school,
+        selectedCriteria.area ||
+        selectedCriteria.field ||
+        selectedCriteria.school,
       ),
       result_count: results.length,
     });

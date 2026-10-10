@@ -18,7 +18,7 @@ type FooterHubLink = {
   type: HubType;
 };
 
-export function FooterRoot() {
+function FooterRoot() {
   const t = useTranslations('footer');
   const tNav = useTranslations('nav');
   const routes = useTranslatedRoutes();
@@ -84,7 +84,7 @@ export function FooterRoot() {
   );
 }
 
-export function FooterBrand({ description }: { description: string }) {
+function FooterBrand({ description }: { description: string }) {
   return (
     <div className="mx-auto flex w-full max-w-xl flex-col items-center md:mx-0 md:items-start">
       <Logo />
@@ -93,7 +93,7 @@ export function FooterBrand({ description }: { description: string }) {
   );
 }
 
-export function FooterNav({
+function FooterNav({
   title,
   blogLabel,
   blogDescription,
@@ -144,7 +144,7 @@ export function FooterNav({
   );
 }
 
-export function FooterContact({
+function FooterContact({
   title,
   feedbackLabel,
   feedbackTitle,
@@ -231,7 +231,7 @@ export function FooterContact({
   );
 }
 
-export function FooterMeta({
+function FooterMeta({
   builtBy,
   privacyLabel,
   termsLabel,
@@ -271,7 +271,7 @@ export function FooterMeta({
   );
 }
 
-export const Footer = Object.assign(FooterRoot, {
+const Footer = Object.assign(FooterRoot, {
   Brand: FooterBrand,
   Nav: FooterNav,
   Contact: FooterContact,
