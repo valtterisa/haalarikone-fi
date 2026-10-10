@@ -111,7 +111,7 @@ export default async function LocaleLayout({
       <ThemeProvider>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-skip focus:rounded-md focus:bg-green focus:px-4 focus:py-2 focus:text-white focus:outline-none"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-skip focus:rounded-md focus:bg-green focus:px-4 focus:py-2 focus:text-white focus:outline-hidden"
         >
           {t('skipToContent')}
         </a>

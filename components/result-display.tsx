@@ -150,7 +150,7 @@ function ResultsDisplayShowAll({ count, onShowAll }: { count: number; onShowAll:
       <button
         type="button"
         onClick={onShowAll}
-        className="h-9 touch-manipulation rounded-md bg-green px-4 text-xs text-white transition-colors hover:bg-green/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green/50 sm:h-10 sm:text-sm"
+        className="h-9 touch-manipulation rounded-md bg-green px-4 text-xs text-white transition-colors hover:bg-green/90 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-green/50 sm:h-10 sm:text-sm"
       >
         {t('showAll')} ({count})
       </button>
@@ -182,7 +182,7 @@ function ResultsDisplayPagination({
           type="button"
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="h-9 touch-manipulation rounded-md border border-input bg-card px-3 text-xs text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green/50 disabled:cursor-not-allowed disabled:opacity-50 sm:h-10 sm:px-4 sm:text-sm"
+          className="h-9 touch-manipulation rounded-md border border-input bg-card px-3 text-xs text-foreground transition-colors hover:bg-muted focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-green/50 disabled:cursor-not-allowed disabled:opacity-50 sm:h-10 sm:px-4 sm:text-sm"
         >
           {tCommon('previous')}
         </button>
@@ -193,7 +193,7 @@ function ResultsDisplayPagination({
           type="button"
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="h-9 touch-manipulation rounded-md border border-input bg-card px-3 text-xs text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green/50 disabled:cursor-not-allowed disabled:opacity-50 sm:h-10 sm:px-4 sm:text-sm"
+          className="h-9 touch-manipulation rounded-md border border-input bg-card px-3 text-xs text-foreground transition-colors hover:bg-muted focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-green/50 disabled:cursor-not-allowed disabled:opacity-50 sm:h-10 sm:px-4 sm:text-sm"
         >
           {tCommon('next')}
         </button>

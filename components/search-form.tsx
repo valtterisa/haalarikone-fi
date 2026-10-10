@@ -428,7 +428,7 @@ function SearchFormRoot({
               <button
                 id="search-filters-trigger"
                 type="button"
-                className="flex min-h-11 w-full touch-manipulation items-center justify-between px-0 py-3 text-left transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green/50 active:opacity-70"
+                className="flex min-h-11 w-full touch-manipulation items-center justify-between px-0 py-3 text-left transition-opacity hover:opacity-80 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-green/50 active:opacity-70"
               >
                 <div className="flex items-center gap-2">
                   <SlidersHorizontal className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
@@ -502,7 +502,7 @@ function SearchFormRoot({
             aria-expanded={isAdvancedSearchOpen}
             aria-controls="search-filters-desktop-content"
             onClick={() => setIsAdvancedSearchOpen(!isAdvancedSearchOpen)}
-            className="flex min-h-11 w-full touch-manipulation items-center justify-between px-0 py-1.5 text-left transition-opacity hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green/50"
+            className="flex min-h-11 w-full touch-manipulation items-center justify-between px-0 py-1.5 text-left transition-opacity hover:opacity-70 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-green/50"
           >
             <div className="flex items-center gap-2">
               <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
@@ -614,7 +614,7 @@ function SearchFormTextField({
           placeholder={placeholder}
           aria-label={placeholder}
           data-testid="text-search-input"
-          className="h-14 border-2 border-input bg-background pl-11 pr-24 text-lg shadow-sm transition-[box-shadow,border-color] touch-manipulation hover:border-green/40 focus-visible:border-green focus-visible:ring-2 focus-visible:ring-green/30 sm:h-[4.5rem] sm:pl-16 sm:pr-28 sm:text-xl"
+          className="h-14 border-2 border-input bg-background pl-11 pr-24 text-lg shadow-xs transition-[box-shadow,border-color] touch-manipulation hover:border-green/40 focus-visible:border-green focus-visible:ring-2 focus-visible:ring-green/30 sm:h-18 sm:pl-16 sm:pr-28 sm:text-xl"
         />
         {!value && !isSearching ? (
           <kbd className="pointer-events-none absolute right-3 top-1/2 z-10 hidden h-5 -translate-y-1/2 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 sm:right-6 sm:inline-flex">
@@ -633,7 +633,7 @@ function SearchFormTextField({
           <button
             type="button"
             onClick={() => onChange('')}
-            className="absolute right-3 top-1/2 z-10 -translate-y-1/2 touch-manipulation rounded p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green/50 sm:right-6 sm:p-2"
+            className="absolute right-3 top-1/2 z-10 -translate-y-1/2 touch-manipulation rounded p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-green/50 sm:right-6 sm:p-2"
             aria-label={clearLabel}
           >
             <X className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />

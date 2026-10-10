@@ -111,7 +111,7 @@ function HeaderDesktopNav({
             onClick={() => trackHubClick('header', link.hubType, 'index')}
             className={cn(
               'relative rounded-lg px-2.5 py-2 transition-colors duration-200 ease-smooth',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green',
+              'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-green',
               active ? 'text-foreground' : 'text-muted-foreground hover:text-foreground',
             )}
           >
@@ -130,7 +130,7 @@ function HeaderDesktopNav({
         href={blogHref}
         className={cn(
           'relative rounded-lg px-2.5 py-2 transition-colors duration-200 ease-smooth',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green',
+          'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-green',
           pathMatches(pathname, '/blog')
             ? 'text-foreground'
             : 'text-muted-foreground hover:text-foreground',
@@ -232,7 +232,7 @@ function HeaderRoot() {
   ];
 
   return (
-    <header className="sticky top-0 z-sticky w-full border-b border-border bg-background/92 backdrop-blur-md supports-[backdrop-filter]:bg-background/80">
+    <header className="sticky top-0 z-sticky w-full border-b border-border bg-background/92 backdrop-blur-md supports-backdrop-filter:bg-background/80">
       <div className="relative">
         <div className={cn(PAGE_WIDTH, 'flex h-16 items-center gap-4')}>
           <div className="shrink-0" onClick={closeMobileMenu}>

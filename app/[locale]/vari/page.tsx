@@ -197,31 +197,29 @@ export default async function ColorIndexPage({ params }: { params: Promise<{ loc
         <VariSearchSection universities={universities} colorData={colorData} />
 
         <div className="grid auto-rows-[minmax(4.5rem,auto)] grid-cols-2 gap-2 sm:grid-cols-3">
-            {colors.map((color, index) => {
-              const translatedColor = capitalizeFirstLetter(
-                getEntityTranslation(color, locale, 'color'),
-              );
-              const colorKey = color.toLowerCase();
-              const translatedColorKey = translatedColor.toLowerCase();
-              const hex =
-                colorHexByAnyName[colorKey] ??
-                colorHexByAnyName[translatedColorKey] ??
-                '#D1D5DB';
-              const isLarge = index % 7 === 0;
-              return (
-                <Link
-                  key={color}
-                  href={routeHref('colors', getSlugForEntity(color, locale, 'color'))}
-                  className={`flex min-h-11 flex-col justify-end overflow-hidden rounded-xl p-3 text-sm font-semibold transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green ${
-                    isLarge ? 'col-span-2 sm:col-span-1 sm:row-span-2' : ''
-                  }`}
-                  style={{ backgroundColor: hex, color: foregroundForBackground(hex) }}
-                >
-                  {translatedColor}
-                </Link>
-              );
-            })}
-          </div>
+          {colors.map((color, index) => {
+            const translatedColor = capitalizeFirstLetter(
+              getEntityTranslation(color, locale, 'color'),
+            );
+            const colorKey = color.toLowerCase();
+            const translatedColorKey = translatedColor.toLowerCase();
+            const hex =
+              colorHexByAnyName[colorKey] ?? colorHexByAnyName[translatedColorKey] ?? '#D1D5DB';
+            const isLarge = index % 7 === 0;
+            return (
+              <Link
+                key={color}
+                href={routeHref('colors', getSlugForEntity(color, locale, 'color'))}
+                className={`flex min-h-11 flex-col justify-end overflow-hidden rounded-xl p-3 text-sm font-semibold transition hover:opacity-90 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-green ${
+                  isLarge ? 'col-span-2 sm:col-span-1 sm:row-span-2' : ''
+                }`}
+                style={{ backgroundColor: hex, color: foregroundForBackground(hex) }}
+              >
+                {translatedColor}
+              </Link>
+            );
+          })}
+        </div>
       </Page>
     </>
   );

@@ -41,7 +41,7 @@ export default function SuggestChangeCard({
           trigger={
             <button
               type="button"
-              className="flex-shrink-0 rounded-md bg-green px-4 py-2 text-white hover:bg-green/90"
+              className="shrink-0 rounded-md bg-green px-4 py-2 text-white hover:bg-green/90"
               data-testid="feedback-trigger"
             >
               {buttonLabel}

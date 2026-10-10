@@ -40,7 +40,7 @@ export default function UniversityCard({ uni, source = 'search' }: UniversityCar
         />
         <Link
           href={routes.overall(uni.slug)}
-          className="group relative flex items-start gap-2.5 py-3 pl-16 pr-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green sm:items-center sm:gap-3 sm:py-3.5 sm:pl-28 sm:pr-4"
+          className="group relative flex items-start gap-2.5 py-3 pl-16 pr-3 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-green sm:items-center sm:gap-3 sm:py-3.5 sm:pl-28 sm:pr-4"
           onClick={() => {
             trackResultClick(uni.slug, source);
           }}
@@ -93,7 +93,10 @@ export default function UniversityCard({ uni, source = 'search' }: UniversityCar
             </HubLink>
           ) : null}
           <span className="inline-flex min-h-11 items-center gap-1.5 rounded px-2 text-xs font-medium tabular-nums text-muted-foreground sm:px-2.5">
-            <span className="h-2 w-2 rounded-sm ring-1 ring-foreground/10" style={parseStyles(uni.hex)} />
+            <span
+              className="h-2 w-2 rounded-xs ring-1 ring-foreground/10"
+              style={parseStyles(uni.hex)}
+            />
             {uni.vari}
           </span>
         </div>

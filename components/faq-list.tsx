@@ -19,7 +19,7 @@ function FaqListItem({ question, answer }: { question: string; answer: string })
   return (
     <Collapsible>
       <h3>
-        <CollapsibleTrigger className="group flex min-h-11 w-full items-center justify-between gap-4 py-4 text-left text-base font-semibold text-foreground transition-colors hover:text-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green">
+        <CollapsibleTrigger className="group flex min-h-11 w-full items-center justify-between gap-4 py-4 text-left text-base font-semibold text-foreground transition-colors hover:text-green focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-green">
           {question}
           <CaretDownIcon
             className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180"

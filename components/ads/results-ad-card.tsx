@@ -19,7 +19,7 @@ export function ResultsAdCard({ ad }: ResultsAdCardProps) {
         href={ad.href}
         target="_blank"
         rel="noopener noreferrer sponsored"
-        className="group relative flex items-start gap-3 overflow-hidden rounded-xl border border-dashed border-border bg-muted/40 px-3 py-3 transition hover:border-green/40 hover:bg-green/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green sm:items-center sm:gap-4 sm:px-4 sm:py-3.5"
+        className="group relative flex items-start gap-3 overflow-hidden rounded-xl border border-dashed border-border bg-muted/40 px-3 py-3 transition hover:border-green/40 hover:bg-green/5 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-green sm:items-center sm:gap-4 sm:px-4 sm:py-3.5"
       >
         <div className="relative mt-0.5 h-9 w-9 shrink-0 overflow-hidden rounded-xl sm:mt-0 sm:h-12 sm:w-12">
           <Image
@@ -35,7 +35,9 @@ export function ResultsAdCard({ ad }: ResultsAdCardProps) {
             <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground sm:text-[11px]">
               {t('badge')}
             </span>
-            <span className="text-[10px] text-muted-foreground sm:text-[11px]">{item('brand')}</span>
+            <span className="text-[10px] text-muted-foreground sm:text-[11px]">
+              {item('brand')}
+            </span>
           </div>
           <p className="text-sm font-semibold leading-snug tracking-tight text-foreground sm:text-[15px]">
             {item('title')}

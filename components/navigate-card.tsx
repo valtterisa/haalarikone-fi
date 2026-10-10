@@ -16,7 +16,7 @@ function NavigateCardRoot({
     <Link
       href={href}
       className={cn(
-        'group flex flex-col justify-between rounded-xl bg-muted/50 p-5 transition-colors hover:bg-green/10 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green',
+        'group flex flex-col justify-between rounded-xl bg-muted/50 p-5 transition-colors hover:bg-green/10 active:scale-[0.99] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-green',
         className,
       )}
     >

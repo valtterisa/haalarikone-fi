@@ -145,7 +145,7 @@ export function FeedbackForm({
     >
       {sourceId ? <input type="hidden" name="sourceId" value={sourceId} /> : null}
       {sourceName ? <input type="hidden" name="sourceName" value={sourceName} /> : null}
-      <div className="absolute -left-[9999px]" aria-hidden="true">
+      <div className="absolute left-[-9999px]" aria-hidden="true">
         <label htmlFor={`${id}-website`}>Website</label>
         <input type="text" id={`${id}-website`} name="website" tabIndex={-1} autoComplete="off" />
       </div>
@@ -184,7 +184,7 @@ export function FeedbackForm({
           required
           minLength={10}
           placeholder={resolvedMessagePlaceholder}
-          className="min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green focus-visible:ring-offset-2"
+          className="min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-green focus-visible:ring-offset-2"
         />
       </div>
       <div className={cn('flex justify-between gap-3', onClose && 'flex-col sm:flex-row')}>

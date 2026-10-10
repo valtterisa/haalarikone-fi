@@ -114,7 +114,7 @@ export function FeedbackModalPanel({
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
-        className="relative z-10 w-full max-w-lg overflow-y-auto overscroll-contain rounded-xl bg-card p-6 shadow-overlay focus:outline-none"
+        className="relative z-10 w-full max-w-lg overflow-y-auto overscroll-contain rounded-xl bg-card p-6 shadow-overlay focus:outline-hidden"
       >
         {children}
       </div>

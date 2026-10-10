@@ -36,7 +36,7 @@ function PlaceholderDisplay() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div className="mx-auto flex min-h-[8rem] w-full max-w-xl items-center justify-center overflow-hidden rounded-xl bg-muted/50 p-4">
+      <div className="mx-auto flex min-h-32 w-full max-w-xl items-center justify-center overflow-hidden rounded-xl bg-muted/50 p-4">
         <div className="flex flex-col items-center justify-center gap-4 py-8 text-center">
           <Image src="/no-results.svg" alt="" width={120} height={120} />
           <p className="text-base text-muted-foreground">{currentMessage}</p>

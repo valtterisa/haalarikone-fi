@@ -164,7 +164,7 @@ export default async function Index({
 
         <section className="mt-8 w-full border-t border-border/60 pt-12 md:pt-16">
           <div className="grid grid-cols-1 gap-3 md:grid-cols-6">
-            <NavigateCard href="/vari" className="md:col-span-4 md:min-h-[11rem]">
+            <NavigateCard href="/vari" className="md:col-span-4 md:min-h-44">
               <NavigateCardSwatches hexes={atmosphereHexes} />
               <NavigateCardBody>
                 <h2 className="font-display text-xl font-bold tracking-tight">
@@ -188,9 +188,7 @@ export default async function Index({
                 <h2 className="font-display text-xl font-bold tracking-tight">
                   {t('nav.allSchools')}
                 </h2>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {t('nav.schoolsDescription')}
-                </p>
+                <p className="mt-1 text-sm text-muted-foreground">{t('nav.schoolsDescription')}</p>
               </NavigateCardBody>
             </NavigateCard>
             <NavigateCard href="/alue" className="md:col-span-2">
@@ -206,9 +204,7 @@ export default async function Index({
                 <h2 className="font-display text-xl font-bold tracking-tight">
                   {t('common.blog')}
                 </h2>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {t('nav.navigateDescription')}
-                </p>
+                <p className="mt-1 text-sm text-muted-foreground">{t('nav.navigateDescription')}</p>
               </NavigateCardBody>
             </NavigateCard>
           </div>
