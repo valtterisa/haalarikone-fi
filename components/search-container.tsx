@@ -115,7 +115,10 @@ function SearchContainerLoading() {
 function SearchContainerEmpty() {
   const t = useTranslations('search');
   return (
-    <div className="mx-auto max-w-xl rounded-xl bg-muted/50 p-8 text-center">
+    <div
+      className="mx-auto max-w-xl rounded-xl bg-muted/50 p-8 text-center"
+      data-testid="search-empty"
+    >
       <p className="text-lg text-muted-foreground">{t('noResultsMessage')}</p>
     </div>
   );
