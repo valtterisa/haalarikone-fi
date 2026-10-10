@@ -159,10 +159,6 @@
               "detail": "Hosting, CDN ja reunalaskenta. Tietosuoja: https://www.cloudflare.com/privacypolicy/"
             },
             {
-              "name": "Resend",
-              "detail": "Palautesähköpostin toimitus rekisterinpitäjälle. Tietosuoja: https://resend.com/legal/privacy-policy"
-            },
-            {
               "name": "Discord",
               "detail": "Palautteiden ja korjausilmoitusten toimitus ylläpidon Discord-kanavaan webhookilla. Tietosuoja: https://discord.com/privacy"
             },
@@ -183,7 +179,7 @@
         {
           "title": "6. Siirrot EU- ja ETA-alueen ulkopuolelle",
           "paragraphs": [
-            "Cloudflare, Resend, Discord ja Anthropic voivat käsitellä tietoja myös ETA-alueen ulkopuolella, erityisesti Yhdysvalloissa. Siirrot perustuvat käsittelijöiden tietosuojajärjestelyihin, kuten Euroopan komission vakiosopimuslausekkeisiin. Databuddy käsittelee kävijätiedot anonymisoituina.",
+            "Cloudflare, Discord ja Anthropic voivat käsitellä tietoja myös ETA-alueen ulkopuolella, erityisesti Yhdysvalloissa. Siirrot perustuvat käsittelijöiden tietosuojajärjestelyihin, kuten Euroopan komission vakiosopimuslausekkeisiin. Databuddy käsittelee kävijätiedot anonymisoituina.",
             "Tekoälyyn lähtee vain se hakulause, jota paikallinen haku ei pystynyt tulkitsemaan. Palautteen sähköposti ja viesti eivät mene Anthropicille."
           ]
         },

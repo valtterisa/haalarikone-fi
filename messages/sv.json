@@ -159,10 +159,6 @@
               "detail": "Hosting, CDN och edge-beräkning. Integritet: https://www.cloudflare.com/privacypolicy/"
             },
             {
-              "name": "Resend",
-              "detail": "Leverans av feedbackmejl till den personuppgiftsansvariga. Integritet: https://resend.com/legal/privacy-policy"
-            },
-            {
               "name": "Discord",
               "detail": "Leverans av feedback och rättelser till underhållarnas Discord-kanal via webhook. Integritet: https://discord.com/privacy"
             },
@@ -183,7 +179,7 @@
         {
           "title": "6. Överföringar utanför EU/EES",
           "paragraphs": [
-            "Cloudflare, Resend, Discord och Anthropic kan behandla uppgifter även utanför EES, särskilt i USA. Överföringarna bygger på biträdenas skyddsåtgärder, till exempel EU-kommissionens standardavtalsklausuler. Databuddy behandlar besökardata i anonymiserad form.",
+            "Cloudflare, Discord och Anthropic kan behandla uppgifter även utanför EES, särskilt i USA. Överföringarna bygger på biträdenas skyddsåtgärder, till exempel EU-kommissionens standardavtalsklausuler. Databuddy behandlar besökardata i anonymiserad form.",
             "Till AI-leverantören skickas bara den sökfråga som lokal sök inte kunde tolka. Feedbackmeddelanden och e-postadresser skickas inte till Anthropic."
           ]
         },

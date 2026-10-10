@@ -159,10 +159,6 @@
               "detail": "Hosting, CDN, and edge compute. Privacy: https://www.cloudflare.com/privacypolicy/"
             },
             {
-              "name": "Resend",
-              "detail": "Delivery of feedback email to the controller. Privacy: https://resend.com/legal/privacy-policy"
-            },
-            {
               "name": "Discord",
               "detail": "Delivery of feedback and correction reports to the maintainers' Discord channel via webhook. Privacy: https://discord.com/privacy"
             },
@@ -183,7 +179,7 @@
         {
           "title": "6. Transfers outside the EU/EEA",
           "paragraphs": [
-            "Cloudflare, Resend, Discord, and Anthropic may process data outside the EEA, including in the United States. Transfers rely on the processors' safeguards, such as the European Commission's standard contractual clauses. Databuddy processes visitor data in anonymised form.",
+            "Cloudflare, Discord, and Anthropic may process data outside the EEA, including in the United States. Transfers rely on the processors' safeguards, such as the European Commission's standard contractual clauses. Databuddy processes visitor data in anonymised form.",
             "Only the search query that local search could not interpret is sent to the AI provider. Feedback messages and email addresses are not sent to Anthropic."
           ]
         },
