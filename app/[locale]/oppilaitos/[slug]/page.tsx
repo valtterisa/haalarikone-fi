@@ -23,6 +23,9 @@ import { getTranslations } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 import { joinNames, splitCsv } from '@/lib/popular-destinations';
+import SuggestChangeCard from '@/components/suggest-change-card';
+import { UniversityProfile } from '@/components/university-profile';
+import { getEnrichedSchool } from '@/lib/load-enrichment';
 
 export const revalidate = 86400;
 
@@ -67,13 +70,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const capitalizedUniversity = capitalizeFirstLetter(translatedUniversity);
   const universitySlug = getSlugForEntity(university, locale, 'university');
   const pageUrl = absoluteUrl(locale, routeHref('universities', universitySlug));
+  const enrichment = getEnrichedSchool(university);
+  const metaDescription =
+    enrichment?.description ??
+    t('universities.description', {
+      university: capitalizedUniversity,
+      count: universityData.length,
+    });
 
   return {
     title: `${capitalizedUniversity} - ${t('colors.title')} | Haalarikone`,
-    description: t('universities.description', {
-      university: capitalizedUniversity,
-      count: universityData.length,
-    }),
+    description: metaDescription,
     keywords: [
       `${capitalizedUniversity} ${t('colors.title').toLowerCase()}`,
       `${capitalizedUniversity} haalarit`,
@@ -85,10 +92,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ],
     openGraph: {
       title: `${capitalizedUniversity} - ${t('colors.title')} | Haalarikone`,
-      description: t('universities.description', {
-        university: capitalizedUniversity,
-        count: universityData.length,
-      }),
+      description: metaDescription,
       images: [
         {
           url: '/haalarikone-og.png',
@@ -105,19 +109,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title: `${capitalizedUniversity} - ${t('colors.title')} | Haalarikone`,
-      description: t('universities.description', {
-        university: capitalizedUniversity,
-        count: universityData.length,
-      }),
+      description: metaDescription,
       images: ['/haalarikone-og.png'],
     },
     alternates: {
       canonical: pageUrl,
       languages: {
-        fi: absoluteUrl('fi', routeHref('universities', getSlugForEntity(university, 'fi', 'university'))),
-        en: absoluteUrl('en', routeHref('universities', getSlugForEntity(university, 'en', 'university'))),
-        sv: absoluteUrl('sv', routeHref('universities', getSlugForEntity(university, 'sv', 'university'))),
-        'x-default': absoluteUrl('fi', routeHref('universities', getSlugForEntity(university, 'fi', 'university'))),
+        fi: absoluteUrl(
+          'fi',
+          routeHref('universities', getSlugForEntity(university, 'fi', 'university')),
+        ),
+        en: absoluteUrl(
+          'en',
+          routeHref('universities', getSlugForEntity(university, 'en', 'university')),
+        ),
+        sv: absoluteUrl(
+          'sv',
+          routeHref('universities', getSlugForEntity(university, 'sv', 'university')),
+        ),
+        'x-default': absoluteUrl(
+          'fi',
+          routeHref('universities', getSlugForEntity(university, 'fi', 'university')),
+        ),
       },
     },
   };
@@ -147,26 +160,41 @@ export default async function UniversityPage({ params }: Props) {
   const colors = Array.from(new Set(universityData.map((u) => u.vari)));
   const areas = Array.from(new Set(universityData.flatMap((u) => splitCsv(u.alue))));
   const capitalizedUniversity = capitalizeFirstLetter(translatedUniversity);
+  const universitySlug = getSlugForEntity(university, locale, 'university');
+  const enrichment = getEnrichedSchool(university);
+  const logoName = university.startsWith('Aalto-yliopisto') ? 'Aalto-yliopisto' : university;
+  const introText =
+    enrichment?.description ??
+    t('universities.intro', {
+      university: capitalizedUniversity,
+      count: universityData.length,
+      colors: joinNames(colors),
+      areas: joinNames(areas),
+    });
+  const schemaDescription =
+    enrichment?.description ??
+    t('universities.description', {
+      university: capitalizedUniversity,
+      count: universityData.length,
+    });
 
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'EducationalOrganization',
     name: capitalizedUniversity,
-    description: t('universities.description', {
-      university: capitalizedUniversity,
-      count: universityData.length,
-    }),
-    url: absoluteUrl(locale, routeHref('universities', getSlugForEntity(university, locale, 'university'))),
+    description: schemaDescription,
+    url: absoluteUrl(
+      locale,
+      routeHref('universities', getSlugForEntity(university, locale, 'university')),
+    ),
+    ...(enrichment?.website ? { sameAs: [enrichment.website] } : {}),
   };
 
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: `${capitalizedUniversity} ${t('colors.title').toLowerCase()}`,
-    description: t('universities.description', {
-      university: capitalizedUniversity,
-      count: universityData.length,
-    }),
+    description: schemaDescription,
     numberOfItems: universityData.length,
     itemListElement: universityData.slice(0, 50).map((uni, index) => ({
       '@type': 'ListItem',
@@ -243,17 +271,17 @@ export default async function UniversityPage({ params }: Props) {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <h1 className="mb-4 font-display text-4xl font-bold tracking-tight">
-          {capitalizedUniversity}
-        </h1>
-        <p className="mb-8 max-w-[65ch] text-lg text-muted-foreground">
-          {t('universities.intro', {
-            university: capitalizedUniversity,
-            count: universityData.length,
-            colors: joinNames(colors),
-            areas: joinNames(areas),
-          })}
-        </p>
+        <UniversityProfile
+          name={capitalizedUniversity}
+          logoName={logoName}
+          description={introText}
+          overallCount={universityData.length}
+          overallCountLabel={t('universities.overallCount')}
+          areas={areas}
+          enrichment={enrichment}
+          websiteLabel={t('universities.visitWebsite')}
+          studentUnionLabel={t('universities.studentUnion')}
+        />
 
         <RelatedTopics title={t('universities.relatedTopics')}>
           <RelatedTopicsChips>
@@ -292,6 +320,19 @@ export default async function UniversityPage({ params }: Props) {
             <UniversityCard key={uni.id} uni={uni} source="university" />
           ))}
         </ul>
+
+        <SuggestChangeCard
+          title={t('overall.errorTitle')}
+          description={t('overall.errorDescription')}
+          buttonLabel={t('overall.errorButton')}
+          modalTitle={t('overall.errorModalTitle')}
+          modalDescription={t('overall.errorModalDescription')}
+          submitLabel={t('overall.errorSubmit')}
+          messageLabel={t('overall.errorLabel')}
+          messagePlaceholder={t('overall.errorPlaceholder')}
+          sourceId={universitySlug}
+          sourceName={capitalizedUniversity}
+        />
       </Page>
     </>
   );

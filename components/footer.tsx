@@ -1,12 +1,13 @@
 'use client';
 
-import { EnvelopeSimple, GithubLogo } from '@phosphor-icons/react';
+import { ChatCircle, EnvelopeSimple, GithubLogo } from '@phosphor-icons/react';
 import { Link } from '@/i18n/routing';
 import Logo from '@/components/logo';
 import { PAGE_WIDTH } from '@/components/page';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 import DiscordLogo from './discord-logo';
+import { FeedbackModal } from '@/components/feedback-modal';
 import { useTranslatedRoutes, type InternalHref } from '@/lib/use-translated-routes';
 import { trackHubClick, type HubType } from '@/lib/analytics-events';
 
@@ -64,6 +65,10 @@ function FooterRoot() {
             />
             <Footer.Contact
               title={t('contact')}
+              feedbackLabel={t('feedback')}
+              feedbackTitle={t('feedbackModalTitle')}
+              feedbackDescription={t('feedbackModalDescription')}
+              feedbackSubmit={t('feedbackSubmit')}
               emailLabel={t('email')}
               emailAria={t('sendEmail')}
               githubLabel={t('github')}
@@ -141,6 +146,10 @@ function FooterNav({
 
 function FooterContact({
   title,
+  feedbackLabel,
+  feedbackTitle,
+  feedbackDescription,
+  feedbackSubmit,
   emailLabel,
   emailAria,
   githubLabel,
@@ -149,6 +158,10 @@ function FooterContact({
   discordAria,
 }: {
   title: string;
+  feedbackLabel: string;
+  feedbackTitle: string;
+  feedbackDescription: string;
+  feedbackSubmit: string;
   emailLabel: string;
   emailAria: string;
   githubLabel: string;
@@ -160,6 +173,25 @@ function FooterContact({
     <div className="w-auto text-left">
       <p className="text-sm font-semibold text-foreground">{title}</p>
       <ul className="mt-2 space-y-0 text-sm text-muted-foreground">
+        <li>
+          <FeedbackModal
+            trigger={
+              <button
+                type="button"
+                className="flex items-center gap-2 py-1 transition hover:text-green"
+                data-testid="footer-feedback-trigger"
+              >
+                <ChatCircle className="h-4 w-4" weight="regular" />
+                {feedbackLabel}
+              </button>
+            }
+            title={feedbackTitle}
+            description={feedbackDescription}
+            submitLabel={feedbackSubmit}
+            feedbackType="general"
+            sourceName="footer"
+          />
+        </li>
         <li>
           <a
             href="mailto:savonen.emppu@gmail.com"

@@ -1,0 +1,4978 @@
+{
+  "meta": {
+    "generatedAt": "2026-10-09T20:24:53Z",
+    "purpose": "Enrichment data for Haalarikone: official websites and descriptions for Finnish higher education institutions and student organizations (ainejärjestöt / opiskelijakunnat). Sourced from organization sites and student union directories (HYY, TYY, TREY, ISYY, JYY, OYY, etc.).",
+    "sourceDataset": "data/overall_data.json",
+    "stats": {
+      "schoolsTotal": 34,
+      "schoolsWithWebsite": 34,
+      "organizationsTotal": 441,
+      "organizationsWithWebsite": 163,
+      "organizationsWithDescription": 201,
+      "organizationsEnriched": 201
+    },
+    "notes": [
+      "website and description may be null when no reliable public source was found",
+      "descriptions are primarily in Finnish",
+      "combined organization names (e.g. \"HIOP ry, VARO ry\") may map to one of the named orgs",
+      "this file is additive enrichment and does not replace overall_data.json"
+    ]
+  },
+  "schools": [
+    {
+      "name": "Helsingin yliopisto",
+      "type": "yliopisto",
+      "website": "https://www.helsinki.fi",
+      "description": "Helsingin yliopisto on Suomen vanhin ja suurin yliopisto. Se tarjoaa monialaista opetusta ja tutkimusta 11 tiedekunnassa Helsingissä.",
+      "studentUnion": {
+        "name": "HYY",
+        "website": "https://hyy.fi",
+        "description": "Helsingin yliopiston ylioppilaskunta edustaa yliopiston opiskelijoita ja tukee lähes 250 opiskelijajärjestöä."
+      },
+      "areas": ["Helsinki", "Vaasa"],
+      "entryCount": 84,
+      "orgCount": 79
+    },
+    {
+      "name": "Turun yliopisto",
+      "type": "yliopisto",
+      "website": "https://www.utu.fi",
+      "description": "Turun yliopisto on monialainen tutkimusyliopisto Turussa, Raumalla ja Porissa. Se on yksi Suomen suurimmista yliopistoista.",
+      "studentUnion": {
+        "name": "TYY",
+        "website": "https://www.tyy.fi",
+        "description": "Turun yliopiston ylioppilaskunta edustaa yliopiston opiskelijoita ja ylläpitää laajaa ainejärjestökenttää."
+      },
+      "areas": ["Pori", "Rauma", "Turku"],
+      "entryCount": 59,
+      "orgCount": 59
+    },
+    {
+      "name": "Tampereen yliopisto",
+      "type": "yliopisto",
+      "website": "https://www.tuni.fi",
+      "description": "Tampereen yliopisto on monialainen yliopisto, joka syntyi Tampereen yliopiston ja Tampereen teknillisen yliopiston yhdistyessä. Kampuksia on Tampereella ja Porissa.",
+      "studentUnion": {
+        "name": "TREY",
+        "website": "https://trey.fi",
+        "description": "Tampereen ylioppilaskunta edustaa Tampereen yliopiston opiskelijoita ja piirissään toimii noin 160 järjestöä."
+      },
+      "areas": ["Pori", "Tampere"],
+      "entryCount": 40,
+      "orgCount": 40
+    },
+    {
+      "name": "Itä-Suomen yliopisto",
+      "type": "yliopisto",
+      "website": "https://www.uef.fi",
+      "description": "Itä-Suomen yliopisto on monialainen yliopisto Joensuun ja Kuopion kampuksilla. Se on yksi Suomen suurimmista yliopistoista.",
+      "studentUnion": {
+        "name": "ISYY",
+        "website": "https://www.isyy.fi",
+        "description": "Itä-Suomen yliopiston ylioppilaskunta edustaa Joensuun ja Kuopion kampusten opiskelijoita."
+      },
+      "areas": ["Joensuu", "Kuopio"],
+      "entryCount": 38,
+      "orgCount": 37
+    },
+    {
+      "name": "Åbo Akademi",
+      "type": "yliopisto",
+      "website": "https://www.abo.fi",
+      "description": "Åbo Akademi on Suomen ainoa ruotsinkielinen monialainen yliopisto. Pääkampus on Turussa, ja toimintaa on myös Vaasassa.",
+      "studentUnion": {
+        "name": "ÅAS",
+        "website": "https://www.studentkaren.fi",
+        "description": "Åbo Akademis Studentkår (ÅAS) on Åbo Akademin ylioppilaskunta."
+      },
+      "areas": ["Turku", "Vaasa"],
+      "entryCount": 37,
+      "orgCount": 37
+    },
+    {
+      "name": "Jyväskylän yliopisto",
+      "type": "yliopisto",
+      "website": "https://www.jyu.fi",
+      "description": "Jyväskylän yliopisto on monialainen tutkimusyliopisto, joka tunnetaan erityisesti kasvatustieteistä, liikuntatieteistä ja humaanisista aloista.",
+      "studentUnion": {
+        "name": "JYY",
+        "website": "https://jyy.fi",
+        "description": "Jyväskylän yliopiston ylioppilaskunta edustaa yliopiston opiskelijoita ja tukee aine- sekä harrastejärjestöjä."
+      },
+      "areas": ["Jyväskylä"],
+      "entryCount": 31,
+      "orgCount": 31
+    },
+    {
+      "name": "Oulun yliopisto",
+      "type": "yliopisto",
+      "website": "https://www.oulu.fi",
+      "description": "Oulun yliopisto on kansainvälinen tiedeyliopisto Pohjois-Suomessa. Vahvoja aloja ovat tekniikka, ICT, lääketiede ja luonnontieteet.",
+      "studentUnion": {
+        "name": "OYY",
+        "website": "https://www.oyy.fi",
+        "description": "Oulun yliopiston ylioppilaskunta edustaa yliopiston opiskelijoita ja kokoaa aine- sekä harrastejärjestöjä."
+      },
+      "areas": ["Oulu"],
+      "entryCount": 30,
+      "orgCount": 29
+    },
+    {
+      "name": "Aalto-yliopisto",
+      "type": "yliopisto",
+      "website": "https://www.aalto.fi",
+      "description": "Aalto-yliopisto yhdistää tekniikan, kauppatieteet ja taiteet. Kampus sijaitsee Otaniemessä Espoossa.",
+      "studentUnion": {
+        "name": "AYY",
+        "website": "https://ayy.fi",
+        "description": "Aalto-yliopiston ylioppilaskunta edustaa Aallon opiskelijoita ja tukee kiltoja sekä ainejärjestöjä."
+      },
+      "areas": ["Espoo"],
+      "entryCount": 22,
+      "orgCount": 20
+    },
+    {
+      "name": "Kaakkois-Suomen AMK",
+      "type": "amk",
+      "website": "https://www.xamk.fi",
+      "description": "Kaakkois-Suomen ammattikorkeakoulu (Xamk) toimii Kotkassa, Kouvolassa, Mikkelissä ja Savonlinnassa.",
+      "studentUnion": {
+        "name": "Kaakko",
+        "website": "https://kaakko.fi",
+        "description": "Kaakkois-Suomen ammattikorkeakoulun opiskelijakunta Kaakko."
+      },
+      "areas": ["Kotka", "Kouvola", "Mikkeli", "Savonlinna"],
+      "entryCount": 19,
+      "orgCount": 4
+    },
+    {
+      "name": "Tampereen AMK",
+      "type": "amk",
+      "website": "https://www.tuni.fi/fi/tutustu-meihin/tamk",
+      "description": "Tampereen ammattikorkeakoulu (TAMK) on osa Tampereen korkeakouluyhteisöä. Se tarjoaa monialaisia AMK-tutkintoja Tampereella.",
+      "studentUnion": {
+        "name": "Tamko",
+        "website": "https://www.tamko.fi",
+        "description": "Tampereen ammattikorkeakoulun opiskelijakunta Tamko."
+      },
+      "areas": ["Tampere"],
+      "entryCount": 19,
+      "orgCount": 8
+    },
+    {
+      "name": "Turun AMK",
+      "type": "amk",
+      "website": "https://www.turkuamk.fi",
+      "description": "Turun ammattikorkeakoulu on monialainen AMK Varsinais-Suomessa. Kampuksia on Turussa ja Salossa.",
+      "studentUnion": {
+        "name": "TUO",
+        "website": "https://tuo.fi",
+        "description": "Turun ammattikorkeakoulun opiskelijakunta TUO."
+      },
+      "areas": ["Salo", "Turku"],
+      "entryCount": 15,
+      "orgCount": 10
+    },
+    {
+      "name": "Savonia",
+      "type": "amk",
+      "website": "https://www.savonia.fi",
+      "description": "Savonia-ammattikorkeakoulu toimii Kuopiossa, Iisalmessa ja Varkaudessa Itä-Suomessa.",
+      "studentUnion": {
+        "name": "SAVOTTA",
+        "website": "https://opiskelijakuntasavotta.fi",
+        "description": "Savonia-ammattikorkeakoulun opiskelijakunta SAVOTTA."
+      },
+      "areas": ["Iisalmi", "Kuopio", "Varkaus"],
+      "entryCount": 11,
+      "orgCount": 8
+    },
+    {
+      "name": "Centria",
+      "type": "amk",
+      "website": "https://net.centria.fi",
+      "description": "Centria-ammattikorkeakoulu toimii Kokkolassa, Ylivieskassa ja Pietarsaaressa.",
+      "studentUnion": {
+        "name": "COPO",
+        "website": "https://www.copo.fi",
+        "description": "Centria-ammattikorkeakoulun opiskelijakunta COPO."
+      },
+      "areas": ["Kokkola", "Pietarsaari", "Ylivieska"],
+      "entryCount": 10,
+      "orgCount": 0
+    },
+    {
+      "name": "Karelia",
+      "type": "amk",
+      "website": "https://www.karelia.fi",
+      "description": "Karelia-ammattikorkeakoulu toimii Joensuussa Pohjois-Karjalassa.",
+      "studentUnion": {
+        "name": "POKA",
+        "website": "https://www.pokary.fi",
+        "description": "Karelia-ammattikorkeakoulun opiskelijakunta POKA."
+      },
+      "areas": ["Joensuu"],
+      "entryCount": 9,
+      "orgCount": 8
+    },
+    {
+      "name": "LAB",
+      "type": "amk",
+      "website": "https://www.lab.fi",
+      "description": "LAB-ammattikorkeakoulu toimii Lahdessa, Lappeenrannassa ja verkossa. Se on LUT-korkeakoulujen osa.",
+      "studentUnion": {
+        "name": "KOE",
+        "website": "https://koe.fi",
+        "description": "LAB-ammattikorkeakoulun opiskelijakunta KOE."
+      },
+      "areas": ["Lahti", "Lappeenranta"],
+      "entryCount": 9,
+      "orgCount": 9
+    },
+    {
+      "name": "LUT-yliopisto",
+      "type": "yliopisto",
+      "website": "https://www.lut.fi",
+      "description": "LUT-yliopisto (Lappeenrannan–Lahden teknillinen yliopisto) keskittyy tekniikkaan, kauppatieteisiin ja yhteiskuntatieteisiin Lappeenrannassa ja Lahdessa.",
+      "studentUnion": {
+        "name": "LTKY",
+        "website": "https://ltky.fi",
+        "description": "Lappeenrannan teknillisen yliopiston ylioppilaskunta (LTKY) edustaa LUT-yliopiston opiskelijoita."
+      },
+      "areas": ["Lappeenranta"],
+      "entryCount": 9,
+      "orgCount": 9
+    },
+    {
+      "name": "Metropolia",
+      "type": "amk",
+      "website": "https://www.metropolia.fi",
+      "description": "Metropolia Ammattikorkeakoulu on Suomen suurin ammattikorkeakoulu. Kampuksia on pääkaupunkiseudulla useissa kaupungeissa.",
+      "studentUnion": {
+        "name": "METKA",
+        "website": "https://metkaweb.fi",
+        "description": "Metropolian opiskelijakunta METKA edustaa Metropolian opiskelijoita."
+      },
+      "areas": ["Espoo", "Helsinki", "Vantaa"],
+      "entryCount": 9,
+      "orgCount": 9
+    },
+    {
+      "name": "Novia",
+      "type": "amk",
+      "website": "https://www.novia.fi",
+      "description": "Yrkeshögskolan Novia on ruotsinkielinen ammattikorkeakoulu, jolla on kampuksia muun muassa Vaasassa, Turussa ja Raseborgissa.",
+      "studentUnion": {
+        "name": "Novium",
+        "website": "https://novium.fi",
+        "description": "Novium on Novian opiskelijakunta."
+      },
+      "areas": ["Pietarsaari", "Raasepori", "Turku", "Vaasa"],
+      "entryCount": 9,
+      "orgCount": 8
+    },
+    {
+      "name": "Lapin yliopisto",
+      "type": "yliopisto",
+      "website": "https://www.ulapland.fi",
+      "description": "Lapin yliopisto on Euroopan unionin pohjoisin yliopisto Rovaniemellä. Vahvoja aloja ovat oikeustiede, taide, yhteiskuntatieteet ja kasvatustieteet.",
+      "studentUnion": {
+        "name": "LYY",
+        "website": "https://lyy.fi",
+        "description": "Lapin yliopiston ylioppilaskunta edustaa yliopiston opiskelijoita Rovaniemellä."
+      },
+      "areas": ["Rovaniemi"],
+      "entryCount": 8,
+      "orgCount": 8
+    },
+    {
+      "name": "Seinäjoen AMK",
+      "type": "amk",
+      "website": "https://www.seamk.fi",
+      "description": "Seinäjoen ammattikorkeakoulu (SeAMK) tarjoaa monialaisia AMK-tutkintoja Etelä-Pohjanmaalla.",
+      "studentUnion": {
+        "name": "SAMO",
+        "website": "https://www.samoseamk.fi",
+        "description": "Seinäjoen ammattikorkeakoulun opiskelijakunta SAMO."
+      },
+      "areas": ["Seinäjoki"],
+      "entryCount": 8,
+      "orgCount": 0
+    },
+    {
+      "name": "Jyväskylän AMK",
+      "type": "amk",
+      "website": "https://www.jamk.fi",
+      "description": "Jyväskylän ammattikorkeakoulu (Jamk) tarjoaa monialaisia AMK-tutkintoja Keski-Suomessa.",
+      "studentUnion": {
+        "name": "JAMKO",
+        "website": "https://www.jamko.fi",
+        "description": "Jyväskylän ammattikorkeakoulun opiskelijakunta JAMKO."
+      },
+      "areas": ["Jyväskylä"],
+      "entryCount": 7,
+      "orgCount": 6
+    },
+    {
+      "name": "Laurea",
+      "type": "amk",
+      "website": "https://www.laurea.fi",
+      "description": "Laurea-ammattikorkeakoulu toimii Uudellamaalla. Vahvoja aloja ovat sosiaali- ja terveysala, liiketalous sekä turvallisuusala.",
+      "studentUnion": {
+        "name": "Laureamko",
+        "website": "https://laureamko.fi",
+        "description": "Laurea-ammattikorkeakoulun opiskelijakunta Laureamko."
+      },
+      "areas": ["Espoo", "Hyvinkää", "Lohja", "Porvoo", "Vantaa"],
+      "entryCount": 6,
+      "orgCount": 1
+    },
+    {
+      "name": "Oulun AMK",
+      "type": "amk",
+      "website": "https://www.oamk.fi",
+      "description": "Oulun ammattikorkeakoulu (Oamk) on monialainen AMK Pohjois-Pohjanmaalla.",
+      "studentUnion": {
+        "name": "OSAKO",
+        "website": "https://www.osakoweb.fi",
+        "description": "Oulun ammattikorkeakoulun opiskelijakunta OSAKO."
+      },
+      "areas": ["Oulu"],
+      "entryCount": 6,
+      "orgCount": 6
+    },
+    {
+      "name": "Arcada",
+      "type": "amk",
+      "website": "https://www.arcada.fi",
+      "description": "Yrkeshögskolan Arcada on ruotsinkielinen ammattikorkeakoulu Helsingissä.",
+      "studentUnion": {
+        "name": "ASK",
+        "website": "https://asken.fi",
+        "description": "Arcada Student Union – ASK on Arcadan opiskelijakunta."
+      },
+      "areas": ["Helsinki"],
+      "entryCount": 5,
+      "orgCount": 5
+    },
+    {
+      "name": "Diakonia-AMK",
+      "type": "amk",
+      "website": "https://www.diak.fi",
+      "description": "Diakonia-ammattikorkeakoulu (Diak) kouluttaa sosiaali-, maahanmuuttaja-, terveys- ja kirkon alan ammattilaisia useilla kampuksilla.",
+      "studentUnion": {
+        "name": "O'Diako",
+        "website": "https://www.odiako.fi",
+        "description": "Diakonia-ammattikorkeakoulun opiskelijakunta O’Diako."
+      },
+      "areas": ["Helsinki", "Oulu", "Pieksämäki", "Pori", "Turku"],
+      "entryCount": 5,
+      "orgCount": 1
+    },
+    {
+      "name": "Humanistinen AMK",
+      "type": "amk",
+      "website": "https://www.humak.fi",
+      "description": "Humanistinen ammattikorkeakoulu (Humak) kouluttaa yhteisöpedagogeja, kulttuurituottajia, tulkkeja ja muita humanistisia ammattilaisia.",
+      "studentUnion": {
+        "name": "HUMAKO",
+        "website": "https://www.humako.net",
+        "description": "Humanistisen ammattikorkeakoulun opiskelijakunta HUMAKO."
+      },
+      "areas": ["Helsinki", "Jyväskylä", "Kuopio", "Nurmijärvi", "Turku"],
+      "entryCount": 5,
+      "orgCount": 1
+    },
+    {
+      "name": "Hämeen AMK",
+      "type": "amk",
+      "website": "https://www.hamk.fi",
+      "description": "Hämeen ammattikorkeakoulu (HAMK) toimii Hämeenlinnassa, Forssassa, Riihimäellä, Valkeakoskella ja Lepaan kampuksella.",
+      "studentUnion": {
+        "name": "HAMKO",
+        "website": "https://hamko.fi",
+        "description": "Hämeen ammattikorkeakoulun opiskelijakunta HAMKO."
+      },
+      "areas": ["Forssa", "Hattula", "Hämeenlinna", "Riihimäki", "Valkeakoski"],
+      "entryCount": 5,
+      "orgCount": 4
+    },
+    {
+      "name": "Vaasan AMK",
+      "type": "amk",
+      "website": "https://www.vamk.fi",
+      "description": "Vaasan ammattikorkeakoulu (VAMK) tarjoaa AMK-tutkintoja Vaasassa tekniikan, liiketalouden sekä sosiaali- ja terveysalan aloilla.",
+      "studentUnion": {
+        "name": "VAMOK",
+        "website": "https://www.vamok.fi",
+        "description": "Vaasan ammattikorkeakoulun opiskelijakunta VAMOK."
+      },
+      "areas": ["Vaasa"],
+      "entryCount": 5,
+      "orgCount": 3
+    },
+    {
+      "name": "Haaga-Helia",
+      "type": "amk",
+      "website": "https://www.haaga-helia.fi",
+      "description": "Haaga-Helia ammattikorkeakoulu keskittyy liiketalouteen, matkailuun, tietojenkäsittelyyn, liikuntaan ja journalistiikkaan pääkaupunkiseudulla.",
+      "studentUnion": {
+        "name": "Helga",
+        "website": "https://helga.fi",
+        "description": "Haaga-Helian opiskelijakunta Helga edustaa ammattikorkeakoulun opiskelijoita."
+      },
+      "areas": ["Helsinki", "Porvoo", "Vierumäki"],
+      "entryCount": 3,
+      "orgCount": 1
+    },
+    {
+      "name": "Hanken",
+      "type": "yliopisto",
+      "website": "https://www.hanken.fi",
+      "description": "Hanken Svenska handelshögskolan on Suomen vanhin kauppakorkeakoulu. Opetuskieli on pääosin ruotsi, kampukset Helsingissä ja Vaasassa.",
+      "studentUnion": {
+        "name": "SHS",
+        "website": "https://www.shs.fi",
+        "description": "Studentkåren vid Handelshögskolan i Helsingfors (SHS) on Hankenin ylioppilaskunta."
+      },
+      "areas": ["Helsinki", "Vaasa"],
+      "entryCount": 2,
+      "orgCount": 1
+    },
+    {
+      "name": "Ahvenanmaan AMK",
+      "type": "amk",
+      "website": "https://www.ha.ax",
+      "description": "Högskolan på Åland on Ahvenanmaan ammattikorkeakoulu Maarianhaminassa.",
+      "studentUnion": {
+        "name": "SKÅ",
+        "website": "https://www.ha.ax",
+        "description": "Studentkåren på Åland edustaa Högskolan på Ålandin opiskelijoita."
+      },
+      "areas": ["Maarianhamina"],
+      "entryCount": 1,
+      "orgCount": 1
+    },
+    {
+      "name": "Maanpuolustuskorkeakoulu",
+      "type": "yliopisto",
+      "website": "https://maanpuolustuskorkeakoulu.fi",
+      "description": "Maanpuolustuskorkeakoulu kouluttaa Puolustusvoimien ja Rajavartiolaitoksen upseereita sekä tekee maanpuolustukseen liittyvää tutkimusta.",
+      "studentUnion": {
+        "name": "Kadettitoverikunta",
+        "website": "https://kadettikunta.fi",
+        "description": "Kadettikunta / kadettien yhteisöt edustavat Maanpuolustuskorkeakoulun opiskelijoita."
+      },
+      "areas": ["Helsinki"],
+      "entryCount": 1,
+      "orgCount": 1
+    },
+    {
+      "name": "Taideyliopisto",
+      "type": "yliopisto",
+      "website": "https://www.uniarts.fi",
+      "description": "Taideyliopisto muodostuu Sibelius-Akatemiasta, Kuvataideakatemiasta ja Teatterikorkeakoulusta. Se on Suomen johtava taidealan yliopisto.",
+      "studentUnion": {
+        "name": "TaiYo",
+        "website": "https://taiyo.fi",
+        "description": "Taideyliopiston ylioppilaskunta edustaa Taideyliopiston opiskelijoita."
+      },
+      "areas": ["Helsinki"],
+      "entryCount": 1,
+      "orgCount": 0
+    },
+    {
+      "name": "Vaasan yliopisto",
+      "type": "yliopisto",
+      "website": "https://www.uwasa.fi",
+      "description": "Vaasan yliopisto on liiketoimintaan keskittyvä yliopisto, jossa vahvoja aloja ovat kauppatieteet, tekniikka, hallintotieteet ja viestintätieteet.",
+      "studentUnion": {
+        "name": "VYY",
+        "website": "https://vyy.fi",
+        "description": "Vaasan yliopiston ylioppilaskunta edustaa yliopiston opiskelijoita."
+      },
+      "areas": ["Vaasa"],
+      "entryCount": 1,
+      "orgCount": 1
+    }
+  ],
+  "organizations": [
+    {
+      "name": "Pirate",
+      "slug": "pirate",
+      "schools": ["Tampereen AMK"],
+      "fields": [
+        "bioanalyytikko",
+        "ensihoitaja",
+        "fysioterapeutti",
+        "kätilö",
+        "röntgenhoitaja",
+        "sairaanhoitaja",
+        "terveydenhoitaja"
+      ],
+      "areas": ["Tampere"],
+      "website": "https://www.piratery.fi",
+      "description": "Tampereen ammattikorkeakoulun hyvinvointi- ja terveysalojen opiskelijoiden ainejärjestö.",
+      "source": "https://www.piratery.fi/"
+    },
+    {
+      "name": "HUMAKO",
+      "slug": "humako",
+      "schools": ["Humanistinen AMK"],
+      "fields": [
+        "aluetutkimus",
+        "kulttuuriala",
+        "kulttuurituottaja",
+        "tulkki",
+        "yhteisöpedagogi",
+        "yhteisöpedagogiikka"
+      ],
+      "areas": ["Helsinki", "Jyväskylä", "Kuopio", "Nurmijärvi", "Turku"],
+      "website": "https://www.humako.net",
+      "description": "Humanistisen ammattikorkeakoulun opiskelijakunta.",
+      "source": "https://www.humako.net/"
+    },
+    {
+      "name": "Laureamko",
+      "slug": "laureamko",
+      "schools": ["Laurea"],
+      "fields": [
+        "estenomi",
+        "fysioterapeutti",
+        "restonomi",
+        "rikosseuraamusalan sosionomi",
+        "sairaanhoitaja",
+        "sosionomi",
+        "terveydenhoitaja",
+        "tietojenkäsittelytiede"
+      ],
+      "areas": ["Espoo", "Hyvinkää", "Lohja", "Porvoo", "Vantaa"],
+      "website": "https://laureamko.fi",
+      "description": "Laurea-ammattikorkeakoulun opiskelijakunta, joka edustaa opiskelijoita ja järjestää tutorointia sekä tapahtumia.",
+      "source": "https://laureamko.fi/"
+    },
+    {
+      "name": "O’Diako",
+      "slug": "o-diako",
+      "schools": ["Diakonia-AMK"],
+      "fields": [
+        "asioimistulkkaus",
+        "sosiaali-",
+        "sosiaali- ja terveysala",
+        "terveys- ja kirkon alat",
+        "tulkkaus",
+        "viittomakieli"
+      ],
+      "areas": ["Helsinki", "Oulu", "Pieksämäki", "Pori", "Turku"],
+      "website": "https://www.odiako.fi",
+      "description": "Diakonia-ammattikorkeakoulun opiskelijakunta vuodesta 1998.",
+      "source": "https://www.odiako.fi/"
+    },
+    {
+      "name": "Helga",
+      "slug": "helga",
+      "schools": ["Haaga-Helia"],
+      "fields": ["kulttuuri", "liiketalous", "liikunta ja vapaa-aika", "matkailu"],
+      "areas": ["Helsinki", "Porvoo", "Vierumäki"],
+      "website": "https://helga.fi",
+      "description": "Haaga-Helian opiskelijakunta Helga on ammattikorkeakoululain mukainen julkisyhteisö, joka muodostuu Haaga-Helian opiskelijoista. Helga toimii jäsentensä yhdyssiteenä sekä hoitaa edunvalvontaa, edustamista ja yhteisötoimintaa.",
+      "source": "https://helga.fi/"
+    },
+    {
+      "name": "Maanmittarikilta",
+      "slug": "maanmittarikilta",
+      "schools": ["Aalto-yliopisto"],
+      "fields": [
+        "geomatiikka",
+        "kestävät yhdyskunnat",
+        "kiinteistötalous",
+        "kiinteistötalous ja geoinformatiikka",
+        "rakennettu ympäristö"
+      ],
+      "areas": ["Espoo"],
+      "website": "https://maanmittarikilta.fi",
+      "description": "Maanmittarikilta on Aalto-yliopiston Insinööritieteiden koulun rakennetun ympäristön, kiinteistötalouden, geomatiikan, Real Estate Economics-, Spatial Planning and Transportation Engineering- ja Creative Sustainbility-koulutusohjelmien opiskelijoiden ja harrastajien yhdistys. Maanmittarikilta on on Suomen vanhin kilta, joka ottaa yhä kandiopiskelijoita vastaan. Kilta on perustettu jo vuonna 1901 ja siihen kuuluu noin 400 jäsentä.",
+      "source": "https://www.ayy.fi/fi/yhdistyslistaus/ainejarjestot"
+    },
+    {
+      "name": "Arkkitehtikilta",
+      "slug": "arkkitehtikilta",
+      "schools": ["Aalto-yliopisto", "Oulun yliopisto"],
+      "fields": ["arkkitehtuuri"],
+      "areas": ["Espoo", "Oulu"],
+      "website": "https://arkkitehtikilta.fi",
+      "description": "Arkkitehtikilta on arkkitehtiopiskelijoiden ainejärjestö (Aalto / Oulu -kampuskohtaiset killat).",
+      "source": "https://www.ayy.fi/fi/yhdistyslistaus/ainejarjestot"
+    },
+    {
+      "name": "Astérix",
+      "slug": "asterix",
+      "schools": ["Jyväskylän yliopisto", "Åbo Akademi"],
+      "fields": ["ranskan kieli", "romaaninen filologia"],
+      "areas": ["Jyväskylä", "Turku"],
+      "website": "https://asterixry.wordpress.com",
+      "description": "Romaaninen filologia, espanjan kieli, italian kieli, latinan kieli",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Eidos",
+      "slug": "eidos",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["taidehistoria"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "GLOBE",
+      "slug": "globe",
+      "schools": ["Tampereen AMK"],
+      "fields": ["environmental engineering", "textile and material engineering"],
+      "areas": ["Tampere"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Joensuun Insinööriopiskelijat JoIO",
+      "slug": "joensuun-insinooriopiskelijat-joio",
+      "schools": ["Karelia"],
+      "fields": ["energia- ja ympäristötekniikka", "tekniikka (paitsi energia- ja ympäristö-)"],
+      "areas": ["Joensuu"],
+      "website": "https://joio.insinoori.fi",
+      "description": "Joensuun Insinööriopiskelijat ry (JoIO) on Karelia-ammattikorkeakoulun tekniikan opiskelijoiden alakohtainen yhdistys. Se tukee opiskelua, edustaa jäseniään ja toimii opiskelijoiden sekä opettajien välisenä yhteytenä.",
+      "source": "https://joio.insinoori.fi/"
+    },
+    {
+      "name": "Katharsis",
+      "slug": "katharsis",
+      "schools": ["Helsingin yliopisto", "Åbo Akademi"],
+      "fields": ["kehityspsykologia", "sosiaalitieteet", "yleinen kirjallisuustiede"],
+      "areas": ["Helsinki", "Vaasa"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Konkurssi",
+      "slug": "konkurssi",
+      "schools": ["Jyväskylän AMK"],
+      "fields": ["hallinto", "international business", "liiketalous", "tietojenkäsittelytiede"],
+      "areas": ["Jyväskylä"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "N.U.D.",
+      "slug": "n-u-d",
+      "schools": ["Novia"],
+      "fields": [
+        "estenomi",
+        "kätilö",
+        "sairaanhoitaja",
+        "sosionomi",
+        "terveydenhoitaja; sosionomi"
+      ],
+      "areas": ["Vaasa"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Origo",
+      "slug": "origo",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["alue- ja kulttuuritutkimus"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Pulterit",
+      "slug": "pulterit",
+      "schools": ["Turun yliopisto", "Åbo Akademi"],
+      "fields": ["geologia", "maantiede"],
+      "areas": ["Turku"],
+      "website": "https://www.pulterit.utu.fi",
+      "description": "Pulterit ry on Turun yliopiston ja Åbo Akademin geologian opiskelijoiden yhteinen ainejärjestö vuodesta 1960. Se ajaa jäsentensä etuja opinnoissa ja työelämässä sekä järjestää monipuolista toimintaa.",
+      "source": "https://www.pulterit.utu.fi/fi/pulterit-5/"
+    },
+    {
+      "name": "Putkinotko",
+      "slug": "putkinotko",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["kotimainen kirjallisuus"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "SHS",
+      "slug": "shs",
+      "schools": ["Hanken"],
+      "fields": ["kauppatieteet"],
+      "areas": ["Helsinki", "Vaasa"],
+      "website": "https://shs.fi",
+      "description": "Svenska Handelshögskolans Studentkår (SHS) on Hankenin ylioppilaskunta ja noin 2000 jäsenen palvelu- sekä etujärjestö. Kaikki Hankenin opiskelijat kuuluvat SHS:ään.",
+      "source": "https://shs.fi/student-union/"
+    },
+    {
+      "name": "Setenta",
+      "slug": "setenta",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["iberoromaaniset kielet: espanja", "iberoromaaniset kielet: portugali"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Siula",
+      "slug": "siula",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["suomalais-ugrilaiset kielet", "suomen kieli"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "TSTS",
+      "slug": "tsts",
+      "schools": ["Turun AMK"],
+      "fields": ["terveysala", "terveysalat"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "VOSU",
+      "slug": "vosu",
+      "schools": ["Vaasan AMK"],
+      "fields": ["hoitoala", "sosiaaliala"],
+      "areas": ["Vaasa"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Vaasan Insinööriopiskelijat VIO",
+      "slug": "vaasan-insinooriopiskelijat-vio",
+      "schools": ["Vaasan AMK"],
+      "fields": ["tekniikka"],
+      "areas": ["Vaasa"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Aalto-yliopiston kauppatieteiden ylioppilaat KY",
+      "slug": "aalto-yliopiston-kauppatieteiden-ylioppilaat-ky",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["kauppatieteet"],
+      "areas": ["Espoo"],
+      "website": "https://ky.fi",
+      "description": "Aalto-yliopiston kauppatieteiden ylioppilaat KY ry on Aallon kauppatieteiden opiskelijoiden ainejärjestö.",
+      "source": "https://ky.fi/"
+    },
+    {
+      "name": "Aatos",
+      "slug": "aatos",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["filosofia"],
+      "areas": ["Tampere"],
+      "website": "https://sites.google.com/view/aatosfilosofia",
+      "description": "Aatos ry on Tampereen yliopiston filosofian opiskelijoiden ainejärjestö. Se tukee opiskelua ja järjestää keskustelutoimintaa, kulttuuritapahtumia, urheilua sekä juhlia.",
+      "source": "https://sites.google.com/view/aatosfilosofia/"
+    },
+    {
+      "name": "Abakus",
+      "slug": "abakus",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["erityispedagogiikka"],
+      "areas": ["Jyväskylä"],
+      "website": "https://abakusry.sool.fi",
+      "description": "Abakus ry on Jyväskylän yliopiston erityispedagogiikan opiskelijoiden ainejärjestö. Se ajaa jäsentensä etua koulutus- ja sosiaalipoliittisissa kysymyksissä sekä järjestää vapaa-ajan tapahtumia.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Ablaut",
+      "slug": "ablaut",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["saksan kieli"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Ablaut ry on Itä-Suomen yliopiston Joensuun kampuksen saksan kielen opiskelijoiden ainejärjestö. Se ajaa alan opiskelijoiden etuja ja järjestää opiskelijatoimintaa.",
+      "source": "https://fi.wikipedia.org/wiki/Luettelo_It%C3%A4-Suomen_yliopiston_ainej%C3%A4rjest%C3%B6ist%C3%A4"
+    },
+    {
+      "name": "Adamas",
+      "slug": "adamas",
+      "schools": ["Turun yliopisto"],
+      "fields": ["materiaalitekniikka"],
+      "areas": ["Turku"],
+      "website": "https://www.adamas.fi",
+      "description": "Adamas ry on Turun yliopiston materiaalitekniikan DI-opiskelijoiden ainejärjestö. Kilta järjestää tapahtumia ja edistää yhteisöllisyyttä materiaalitekniikan opiskelijoiden keskuudessa.",
+      "source": "https://www.adamas.fi/"
+    },
+    {
+      "name": "Adaptus",
+      "slug": "adaptus",
+      "schools": ["Turun yliopisto"],
+      "fields": ["hoitotiede"],
+      "areas": ["Turku"],
+      "website": "https://tyyala.utu.fi/adaptus",
+      "description": "Adaptus ry on Turun yliopiston hoitotieteen opiskelijoiden ainejärjestö vuodesta 1987. Se valvoo opiskelijoiden etuja, järjestää tapahtumia ja tiedottaa alan ajankohtaisista asioista.",
+      "source": "https://tyyala.utu.fi/adaptus/"
+    },
+    {
+      "name": "Aikuiskasvatuksen Kilta",
+      "slug": "aikuiskasvatuksen-kilta",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["aikuiskasvatus"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Aistimus",
+      "slug": "aistimus",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["estetiikka"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Aksentti",
+      "slug": "aksentti",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["Suomen kieli ja kulttuuri"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Aktiiva",
+      "slug": "aktiiva",
+      "schools": ["Turun yliopisto"],
+      "fields": ["laskentatoimi", "rahoitus", "yritysjuridiikka"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": "Aktiiva on Turun kauppakorkeakoulun laskentatoimen, rahoituksen ja yritysjuridiikan opiskelijoiden ainejärjestö. Se ajaa opiskelijoiden etuja, järjestää koulutuksia ja luo kontakteja yrityksiin.",
+      "source": "https://www.tuky.fi/etusivu/ainejarjestot/"
+    },
+    {
+      "name": "Algo",
+      "slug": "algo",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["tieto- ja ohjelmistotekniikka"],
+      "areas": ["Jyväskylä"],
+      "website": "https://www.algojkl.com",
+      "description": "Algo ry on Jyväskylän yliopiston tieto- ja ohjelmistotekniikan sekä teknologiajohtamisen opiskelijoiden kilta. Se valvoo jäsentensä etuja, järjestää tapahtumia ja tekee yhteistyötä alan yritysten kanssa.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Anglica",
+      "slug": "anglica",
+      "schools": ["Turun yliopisto"],
+      "fields": ["englannin kieli"],
+      "areas": ["Turku"],
+      "website": "https://anglica.org",
+      "description": "Anglica ry on Turun yliopiston englannin kielen opiskelijoiden ainejärjestö vuodesta 1958. Se toimii siltana opiskelijoiden ja henkilökunnan välillä sekä järjestää tapahtumia.",
+      "source": "https://anglica.org/"
+    },
+    {
+      "name": "Armatuuri",
+      "slug": "armatuuri",
+      "schools": ["LUT-yliopisto"],
+      "fields": ["energiatekniikka"],
+      "areas": ["Lappeenranta"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Arte",
+      "slug": "arte",
+      "schools": ["Åbo Akademi"],
+      "fields": ["käsityötiede"],
+      "areas": ["Vaasa"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Artikla",
+      "slug": "artikla",
+      "schools": ["Lapin yliopisto"],
+      "fields": ["oikeustiede"],
+      "areas": ["Rovaniemi"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Asklepio",
+      "slug": "asklepio",
+      "schools": ["Turun yliopisto"],
+      "fields": ["Lääketieteellinen tekniikka ja terveysteknologia"],
+      "areas": ["Turku"],
+      "website": "https://www.asklepio.fi",
+      "description": "Asklepio ry on Turun yliopiston lääketieteellisen tekniikan ja terveysteknologian diplomi-insinööriopiskelijoiden kilta. Se edistää jäsentensä tieteellistä ja ammatillista kehitystä sekä järjestää vapaa-ajan tapahtumia.",
+      "source": "https://www.asklepio.fi/"
+    },
+    {
+      "name": "Aspekti",
+      "slug": "aspekti",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["kieliteknologia", "yleinen kielitiede"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Asteriski",
+      "slug": "asteriski",
+      "schools": ["Turun yliopisto"],
+      "fields": ["tietojenkäsittelytiede"],
+      "areas": ["Turku"],
+      "website": "https://asteriski.fi",
+      "description": "Asteriski ry on Turun yliopiston tietojenkäsittelytieteiden opiskelijoiden ainejärjestö, joka perustettiin vuonna 1972. Se huolehtii jäsenistään, edistää heidän opintojaan ja järjestää monipuolisia tapahtumia.",
+      "source": "https://asteriski.fi/yhdistys/"
+    },
+    {
+      "name": "Athene",
+      "slug": "athene",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["informaatioverkostot"],
+      "areas": ["Espoo"],
+      "website": "https://athene.fi",
+      "description": "Athene on Aalto-yliopiston informaatioverkostojen, engineering psychology -ohjelman ja EIT Digital -ohjelman opiskelijoiden kilta. Se järjestää tapahtumia, ylläpitää yrityssuhteita ja valvoo opiskelijoiden etuja opintoasioissa.",
+      "source": "https://athene.fi/"
+    },
+    {
+      "name": "Atlas",
+      "slug": "atlas",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["maantiede"],
+      "areas": ["Oulu"],
+      "website": "https://atlas-ry.fi",
+      "description": "Oulun yliopiston maantieteen opiskelijoiden ainejärjestö.",
+      "source": "https://www.oyy.fi/yhteiso/opiskelijajarjestot/"
+    },
+    {
+      "name": "Automaatio- ja systeemitekniikan kilta",
+      "slug": "automaatio-ja-systeemitekniikan-kilta",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["automaatio- ja systeemitekniikka"],
+      "areas": ["Espoo"],
+      "website": "https://as.fi",
+      "description": "AS on opiskelijajärjestö, joka yhdistää Aalto-yliopiston opiskelijoita monelta eri alalta. Kiltaan kuuluu Automaation ja robotiikan, Informaatioteknologian ja Digital Systems and Designin sekä niitä lähellä olevien tutkinto-ohjelmien opiskelijoita. Kilta järjestää jäsenilleen vapaa-ajan toimintaa, valvoo heidän etuaan opintoihin liittyvissä asioissa ja ylläpitää suhteita alan yrityksiin.",
+      "source": "https://as.fi"
+    },
+    {
+      "name": "Automaatiotekniikan kilta",
+      "slug": "automaatiotekniikan-kilta",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["automaatiotekniikka"],
+      "areas": ["Tampere"],
+      "website": "https://autek.fi",
+      "description": "Automaatiotekniikan kilta Autek ry on Tampereen yliopiston automaatiotekniikan opiskelijoiden kilta vuodesta 1988. Se tarjoaa kiltahuoneen, tapahtumia, yrityskontakteja ja opintoedunvalvontaa.",
+      "source": "https://autek.fi/"
+    },
+    {
+      "name": "BOA",
+      "slug": "boa",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["biotekniikka"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Biologica",
+      "slug": "biologica",
+      "schools": ["Åbo Akademi"],
+      "fields": ["biotieteet"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Bioner",
+      "slug": "bioner",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["biotekniikka"],
+      "areas": ["Tampere"],
+      "website": "https://bioner.fi",
+      "description": "Bioteekkarikilta Bioner ry on Tampereen yliopiston bioteknologian ja biolääketieteen tekniikan ainejärjestö vuodesta 2005. Se yhdistää alan teekkareita ja järjestää opiskelijatoimintaa.",
+      "source": "https://bioner.fi/"
+    },
+    {
+      "name": "Biopsi",
+      "slug": "biopsi",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["bioteknologia"],
+      "areas": ["Tampere"],
+      "website": "https://biopsi.fi",
+      "description": "Biopsi ry on Tampereen yliopiston bioteknologian ja biolääketieteen tekniikan opiskelijoiden ainejärjestö. Se huolehtii opiskelijoiden oikeuksista, järjestää tapahtumia ja saattaa alan opiskelijat yhteen.",
+      "source": "https://biopsi.fi/"
+    },
+    {
+      "name": "Black Swans",
+      "slug": "black-swans",
+      "schools": ["Turun yliopisto"],
+      "fields": ["tulevaisuudentutkimus"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Blanko",
+      "slug": "blanko",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["tietojenkäsittelytiede"],
+      "areas": ["Oulu"],
+      "website": "https://blanko.fi",
+      "description": "Oulun yliopiston tietojenkäsittelytieteiden opiskelijoiden ainejärjestö.",
+      "source": "https://www.oyy.fi/yhteiso/opiskelijajarjestot/"
+    },
+    {
+      "name": "Boomi",
+      "slug": "boomi",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["kauppatieteet"],
+      "areas": ["Tampere"],
+      "website": "https://boomi.fi",
+      "description": "Boomi ry on Tampereen yliopiston kauppatieteiden opiskelijoiden etu- ja palvelujärjestö. Se ajaa jäsentensä etuja opintoasioissa, järjestää tapahtumia ja edustaa opiskelijoita yliopistohallinnossa.",
+      "source": "https://trey.fi/opiskelijaelama/jarjestot-yhteisossamme"
+    },
+    {
+      "name": "Bouffe",
+      "slug": "bouffe",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["ranskalainen filologia"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Britannica",
+      "slug": "britannica",
+      "schools": ["Åbo Akademi"],
+      "fields": ["englannin kieli"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Bunsen",
+      "slug": "bunsen",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["kemia"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Bunsen ry on Itä-Suomen yliopiston Joensuun kampuksen kemian pääaine- ja sivuaineopiskelijoiden ainejärjestö. Se valvoo jäsentensä etuja ja järjestää yhteisöllistä toimintaa.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Cluster",
+      "slug": "cluster",
+      "schools": ["LUT-yliopisto"],
+      "fields": ["tietotekniikka"],
+      "areas": ["Lappeenranta"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Commedia",
+      "slug": "commedia",
+      "schools": ["Arcada"],
+      "fields": ["media"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Communica",
+      "slug": "communica",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["logopedia"],
+      "areas": ["Oulu"],
+      "website": "https://communica.fi",
+      "description": "Oulun yliopiston logopedian opiskelijoiden ainejärjestö.",
+      "source": "https://www.oyy.fi/yhteiso/opiskelijajarjestot/"
+    },
+    {
+      "name": "Corpus",
+      "slug": "corpus",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["kirjallisuus", "museologia", "taidehistoria", "taidekasvatus"],
+      "areas": ["Jyväskylä"],
+      "website": "https://corpusry.fi",
+      "description": "Corpus ry on Jyväskylän yliopiston kirjallisuuden, museologian, taidehistorian ja taidekasvatuksen opiskelijoiden ainejärjestö. Se valvoo jäsenistön etuja ja järjestää vapaa-ajantoimintaa.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Cortex",
+      "slug": "cortex",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["psykologia"],
+      "areas": ["Tampere"],
+      "website": "https://cortexry.fi",
+      "description": "Cortex ry on Tampereen yliopiston psykologian opiskelijoiden ainejärjestö. Se kokoaa alan opiskelijat yhteen, järjestää toimintaa ja hoitaa edunvalvontaa.",
+      "source": "https://cortexry.fi/"
+    },
+    {
+      "name": "DaTe",
+      "slug": "date",
+      "schools": ["Åbo Akademi"],
+      "fields": ["tietotekniikka"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Daina",
+      "slug": "daina",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["balttilaiset kielet ja kulttuurit"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Data Guild",
+      "slug": "data-guild",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["tietojenkäsittelytiede (englanniksi)"],
+      "areas": ["Espoo"],
+      "website": "https://dataguild.fi",
+      "description": "Data Guild ry on Data Science -koulutusohjelman opiskelijoiden järjestö, joka perustettiin vuonna 2019. Suurin osa järjestön jäsenistä on englanninkielisen Aalto Bachelor's Programme in Science and Technology -ohjelman opiskelijoita.",
+      "source": "https://www.ayy.fi/fi/yhdistyslistaus/ainejarjestot"
+    },
+    {
+      "name": "Defenssi ry",
+      "slug": "defenssi-ry",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["psykologia"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Delta",
+      "slug": "delta",
+      "schools": ["Turun yliopisto"],
+      "fields": ["fysiikka", "matematiikka"],
+      "areas": ["Turku"],
+      "website": "https://delta.utu.fi",
+      "description": "Delta ry on vuonna 1976 perustettu Turun yliopiston matemaattisten ja fysikaalisten tieteiden opiskelijoiden ainejärjestö. Se tukee jäsentensä opintoja, valvoo opiskelijoiden etuja ja järjestää vapaa-ajan tapahtumia.",
+      "source": "https://delta.utu.fi/"
+    },
+    {
+      "name": "Demoni",
+      "slug": "demoni",
+      "schools": ["Metropolia"],
+      "fields": ["kulttuuriala"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Dentina",
+      "slug": "dentina",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["hammaslääketiede"],
+      "areas": ["Kuopio"],
+      "website": "https://dentina.fi",
+      "description": "Kuopion hammaslääketieteen opiskelijoiden ainejärjestö.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/kuopion-ainejarjestot.html"
+    },
+    {
+      "name": "Dialectica",
+      "slug": "dialectica",
+      "schools": ["Turun yliopisto"],
+      "fields": ["filosofia"],
+      "areas": ["Turku"],
+      "website": "https://tyyala.utu.fi/dialectica",
+      "description": "Dialectica ry on Turun yliopiston filosofian opiskelijoiden ainejärjestö. Se järjestää opiskeluun liittyviä palveluita ja vapaa-ajan toimintaa sekä valvoo opiskelijoiden etuja.",
+      "source": "https://tyyala.utu.fi/dialectica/"
+    },
+    {
+      "name": "Didacta",
+      "slug": "didacta",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["kasvatus- ja aikuiskasvatustiede (ruotsiksi)", "luokanopettaja"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Digit",
+      "slug": "digit",
+      "schools": ["Turun yliopisto"],
+      "fields": ["tieto- ja viestintätekniikan DI"],
+      "areas": ["Turku"],
+      "website": "https://digit.fi",
+      "description": "Digit ry on Turun yliopiston tietotekniikan, elektroniikan ja tietoliikennetekniikan diplomi-insinööriopiskelijoiden kilta. Se auttaa jäseniään opintoasioissa, valvoo opiskelijan etuja, järjestää vapaa-ajantoimintaa ja vaalii teekkarikulttuuria.",
+      "source": "https://tt.utu.fi/fi/ainejarjestot/"
+    },
+    {
+      "name": "Dilemma",
+      "slug": "dilemma",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["filosofia"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Divina Compagnia",
+      "slug": "divina-compagnia",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["italialainen filologia"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Druzjba",
+      "slug": "druzjba",
+      "schools": ["Åbo Akademi"],
+      "fields": ["venäjän kieli"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Dumppi",
+      "slug": "dumppi",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": [
+        "kognitiotiede",
+        "kyberturvallisuus",
+        "tietojenkäsittelytiede",
+        "tietojärjestelmätiede"
+      ],
+      "areas": ["Jyväskylä"],
+      "website": "https://dumppi.fi",
+      "description": "Dumppi ry on Jyväskylän yliopiston tietojärjestelmätieteen, kyberturvallisuuden, kognitiotieteen sekä turvallisuuden ja strategisen analyysin opiskelijoiden ainejärjestö. Se valvoo jäsentensä etua, edustaa opiskelijoita IT-tiedekunnassa ja järjestää tapahtumia.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "ENÅ",
+      "slug": "ena",
+      "schools": ["Novia"],
+      "fields": ["merenkulku"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": "Kuopion kampuksen ympäristötieteen opiskelijoiden ainejärjestö.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/kuopion-ainejarjestot.html"
+    },
+    {
+      "name": "ESN-IAC",
+      "slug": "esn-iac",
+      "schools": ["Turun AMK"],
+      "fields": ["vaihto-opiskelijat"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Ebe",
+      "slug": "ebe",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["varhaiskasvatus"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Echo",
+      "slug": "echo",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["englannin kieli"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Itä-Suomen yliopiston englannin kielen opiskelijoiden ainejärjestö Joensuun kampuksella.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Eikon",
+      "slug": "eikon",
+      "schools": ["Åbo Akademi"],
+      "fields": ["taidehistoria"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Ekenäs Kåravdelning EKA",
+      "slug": "ekenas-karavdelning-eka",
+      "schools": ["Novia"],
+      "fields": [],
+      "areas": ["Raasepori"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Elba",
+      "slug": "elba",
+      "schools": ["Turun AMK"],
+      "fields": ["prosessi- ja materiaalitekniikka"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Eläinlääketieteen kandidaattiyhdistys",
+      "slug": "elainlaaketieteen-kandidaattiyhdistys",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["eläinlääketiede"],
+      "areas": ["Helsinki"],
+      "website": "https://eky.fi",
+      "description": "Helsingin yliopiston eläinlääketieteen opiskelijoiden ainejärjestö.",
+      "source": "https://eky-ry.fi/index.php/yhdistys"
+    },
+    {
+      "name": "Emile",
+      "slug": "emile",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["aikuiskasvatustiede", "kasvatustiede"],
+      "areas": ["Jyväskylä"],
+      "website": "https://emileryuusi.wordpress.com",
+      "description": "Emile ry on Jyväskylän yliopiston kasvatus- ja aikuiskasvatustieteen, ohjausalan sekä kasvatustieteiden kansainvälisen tutkinto-ohjelman opiskelijoiden ainejärjestö, jonka tarkoituksena on huolehtia opiskelijoiden eduista. Emile toimii siteenä Kasvatustieteen laitoksen henkilökunnan ja opiskelijoiden välillä ja tekee myös yhteistyötä kasvatustieteilijöiden sekä muiden ainejärjestöjen kanssa, niin Jyväskylässä kuin valtakunnallisestikin.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "EnTech",
+      "slug": "entech",
+      "schools": ["Åbo Akademi"],
+      "fields": ["energiatekniikka"],
+      "areas": ["Vaasa"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Energiamurroskilta ry EMU",
+      "slug": "energiamurroskilta-ry-emu",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["energiamurros"],
+      "areas": ["Tampere"],
+      "website": null,
+      "description": "Energiamurroskilta ry (EMU) on Tampereen yliopiston energiamurroksen opiskelijoiden kilta.",
+      "source": "https://trey.fi/opiskelijaelama/jarjestot-yhteisossamme"
+    },
+    {
+      "name": "Enklaavi",
+      "slug": "enklaavi",
+      "schools": ["LUT-yliopisto"],
+      "fields": ["kauppatieteet"],
+      "areas": ["Lappeenranta"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Epsilon",
+      "slug": "epsilon",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["fysiikka", "matematiikka"],
+      "areas": ["Joensuu"],
+      "website": "https://epsilon.sool.fi",
+      "description": "Epsilon ry on Itä-Suomen yliopiston matematiikan, fysiikan ja fotoniikan opiskelijoiden ainejärjestö. Se tarjoaa jäsenilleen tietoa yhdistyksestä, jäsenyydestä ja tapahtumista.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Erasmus Student Network Oulu (ESN Oulu)",
+      "slug": "erasmus-student-network-oulu-esn-oulu",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["vaihto-opiskelijat"],
+      "areas": ["Oulu"],
+      "website": "https://esnoulu.org",
+      "description": "Erasmus Student Network Oulu järjestää toimintaa kansainvälisille opiskelijoille Oulussa.",
+      "source": null
+    },
+    {
+      "name": "Erikeepperi",
+      "slug": "erikeepperi",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["erityispedagogiikka"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Eszett",
+      "slug": "eszett",
+      "schools": ["Åbo Akademi"],
+      "fields": ["saksan kieli"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Ex Tempore",
+      "slug": "ex-tempore",
+      "schools": ["Åbo Akademi"],
+      "fields": ["farmasia"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "FSLF",
+      "slug": "fslf",
+      "schools": ["Åbo Akademi"],
+      "fields": ["luokanopettaja"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "FYKO",
+      "slug": "fyko",
+      "schools": ["Karelia"],
+      "fields": ["fysioterapia"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "FYKO on Karelia-ammattikorkeakoulun fysioterapiaopiskelijoiden jaosto Joensuussa. Se toimii opiskelijakunta POKAn yhteydessä ja järjestää alan opiskelijoille yhteisöllistä toimintaa.",
+      "source": "https://fi.wikipedia.org/wiki/Karelia-ammattikorkeakoulun_opiskelijakunta"
+    },
+    {
+      "name": "Fibula",
+      "slug": "fibula",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["arkeologia"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Fides Ostiensis",
+      "slug": "fides-ostiensis",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["läntinen teologia"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Vuonna 1997 perustettu läntisen teologian opiskelijoiden ainejärjestö Itä-Suomen yliopistossa.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Filicia",
+      "slug": "filicia",
+      "schools": ["Novia"],
+      "fields": [],
+      "areas": ["Vaasa"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Finanssi",
+      "slug": "finanssi",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["kauppatieteet"],
+      "areas": ["Oulu"],
+      "website": "https://finanssi.org",
+      "description": "Oulun yliopiston kauppatieteiden opiskelijoiden ainejärjestö.",
+      "source": "https://www.oyy.fi/yhteiso/opiskelijajarjestot/"
+    },
+    {
+      "name": "Fobia",
+      "slug": "fobia",
+      "schools": ["Turun yliopisto"],
+      "fields": ["psykologia"],
+      "areas": ["Turku"],
+      "website": "https://fobia.utu.fi",
+      "description": "Fobia ry on Turun yliopiston psykologian opiskelijoiden ainejärjestö. Se kokoaa oppiaineen opiskelijat, vastaa edunvalvonnasta ja järjestää sosiaalisesti, ammatillisesti ja liikunnallisesti virikkeellistä toimintaa.",
+      "source": "https://fobia.utu.fi/fobia-ry/"
+    },
+    {
+      "name": "Fokus",
+      "slug": "fokus",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["sosiaalityö", "sosiologia", "yhteiskuntapolitiikka"],
+      "areas": ["Jyväskylä"],
+      "website": "https://fokusry.net",
+      "description": "Fokus ry on Jyväskylän yliopiston yhteiskuntatieteiden opiskelijoiden ainejärjestö.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Foneemi",
+      "slug": "foneemi",
+      "schools": ["Turun yliopisto"],
+      "fields": ["fonetiikka"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Foni",
+      "slug": "foni",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["logopedia"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Fortis",
+      "slug": "fortis",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["farmasia"],
+      "areas": ["Kuopio"],
+      "website": "https://fortis.fi",
+      "description": "Kuopion farmasian opiskelijoiden ainejärjestö.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/kuopion-ainejarjestot.html"
+    },
+    {
+      "name": "Forum Romanum",
+      "slug": "forum-romanum",
+      "schools": ["Turun yliopisto"],
+      "fields": ["ranskan ja romanian kieli"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Fyysikkokilta",
+      "slug": "fyysikkokilta",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["matematiikka", "teknillinen fysiikka"],
+      "areas": ["Espoo"],
+      "website": "https://fyysikkokilta.fi",
+      "description": "Fyysikkokilta on Aalto-yliopiston teknillisen fysiikan ja matematiikan sekä Quantum Technology -opiskelijoiden ainejärjestö vuodesta 1947. Kilta järjestää vapaa-ajan toimintaa, valvoo jäsentensä etuja ja vaalii teekkariperinteitä.",
+      "source": "https://fyysikkokilta.fi/"
+    },
+    {
+      "name": "Gastro",
+      "slug": "gastro",
+      "schools": ["Åbo Akademi"],
+      "fields": ["kotitaloustiede"],
+      "areas": ["Vaasa"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Germanica",
+      "slug": "germanica",
+      "schools": ["Turun yliopisto"],
+      "fields": ["saksan kieli"],
+      "areas": ["Turku"],
+      "website": "https://tyyala.utu.fi/germanica",
+      "description": "Germanica on Turun yliopiston saksan kielen opiskelijoiden ainejärjestö. Se järjestää laajasti tapahtumia, tekee yhteistyötä muiden järjestöjen kanssa ja hoitaa opiskelijoiden edunvalvontaa.",
+      "source": "https://www.tyy.fi/fi/node/421"
+    },
+    {
+      "name": "Geysir",
+      "slug": "geysir",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["geofysiikka"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Gieku",
+      "slug": "gieku",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["saamelainen kulttuuri", "saamen kieli"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Gnosis",
+      "slug": "gnosis",
+      "schools": ["Åbo Akademi"],
+      "fields": ["uskontotiede"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Godis",
+      "slug": "godis",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["ruotsin kieli"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Itä-Suomen yliopiston ruotsin kielen opiskelijoiden ainejärjestö Joensuun kampuksella.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Gooni ry",
+      "slug": "gooni-ry",
+      "schools": ["Metropolia"],
+      "fields": ["maanmittaustekniikka"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "HAO",
+      "slug": "hao",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["aineenopettaja"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "HIOP ry, VARO ry",
+      "slug": "hiop-ry-varo-ry",
+      "schools": ["Hämeen AMK"],
+      "fields": ["insinööri", "kestävä kehitys"],
+      "areas": ["Forssa", "Hämeenlinna", "Valkeakoski"],
+      "website": "https://www.hiopry.com",
+      "description": "Hämeenlinnan Insinööriopiskelijat HIOP ry on Hämeen ammattikorkeakoulun Visamäen ja Forssan kampusten insinööri- ja tekniikan opiskelijoiden yhdistys. Se levittää insinöörikulttuuria, järjestää tapahtumia ja tukee opiskelijoita.",
+      "source": "https://www.hiopry.com/"
+    },
+    {
+      "name": "HOKO",
+      "slug": "hoko",
+      "schools": ["Karelia"],
+      "fields": ["sairaanhoitaja", "terveydenhoitaja"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "HOKO on Karelia-ammattikorkeakoulun sairaanhoitaja- ja terveydenhoitajaopiskelijoiden opiskelijayhdistys Joensuussa. Se tunnetaan punaisista opiskelijahaalareistaan.",
+      "source": "https://haalarikone.fi/haalari/hoko"
+    },
+    {
+      "name": "Hammaslääketieteenkandidaattiseura",
+      "slug": "hammaslaaketieteenkandidaattiseura",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["hammaslääketiede"],
+      "areas": ["Helsinki"],
+      "website": "https://www.hlks.fi",
+      "description": "Hammaslääketieteenkandidaattiseura ry (HLKS) on Helsingin yliopiston hammaslääketieteen opiskelijoiden vuonna 1945 perustama ainejärjestö.",
+      "source": "https://www.hlks.fi/"
+    },
+    {
+      "name": "HanSe SF",
+      "slug": "hanse-sf",
+      "schools": ["Arcada"],
+      "fields": ["kansainvälinen liiketoiminta", "liiketalous", "turismi"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Helix",
+      "slug": "helix",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["biokemia", "solu- ja molekyylibiologia"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Helsingin Yliopiston Kemistit",
+      "slug": "helsingin-yliopiston-kemistit",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["kemia"],
+      "areas": ["Helsinki"],
+      "website": "https://hyk.fi",
+      "description": "Helsingin yliopiston kemian opiskelijoiden ainejärjestö.",
+      "source": null
+    },
+    {
+      "name": "Histoni",
+      "slug": "histoni",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["biokemia"],
+      "areas": ["Oulu"],
+      "website": "https://histoniry.fi",
+      "description": "Oulun yliopiston biokemian opiskelijoiden ainejärjestö.",
+      "source": "https://www.oyy.fi/yhteiso/opiskelijajarjestot/"
+    },
+    {
+      "name": "Historicus",
+      "slug": "historicus",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["historia (ruotsiksi)"],
+      "areas": ["Helsinki"],
+      "website": "https://www.historicusrf.fi",
+      "description": "Historicus r.f. on Helsingin yliopiston ruotsinkielisten historian opiskelijoiden ainejärjestö. Se toimii etujärjestönä sekä järjestää kokouksia, seminaareja, juhlia ja ekskursioita.",
+      "source": "https://www.historicusrf.fi/"
+    },
+    {
+      "name": "Hiukkanen",
+      "slug": "hiukkanen",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["teknis-luonnontieteellinen koulutusohjelma"],
+      "areas": ["Tampere"],
+      "website": "https://hiukkanen.fi",
+      "description": "Teknis-luonnontieteellinen kilta Hiukkanen ry on Tampereen yliopiston teknis-luonnontieteellisen tutkinto-ohjelman ainejärjestö vuodesta 1989. Jäsenet opiskelevat muun muassa fysiikkaa, matematiikkaa ja kemiaa.",
+      "source": "https://hiukkanen.fi/"
+    },
+    {
+      "name": "HoSK",
+      "slug": "hosk",
+      "schools": ["Arcada"],
+      "fields": ["hyvinvointi", "terveys"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Hurma",
+      "slug": "hurma",
+      "schools": ["Turun yliopisto"],
+      "fields": ["mediatutkimus"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Hyeena",
+      "slug": "hyeena",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["sovellettu fysiikka", "ympäristötiede"],
+      "areas": ["Kuopio"],
+      "website": null,
+      "description": "Kuopion kampuksen ympäristötieteen opiskelijoiden ainejärjestö.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/kuopion-ainejarjestot.html"
+    },
+    {
+      "name": "HÄTÄ ry",
+      "slug": "hata-ry",
+      "schools": ["Hämeen AMK"],
+      "fields": [
+        "computer applications",
+        "hevostalouden liiketoiminta",
+        "international business",
+        "liiketalous",
+        "muotoilu",
+        "tietojenkäsittelytiede"
+      ],
+      "areas": ["Forssa", "Hämeenlinna", "Valkeakoski"],
+      "website": "https://www.hatary.org",
+      "description": "Hämeenlinnan Tradenomiopiskelijat HÄTÄ ry on HAMKin tradenomi- ja BBA-opiskelijoiden paikallinen opiskelijayhdistys. Se ajaa opiskelijoiden asioita edunvalvonnan ja jäsenpalveluiden avulla Hämeenlinnassa, Valkeakoskella ja Forssassa.",
+      "source": "https://www.hatary.org/yhdistys"
+    },
+    {
+      "name": "ITU",
+      "slug": "itu",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["varhaiskasvatus"],
+      "areas": ["Tampere"],
+      "website": "https://www.itury.fi",
+      "description": "ITU ry on Tampereen yliopiston varhaiskasvatuksen opettajiksi opiskelevien ainejärjestö. Se toimii opiskelijoiden edunvalvojana ja järjestää jäsenilleen monenlaista toimintaa.",
+      "source": "https://www.itury.fi/"
+    },
+    {
+      "name": "Iltakoulu",
+      "slug": "iltakoulu",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["politiikan tutkimus"],
+      "areas": ["Tampere"],
+      "website": "https://iltakoulu.org",
+      "description": "Iltakoulu ry on Tampereen yliopiston politiikan tutkimuksen opiskelijoiden ainejärjestö. Se yhdistää politologeja ja tarjoaa edunvalvontaa, tapahtumia sekä muuta toimintaa.",
+      "source": "https://iltakoulu.org/iltakoulury/"
+    },
+    {
+      "name": "Impactus",
+      "slug": "impactus",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["translationaalinen lääketiede"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Impuls",
+      "slug": "impuls",
+      "schools": ["Åbo Akademi"],
+      "fields": ["psykologia"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "In Vitro Aboensis",
+      "slug": "in-vitro-aboensis",
+      "schools": ["Turun yliopisto"],
+      "fields": ["biolääketiede"],
+      "areas": ["Turku"],
+      "website": "https://tyyala.utu.fi/iva",
+      "description": "In Vitro Aboensis IVA ry on Turun yliopiston biolääketieteen opiskelijoiden ainejärjestö vuodesta 1998. Se yhdistää opiskelijat yhteisöksi sekä tarjoaa edunvalvontaa, virkistystä ja verkostoitumista.",
+      "source": "https://tyyala.utu.fi/iva/"
+    },
+    {
+      "name": "Indecs",
+      "slug": "indecs",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["tuotantotalous"],
+      "areas": ["Tampere"],
+      "website": "https://indecs.fi",
+      "description": "Tuotantotalouden kilta Indecs ry on Tampereen yliopiston tuotantotalouden opiskelijoiden ainejärjestö. Se järjestää tapahtumia, tukee opintoja ja vaikuttaa yliopiston opetuksen kehittämiseen.",
+      "source": "https://trey.fi/opiskelijaelama/jarjestot-yhteisossamme"
+    },
+    {
+      "name": "Index",
+      "slug": "index",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["informaatiotutkimus"],
+      "areas": ["Oulu"],
+      "website": "https://index.utu.fi",
+      "description": "Index ry on Turun yliopiston yhteiskunta- ja kasvatustieteilijöiden tiedekuntajärjestö. Se ajaa opiskelijoiden etua, kokoaa jäsenjärjestöjä ja parantaa niiden välistä yhteistyötä.",
+      "source": "https://index.utu.fi/?page_id=9"
+    },
+    {
+      "name": "Infå",
+      "slug": "infa",
+      "schools": ["Åbo Akademi"],
+      "fields": ["tietojenkäsittelytiede"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Inkubio",
+      "slug": "inkubio",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["bioinformaatioteknologia"],
+      "areas": ["Espoo"],
+      "website": "https://inkubio.fi",
+      "description": "Inkubio ry on Aalto-yliopiston bioinformaatioteknologian opiskelijoiden kilta. Se yhdistää alan opiskelijoita, ajaa heidän etuaan yliopistolla ja järjestää yhteisöllistä toimintaa sekä teekkarikasvatusta.",
+      "source": "https://inkubio.fi/"
+    },
+    {
+      "name": "Intelligenzia",
+      "slug": "intelligenzia",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["kognitiotiede"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Interaktio",
+      "slug": "interaktio",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["yhteiskuntatutkimus"],
+      "areas": ["Tampere"],
+      "website": "https://www.interaktiory.fi",
+      "description": "Interaktio ry on Tampereen yliopiston yhteiskuntatutkimuksen ainejärjestö.",
+      "source": "https://www.interaktiory.fi/"
+    },
+    {
+      "name": "Iskra",
+      "slug": "iskra",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["venäjän kieli"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Vuodesta 1974 toiminut Itä-Suomen yliopiston venäjän kielen opiskelijoiden ainejärjestö.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "JOS",
+      "slug": "jos",
+      "schools": ["Karelia"],
+      "fields": ["sosionomi"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Joensuun Sosionomiopiskelijat JOS ry on Karelia-ammattikorkeakoulun sosionomiopiskelijoiden ainejärjestö. Se yhdistää Joensuun sosionomiopiskelijoita ja järjestää tapahtumia sekä edunvalvontaa.",
+      "source": "https://pokapoka.fi/jaostot-ja-opiskelijayhdistykset/"
+    },
+    {
+      "name": "Jalot Villit",
+      "slug": "jalot-villit",
+      "schools": ["Lapin yliopisto"],
+      "fields": ["matkailututkimus"],
+      "areas": ["Rovaniemi"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Jammaus",
+      "slug": "jammaus",
+      "schools": ["Jyväskylän AMK"],
+      "fields": ["kulttuuri", "musiikki"],
+      "areas": ["Jyväskylä"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Jasto",
+      "slug": "jasto",
+      "schools": ["Jyväskylän AMK"],
+      "fields": ["sosiaali- ja terveysala"],
+      "areas": ["Jyväskylä"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Jimpon opiskelijayhdistys",
+      "slug": "jimpon-opiskelijayhdistys",
+      "schools": ["Karelia"],
+      "fields": ["metsätalousinsinööri"],
+      "areas": ["Joensuu"],
+      "website": "https://holvi.com/shop/jimpon",
+      "description": "Jimpo on Karelia-ammattikorkeakoulun metsätalousopiskelijoiden riippumaton opiskelijayhdistys. Se järjestää tapahtumia, hoitaa haalariasioita ja vaikuttaa opiskelijoita koskevaan päätöksentekoon.",
+      "source": "https://holvi.com/shop/jimpon/"
+    },
+    {
+      "name": "Joensuun Metsäylioppilaat",
+      "slug": "joensuun-metsaylioppilaat",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["metsätiede"],
+      "areas": ["Joensuu"],
+      "website": "https://jmyo.fi",
+      "description": "Itä-Suomen yliopiston metsätieteiden opiskelijoiden vuodesta 1982 toiminut ainejärjestö.",
+      "source": "https://jmyo.fi/"
+    },
+    {
+      "name": "Joensuun Tradenomiopiskelijoiden Kilta",
+      "slug": "joensuun-tradenomiopiskelijoiden-kilta",
+      "schools": ["Karelia"],
+      "fields": ["international business", "liiketalous", "tietojenkäsittelytiede"],
+      "areas": ["Joensuu"],
+      "website": "http://kiltary.blogspot.com",
+      "description": "Joensuun Tradenomiopiskelijoiden Kilta ry on Karelia-ammattikorkeakoulun tradenomiopiskelijoiden ainejärjestö. Se valvoo opiskelijoiden etuja, tarjoaa koulutuksia ja järjestää tapahtumia.",
+      "source": "https://tradenomi.fi/opiskelija/opiskelijoiden-paikallisyhdistykset/"
+    },
+    {
+      "name": "Judica",
+      "slug": "judica",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["oikeustiede"],
+      "areas": ["Joensuu"],
+      "website": "https://judica.fi",
+      "description": "Judica ry on Itä-Suomen yliopistossa oikeusnotaarin tai oikeustieteen maisterin tutkintoa suorittavien opiskelijoiden ainejärjestö. Vuonna 2013 perustettu yhdistys huolehtii jäsentensä eduista ja järjestää opinto- sekä vapaa-ajan tapahtumia.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Judith",
+      "slug": "judith",
+      "schools": ["Åbo Akademi"],
+      "fields": ["sukupuolentutkimus"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Juristklubben Codex",
+      "slug": "juristklubben-codex",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["oikeustiede (ruotsiksi)"],
+      "areas": ["Helsinki"],
+      "website": "https://codex.fi",
+      "description": "Juristklubben Codex rf on Helsingin yliopiston ruotsinkielisten oikeustieteen opiskelijoiden ainejärjestö vuodesta 1940. Se tarjoaa opiskelutukea, oikeudellista neuvontaa ja monipuolista klubin toimintaa.",
+      "source": "https://codex.fi/"
+    },
+    {
+      "name": "Justus",
+      "slug": "justus",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["oikeustiede"],
+      "areas": ["Vaasa"],
+      "website": "https://justuswasa.fi",
+      "description": "Justus ry/r.f. on Helsingin yliopiston oikeustieteellisen tiedekunnan Vaasan yksikön opiskelijoiden ainejärjestö. Toiminta on kaksikielistä ja sisältää edunvalvontaa sekä tapahtumia.",
+      "source": "https://justuswasa.fi/"
+    },
+    {
+      "name": "Jyväskylän Insinööriopiskelijat JIO",
+      "slug": "jyvaskylan-insinooriopiskelijat-jio",
+      "schools": ["Jyväskylän AMK"],
+      "fields": ["liikenne", "tekniikka"],
+      "areas": ["Jyväskylä"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "KKOY",
+      "slug": "kkoy",
+      "schools": ["Turun yliopisto"],
+      "fields": ["kansainvälinen liiketoiminta"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "KUREO",
+      "slug": "kureo",
+      "schools": ["Savonia"],
+      "fields": ["matkailu- ja ravitsemisala"],
+      "areas": ["Kuopio"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "KUTOP",
+      "slug": "kutop",
+      "schools": ["Savonia"],
+      "fields": ["tekniikka"],
+      "areas": ["Kuopio"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "KY-Hansa",
+      "slug": "ky-hansa",
+      "schools": ["Turun yliopisto"],
+      "fields": ["liikesaksa"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "KY-Perestroika",
+      "slug": "ky-perestroika",
+      "schools": ["Turun yliopisto"],
+      "fields": ["Venäjän kieli", "kauppa ja kulttuuri"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "KY-Tricolore",
+      "slug": "ky-tricolore",
+      "schools": ["Turun yliopisto"],
+      "fields": ["liikeranska"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kadettitoverikunta",
+      "slug": "kadettitoverikunta",
+      "schools": ["Maanpuolustuskorkeakoulu"],
+      "fields": ["sotatieteet"],
+      "areas": ["Helsinki"],
+      "website": "https://www.kadettitoverikunta.fi",
+      "description": "Kadettitoverikunta ry on Maanpuolustuskorkeakoulun kadettien opiskelijajärjestö, joka vaalii kadettiperinteitä ja valvoo jäsentensä etuja. Maanpuolustuskorkeakoulun oppilaskunta (MPKKO) edustaa kaikkia MPKK:n opiskelijoita.",
+      "source": "https://www.kadettitoverikunta.fi/esittely/"
+    },
+    {
+      "name": "Kama",
+      "slug": "kama",
+      "schools": ["Metropolia"],
+      "fields": ["tekniikka (Karamalmin kampus)"],
+      "areas": ["Espoo"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kannunvalajat",
+      "slug": "kannunvalajat",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["valtiotiede"],
+      "areas": ["Helsinki"],
+      "website": "https://kannunvalajat.fi",
+      "description": "Kannunvalajat ry on Helsingin yliopiston valtiotieteellisen tiedekunnan opiskelijajärjestö. Se kokoaa valtiotieteilijät yhteen ja valvoo heidän etuaan tiedekunnassa sekä sen ulkopuolella.",
+      "source": "https://kannunvalajat.fi/"
+    },
+    {
+      "name": "Kanta",
+      "slug": "kanta",
+      "schools": ["Turun yliopisto"],
+      "fields": ["suomen kieli"],
+      "areas": ["Turku"],
+      "website": "https://tyyala.utu.fi/kanta",
+      "description": "Kanta ry on Turun yliopiston suomen kielen opiskelijoiden ainejärjestö. Se valvoo opiskelijoiden etuja ja järjestää monipuolisia tapahtumia jäsenistölleen.",
+      "source": "https://tyyala.utu.fi/kanta/"
+    },
+    {
+      "name": "Kaplaaki",
+      "slug": "kaplaaki",
+      "schools": ["LUT-yliopisto"],
+      "fields": ["tuotantotalous"],
+      "areas": ["Lappeenranta"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Karavaani",
+      "slug": "karavaani",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["Aasian ja Afrikan kielet ja kulttuurit"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kartelli",
+      "slug": "kartelli",
+      "schools": ["Turun yliopisto"],
+      "fields": ["taloustiede (kauppatieteet)"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kassos",
+      "slug": "kassos",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["kasvatustiede"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Vuonna 1973 perustettu kasvatustieteen ja aikuiskasvatustieteen opiskelijoiden ainejärjestö Joensuun kampuksella.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Katko",
+      "slug": "katko",
+      "schools": ["Turun yliopisto"],
+      "fields": ["kasvatustiede"],
+      "areas": ["Turku"],
+      "website": "https://katkolla.com",
+      "description": "Katko ry on Turun yliopiston kasvatustieteen, erityispedagogiikan, aikuiskasvatustieteen ja erityisopettajaopiskelijoiden ainejärjestö. Se valvoo opiskelijoiden etua, ylläpitää opiskelijakulttuuria ja järjestää tapahtumia.",
+      "source": "https://katkolla.com/katko/"
+    },
+    {
+      "name": "KeTek",
+      "slug": "ketek",
+      "schools": ["LUT-yliopisto"],
+      "fields": ["kemiantekniikka"],
+      "areas": ["Lappeenranta"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kemistikilta",
+      "slug": "kemistikilta",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["kemia"],
+      "areas": ["Espoo"],
+      "website": "https://kemistikilta.fi",
+      "description": "Kemistikillan historia alkaa jo vuodesta 1891 ja olemmekin Aallon killoista vanhin. Jäseniä Kemistikillassa on parisensataa, joten suurin emme ole, mutta varmasti kaunein. Killan tunnus on valkoinen neonatomi sinisellä pohjalla. Sininen on siis killan väri, vaikka haalarimme ovatkin punaiset.",
+      "source": "https://www.ayy.fi/fi/yhdistyslistaus/ainejarjestot"
+    },
+    {
+      "name": "Kemistklubben",
+      "slug": "kemistklubben",
+      "schools": ["Åbo Akademi"],
+      "fields": ["kemiantekniikka"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kleio",
+      "slug": "kleio",
+      "schools": ["Åbo Akademi"],
+      "fields": ["historia"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kolmas Osapuoli",
+      "slug": "kolmas-osapuoli",
+      "schools": ["Turun yliopisto"],
+      "fields": ["logistiikka", "toimitusketjujen johtaminen"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kompleksi",
+      "slug": "kompleksi",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["psykologia"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Koneenrakennuskilta ry",
+      "slug": "koneenrakennuskilta-ry",
+      "schools": ["LUT-yliopisto"],
+      "fields": ["konetekniikka"],
+      "areas": ["Lappeenranta"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Koneenrakentajakilta",
+      "slug": "koneenrakentajakilta",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["konetekniikka"],
+      "areas": ["Tampere"],
+      "website": "https://kork.fi",
+      "description": "Koneenrakentajakilta KoRK on Tampereen yliopiston koneenrakennuksen opiskelijoiden kilta.",
+      "source": "https://kork.fi/"
+    },
+    {
+      "name": "Koneinsinöörikilta",
+      "slug": "koneinsinoorikilta",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["kone- ja rakennustekniikka"],
+      "areas": ["Espoo"],
+      "website": "https://kik.fi",
+      "description": "Aalto-yliopiston Koneinsinöörikilta ry on konetekniikan opiskelijoiden kilta.",
+      "source": "https://www.ayy.fi/fi/yhdistyslistaus/ainejarjestot"
+    },
+    {
+      "name": "Konteksti",
+      "slug": "konteksti",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["kulttuurien tutkimuksen kandiohjelma"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kooma",
+      "slug": "kooma",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["kuvataidekasvatus"],
+      "areas": ["Espoo"],
+      "website": null,
+      "description": "Kooma ry on Aalto-yliopiston taiteiden ja suunnittelun korkeakoulun taidekasvatuksen opiskelijoiden ainejärjestö. Yhdistyksen nimi on lyhenne sanoista Kuvataiteiden Opettajaksi Opiskelevien Monimielinen Ainejärjestö. Kooma on ollut rekisteröitynyt yhdistys vuodesta 2001, mutta varsinainen toiminta alkoi jo 1980-luvulla.",
+      "source": "https://www.ayy.fi/fi/yhdistyslistaus/ainejarjestot"
+    },
+    {
+      "name": "Kopeda",
+      "slug": "kopeda",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["kotitalouspedagogiikka"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kopula",
+      "slug": "kopula",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["suomen kieli"],
+      "areas": ["Tampere"],
+      "website": "https://www.kopulary.net",
+      "description": "Kopula ry on Tampereen yliopiston suomen kielen opiskelijoiden ainejärjestö. Se yhdistää fennistejä, hoitaa koulutuspolitiikkaa ja järjestää monipuolisia tapahtumia.",
+      "source": "https://www.kopulary.net/"
+    },
+    {
+      "name": "Kosmos Buran",
+      "slug": "kosmos-buran",
+      "schools": ["Lapin yliopisto"],
+      "fields": ["politiikan tutkimus", "sosiologia"],
+      "areas": ["Rovaniemi"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kotex",
+      "slug": "kotex",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["kotitalous- ja käsityöopettaja"],
+      "areas": ["Joensuu"],
+      "website": "https://kotexry.com",
+      "description": "Kotitalouden- ja käsityönopettajaksi opiskelevien ainejärjestö Itä-Suomen yliopistossa.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "KouKi",
+      "slug": "kouki",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["kääntäminen", "tulkkaus"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kritiikki",
+      "slug": "kritiikki",
+      "schools": ["Turun yliopisto"],
+      "fields": ["historia"],
+      "areas": ["Turku"],
+      "website": "https://kritiikki.utu.fi",
+      "description": "Kritiikki ry on Turun yliopiston kulttuurihistorian, Suomen historian sekä Euroopan ja maailman historian opiskelijoiden ainejärjestö. Se ajaa alan opiskelijoiden etuja ja järjestää vapaa-ajan toimintaa sekä julkaisee Kritiikki-lehteä.",
+      "source": "https://kritiikki.utu.fi/etusivu/kritiikki-ry/"
+    },
+    {
+      "name": "Kronos",
+      "slug": "kronos",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["historia"],
+      "areas": ["Helsinki"],
+      "website": "https://kronosry.fi",
+      "description": "Kronos ry on Helsingin yliopiston historian opiskelijoiden ainejärjestö vuodesta 1945. Se järjestää tapahtumia, hoitaa edunvalvontaa ja julkaisee ainejärjestölehteä Kronikkaa.",
+      "source": "https://kronosry.fi/"
+    },
+    {
+      "name": "KuRA",
+      "slug": "kura",
+      "schools": ["Savonia"],
+      "fields": ["rakennusarkkitehti"],
+      "areas": ["Kuopio"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kulma",
+      "slug": "kulma",
+      "schools": ["Turun yliopisto"],
+      "fields": ["kulttuurituotanto", "maisemantutkimus"],
+      "areas": ["Pori"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kult",
+      "slug": "kult",
+      "schools": ["Arcada"],
+      "fields": ["kulttuurintuottaja"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": "Biolääketieteen opiskelijoiden ainejärjestö Kuopion kampuksella.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/kuopion-ainejarjestot.html"
+    },
+    {
+      "name": "Kulti",
+      "slug": "kulti",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["biolääketiede"],
+      "areas": ["Kuopio"],
+      "website": null,
+      "description": "Biolääketieteen opiskelijoiden ainejärjestö Kuopion kampuksella.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/kuopion-ainejarjestot.html"
+    },
+    {
+      "name": "Kultti",
+      "slug": "kultti",
+      "schools": ["Oulun AMK"],
+      "fields": ["kulttuuri"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kultu",
+      "slug": "kultu",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["arkeologia", "kirjallisuus", "kulttuuriantropologia"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kulturisten",
+      "slug": "kulturisten",
+      "schools": ["Åbo Akademi"],
+      "fields": ["etnologia", "folkloristiikka"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "KuoLO",
+      "slug": "kuolo",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["lääketiede"],
+      "areas": ["Kuopio"],
+      "website": "https://kuolo.fi",
+      "description": "Kuopion lääketieteen opiskelijoiden ainejärjestö.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/kuopion-ainejarjestot.html"
+    },
+    {
+      "name": "KuoTra",
+      "slug": "kuotra",
+      "schools": ["Savonia"],
+      "fields": ["liiketalous"],
+      "areas": ["Kuopio"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kutu",
+      "slug": "kutu",
+      "schools": ["Turun yliopisto"],
+      "fields": ["folkloristiikka", "kansatiede", "uskontotiede"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kuvatus",
+      "slug": "kuvatus",
+      "schools": ["Turun yliopisto"],
+      "fields": ["taidehistoria"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Käsitys",
+      "slug": "kasitys",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["käsityönopettaja", "käsityötiede"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Kääntöpiiri",
+      "slug": "kaantopiiri",
+      "schools": ["Turun yliopisto"],
+      "fields": ["käännöstiede"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "LASOLA",
+      "slug": "lasola",
+      "schools": ["LAB"],
+      "fields": ["sosiaali- ja terveysala"],
+      "areas": ["Lahti"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "LIRO",
+      "slug": "liro",
+      "schools": ["LAB"],
+      "fields": ["insinööri"],
+      "areas": ["Lahti"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "LOK ry",
+      "slug": "lok-ry",
+      "schools": ["Hämeen AMK"],
+      "fields": ["hortonomi"],
+      "areas": ["Hattula"],
+      "website": "https://lok.fi",
+      "description": "Lepaan Oppilaskunta ry (LOK) on Hämeen ammattikorkeakoulun ja Hämeen ammatti-instituutin Lepaan kampuksen opiskelijoiden yhdistys vuodesta 1913. Se toimii jäsentensä etujärjestönä ja järjestää vapaa-ajan toimintaa.",
+      "source": "https://lok.fi/"
+    },
+    {
+      "name": "LaGeR",
+      "slug": "lager",
+      "schools": ["LAB"],
+      "fields": ["restonomi"],
+      "areas": ["Lappeenranta"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "LaKOSTE",
+      "slug": "lakoste",
+      "schools": ["LAB"],
+      "fields": ["sosiaali- ja terveysala"],
+      "areas": ["Lappeenranta"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "LaKu",
+      "slug": "laku",
+      "schools": ["LAB"],
+      "fields": ["kuvataide"],
+      "areas": ["Lappeenranta"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Lahden Tradenomiopiskelijat Linkki",
+      "slug": "lahden-tradenomiopiskelijat-linkki",
+      "schools": ["LAB"],
+      "fields": ["liiketalous"],
+      "areas": ["Lahti"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "LapIO",
+      "slug": "lapio",
+      "schools": ["LAB"],
+      "fields": ["tekniikka"],
+      "areas": ["Lappeenranta"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "LapTOp",
+      "slug": "laptop",
+      "schools": ["LAB"],
+      "fields": ["liiketalous"],
+      "areas": ["Lappeenranta"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Lapikas",
+      "slug": "lapikas",
+      "schools": ["Lapin yliopisto"],
+      "fields": ["luokanopettaja"],
+      "areas": ["Rovaniemi"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Lastarit",
+      "slug": "lastarit",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["varhaiskasvatus"],
+      "areas": ["Oulu"],
+      "website": "https://lastarit.fi",
+      "description": "Oulun yliopiston varhaiskasvatuksen opiskelijoiden ainejärjestö.",
+      "source": "https://www.oyy.fi/yhteiso/opiskelijajarjestot/"
+    },
+    {
+      "name": "Lastopet (Opekas)",
+      "slug": "lastopet-opekas",
+      "schools": ["Turun yliopisto"],
+      "fields": ["varhaiskasvatuksen opettaja"],
+      "areas": ["Rauma"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Lastu",
+      "slug": "lastu",
+      "schools": ["Lapin yliopisto"],
+      "fields": ["kasvatus- ja aikauskasvatustiede", "mediakasvatus"],
+      "areas": ["Rovaniemi"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Lateksii",
+      "slug": "lateksii",
+      "schools": ["LUT-yliopisto"],
+      "fields": ["laskennallinen tekniikka"],
+      "areas": ["Lappeenranta"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Legio Ostiensis",
+      "slug": "legio-ostiensis",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["julkisoikeus"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Itä-Suomen yliopiston julkisoikeutta opiskelevien ainejärjestö Joensuun kampuksella.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Lex",
+      "slug": "lex",
+      "schools": ["Turun yliopisto"],
+      "fields": ["oikeustiede"],
+      "areas": ["Turku"],
+      "website": "https://www.lex.fi",
+      "description": "Oikeustieteen Ylioppilaiden Yhdistys Lex ry on vuonna 1961 perustettu Turun yliopiston oikeustieteellisen tiedekunnan opiskelijoiden ainejärjestö. Lex valvoo jäsentensä etuja, tukee opintoja ja järjestää monipuolista opiskelijatoimintaa.",
+      "source": "https://www.lex.fi/"
+    },
+    {
+      "name": "Lexica",
+      "slug": "lexica",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["vieraat kielet"],
+      "areas": ["Tampere"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Limes",
+      "slug": "limes",
+      "schools": ["Helsingin yliopisto"],
+      "fields": [
+        "Kumpulan kampuksen aineet (matematiikka",
+        "fysikaaliset tieteet",
+        "geologia",
+        "kemia",
+        "maantiede",
+        "tietojenkäsittelytiede)"
+      ],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Lingtwisti",
+      "slug": "lingtwisti",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["kääntäminen", "vieraat kielet", "yleinen kielitiede"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Lingtwisti ry oli Itä-Suomen yliopiston Joensuun kampuksen vieraiden kielten, kääntämisen ja yleisen kielitieteen opiskelijoiden ainejärjestö. Yhdistys on sittemmin lopettanut toimintansa.",
+      "source": "https://haalarikone.fi/haalari/lingtwisti"
+    },
+    {
+      "name": "Linkki",
+      "slug": "linkki",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["tietotekniikka"],
+      "areas": ["Jyväskylä"],
+      "website": "https://www.linkkijkl.fi",
+      "description": "Linkki Jyväskylä ry on Jyväskylän yliopiston IT-alan opiskelijoiden ainejärjestö.",
+      "source": "https://www.linkkijkl.fi/"
+    },
+    {
+      "name": "Lipidi",
+      "slug": "lipidi",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["elintarviketiede"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Lokilta (Opekas)",
+      "slug": "lokilta-opekas",
+      "schools": ["Turun yliopisto"],
+      "fields": ["luokanopettaja"],
+      "areas": ["Rauma"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Luuppi",
+      "slug": "luuppi",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["matematiikka", "tietojenkäsittelytiede", "tilastotiede"],
+      "areas": ["Tampere"],
+      "website": "https://luuppi.fi",
+      "description": "Luuppi ry on Tampereen yliopiston matematiikan, tilastollisen data-analyysin ja tietojenkäsittelytieteiden opiskelijoiden ainejärjestö vuodesta 1969. Se on jäsenmäärältään yliopiston suurimpia ainejärjestöjä ja hoitaa edunvalvontaa sekä vapaa-ajan toimintaa.",
+      "source": "https://trey.fi/opiskelijaelama/jarjestot-yhteisossamme"
+    },
+    {
+      "name": "Luva",
+      "slug": "luva",
+      "schools": ["Oulun AMK"],
+      "fields": ["luonnonvara-ala"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Lycksalighetens ö",
+      "slug": "lycksalighetens-o",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["pohjoismainen kirjallisuus"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Lyhty",
+      "slug": "lyhty",
+      "schools": ["Lapin yliopisto"],
+      "fields": ["kuntoutus", "sosiaalityö"],
+      "areas": ["Rovaniemi"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Lääketieteenkandidaattiseura",
+      "slug": "laaketieteenkandidaattiseura",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["lääketiede"],
+      "areas": ["Helsinki"],
+      "website": "https://lks.fi",
+      "description": "Lääketieteenkandidaattiseura ry on vuonna 1933 perustettu Helsingin yliopiston lääketieteellisen tiedekunnan opiskelijoiden ainejärjestö. Se edustaa jäseniään sekä ajaa heidän etujaan opinnollisissa, ammatillisissa ja sosiaalisissa asioissa.",
+      "source": "https://lks.fi/"
+    },
+    {
+      "name": "Lööppi",
+      "slug": "looppi",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["journalistiikka"],
+      "areas": ["Jyväskylä"],
+      "website": "https://looppi.org",
+      "description": "Lööppi ry on Jyväskylän yliopiston journalistiikan opiskelijoiden ainejärjestö. Lööpin olemassaolon tarkoitus on ajaa jäsentensä etuja.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "M-klubi",
+      "slug": "m-klubi",
+      "schools": ["Turun yliopisto"],
+      "fields": ["markkinointi"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": "M-Klubi on Turun kauppakorkeakoulun markkinoinnin ainejärjestö. Se järjestää puhujatilaisuuksia, yritysexcursioita ja after work -tapahtumia sekä toimii linkkinä opiskelijoiden ja laitoksen välillä.",
+      "source": "https://www.tuky.fi/etusivu/ainejarjestot/"
+    },
+    {
+      "name": "MIO",
+      "slug": "mio",
+      "schools": ["Kaakkois-Suomen AMK"],
+      "fields": ["insinööri"],
+      "areas": ["Mikkeli"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "MTO",
+      "slug": "mto",
+      "schools": ["Kaakkois-Suomen AMK"],
+      "fields": ["tradenomi"],
+      "areas": ["Mikkeli"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "MYY",
+      "slug": "myy",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["ympäristötieteet"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "MaO",
+      "slug": "mao",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["maantiede"],
+      "areas": ["Helsinki"],
+      "website": "https://www.maantieteenopiskelijat.fi",
+      "description": "Maantieteen opiskelijat ry (MaO) on vuonna 1971 perustettu Helsingin yliopiston maantieteen ja geotieteiden opiskelijoiden ainejärjestö. Se aktivoi jäseniään sekä ajaa heidän etujaan osastolla, yliopistolla ja ylioppilaskunnassa.",
+      "source": "https://www.maantieteenopiskelijat.fi/meista/"
+    },
+    {
+      "name": "Machina",
+      "slug": "machina",
+      "schools": ["Turun yliopisto"],
+      "fields": ["konetekniikka"],
+      "areas": ["Turku"],
+      "website": "https://machina.fi",
+      "description": "Konetekniikan kilta Machina ry on Turun yliopiston konetekniikan opiskelijoiden ainejärjestö vuodesta 2020. Se pyrkii luomaan viihtyisän ja yhdenvertaisen yhteisön koneteekkareille.",
+      "source": "https://machina.fi/tietoa/"
+    },
+    {
+      "name": "Magna Carta",
+      "slug": "magna-carta",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["englannin kieli"],
+      "areas": ["Jyväskylä"],
+      "website": "https://magnacartary.com",
+      "description": "Magna Carta ry on Jyväskylän yliopiston Englannin opiskelijoiden ainejärjestö. Tarkoituksenamme on mahdollistaa jäsenillemme mielekäs opiskeluympäristö ja ajaa heidän etujaan, sekä edistää heidän hyvinvointiaan. Magna Carta toimii myös Englannin oppiaineen työntekijöiden ja opiskelijoiden välisenä linkkinä.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Man@ger",
+      "slug": "man-ger",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["tietojohtaminen"],
+      "areas": ["Tampere"],
+      "website": "https://tietojohtajakilta.net",
+      "description": "Tietojohtajakilta Man@ger on Tampereen yliopiston tietojohtamisen opiskelijoiden kilta.",
+      "source": "https://tietojohtajakilta.net/"
+    },
+    {
+      "name": "Materiaali-insinöörikilta",
+      "slug": "materiaali-insinoorikilta",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["materiaalitekniikka"],
+      "areas": ["Tampere"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "MatkaRaTa",
+      "slug": "matkarata",
+      "schools": ["Jyväskylän AMK"],
+      "fields": ["matkailu- ja palveluliiketoiminta"],
+      "areas": ["Jyväskylä"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Matrix",
+      "slug": "matrix",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["matematiikka"],
+      "areas": ["Helsinki"],
+      "website": "https://www.matrix-ry.fi",
+      "description": "Matrix ry on Helsingin yliopiston matematiikan opiskelijoiden ainejärjestö, joka hoitaa edunvalvontaa sekä järjestää opiskelu- ja vapaa-ajan toimintaa. Fysikaalisten tieteiden opiskelijoiden ainejärjestö on Resonanssi ry (https://blogs.helsinki.fi/resonanssi/).",
+      "source": "https://www.matrix-ry.fi/"
+    },
+    {
+      "name": "Mañana",
+      "slug": "manana",
+      "schools": ["Turun yliopisto"],
+      "fields": ["espanjan kieli ja kääntäminen"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Medicinarklubben Thorax",
+      "slug": "medicinarklubben-thorax",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["lääketiede"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Mentor",
+      "slug": "mentor",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["elinikäinen oppiminen ja kasvatus"],
+      "areas": ["Tampere"],
+      "website": "https://mentor.nettisivut.fi",
+      "description": "Mentor ry on Tampereen yliopiston elinikäisen oppimisen ja kasvatuksen opiskelijoiden ainejärjestö. Se ajaa opiskelijoiden etua, järjestää virkistystoimintaa ja työelämätapahtumia.",
+      "source": "https://mentor.nettisivut.fi/yhdistys/"
+    },
+    {
+      "name": "Mephisto",
+      "slug": "mephisto",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["filosofia"],
+      "areas": ["Jyväskylä"],
+      "website": "https://mephistory.wordpress.com",
+      "description": "Mephisto on Jyväskylän yliopiston filosofian opiskelijoiden ainejärjestö. Ainejärjestömme toimii filosofian opiskelijoiden vertaistukena, ja luo yhteishenkeä sekä sosiaalisia mahdollisuuksia uusille ja vanhoille opiskelijoille. Mephisto pitää yllä kontakteja laitoksen väen sekä ylioppilaskunnan toimijoiden kanssa. Eloisa ainejärjestömme ottaa uudet opiskelijat osaksi yhteisöä, ja varmistaa ettei kukaan jää yksin.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Meridiaani",
+      "slug": "meridiaani",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["tähtitiede"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Merkantila Klubben",
+      "slug": "merkantila-klubben",
+      "schools": ["Åbo Akademi"],
+      "fields": ["kauppatieteet"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Metsäylioppilaat",
+      "slug": "metsaylioppilaat",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["metsätieteet"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Mikro",
+      "slug": "mikro",
+      "schools": ["Kaakkois-Suomen AMK"],
+      "fields": ["restonomi"],
+      "areas": ["Mikkeli"],
+      "website": null,
+      "description": "Joensuun biologian opiskelijoiden ainejärjestö Itä-Suomen yliopistossa.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Mikrovillus",
+      "slug": "mikrovillus",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["biologia"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Joensuun biologian opiskelijoiden ainejärjestö Itä-Suomen yliopistossa.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Moodi",
+      "slug": "moodi",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["tilastotiede"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Motiva",
+      "slug": "motiva",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["kasvatustiede"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Mukava",
+      "slug": "mukava",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["musiikkikasvatus"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "MusTa",
+      "slug": "musta",
+      "schools": ["Tampereen AMK"],
+      "fields": ["musiikki"],
+      "areas": ["Tampere"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Mutka",
+      "slug": "mutka",
+      "schools": ["Savonia"],
+      "fields": ["muotoilu"],
+      "areas": ["Kuopio"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Muusa",
+      "slug": "muusa",
+      "schools": ["Turun yliopisto"],
+      "fields": ["kotimainen kirjallisuus"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Muuvi",
+      "slug": "muuvi",
+      "schools": ["Karelia"],
+      "fields": ["kulttuuri- ja media-ala"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Joensuun viestinnän opiskelijat Muuvi ry on Karelia-ammattikorkeakoulun kulttuuri- ja media-alan opiskelijoiden ainejärjestö. Se toimii Tikkarinne-kampuksella opiskelijakunta POKAn yhteydessä.",
+      "source": "https://pokapoka.fi/jaostot-ja-opiskelijayhdistykset/"
+    },
+    {
+      "name": "Myro",
+      "slug": "myro",
+      "schools": ["Metropolia"],
+      "fields": ["rakennusala"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "MysteRy",
+      "slug": "mystery",
+      "schools": ["Metropolia"],
+      "fields": ["sosiaali- ja terveysalat"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Mythos",
+      "slug": "mythos",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["uskontotiede"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Nefa-Helsinki",
+      "slug": "nefa-helsinki",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["folkloristiikka", "kansatiede"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Nefa-Joensuu",
+      "slug": "nefa-joensuu",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["kulttuuri"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Joensuun kulttuurintutkimuksen opiskelijoiden ainejärjestö.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Nefa-Jyväskylä",
+      "slug": "nefa-jyvaskyla",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": [
+        "Kulttuurit ja yhteisöt muuttuvassa maailmassa (KUMU)",
+        "antropologia",
+        "etnologia",
+        "kulttuuripolitiikka"
+      ],
+      "areas": ["Jyväskylä"],
+      "website": "https://sites.google.com/view/nefa-jkl",
+      "description": "Etnologia, antropologia ja kulttuuripolitiikka",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Nikoli",
+      "slug": "nikoli",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["geotieteet"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Nila",
+      "slug": "nila",
+      "schools": ["Kaakkois-Suomen AMK"],
+      "fields": ["metsätalousinsinööri"],
+      "areas": ["Mikkeli"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "NuDe (Nuoret Designerit)",
+      "slug": "nude-nuoret-designerit",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["muotoilu"],
+      "areas": ["Espoo"],
+      "website": null,
+      "description": "Nuoret Designerit ry eli NuDe on Aalto-yliopiston Muotoilun laitoksen ainejärjestö, joka valvoo opiskelijoiden etujen toteutumista sekä toimii muotoilun laitoksen opiskelijoiden äänenä. NuDe on avoin yhteisö kaikille Aallon muotoilusta ja taiteista kiinnostuneille opiskelijoille.",
+      "source": "https://www.ayy.fi/fi/yhdistyslistaus/ainejarjestot"
+    },
+    {
+      "name": "Nucleus",
+      "slug": "nucleus",
+      "schools": ["Turun yliopisto"],
+      "fields": ["biotekniikan ja elintarvikekehityksen DI"],
+      "areas": ["Turku"],
+      "website": "https://nucleus.fi",
+      "description": "Nucleus ry on Turun yliopiston biotekniikan diplomi-insinööriopiskelijoiden ainejärjestö eli teekkarikilta. Se ajaa jäsentensä etuja ja ylläpitää teekkarikulttuuria.",
+      "source": "https://nucleus.fi/"
+    },
+    {
+      "name": "OJO",
+      "slug": "ojo",
+      "schools": ["Metropolia"],
+      "fields": ["optometria"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "OKA",
+      "slug": "oka",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["luokanopettaja"],
+      "areas": ["Tampere"],
+      "website": "https://okary.fi",
+      "description": "Tampereen yliopiston luokanopettajaopiskelijoiden ainejärjestö.",
+      "source": "https://trey.fi/opiskelijaelama/jarjestot-yhteisossamme"
+    },
+    {
+      "name": "OLO",
+      "slug": "olo",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["luokanopettaja"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Oidipus",
+      "slug": "oidipus",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["psykologia"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Itä-Suomen yliopiston psykologian opiskelijoiden ainejärjestö.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Oikos",
+      "slug": "oikos",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["kuluttajaekonomia", "ravitsemustiede"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Opex",
+      "slug": "opex",
+      "schools": ["Turun yliopisto"],
+      "fields": ["luokanopettaja"],
+      "areas": ["Turku"],
+      "website": "https://www.opexry.com",
+      "description": "Opex ry on Turun yliopiston luokanopettajaopiskelijoiden ainejärjestö. Se edistää ja valvoo jäsentensä etuja sekä järjestää retkiä, liikunta- ja kulttuuritoimintaa sekä juhlia.",
+      "source": "https://www.opexry.com/opex-ry/"
+    },
+    {
+      "name": "Opossumi",
+      "slug": "opossumi",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["opinto-ohjaaja"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Itä-Suomen yliopiston ohjauksen koulutuksessa opiskelevien ainejärjestö.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Optiem",
+      "slug": "optiem",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["tuotantotalous"],
+      "areas": ["Oulu"],
+      "website": "https://optiem.fi",
+      "description": "Oulun yliopiston tuotantotalouden opiskelijoiden ainejärjestö.",
+      "source": "https://www.oyy.fi/yhteiso/opiskelijajarjestot/"
+    },
+    {
+      "name": "Optimi",
+      "slug": "optimi",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["kauppatieteet"],
+      "areas": ["Joensuu"],
+      "website": "https://optimiry.fi",
+      "description": "Optimi ry on vuonna 2002 perustettu Itä-Suomen yliopiston Joensuun kampuksen kauppatieteiden opiskelijoiden ainejärjestö. Sen tehtäviä ovat jäsenistön edunvalvonta sekä tapahtumien järjestäminen.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Osasto",
+      "slug": "osasto",
+      "schools": ["Oulun AMK"],
+      "fields": ["sosiaali- ja terveysala"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Ote",
+      "slug": "ote",
+      "schools": ["Oulun AMK"],
+      "fields": ["tekniikka"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Otto",
+      "slug": "otto",
+      "schools": ["Åbo Akademi"],
+      "fields": ["musiikkitiede"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Oulun Tietoteekkarit (OTiT)",
+      "slug": "oulun-tietoteekkarit-otit",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["informaatioverkostot", "tietotekniikka"],
+      "areas": ["Oulu"],
+      "website": "https://otit.fi",
+      "description": "Oulun Tietoteekkarit – tietotekniikan ja informaatioverkostojen opiskelijoiden kilta.",
+      "source": "https://www.oyy.fi/yhteiso/opiskelijajarjestot/"
+    },
+    {
+      "name": "Oulun rakennusarkkitehtiopiskelijat (Arkko)",
+      "slug": "oulun-rakennusarkkitehtiopiskelijat-arkko",
+      "schools": ["Oulun AMK"],
+      "fields": ["rakennusarkkitehti"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Oulun yliopiston koneinsinöörikilta",
+      "slug": "oulun-yliopiston-koneinsinoorikilta",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["konetekniikka"],
+      "areas": ["Oulu"],
+      "website": "https://konekilta.fi",
+      "description": "Oulun yliopiston konetekniikan kilta (Konekilta).",
+      "source": "https://www.oyy.fi/yhteiso/opiskelijajarjestot/"
+    },
+    {
+      "name": "Oulun yliopiston prosessikilta",
+      "slug": "oulun-yliopiston-prosessikilta",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["prosessitekniikka"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Outo",
+      "slug": "outo",
+      "schools": ["Oulun AMK"],
+      "fields": ["liiketalous"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "P-klubi",
+      "slug": "p-klubi",
+      "schools": ["Turun yliopisto"],
+      "fields": ["poliittinen historia", "valtio-oppi"],
+      "areas": ["Turku"],
+      "website": "https://p-klubi.fi",
+      "description": "Turun yliopiston Politiikan tutkimuksen klubi ry (P-klubi) on poliittisen historian ja valtio-opin opiskelijoiden ainejärjestö. Se on aktiivinen edunvalvoja ja järjestää monipuolista toimintaa.",
+      "source": "https://p-klubi.fi/"
+    },
+    {
+      "name": "Palladion",
+      "slug": "palladion",
+      "schools": ["Turun yliopisto"],
+      "fields": ["klassilliset kielet ja antiikin kulttuuri"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Pappagallo",
+      "slug": "pappagallo",
+      "schools": ["Turun yliopisto"],
+      "fields": ["italian kieli"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Parku",
+      "slug": "parku",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["viestintä"],
+      "areas": ["Jyväskylä"],
+      "website": "https://parku.fi",
+      "description": "Parku ry on Jyväskylän yliopiston viestinnän opiskelijoiden ainejärjestö. Yhdistyksemme tarkoituksena on huolehtia jäsenien edunvalvonnasta sekä tuoda väriä ja vauhtia opiskelija-arkeen. Parkuun voivat kuulua kaikki Jyväskylän yliopistossa viestinnän opintoja suorittavat opiskelijat. Opiskeletpa siis viestintää pää- tai sivuaineena, niin Parkun jäsenyys on mahdollisuus, joka kannattaa hyödyntää!",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Patina",
+      "slug": "patina",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["historia"],
+      "areas": ["Tampere"],
+      "website": "https://patinary.com",
+      "description": "Patina ry on Tampereen yliopiston historian opiskelijoiden ainejärjestö, joka on perustettu vuonna 1963. Se tukee historianopiskelijoita edunvalvonnan sekä opinto- ja vapaa-ajan tapahtumien avulla.",
+      "source": "https://patinary.com/"
+    },
+    {
+      "name": "Pedaali",
+      "slug": "pedaali",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["musiikkikasvatus"],
+      "areas": ["Jyväskylä"],
+      "website": "https://pedaali.sool.fi",
+      "description": "Pedaali ry on Jyväskylän yliopistossa musiikkikasvatusta opiskelevien ainejärjestö. Pedaal ry:n jäseniksi voivat liittyä kaikki pää-aineena ja sivuaineena musiikkikasvatusta opiskelevat. Pedaali ry valvoo jäsenistönsä etuja, järjestää tapahtumia ja vaikuttaa yliopistossa ja valtakunnallisesti. Pedaali ry on myös SOOL ry:n jäsenjärjestö.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Pedactus",
+      "slug": "pedactus",
+      "schools": ["Åbo Akademi"],
+      "fields": ["pedagogiikka"],
+      "areas": ["Vaasa"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Pedago",
+      "slug": "pedago",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["luokanopettaja"],
+      "areas": ["Jyväskylä"],
+      "website": "https://pedagory.fi",
+      "description": "Pedago ry on Jyväskylän yliopistossa luokanopettajaksi opiskelevien etuja valvova sekä monipuolisesta vapaa-ajan toiminnasta huolehtiva ainejärjestö. Pedago ry:n jäseneksi voi liittyä kuka tahansa, joka opiskelee Jyväskylän Yliopiston Opettajankoulutuslaitoksessa luokanopettajien koulutusohjelmassa.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Peduca",
+      "slug": "peduca",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["kasvatustiede", "luokanopettaja"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Pelletti",
+      "slug": "pelletti",
+      "schools": ["LUT-yliopisto"],
+      "fields": ["ympäristötekniikka"],
+      "areas": ["Lappeenranta"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Phenomena",
+      "slug": "phenomena",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["kasvatuspsykologia"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Pistis",
+      "slug": "pistis",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["ortodoksinen teologia"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Vuonna 1988 perustettu ortodoksisen teologian opiskelijoiden ainejärjestö Joensuussa.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Poikkeus",
+      "slug": "poikkeus",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["erityispedagogiikka"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Itä-Suomen yliopiston erityispedagogiikan opiskelijoiden ainejärjestö.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Politivas",
+      "slug": "politivas",
+      "schools": ["Åbo Akademi"],
+      "fields": ["valtiotiede"],
+      "areas": ["Vaasa"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Popsi",
+      "slug": "popsi",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["luokanopettaja"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Joensuun kampuksen luokanopettajaopiskelijoiden ainejärjestö.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Porin Teekkarit",
+      "slug": "porin-teekkarit",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["tietotekniikka", "tuotantotalous"],
+      "areas": ["Pori"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Porin kylterit (PorKy)",
+      "slug": "porin-kylterit-porky",
+      "schools": ["Turun yliopisto"],
+      "fields": ["kauppatieteet"],
+      "areas": ["Pori"],
+      "website": "https://www.ky.fi",
+      "description": "KY – Aalto-yliopiston kauppatieteiden ylioppilaat ry on Aalto-yliopiston kauppakorkeakoulun opiskelijoiden yhdistys, joka jatkaa entisen Helsingin kauppakorkeakoulun ylioppilaskunnan perinteitä. Se ajaa kyltereiden etua ja tarjoaa yhteisöllistä toimintaa. Helsingin yliopistolla ei ole erillistä kauppatieteiden ainejärjestöä.",
+      "source": "https://www.ky.fi/"
+    },
+    {
+      "name": "Praxis",
+      "slug": "praxis",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["filosofia", "sosiologia", "yhteiskuntapolitiikka"],
+      "areas": ["Joensuu"],
+      "website": "https://praxisry.net",
+      "description": "Praxis ry on Itä-Suomen yliopiston Joensuun kampuksella yhteiskuntapolitiikkaa, sosiologiaa ja filosofiaa opiskelevien ainejärjestö vuodesta 1987. Toimintaan kuuluu edunvalvonta ja monipuolinen tapahtumatarjonta.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Preemio",
+      "slug": "preemio",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["kauppatieteet"],
+      "areas": ["Kuopio"],
+      "website": "https://preemio.fi",
+      "description": "Itä-Suomen yliopiston Kuopion kampuksen kauppatieteiden opiskelijoiden ainejärjestö.",
+      "source": "https://preemio.fi/"
+    },
+    {
+      "name": "Prodeko",
+      "slug": "prodeko",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["tuotantotalous"],
+      "areas": ["Espoo"],
+      "website": "https://prodeko.org",
+      "description": "Tuotantotalouden kilta Prodeko ry on Aalto-yliopiston tuotantotalouden opiskelijoiden ainejärjestö. Se yhdistää tutalaisia, osallistuu Otaniemen teekkarikulttuuriin ja toimii linkkinä laitoksen, alumnien sekä yritysten suuntaan.",
+      "source": "https://prodeko.org/"
+    },
+    {
+      "name": "Prosa",
+      "slug": "prosa",
+      "schools": ["Åbo Akademi"],
+      "fields": ["kirjallisuustiede"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Prosessiteekkarit",
+      "slug": "prosessiteekkarit",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["prosessitekniikka"],
+      "areas": ["Espoo"],
+      "website": "https://prosessiteekkarit.fi",
+      "description": "Prosessiteekkarit ry on vuonna 2012 perustettu kilta, joka syntyi Kemian tekniikan korkeakoulun kandidaattiuudistuksen myötä. Kilta ottaa vastaan Aalto-yliopiston Kemian tekniikan korkeakoulun kemian tekniikan kandidaattiohjelmissa aloittavat uudet opiskelijat ja perehdyttää heidät yliopistoelämään sekä Aalto-yhteisöön. Killan tarkoituksena on tuoda yhteen Kemian tekniikan korkeakoulun opiskelijoita.",
+      "source": "https://prosessiteekkarit.fi"
+    },
+    {
+      "name": "Puolue",
+      "slug": "puolue",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["valtio-oppi"],
+      "areas": ["Jyväskylä"],
+      "website": "https://puoluery.fi",
+      "description": "PUOLUE EI KAADU KOSKAAN! Puolue ry on Jyväskylän yliopiston politiikan tutkimuksen opiskelijoiden ainejärjestö. Yhdistyksen tehtävänä on toimia opiskelijoiden edunvalvojana ja aktivoijana. Eniten yhdistyksen toiminta näkyy kuitenkin tapahtumien järjestämisessä: tarjoamme jäsenillemme mm. bileitä, liikuntavuoroja ja kulttuuritoimintaa. Tavoitteenamme on pitää kiinni jyväskyläläisen politiikan tutkimuksen ainutlaatuisuudesta ja laadusta.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Putex",
+      "slug": "putex",
+      "schools": ["Turun yliopisto"],
+      "fields": ["logopedia"],
+      "areas": ["Turku"],
+      "website": "https://putex.fi",
+      "description": "Putex ry on Turun yliopiston logopedian opiskelijoiden ainejärjestö vuodesta 2005. Se vastaa edunvalvonnasta sekä järjestää sosiaalista, liikunnallista ja ammatillista toimintaa.",
+      "source": "https://putex.fi/putex-ry/"
+    },
+    {
+      "name": "Puunjalostajakilta",
+      "slug": "puunjalostajakilta",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["Puunjalostustekniikka"],
+      "areas": ["Espoo"],
+      "website": "https://puunjalostajakilta.fi",
+      "description": "Puunjalostajakilta (PJK, lue PuuJiiKoo) yhdistää biotuotetekniikkaa opiskelevia ja siitä kiinnostuneita opiskelijoita niin ammatillisissa kuin vapaa-ajankin merkeissä.",
+      "source": "https://www.ayy.fi/fi/yhdistyslistaus/ainejarjestot"
+    },
+    {
+      "name": "Pykälä",
+      "slug": "pykala",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["oikeustiede"],
+      "areas": ["Helsinki"],
+      "website": "https://pykala.fi",
+      "description": "Pykälä ry on Helsingin yliopiston oikeustieteen opiskelijoiden tiedekuntajärjestö vuodesta 1935. Se tarjoaa jäsenilleen opinto-, harrastus- ja kulttuuripalveluja sekä valvoo opiskelijoiden etua tiedekunnassa.",
+      "source": "https://pykala.fi/"
+    },
+    {
+      "name": "Pörssi",
+      "slug": "porssi",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["kauppatieteet"],
+      "areas": ["Jyväskylä"],
+      "website": "https://porssiry.fi",
+      "description": "Pörssi ry on Jyväskylän yliopiston kauppakorkeakoulun opiskelijoiden ainejärjestö, johon voivat kuulua jäseninä kaikki Jyväskylän yliopistossa kauppatieteiden kandidaatin tai maisterin tutkintoa suorittavat. Ainejärjestöömme kuuluu siis johtamisen, laskentatoimen, markkinoinnin, yrittäjyyden, ympäristöjohtamisen, taloustieteen, viestinnän johtamisen, sekä JSBE:n kansainvälisten maisteriohjelmien opintosuuntien opiskelijoita. Meitä pörssiläisiä on tällä hetkellä jo yli 2000.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Quantum",
+      "slug": "quantum",
+      "schools": ["Åbo Akademi"],
+      "fields": ["fysiikka"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "REKO",
+      "slug": "reko",
+      "schools": ["Karelia"],
+      "fields": ["matkailu- ja ravitsemisala"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "REKO on Karelia-ammattikorkeakoulun restonomi- ja matkailualan opiskelijoiden jaosto. Se yhdistää alan opiskelijoita ja toimii yhteistyössä POKAn kanssa.",
+      "source": "https://fi.wikipedia.org/wiki/Karelia-ammattikorkeakoulun_opiskelijakunta"
+    },
+    {
+      "name": "Radikaali",
+      "slug": "radikaali",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["kemia"],
+      "areas": ["Jyväskylä"],
+      "website": "http://www.radikaali.fi",
+      "description": "Jyväskylän yliopiston kemistit ry:n eli Radikaalin on Jyväskylän yliopiston kemian opiskelijoiden ainejärjestö. Järjestön tarkoituksena on toimia kemistien ja kemian opiskelijoiden yhdyssiteenä, edistää ja tukea kemian opiskelijoiden tieteellistä ja ammatillista kehitystä, sekä toteuttaa edunvalvontaa opintoasioihin liittyen ja järjestää harrastustoimintaa sekä opiskelijatapahtumia.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Rakennusinsinöörikilta IK",
+      "slug": "rakennusinsinoorikilta-ik",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["rakennustekniikka"],
+      "areas": ["Espoo"],
+      "website": "https://rakennusinsinoorikilta.fi",
+      "description": "Rakennusinsinöörikilta IK on Aalto-yliopiston rakennustekniikan sekä energia- ja ympäristötekniikan opiskelijoiden yhdistys, joka yhdistää kyseisten alojen opiskelijoita ja ajaa heidän etujaan. Lisäksi vuodesta 2019 Rakennusinsinöörikilta on vastaanottanut Computational Engineering-linjan opiskelijat.",
+      "source": "https://www.ayy.fi/fi/yhdistyslistaus/ainejarjestot"
+    },
+    {
+      "name": "ReLa",
+      "slug": "rela",
+      "schools": ["LAB"],
+      "fields": ["restonomi"],
+      "areas": ["Lahti"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Reettorit",
+      "slug": "reettorit",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["puheviestintä"],
+      "areas": ["Tampere"],
+      "website": "https://reettorit.com",
+      "description": "Reettorit ry on Tampereen yliopiston viestinnän opiskelijoiden ainejärjestö.",
+      "source": "https://trey.fi/opiskelijaelama/jarjestot-yhteisossamme"
+    },
+    {
+      "name": "Remburssi",
+      "slug": "remburssi",
+      "schools": ["Lapin yliopisto"],
+      "fields": ["hallintotieteet", "johtaminen", "julkisoikeus", "soveltava psykologia"],
+      "areas": ["Rovaniemi"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Repliikki",
+      "slug": "repliikki",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["teatteritiede"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Resonanssi",
+      "slug": "resonanssi",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["fysikaaliset tieteet"],
+      "areas": ["Helsinki"],
+      "website": "https://blogs.helsinki.fi/resonanssi",
+      "description": "Matrix ry on Helsingin yliopiston matematiikan opiskelijoiden ainejärjestö, joka hoitaa edunvalvontaa sekä järjestää opiskelu- ja vapaa-ajan toimintaa. Fysikaalisten tieteiden opiskelijoiden ainejärjestö on Resonanssi ry (https://blogs.helsinki.fi/resonanssi/).",
+      "source": "https://blogs.helsinki.fi/resonanssi/"
+    },
+    {
+      "name": "Retikka",
+      "slug": "retikka",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["ravitsemustiede"],
+      "areas": ["Kuopio"],
+      "website": null,
+      "description": "Ravitsemustieteen opiskelijoiden ainejärjestö Kuopion kampuksella.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/kuopion-ainejarjestot.html"
+    },
+    {
+      "name": "Riihimäen insinööriopiskelijat RINO",
+      "slug": "riihimaen-insinooriopiskelijat-rino",
+      "schools": ["Hämeen AMK"],
+      "fields": ["insinööri"],
+      "areas": ["Riihimäki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Robo",
+      "slug": "robo",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["robotiikka"],
+      "areas": ["Tampere"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Rupla",
+      "slug": "rupla",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["baltologia", "slavistiikka"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "SF-klubben",
+      "slug": "sf-klubben",
+      "schools": ["Åbo Akademi"],
+      "fields": ["valtiotiede"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "SOS",
+      "slug": "sos",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["sosiaalityö"],
+      "areas": ["Tampere"],
+      "website": "https://sos-ry.com",
+      "description": "SOS ry on Tampereen yliopiston sosiaalityön opiskelijoiden ainejärjestö. Se valvoo jäsentensä etuja ja järjestää monipuolista toimintaa.",
+      "source": "https://sos-ry.com/"
+    },
+    {
+      "name": "SPirre",
+      "slug": "spirre",
+      "schools": ["Åbo Akademi"],
+      "fields": ["erityispedagogiikka"],
+      "areas": ["Vaasa"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "SUB",
+      "slug": "sub",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["englannin kieli"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Saga",
+      "slug": "saga",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["pohjoismaiset kielet"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Salus",
+      "slug": "salus",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["hoitotiede", "kansanterveystiede"],
+      "areas": ["Tampere"],
+      "website": "https://salusry.fi",
+      "description": "Salus ry on Tampereen yliopiston terveystieteiden ainejärjestö. Se edustaa erityisesti hoitotieteen ja kansanterveystieteen opiskelijoita sekä tukee yhteisöllisyyttä ja edunvalvontaa.",
+      "source": "https://salusry.fi/"
+    },
+    {
+      "name": "Sampsa",
+      "slug": "sampsa",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["maataloustieteet"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Sane",
+      "slug": "sane",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["suomen kieli"],
+      "areas": ["Jyväskylä"],
+      "website": "https://sanery.org",
+      "description": "Suomen kieli ja itämerensuomalaiset kielet, suomalainen viittomakieli",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Serveri",
+      "slug": "serveri",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["tietojenkäsittelytiede"],
+      "areas": ["Kuopio"],
+      "website": "https://serveriry.fi",
+      "description": "Serveri ry on Itä-Suomen yliopiston Kuopion kampuksen tietojenkäsittelytieteen opiskelijoiden ainejärjestö. Se toimii yliopiston ja opiskelijoiden linkkinä, hoitaa edunvalvontaa ja järjestää vapaa-ajan sekä työelämään liittyvää toimintaa.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/kuopion-ainejarjestot.html"
+    },
+    {
+      "name": "Sigma",
+      "slug": "sigma",
+      "schools": ["Åbo Akademi"],
+      "fields": ["matematiikka"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Sigma-kilta",
+      "slug": "sigma-kilta",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["fysikaaliset tieteet", "matematiikka"],
+      "areas": ["Oulu"],
+      "website": "https://sigma-kilta.net",
+      "description": "Oulun yliopiston matemaattisten ja fysikaalisten tieteiden kilta.",
+      "source": "https://www.oyy.fi/yhteiso/opiskelijajarjestot/"
+    },
+    {
+      "name": "Skandica",
+      "slug": "skandica",
+      "schools": ["Turun yliopisto"],
+      "fields": ["pohjoismaiset kielet"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Skripti",
+      "slug": "skripti",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["tietojenkäsittelytiede"],
+      "areas": ["Joensuu"],
+      "website": "https://skripti.org",
+      "description": "Skripti ry on Itä-Suomen yliopiston Joensuun kampuksen tietojenkäsittelytieteen opiskelijoiden ainejärjestö. Toimintaan kuuluu edunvalvonta, tapahtumien järjestäminen ja yhteistyö alan yritysten kanssa.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Skruvster",
+      "slug": "skruvster",
+      "schools": ["Novia"],
+      "fields": ["kulttuuri"],
+      "areas": ["Pietarsaari"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Skuffis",
+      "slug": "skuffis",
+      "schools": ["Novia"],
+      "fields": ["maatalous"],
+      "areas": ["Raasepori"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Slava",
+      "slug": "slava",
+      "schools": ["Turun yliopisto"],
+      "fields": ["venäjän kieli"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Socius",
+      "slug": "socius",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["yhteiskuntatieteet"],
+      "areas": ["Kuopio"],
+      "website": "https://sociusry.com",
+      "description": "Kuopion kampuksen yhteiskuntatieteiden opiskelijoiden ainejärjestö.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/kuopion-ainejarjestot.html"
+    },
+    {
+      "name": "Sopu",
+      "slug": "sopu",
+      "schools": ["Tampereen AMK"],
+      "fields": ["sosiaaliala"],
+      "areas": ["Tampere"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Sosiaalitieteiden klubi",
+      "slug": "sosiaalitieteiden-klubi",
+      "schools": ["Turun yliopisto"],
+      "fields": ["sosiaalitieteet"],
+      "areas": ["Turku"],
+      "website": "https://sosiaalitieteidenklubi.utu.fi",
+      "description": "Sosiaalitieteiden Klubi ry on Turun yliopiston sosiaalitieteiden ja sosiaalityön opiskelijoiden ainejärjestö. Se toimii yhteisönä ja tukiverkkona sekä edistää hyvinvointia ja yhteishenkeä.",
+      "source": "https://sosiaalitieteidenklubi.utu.fi/"
+    },
+    {
+      "name": "Spektrum",
+      "slug": "spektrum",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["fysiikka", "kemia", "matematiikka", "tietojenkäsittelytiede (ruotsiksi)"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Spessu",
+      "slug": "spessu",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["erityispedagogiikka"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Spiritus Forstis",
+      "slug": "spiritus-forstis",
+      "schools": ["Novia"],
+      "fields": ["metsätalous"],
+      "areas": ["Raasepori"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Sporticus",
+      "slug": "sporticus",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["liikunta- ja terveystieteet"],
+      "areas": ["Jyväskylä"],
+      "website": "https://sporticus.fi",
+      "description": "Sporticus ry on Jyväskylän yliopiston liikunta- ja terveystieteiden opiskelijoiden ainejärjestö. Yhdistys edistää ja valvoo jäsentensä etuja sekä järjestää tapahtumia ja yhteisöllistä toimintaa.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Sputnik",
+      "slug": "sputnik",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["venäjän kieli"],
+      "areas": ["Jyväskylä"],
+      "website": "https://sputnikjklcom.wordpress.com",
+      "description": "Ainejärjestö Sputnik ry on Jyväskylän yliopiston venäjän kielen ja kulttuurin ainejärjestö. Olemme tiivis opiskelijayhteisö, joka on aktiivisesti mukana myös kattojärjestö Lingviestit ry:n toiminnassa. Järjestämme slaavihenkisiä tapahtumia Venäjästä ja sen kulttuurista kiinnostuneille opiskelijoille. Tapahtumien lisäksi pidämme huolta oppiaineen edunvalvonnasta sekä opiskelijoiden viihtymisestä akateemisen polun varrella.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Staabi",
+      "slug": "staabi",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["hallintotieteet"],
+      "areas": ["Tampere"],
+      "website": "https://staabi.fi",
+      "description": "Staabi ry on Tampereen yliopiston hallintotieteiden opiskelijoiden ainejärjestö. Se järjestää tapahtumia, ajaa opiskelijoiden etua yliopistossa ja edistää suhteita työelämään.",
+      "source": "https://staabi.fi/yhdistys/staabi-ry/"
+    },
+    {
+      "name": "Stadga",
+      "slug": "stadga",
+      "schools": ["Åbo Akademi"],
+      "fields": ["oikeustiede"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Statistika",
+      "slug": "statistika",
+      "schools": ["Turun yliopisto"],
+      "fields": ["tilastotiede"],
+      "areas": ["Turku"],
+      "website": "https://statistika.fi",
+      "description": "Statistika ry on Turun yliopiston tilastotieteen opiskelijoiden ja alumnien ainejärjestö vuodesta 1981. Se järjestää sosiaalisia sekä työelämätaitoja ja -kontakteja luovia tapahtumia.",
+      "source": "http://statistika.fi/"
+    },
+    {
+      "name": "Stimulus",
+      "slug": "stimulus",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["psykologia"],
+      "areas": ["Jyväskylä"],
+      "website": "https://stimulus.fi",
+      "description": "Stimulus ry on aktiivinen Jyväskylän yliopiston psykologian opiskelijoiden ainejärjestö, jonka tarkoituksena on järjestää koulutuksia ja jäsenistöä yhdistävää virkistystoimintaa, edistää jäsentensä hyvinvointia, tukea heidän opiskeluaan sekä huolehtia edunvalvonnasta. Stimulus ry pohjaa toimintansa yhteisöllisyyteen, kestävyyteen, inhimillisyyteen ja aktiiviseen kehittämiseen.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "StuBi",
+      "slug": "stubi",
+      "schools": ["Åbo Akademi"],
+      "fields": ["varhaiskasvatus"],
+      "areas": ["Vaasa"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "StudOrg",
+      "slug": "studorg",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["yhteiskuntatieteet (ruotsiksi)"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Studerandekåren Skåhla",
+      "slug": "studerandekaren-skahla",
+      "schools": ["Ahvenanmaan AMK"],
+      "fields": [],
+      "areas": ["Maarianhamina"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Sturm und Drang",
+      "slug": "sturm-und-drang",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["Saksan kieli ja kulttuuri"],
+      "areas": ["Jyväskylä"],
+      "website": "https://sturmunddrangjkl.wordpress.com",
+      "description": "Jyväskylän yliopiston saksan kielen ja kulttuurin opiskelijoiden ainejärjestö. Ainejärjestön nimi tulee Saksassa 1700-luvulla vallinneesta kirjallisuus- ja taidesuuntauksesta, jonka keskeisimpiin vaikuttajiin kuuluivat mm. Johann Wolfgang von Goethe ja Friedrich Schiller. Järjestössä pidämme hauskaa yhdessä ja ajamme omiemme etua!",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Sugri",
+      "slug": "sugri",
+      "schools": ["Turun yliopisto"],
+      "fields": ["suomalais-ugrilainen kielentutkimus"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Sulo",
+      "slug": "sulo",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["varhaiskasvatus"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Vuonna 1980 perustettu varhaiskasvatuksen opiskelijoiden ainejärjestö Joensuun kampuksella.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Suma",
+      "slug": "suma",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["suomen kieli"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Suukko",
+      "slug": "suukko",
+      "schools": ["Turun AMK"],
+      "fields": ["hammasteknikko", "suuhygienisti"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Svenska Klubben",
+      "slug": "svenska-klubben",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["ruotsin kieli"],
+      "areas": ["Jyväskylä"],
+      "website": "https://svenskaklubben.info",
+      "description": "Svenska Klubben ry on Jyväskylän yliopiston ruotsin kielen opiskelijoiden yhdistys. Olemme myös osa Lingviestit ry:tä, joka kokoaa yhteen kaikki Jyväskylän yliopiston kielten ja viestinnän opiskelijat.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Svenska Naturvetarklubben",
+      "slug": "svenska-naturvetarklubben",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["biologia", "ympäristötiede (ruotsiksi)"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Svenska Studenters Agro-Forst Förening",
+      "slug": "svenska-studenters-agro-forst-forening",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["maatalous- ja metsätiede (ruotsiksi)"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Symbioosi",
+      "slug": "symbioosi",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["biologia"],
+      "areas": ["Helsinki"],
+      "website": "https://symbioosiry.fi",
+      "description": "Symbioosi ry on Helsingin yliopiston biologian opiskelijoiden ainejärjestö. Se ajaa jäsentensä etuja ja järjestää opiskelijatoimintaa. (Biosfääri ry toimii ympäristötieteissä: https://biosfaari.",
+      "source": "https://symbioosiry.fi/"
+    },
+    {
+      "name": "Symposion",
+      "slug": "symposion",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["klassillinen filologia"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Synapsi",
+      "slug": "synapsi",
+      "schools": ["Turun yliopisto"],
+      "fields": ["biologia", "maantiede"],
+      "areas": ["Turku"],
+      "website": "https://synapsi.utu.fi",
+      "description": "Synapsi ry on vuonna 1962 perustettu Turun yliopiston biologian ja maantieteen opiskelijoiden ainejärjestö. Se valvoo jäsentensä etuja, toimii yhdyssiteenä ja järjestää esimerkiksi retkiä, kulttuuriohjelmaa ja opiskelijatapahtumia.",
+      "source": "https://synapsi.utu.fi/"
+    },
+    {
+      "name": "Synkooppi",
+      "slug": "synkooppi",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["musiikkitiede"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Synop",
+      "slug": "synop",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["meteorologia"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Syntaksis",
+      "slug": "syntaksis",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["biologia"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Syrinx",
+      "slug": "syrinx",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["bio- ja ympäristötieteet"],
+      "areas": ["Jyväskylä"],
+      "website": "https://syrinx.fi",
+      "description": "Syrinx ry on Jyväskylän yliopiston bio-ja ympäristötieteiden opiskelijoiden ainejärjestö. Nimensä Syrinx on saanut linnun äänielimestä, sillä ainejärjestön tarkoituksena on toimia opiskelijoiden äänielimenä. Yhdistys on perustettu vuonna 1971.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Sähköinsinöörikilta",
+      "slug": "sahkoinsinoorikilta",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["sähkötekniikka"],
+      "areas": ["Espoo"],
+      "website": "https://sahkoinsinoorikilta.fi",
+      "description": "Aalto-yliopiston Sähköinsinöörikilta ry (ASIK) on Otaniemen sähkötekniikan opiskelijoiden kilta vuodesta 1921.",
+      "source": "https://sahkoinsinoorikilta.fi/"
+    },
+    {
+      "name": "Sähköinsinöörikilta (SIK)",
+      "slug": "sahkoinsinoorikilta-sik",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["elektroniikka", "sähkötekniikka", "tietoliikenne"],
+      "areas": ["Oulu"],
+      "website": "https://www.sik.fi",
+      "description": "Oulun yliopiston Sähköinsinöörikilta ry on sähkötekniikan, elektroniikan ja tietoliikennetekniikan opiskelijoiden kilta.",
+      "source": "https://www.sik.fi/"
+    },
+    {
+      "name": "Sähkökilta",
+      "slug": "sahkokilta",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["sähkötekniikka"],
+      "areas": ["Tampere"],
+      "website": "https://www.skilta.fi",
+      "description": "Sähkökilta ry (Skilta) on Tampereen yliopiston sähkötekniikan opiskelijoiden ainejärjestö vuodesta 1968. Kilta toimii jäsenistönsä hyväksi järjestäen edunvalvontaa, palveluita ja teekkarikulttuuria.",
+      "source": "https://www.skilta.fi/"
+    },
+    {
+      "name": "Sätky",
+      "slug": "satky",
+      "schools": ["LUT-yliopisto"],
+      "fields": ["sähkötekniikka"],
+      "areas": ["Lappeenranta"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "T-Klubi",
+      "slug": "t-klubi",
+      "schools": ["Turun yliopisto"],
+      "fields": ["taloustiede (valtiotieteet)"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "TAO",
+      "slug": "tao",
+      "schools": ["Lapin yliopisto"],
+      "fields": ["taideaineet"],
+      "areas": ["Rovaniemi"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "THLKS (Turun hammaslääketieteen kandidaattiseura)",
+      "slug": "thlks-turun-hammaslaaketieteen-kandidaattiseura",
+      "schools": ["Turun yliopisto"],
+      "fields": ["hammaslääketiede"],
+      "areas": ["Turku"],
+      "website": "https://www.thlks.fi",
+      "description": "Turun Hammaslääketieteenkandidaattiseura ry (THLKS) on Turun hammaslääketieteen opiskelijoiden ainejärjestö. Se hoitaa edunvalvontaa, kehittää koulutusta ja tukee opiskelijoiden hyvinvointia.",
+      "source": "https://www.thlks.fi/"
+    },
+    {
+      "name": "TIO",
+      "slug": "tio",
+      "schools": ["Turun AMK"],
+      "fields": ["tekniikka"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "TK-Kilta (Opekas)",
+      "slug": "tk-kilta-opekas",
+      "schools": ["Turun yliopisto"],
+      "fields": ["käsityön aineenopettaja"],
+      "areas": ["Rauma"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "TKO-äly",
+      "slug": "tko-aly",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["tietojenkäsittelytiede"],
+      "areas": ["Helsinki"],
+      "website": "https://tko-aly.fi",
+      "description": "TKO-äly ry on Helsingin yliopiston tietojenkäsittelytieteen ja datatieteen opiskelijoiden ainejärjestö. Se ajaa opiskelijoiden etua opintoasioissa ja järjestää monipuolista vapaa-ajan toimintaa.",
+      "source": "https://tko-aly.fi/"
+    },
+    {
+      "name": "TLK",
+      "slug": "tlk",
+      "schools": ["Arcada"],
+      "fields": ["tekniikka"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "TLKS (Turun Lääketieteenkandidaattiseura)",
+      "slug": "tlks-turun-laaketieteenkandidaattiseura",
+      "schools": ["Turun yliopisto"],
+      "fields": ["lääketiede"],
+      "areas": ["Turku"],
+      "website": "https://tlks.fi",
+      "description": "Turun Lääketieteenkandidaattiseura TLKS ry on Turun yliopiston lääketieteen opiskelijoiden ainejärjestö.",
+      "source": "https://tlks.fi/"
+    },
+    {
+      "name": "TOY",
+      "slug": "toy",
+      "schools": ["Turun AMK"],
+      "fields": ["Taideakatemia"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "TSF",
+      "slug": "tsf",
+      "schools": ["Åbo Akademi"],
+      "fields": ["teologia"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "TTO",
+      "slug": "tto",
+      "schools": ["Tampereen AMK"],
+      "fields": ["liiketalous"],
+      "areas": ["Tampere"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "TXO",
+      "slug": "txo",
+      "schools": ["Metropolia"],
+      "fields": ["terveys- ja hoitoala"],
+      "areas": ["Espoo"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "TaRe",
+      "slug": "tare",
+      "schools": ["Tampereen AMK"],
+      "fields": ["palveluliiketoiminta"],
+      "areas": ["Tampere"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Tampereen Arkkitehtikilta",
+      "slug": "tampereen-arkkitehtikilta",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["arkkitehtuuri"],
+      "areas": ["Tampere"],
+      "website": null,
+      "description": "Tampereen Arkkitehtikilta (TamArk) on Tampereen yliopiston arkkitehtiopiskelijoiden kilta.",
+      "source": "https://trey.fi/opiskelijaelama/jarjestot-yhteisossamme"
+    },
+    {
+      "name": "Tampereen Lääketieteen Kandidaattiseura",
+      "slug": "tampereen-laaketieteen-kandidaattiseura",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["lääketiede"],
+      "areas": ["Tampere"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Tampereen Rakentajakilta",
+      "slug": "tampereen-rakentajakilta",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["rakennustekniikka"],
+      "areas": ["Tampere"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Tampio",
+      "slug": "tampio",
+      "schools": ["Tampereen AMK"],
+      "fields": ["metsätalous"],
+      "areas": ["Tampere"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Tarina",
+      "slug": "tarina",
+      "schools": ["Tampereen AMK"],
+      "fields": ["media-ala"],
+      "areas": ["Tampere"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Tarmo",
+      "slug": "tarmo",
+      "schools": ["Jyväskylän AMK"],
+      "fields": ["luonnonvara-ala"],
+      "areas": ["Jyväskylä"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Tasokas",
+      "slug": "tasokas",
+      "schools": ["Turun AMK"],
+      "fields": ["sosionomi"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Teema",
+      "slug": "teema",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["kirjallisuustiede"],
+      "areas": ["Tampere"],
+      "website": "https://teemary.org",
+      "description": "Teema ry on Tampereen yliopiston kirjallisuuden opiskelijoiden ainejärjestö. Se valvoo jäsentensä etuja, järjestää tapahtumia ja julkaisee lehteä Legenda sekä Tiiliskivi-palkinnon.",
+      "source": "https://teemary.org/"
+    },
+    {
+      "name": "Teknologföreningen (osakunta)",
+      "slug": "teknologforeningen-osakunta",
+      "schools": ["Aalto-yliopisto"],
+      "fields": [],
+      "areas": ["Espoo"],
+      "website": null,
+      "description": "Teknologföreningen (TF) on Aalto-yliopiston ruotsinkielinen osakunta. Osakunta perustettiin vuonna 1872. TF:n tavoitteena on saattaa yhteen korkeakoulun ruotsinkieliset opiskelijat. TF omistaa oman osakuntatalon, nimeltään Urdsgjallar, mikä antaa loistavat puitteet tavoitteen saavuttamiseksi.",
+      "source": "https://www.ayy.fi/fi/yhdistyslistaus/ainejarjestot"
+    },
+    {
+      "name": "Tempo",
+      "slug": "tempo",
+      "schools": ["Savonia"],
+      "fields": ["musiikki ja tanssi"],
+      "areas": ["Kuopio"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Teologian ylioppilaiden tiedekuntayhdistys",
+      "slug": "teologian-ylioppilaiden-tiedekuntayhdistys",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["teologia"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Terho",
+      "slug": "terho",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["terveystieteet"],
+      "areas": ["Kuopio"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Tertta",
+      "slug": "tertta",
+      "schools": ["Savonia"],
+      "fields": ["sosiaali- ja terveysala"],
+      "areas": ["Kuopio"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "TiTe",
+      "slug": "tite",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["tietotekniikka"],
+      "areas": ["Tampere"],
+      "website": "https://tietoteekkarikilta.fi",
+      "description": "Tampereen TietoTeekkarikilta ry (TiTe) on tietotekniikan opiskelijoiden kilta.",
+      "source": "https://tietoteekkarikilta.fi/"
+    },
+    {
+      "name": "Tietokilta",
+      "slug": "tietokilta",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["tietotekniikka"],
+      "areas": ["Espoo"],
+      "website": "https://tietokilta.fi",
+      "description": "Tietokilta ry (TiK) on vuonna 1986 perustettu, Aalto-yliopiston Perustieteiden korkeakoulun tietotekniikan koulutusohjelman opiskelijoiden ainejärjestö eli kilta. Tietokiltaan kuuluu noin 900 opiskelijajäsentä, joista suurin osa opiskelee tietotekniikan koulutusohjelmassa.",
+      "source": "https://www.ayy.fi/fi/yhdistyslistaus/ainejarjestot"
+    },
+    {
+      "name": "Tiima",
+      "slug": "tiima",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["historia"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Tiltti",
+      "slug": "tiltti",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["tilastotiede"],
+      "areas": ["Jyväskylä"],
+      "website": "https://groups.jyu.fi/tiltti",
+      "description": "Tiltti on Jyväksylän tilastotieteen opiskelijoiden oma ainejärjestö: Tiltti perustettiin keväällä 1981 ja jatkaa eloaan jo 36v vuoden jälkeen! Yhteisömme on pieni, mutta sitäkin tiiviimpi ja riveistämme löytyykin tilastotieteilijöiden lisäksi mm. kasvatustieteilijöitä, psykologeja ja taloustieteilijöitä. Ainejärjestön tila Akvaariolla voit lähes aina löytää seuran kipeitä, opiskelevia, tai lepääviä Tilttiläisiä.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Tom",
+      "slug": "tom",
+      "schools": ["Turun AMK"],
+      "fields": ["muotoilu"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Tombolo",
+      "slug": "tombolo",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["maantiede", "yhteiskuntamaantiede", "ympäristöpolitiikka ja -oikeus"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Maantieteen, yhteiskuntamaantieteen ja ympäristöpolitiikan opiskelijoiden ainejärjestö Joensuun kampuksella.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Tosine",
+      "slug": "tosine",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["historia"],
+      "areas": ["Jyväskylä"],
+      "website": "https://tosine.fi",
+      "description": "Wolmar Schildt-Kilpinen määritteli 1850-luvulla historiaa merkitsevän uudissanan tosineeksi, ja vaikka sana ei vakiintunut käyttöön, se löysi tiensä Jyväskylän yliopiston historian ainejärjestön nimeksi vuonna 1959, kun Tosine perustettiin. Ainejärjestömme on Jyväskylän yliopiston vanhimpia.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Trade",
+      "slug": "trade",
+      "schools": ["Turun AMK"],
+      "fields": ["liiketalous"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Transla",
+      "slug": "transla",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["käännöstiede"],
+      "areas": ["Tampere"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Trioli",
+      "slug": "trioli",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["musiikkitiede"],
+      "areas": ["Jyväskylä"],
+      "website": "https://trioli-ry-38.webnode.fi",
+      "description": "Musiikkitieteen opiskelijoiden ainejärjestö Trioli ry. Trioli ry:n toimintaan kuuluu opiskelijatapahtumien järjestämistä, kaupungin kulttuurielämän edistämistä sekä opiskelijoiden edun valvomista. Olemme pieni, mutta aktiivinen ainejärjestö, joka on myös osa Suomalaista Musiikkikampusta.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Tritonus",
+      "slug": "tritonus",
+      "schools": ["Turun yliopisto"],
+      "fields": ["musiikkitiede"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Trok",
+      "slug": "trok",
+      "schools": ["Turun AMK"],
+      "fields": ["rakennusala"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Trombi",
+      "slug": "trombi",
+      "schools": ["Metropolia"],
+      "fields": ["liiketalous"],
+      "areas": ["Vantaa"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "TuKYData",
+      "slug": "tukydata",
+      "schools": ["Turun yliopisto"],
+      "fields": ["tietojärjestelmätiede"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": "TuKYData on Turun kauppakorkeakoulun tietojärjestelmätieteiden opiskelijoiden ainejärjestö Turun KY:n piirissä.",
+      "source": "https://www.tyy.fi/fi/mukaan-toimintaan/tyyn-jarjestot/ainejarjestot"
+    },
+    {
+      "name": "Turun KY",
+      "slug": "turun-ky",
+      "schools": ["Turun yliopisto"],
+      "fields": ["kauppatieteet"],
+      "areas": ["Turku"],
+      "website": "https://www.tuky.fi",
+      "description": "Turun kauppatieteiden ylioppilaat ry (Turun KY) on Turun kauppakorkeakoulussa opiskelevien kauppatieteilijöiden yhdistys. Se toimii kyltereiden yhdyssiteenä, valvoo heidän etujaan ja tarjoaa monipuolista opiskelijatoimintaa.",
+      "source": "https://www.tuky.fi/"
+    },
+    {
+      "name": "Turun Yliopiston Kemistit TYK",
+      "slug": "turun-yliopiston-kemistit-tyk",
+      "schools": ["Turun yliopisto"],
+      "fields": ["biokemia", "kemia"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Täky",
+      "slug": "taky",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["kirjallisuus", "suomen kieli"],
+      "areas": ["Joensuu"],
+      "website": "https://taky.fi",
+      "description": "Itä-Suomen yliopiston suomen kielen ja kirjallisuuden opiskelijoiden ainejärjestö (perustettu 1973).",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "UDK",
+      "slug": "udk",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["informaatiotutkimus", "mediatutkimus"],
+      "areas": ["Tampere"],
+      "website": "https://udk.fi",
+      "description": "Tampereen yliopiston kielten opiskelijoiden ainejärjestö.",
+      "source": "https://trey.fi/opiskelijaelama/jarjestot-yhteisossamme"
+    },
+    {
+      "name": "Umlaut",
+      "slug": "umlaut",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["germaaninen filologia"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Urbanum",
+      "slug": "urbanum",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["sustainable urban development"],
+      "areas": ["Tampere"],
+      "website": "https://urbanum.fi",
+      "description": "Urbanum ry on Tampereen yliopiston kestävän kaupunkikehityksen (Sustainable Urban Development) opiskelijoiden kilta. Se yhdistää ohjelman opiskelijoita ja järjestää kiltaitoimintaa.",
+      "source": "https://trey.fi/opiskelijaelama/jarjestot-yhteisossamme"
+    },
+    {
+      "name": "Utopia",
+      "slug": "utopia",
+      "schools": ["Tampereen yliopisto"],
+      "fields": [],
+      "areas": ["Pori"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Uudenmaan Insinööriopiskelijat",
+      "slug": "uudenmaan-insinooriopiskelijat",
+      "schools": ["Metropolia"],
+      "fields": ["tekniikka (kaikki)"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "VYY",
+      "slug": "vyy",
+      "schools": ["Vaasan yliopisto"],
+      "fields": [],
+      "areas": ["Vaasa"],
+      "website": "https://vyy.fi",
+      "description": "Vaasan yliopiston ylioppilaskunta VYY on Vaasan yliopiston perustutkinto-opiskelijoiden ylioppilaskunta vuodesta 1968. Se puolustaa opiskelijoiden oikeuksia, tukee hyvinvointia ja rakentaa parempaa opiskelija-arkea.",
+      "source": "https://vyy.fi/"
+    },
+    {
+      "name": "Vaasan tradenomiopiskelijat VATO",
+      "slug": "vaasan-tradenomiopiskelijat-vato",
+      "schools": ["Vaasan AMK"],
+      "fields": ["liiketalous"],
+      "areas": ["Vaasa"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Valenssi",
+      "slug": "valenssi",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["kemia"],
+      "areas": ["Oulu"],
+      "website": "https://valenssi.fi",
+      "description": "Oulun yliopiston kemian opiskelijoiden ainejärjestö.",
+      "source": "https://www.oyy.fi/yhteiso/opiskelijajarjestot/"
+    },
+    {
+      "name": "Vare",
+      "slug": "vare",
+      "schools": ["Turun yliopisto"],
+      "fields": ["arkeologia"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Varkaat",
+      "slug": "varkaat",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["varhaiskasvatus"],
+      "areas": ["Jyväskylä"],
+      "website": "https://varkaat.fi",
+      "description": "Varkaat ry on Jyväskylän yliopiston varhaiskasvatusta opiskelevien ainejärjestö, jonka tarkoituksena on edistää ja valvoa jäsentensä etuja koulutus-, sosiaali- ja kulttuuripoliittisissa kysymyksissä sekä edustaa jäseniään yleisissä ja yhteisissä asioissa. Varkaat ry tarjoaa myös jäsenistölleen erilaisia tapahtumia.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Varnitsa",
+      "slug": "varnitsa",
+      "schools": ["Itä-Suomen yliopisto"],
+      "fields": ["historia"],
+      "areas": ["Joensuu"],
+      "website": null,
+      "description": "Historian opiskelijoiden ainejärjestö Itä-Suomen yliopiston Joensuun kampuksella.",
+      "source": "https://www.isyy.fi/vapaa-aika/ainejarjestot/joensuun-ainejarjestot.html"
+    },
+    {
+      "name": "Vasara",
+      "slug": "vasara",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["geologia"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Verba",
+      "slug": "verba",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["vieraat kielet"],
+      "areas": ["Oulu"],
+      "website": "https://verba.fi",
+      "description": "Oulun yliopiston vieraiden kielten opiskelijoiden ainejärjestö.",
+      "source": "https://www.oyy.fi/yhteiso/opiskelijajarjestot/"
+    },
+    {
+      "name": "Viikin Taloustieteilijät",
+      "slug": "viikin-taloustieteilijat",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["ympäristö- ja elintarviketalous"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Viito",
+      "slug": "viito",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["viittomakieli"],
+      "areas": ["Jyväskylä"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Viri Lactis",
+      "slug": "viri-lactis",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["elintarviketieteet"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Vocalis",
+      "slug": "vocalis",
+      "schools": ["Åbo Akademi"],
+      "fields": ["logopedia"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Voluntas",
+      "slug": "voluntas",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["markkinointi"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Vostok",
+      "slug": "vostok",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["journalistiikka"],
+      "areas": ["Tampere"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Vuorimieskilta",
+      "slug": "vuorimieskilta",
+      "schools": ["Aalto-yliopisto"],
+      "fields": ["materiaalitekniikka"],
+      "areas": ["Espoo"],
+      "website": "https://vuorimieskilta.fi",
+      "description": "Vuorimieskilta on vuonna 1947 perustettu Aalto-yliopiston materiaalitekniikan opiskelijoiden ainejärjestö.",
+      "source": "https://vuorimieskilta.fi/"
+    },
+    {
+      "name": "Vuorovaikeutus",
+      "slug": "vuorovaikeutus",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["ympäristöekonomia"],
+      "areas": ["Helsinki"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Välkky",
+      "slug": "valkky",
+      "schools": ["Åbo Akademi"],
+      "fields": ["suomen kieli"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "WAIO",
+      "slug": "waio",
+      "schools": ["Savonia"],
+      "fields": ["insinööri"],
+      "areas": ["Varkaus"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Warum",
+      "slug": "warum",
+      "schools": ["Åbo Akademi"],
+      "fields": ["filosofia"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Yliopiston farmasiakunta",
+      "slug": "yliopiston-farmasiakunta",
+      "schools": ["Helsingin yliopisto"],
+      "fields": ["farmasia"],
+      "areas": ["Helsinki"],
+      "website": "https://yfk.fi",
+      "description": "Yliopiston Farmasiakunta YFK ry on Helsingin yliopiston farmasian opiskelijoiden ainejärjestö. Se valvoo jäsentensä etuja ja järjestää monipuolista toimintaa.",
+      "source": "https://yfk.fi/"
+    },
+    {
+      "name": "Ympäristörakentajakilta",
+      "slug": "ymparistorakentajakilta",
+      "schools": ["Oulun yliopisto"],
+      "fields": ["rakennus- ja yhdyskuntatekniikka", "ympäristötekniikka"],
+      "areas": ["Oulu"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Ympäristöteekkarikilta",
+      "slug": "ymparistoteekkarikilta",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["ympäristötekniikka"],
+      "areas": ["Tampere"],
+      "website": "https://ymparistoteekkarikilta.fi",
+      "description": "Ympäristöteekkarikilta YKI on Tampereen yliopiston ympäristö- ja energiatekniikan opiskelijoiden kilta. Se järjestää tapahtumia ja valvoo jäsentensä etuja.",
+      "source": "https://ymparistoteekkarikilta.fi/"
+    },
+    {
+      "name": "Ynnä",
+      "slug": "ynna",
+      "schools": ["Jyväskylän yliopisto"],
+      "fields": ["fysiikka", "matematiikka", "tilastotiede"],
+      "areas": ["Jyväskylä"],
+      "website": "https://ynna.fi",
+      "description": "Ynnä ry on Jyväskylän yliopiston fysiikan, matematiikan, tilastotieteen ja tietojenkäsittelytieteen opiskelijoiden ainejärjestö vuodesta 1966. Se toimii opiskelijoiden yhdyssiteenä, valvoo opintoetuja ja järjestää tapahtumia.",
+      "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "Ääni",
+      "slug": "aani",
+      "schools": ["Tampereen yliopisto"],
+      "fields": ["logopedia"],
+      "areas": ["Tampere"],
+      "website": "https://aaniry.wordpress.com",
+      "description": "Ääni ry on Tampereen yliopiston logopedian opiskelijoiden ainejärjestö. Se tukee ja yhdistää logopedian opiskelijoita opintojen aikana sekä järjestää tapahtumia.",
+      "source": "https://aaniry.wordpress.com/uudelle-opiskelijalle/"
+    },
+    {
+      "name": "Åbo kåravdelning ÅKA",
+      "slug": "abo-karavdelning-aka",
+      "schools": ["Novia"],
+      "fields": [],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    },
+    {
+      "name": "Östsvea",
+      "slug": "ostsvea",
+      "schools": ["Åbo Akademi"],
+      "fields": ["ruotsin kieli"],
+      "areas": ["Turku"],
+      "website": null,
+      "description": null,
+      "source": null
+    }
+  ]
+}

@@ -19,7 +19,10 @@ import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 import type { Locale } from '@/lib/slug-translations';
 import { getFinnishName } from '@/lib/get-finnish-name';
 import { splitCsv } from '@/lib/popular-destinations';
-import { Buildings, CaretRight, GraduationCap, MapPin } from '@phosphor-icons/react/dist/ssr';
+import { Buildings, CaretRight, GraduationCap, MapPin } from '@phosphor-icons/react/ssr';
+import SuggestChangeCard from '@/components/suggest-change-card';
+import { EnrichmentProse, EnrichmentWebsiteLink } from '@/components/enrichment-info';
+import { getEnrichedOrganization } from '@/lib/load-enrichment';
 
 export const revalidate = 86400;
 
@@ -55,6 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const t = await getTranslations({ locale });
   const overallPageUrl = absoluteUrl(locale, routeHref('overall', overall.slug));
+  const enrichment = getEnrichedOrganization(overall.slug);
 
   const keywords = [
     `${overall.vari} haalari`,
@@ -77,17 +81,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     keywords.push(`${overall.ainejarjesto} haalari`);
   }
 
+  const fallbackDescription = `${overall.vari} haalari ${overall.oppilaitos} ${
+    overall.ala ? `- ${overall.ala}` : ''
+  } ${overall.ainejarjesto ? `(${overall.ainejarjesto})` : ''}`.trim();
+  const metaDescription = enrichment?.description ?? fallbackDescription;
+
   return {
     title: `${overall.vari} - ${overall.oppilaitos} | Haalarikone`,
-    description: `${overall.vari} haalari ${overall.oppilaitos} ${
-      overall.ala ? `- ${overall.ala}` : ''
-    } ${overall.ainejarjesto ? `(${overall.ainejarjesto})` : ''}`,
+    description: metaDescription,
     keywords,
     openGraph: {
       title: `${overall.vari} - ${overall.oppilaitos}`,
-      description: `${overall.vari} haalari ${overall.oppilaitos} ${
-        overall.ala ? `- ${overall.ala}` : ''
-      }`,
+      description: metaDescription,
       images: [
         {
           url: '/haalarikone-og.png',
@@ -104,7 +109,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title: `${overall.vari} - ${overall.oppilaitos} | Haalarikone`,
-      description: `${overall.vari} haalari ${overall.oppilaitos}`,
+      description: metaDescription,
       images: ['/haalarikone-og.png'],
     },
     alternates: {
@@ -148,6 +153,7 @@ export default async function OverallPage({ params }: Props) {
   const logoName = getLogoName(overall.oppilaitos, locale);
   const areas = splitCsv(overall.alue);
   const fields = splitCsv(overall.ala);
+  const enrichment = getEnrichedOrganization(overall.slug);
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -247,23 +253,38 @@ export default async function OverallPage({ params }: Props) {
                 )}
               </div>
             </div>
-            <Link
-              href={routeHref(
-                'colors',
-                getSlugForEntity(overall.variBase?.[0] ?? overall.vari, locale, 'color'),
-              )}
-              className="inline-flex w-fit items-center gap-2.5 rounded-lg border border-border bg-muted/40 px-3.5 py-2.5 transition hover:border-green/40 hover:bg-green/5 sm:ml-auto"
-            >
-              <span
-                className="h-6 w-6 rounded-md ring-1 ring-black/15"
-                style={parseStyles(overall.hex)}
-              />
-              <span className="text-sm font-semibold text-foreground">{overall.vari}</span>
-            </Link>
+            <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
+              <Link
+                href={routeHref(
+                  'colors',
+                  getSlugForEntity(overall.variBase?.[0] ?? overall.vari, locale, 'color'),
+                )}
+                className="inline-flex w-fit items-center gap-2.5 rounded-lg border border-border bg-muted/40 px-3.5 py-2.5 transition hover:border-green/40 hover:bg-green/5"
+              >
+                <span
+                  className="h-6 w-6 rounded-md ring-1 ring-black/15"
+                  style={parseStyles(overall.hex)}
+                />
+                <span className="text-sm font-semibold text-foreground">{overall.vari}</span>
+              </Link>
+              {enrichment?.website ? (
+                <EnrichmentWebsiteLink
+                  href={enrichment.website}
+                  label={t('overall.visitWebsite')}
+                />
+              ) : null}
+            </div>
           </div>
 
+          {enrichment?.description ? (
+            <div className="border-b border-border px-5 py-5 sm:px-6">
+              <h2 className="mb-3 text-sm font-medium text-foreground/55">{t('overall.about')}</h2>
+              <EnrichmentProse text={enrichment.description} />
+            </div>
+          ) : null}
+
           <dl className="divide-y divide-border">
-            <div className="grid gap-1 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:gap-4 sm:px-6">
+            <div className="grid gap-1 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:items-center sm:gap-4 sm:px-6">
               <dt className="flex items-center gap-2 text-sm font-medium text-foreground/55">
                 <Buildings className="h-4 w-4 text-green" weight="regular" />
                 {t('overall.institution')}
@@ -282,7 +303,7 @@ export default async function OverallPage({ params }: Props) {
             </div>
 
             {areas.length > 0 && (
-              <div className="grid gap-2 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:gap-4 sm:px-6">
+              <div className="grid gap-2 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:items-center sm:gap-4 sm:px-6">
                 <dt className="flex items-center gap-2 text-sm font-medium text-foreground/55">
                   <MapPin className="h-4 w-4 text-green" weight="regular" />
                   {t('overall.area')}
@@ -302,7 +323,7 @@ export default async function OverallPage({ params }: Props) {
             )}
 
             {fields.length > 0 && (
-              <div className="grid gap-2 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:gap-4 sm:px-6">
+              <div className="grid gap-2 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:items-center sm:gap-4 sm:px-6">
                 <dt className="flex items-center gap-2 text-sm font-medium text-foreground/55">
                   <GraduationCap className="h-4 w-4 text-green" weight="regular" />
                   {t('overall.field')}
@@ -370,6 +391,21 @@ export default async function OverallPage({ params }: Props) {
             </div>
           </div>
         )}
+
+        <SuggestChangeCard
+          title={t('overall.errorTitle')}
+          description={t('overall.errorDescription')}
+          buttonLabel={t('overall.errorButton')}
+          modalTitle={t('overall.errorModalTitle')}
+          modalDescription={t('overall.errorModalDescription')}
+          submitLabel={t('overall.errorSubmit')}
+          messageLabel={t('overall.errorLabel')}
+          messagePlaceholder={t('overall.errorPlaceholder')}
+          sourceId={overall.id.toString()}
+          sourceName={[overall.ainejarjesto, overall.vari, overall.oppilaitos]
+            .filter(Boolean)
+            .join(' · ')}
+        />
       </Page>
     </>
   );

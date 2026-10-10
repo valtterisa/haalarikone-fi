@@ -85,6 +85,7 @@ Feature requests are welcome! Use the [Feature Request template](.github/ISSUE_T
 - pnpm (package manager)
 - Git
 - Anthropic API key (optional — only used for zero-result AI fallback)
+- (Optional) Discord webhook URL for feedback delivery
 
 ### 1. Clone your fork
 
@@ -106,11 +107,15 @@ Create a `.env.local` file in the root directory with at least the following var
 ```env
 # Anthropic (optional - AI fallback when deterministic search returns no results)
 ANTHROPIC_API_KEY=your_anthropic_api_key
+
+# Discord webhook (recommended - general feedback + correction reports)
+DISCORD_FEEDBACK_WEBHOOK_URL=https://discord.com/api/webhooks/...
 ```
 
 Notes:
 
 - Optional: `ANTHROPIC_API_KEY` (AI fallback on zero-result searches)
+- Optional: `DISCORD_FEEDBACK_WEBHOOK_URL` (posts feedback embeds to a Discord channel; if unset, feedback is skipped silently)
 - The app uses `localePrefix: 'as-needed'` – Finnish (default) has no prefix, other locales use `/en` or `/sv`
 
 ### 4. Start the development server
