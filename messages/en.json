@@ -368,7 +368,11 @@
     "pageTitle": "Institutions | Universities and UAS in Finland | Overall Machine",
     "pageDescription": "All universities and universities of applied sciences in Finland. Select an institution to see its overall colors and student organization information.",
     "relatedTopics": "Related topics",
-    "overallCount": "different overalls"
+    "overallCount": "different overalls",
+    "website": "Website",
+    "visitWebsite": "Visit website",
+    "studentUnion": "Student union",
+    "about": "About the institution"
   },
   "areas": {
     "title": "Areas",
@@ -389,6 +393,9 @@
     "area": "Area",
     "color": "Color",
     "otherOveralls": "Other overalls",
+    "website": "Website",
+    "visitWebsite": "Visit website",
+    "about": "About the organization",
     "errorTitle": "Did you notice an error?",
     "errorDescription": "Tell us what information is incorrect, and we'll update it as soon as possible.",
     "errorButton": "Report error",

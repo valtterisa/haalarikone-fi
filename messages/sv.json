@@ -368,7 +368,11 @@
     "pageTitle": "Institutioner | Universitet och yrkeshögskolor i Finland | Overallmaskinen",
     "pageDescription": "Alla universitet och yrkeshögskolor i Finland. Välj en institution för att se dess overallfärger och studentorganisationsinformation.",
     "relatedTopics": "Relaterade ämnen",
-    "overallCount": "olika overallar"
+    "overallCount": "olika overallar",
+    "website": "Webbplats",
+    "visitWebsite": "Besök webbplatsen",
+    "studentUnion": "Studentkår",
+    "about": "Om institutionen"
   },
   "areas": {
     "title": "Områden",
@@ -389,6 +393,9 @@
     "area": "Område",
     "color": "Färg",
     "otherOveralls": "Andra overallar",
+    "website": "Webbplats",
+    "visitWebsite": "Besök webbplatsen",
+    "about": "Om organisationen",
     "errorTitle": "Märkte du ett fel?",
     "errorDescription": "Berätta vilken information som är felaktig, så uppdaterar vi den så snart som möjligt.",
     "errorButton": "Rapportera fel",

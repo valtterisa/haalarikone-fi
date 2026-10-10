@@ -368,7 +368,11 @@
     "pageTitle": "Oppilaitokset | Yliopistot ja AMK:t Suomessa | Haalarikone",
     "pageDescription": "Kaikki Suomen yliopistot ja ammattikorkeakoulut. Valitse oppilaitos nähdäksesi sen haalarivärit ja ainejärjestötiedot.",
     "relatedTopics": "Liittyvät aiheet",
-    "overallCount": "eri haalaria"
+    "overallCount": "eri haalaria",
+    "website": "Verkkosivut",
+    "visitWebsite": "Siirry sivulle",
+    "studentUnion": "Ylioppilaskunta",
+    "about": "Tietoa oppilaitoksesta"
   },
   "areas": {
     "title": "Alueet",
@@ -389,6 +393,9 @@
     "area": "Alue",
     "color": "Väri",
     "otherOveralls": "Muut haalarit",
+    "website": "Verkkosivut",
+    "visitWebsite": "Siirry sivulle",
+    "about": "Tietoa ainejärjestöstä",
     "errorTitle": "Huomasitko virheen?",
     "errorDescription": "Kerro, mikä tieto on pielessä, niin päivitämme sen mahdollisimman nopeasti.",
     "errorButton": "Ilmoita virheestä",

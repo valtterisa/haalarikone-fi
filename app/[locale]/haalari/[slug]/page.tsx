@@ -19,8 +19,15 @@ import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 import type { Locale } from '@/lib/slug-translations';
 import { getFinnishName } from '@/lib/get-finnish-name';
 import { splitCsv } from '@/lib/popular-destinations';
-import { Buildings, CaretRight, GraduationCap, MapPin } from '@phosphor-icons/react/dist/ssr';
+import {
+  Buildings,
+  CaretRight,
+  Globe,
+  GraduationCap,
+  MapPin,
+} from '@phosphor-icons/react/dist/ssr';
 import SuggestChangeCard from '@/components/suggest-change-card';
+import { getEnrichedOrganization } from '@/lib/load-enrichment';
 
 export const revalidate = 86400;
 
@@ -56,6 +63,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const t = await getTranslations({ locale });
   const overallPageUrl = absoluteUrl(locale, routeHref('overall', overall.slug));
+  const enrichment = getEnrichedOrganization(overall.slug);
 
   const keywords = [
     `${overall.vari} haalari`,
@@ -78,17 +86,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     keywords.push(`${overall.ainejarjesto} haalari`);
   }
 
+  const fallbackDescription = `${overall.vari} haalari ${overall.oppilaitos} ${
+    overall.ala ? `- ${overall.ala}` : ''
+  } ${overall.ainejarjesto ? `(${overall.ainejarjesto})` : ''}`.trim();
+  const metaDescription = enrichment?.description ?? fallbackDescription;
+
   return {
     title: `${overall.vari} - ${overall.oppilaitos} | Haalarikone`,
-    description: `${overall.vari} haalari ${overall.oppilaitos} ${
-      overall.ala ? `- ${overall.ala}` : ''
-    } ${overall.ainejarjesto ? `(${overall.ainejarjesto})` : ''}`,
+    description: metaDescription,
     keywords,
     openGraph: {
       title: `${overall.vari} - ${overall.oppilaitos}`,
-      description: `${overall.vari} haalari ${overall.oppilaitos} ${
-        overall.ala ? `- ${overall.ala}` : ''
-      }`,
+      description: metaDescription,
       images: [
         {
           url: '/haalarikone-og.png',
@@ -105,7 +114,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title: `${overall.vari} - ${overall.oppilaitos} | Haalarikone`,
-      description: `${overall.vari} haalari ${overall.oppilaitos}`,
+      description: metaDescription,
       images: ['/haalarikone-og.png'],
     },
     alternates: {
@@ -149,6 +158,7 @@ export default async function OverallPage({ params }: Props) {
   const logoName = getLogoName(overall.oppilaitos, locale);
   const areas = splitCsv(overall.alue);
   const fields = splitCsv(overall.ala);
+  const enrichment = getEnrichedOrganization(overall.slug);
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -264,7 +274,7 @@ export default async function OverallPage({ params }: Props) {
           </div>
 
           <dl className="divide-y divide-border">
-            <div className="grid gap-1 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:gap-4 sm:px-6">
+            <div className="grid gap-1 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:items-center sm:gap-4 sm:px-6">
               <dt className="flex items-center gap-2 text-sm font-medium text-foreground/55">
                 <Buildings className="h-4 w-4 text-green" weight="regular" />
                 {t('overall.institution')}
@@ -283,7 +293,7 @@ export default async function OverallPage({ params }: Props) {
             </div>
 
             {areas.length > 0 && (
-              <div className="grid gap-2 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:gap-4 sm:px-6">
+              <div className="grid gap-2 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:items-center sm:gap-4 sm:px-6">
                 <dt className="flex items-center gap-2 text-sm font-medium text-foreground/55">
                   <MapPin className="h-4 w-4 text-green" weight="regular" />
                   {t('overall.area')}
@@ -303,7 +313,7 @@ export default async function OverallPage({ params }: Props) {
             )}
 
             {fields.length > 0 && (
-              <div className="grid gap-2 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:gap-4 sm:px-6">
+              <div className="grid gap-2 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:items-center sm:gap-4 sm:px-6">
                 <dt className="flex items-center gap-2 text-sm font-medium text-foreground/55">
                   <GraduationCap className="h-4 w-4 text-green" weight="regular" />
                   {t('overall.field')}
@@ -321,7 +331,41 @@ export default async function OverallPage({ params }: Props) {
                 </dd>
               </div>
             )}
+
+            {enrichment?.website ? (
+              <div className="grid gap-1 px-5 py-4 sm:grid-cols-[7.5rem_1fr] sm:items-center sm:gap-4 sm:px-6">
+                <dt className="flex items-center gap-2 text-sm font-medium text-foreground/55">
+                  <Globe className="h-4 w-4 text-green" weight="regular" />
+                  {t('overall.website')}
+                </dt>
+                <dd>
+                  <a
+                    href={enrichment.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-semibold text-foreground underline-offset-4 transition hover:text-green hover:underline"
+                  >
+                    {(() => {
+                      try {
+                        return new URL(enrichment.website).hostname.replace(/^www\./, '');
+                      } catch {
+                        return enrichment.website;
+                      }
+                    })()}
+                  </a>
+                </dd>
+              </div>
+            ) : null}
           </dl>
+
+          {enrichment?.description ? (
+            <div className="border-t border-border px-5 py-5 sm:px-6">
+              <h2 className="text-sm font-medium text-foreground/55">{t('overall.about')}</h2>
+              <p className="mt-2 max-w-[65ch] text-sm leading-relaxed text-foreground/80 sm:text-[15px]">
+                {enrichment.description}
+              </p>
+            </div>
+          ) : null}
         </div>
 
         {relatedOveralls.length > 0 && (
