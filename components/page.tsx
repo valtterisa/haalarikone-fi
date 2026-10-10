@@ -3,7 +3,7 @@ import type { HTMLAttributes } from 'react';
 
 export const PAGE_WIDTH = 'mx-auto w-full max-w-4xl px-4';
 
-export function PageRoot({ className, children, ...props }: HTMLAttributes<HTMLDivElement>) {
+function PageRoot({ className, children, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div className={cn('w-full py-8 sm:py-16', className)} {...props}>
       {children}
@@ -11,7 +11,7 @@ export function PageRoot({ className, children, ...props }: HTMLAttributes<HTMLD
   );
 }
 
-export function PageMissing({ className, children, ...props }: HTMLAttributes<HTMLDivElement>) {
+function PageMissing({ className, children, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <PageRoot className={cn('py-16 text-center', className)} {...props}>
       {children}
@@ -22,5 +22,3 @@ export function PageMissing({ className, children, ...props }: HTMLAttributes<HT
 export const Page = Object.assign(PageRoot, {
   Missing: PageMissing,
 });
-
-export default Page;

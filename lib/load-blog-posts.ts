@@ -5,7 +5,7 @@ type LocaleString = string | { fi: string; en?: string; sv?: string };
 type BlogSlugLocales = BlogPost['slug'];
 type BlogLocale = keyof BlogSlugLocales;
 
-export function getLocaleString(value: LocaleString, locale: string): string {
+function getLocaleString(value: LocaleString, locale: string): string {
   if (typeof value === 'string') {
     return value;
   }
@@ -20,10 +20,8 @@ function slugForLocale(slugs: BlogSlugLocales, locale: string): string {
   return isBlogLocale(locale) ? slugs[locale] : slugs.fi;
 }
 
-export function findRawBlogPost(slug: string): BlogPost | null {
-  return (
-    RAW_BLOG_POSTS.find((post) => Object.values(post.slug).includes(slug)) ?? null
-  );
+function findRawBlogPost(slug: string): BlogPost | null {
+  return RAW_BLOG_POSTS.find((post) => Object.values(post.slug).includes(slug)) ?? null;
 }
 
 export function resolveBlogSlug(slug: string, toLocale: string): string {

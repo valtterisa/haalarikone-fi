@@ -43,13 +43,7 @@ type CategoryLink = {
   matchRoot: string;
 };
 
-export function HeaderCategoryLink({
-  link,
-  onNavigate,
-}: {
-  link: CategoryLink;
-  onNavigate?: () => void;
-}) {
+function HeaderCategoryLink({ link, onNavigate }: { link: CategoryLink; onNavigate?: () => void }) {
   const Icon = link.icon;
 
   return (
@@ -72,7 +66,7 @@ export function HeaderCategoryLink({
   );
 }
 
-export function HeaderCategories({
+function HeaderCategories({
   links,
   onNavigate,
 }: {
@@ -92,7 +86,7 @@ export function HeaderCategories({
   );
 }
 
-export function HeaderDesktopNav({
+function HeaderDesktopNav({
   links,
   blogHref,
   blogLabel,
@@ -118,9 +112,7 @@ export function HeaderDesktopNav({
             className={cn(
               'relative rounded-lg px-2.5 py-2 transition-colors duration-200 ease-smooth',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green',
-              active
-                ? 'text-foreground'
-                : 'text-muted-foreground hover:text-foreground',
+              active ? 'text-foreground' : 'text-muted-foreground hover:text-foreground',
             )}
           >
             {link.shortLabel}
@@ -157,7 +149,7 @@ export function HeaderDesktopNav({
   );
 }
 
-export function HeaderNavLinks({
+function HeaderNavLinks({
   links,
   onNavigate,
 }: {
@@ -180,16 +172,14 @@ export function HeaderNavLinks({
             weight="regular"
             aria-hidden="true"
           />
-          <span className="text-3xl font-semibold tracking-tight leading-[1.1]">
-            {link.label}
-          </span>
+          <span className="text-3xl font-semibold tracking-tight leading-[1.1]">{link.label}</span>
         </Link>
       ))}
     </nav>
   );
 }
 
-export function HeaderRoot() {
+function HeaderRoot() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const reduceMotion = useReducedMotion();
   const t = useTranslations();
@@ -328,7 +318,7 @@ export function HeaderRoot() {
   );
 }
 
-export function HeaderMobileMenu({
+function HeaderMobileMenu({
   children,
   reduceMotion = false,
 }: {
@@ -356,7 +346,7 @@ export function HeaderMobileMenu({
   );
 }
 
-export const Header = Object.assign(HeaderRoot, {
+const Header = Object.assign(HeaderRoot, {
   Categories: HeaderCategories,
   CategoryLink: HeaderCategoryLink,
   DesktopNav: HeaderDesktopNav,

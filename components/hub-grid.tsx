@@ -2,7 +2,7 @@ import { HubLink, type HubLinkProps } from '@/components/hub-link';
 import { cn } from '@/lib/utils';
 import type { ReactNode } from 'react';
 
-export function HubGridRoot({ children }: { children: ReactNode }) {
+function HubGridRoot({ children }: { children: ReactNode }) {
   return <div className="flex flex-col divide-y divide-border">{children}</div>;
 }
 

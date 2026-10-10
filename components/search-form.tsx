@@ -105,11 +105,7 @@ function SearchFilterPanel({
         className={variant === 'mobile' ? 'shrink-0 border-border' : undefined}
         tabClassName={variant === 'mobile' ? 'px-3 py-3' : undefined}
       />
-      <div
-        className={
-          variant === 'mobile' ? 'min-h-0 flex-1 overflow-y-auto p-4' : 'pt-4'
-        }
-      >
+      <div className={variant === 'mobile' ? 'min-h-0 flex-1 overflow-y-auto p-4' : 'pt-4'}>
         {activeTab === 'color' ? (
           variant === 'mobile' ? (
             <div className="grid grid-cols-4 gap-3">
@@ -188,7 +184,7 @@ function SearchFilterPanel({
   );
 }
 
-export function SearchFormRoot({
+function SearchFormRoot({
   onTextSearchChange,
   onTextSearchBlur,
   onDraftAdvancedFilterChange,
@@ -345,9 +341,9 @@ export function SearchFormRoot({
 
   const hasActiveFilters = Boolean(
     selectedCriteria.color ||
-      selectedCriteria.area ||
-      selectedCriteria.field ||
-      selectedCriteria.school,
+    selectedCriteria.area ||
+    selectedCriteria.field ||
+    selectedCriteria.school,
   );
 
   const hasDraftChanges =
@@ -577,7 +573,7 @@ export function SearchFormRoot({
   );
 }
 
-export function SearchFormTextField({
+function SearchFormTextField({
   inputRef,
   value,
   onChange,
@@ -626,7 +622,10 @@ export function SearchFormTextField({
           </kbd>
         ) : null}
         {isSearching ? (
-          <div className="absolute right-3 top-1/2 z-10 -translate-y-1/2 sm:right-6" aria-hidden="true">
+          <div
+            className="absolute right-3 top-1/2 z-10 -translate-y-1/2 sm:right-6"
+            aria-hidden="true"
+          >
             <div className="h-4 w-4 rounded-full border-2 border-green border-t-transparent motion-safe:animate-spin sm:h-6 sm:w-6" />
           </div>
         ) : null}
@@ -645,7 +644,7 @@ export function SearchFormTextField({
   );
 }
 
-export const SearchForm = Object.assign(SearchFormRoot, {
+const SearchForm = Object.assign(SearchFormRoot, {
   TextField: SearchFormTextField,
 });
 

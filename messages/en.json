@@ -89,17 +89,13 @@
           "title": "1. What this notice covers",
           "paragraphs": [
             "Haalarikone is a free directory of student overall colours at Finnish universities and universities of applied sciences. There are no user accounts, and the directory is not a register of individual students.",
-            "Personal data is created only if you send feedback, and in a technical sense when the site is used (analytics, search, and hosting). Institution, student organisation, and colour data is public directory information."
+            "Personal data arises in a technical sense when the site is used (analytics, search, and hosting). Institution, student organisation, and colour data is public directory information. If you contact us by email, we process your message to reply."
           ]
         },
         {
           "title": "2. Data we process",
           "paragraphs": ["We only process what is needed to run the service:"],
           "items": [
-            {
-              "name": "Feedback",
-              "detail": "The message (required), an optional email address, and technical context needed to reply (page URL, subject name/id, and referring page if present)."
-            },
             {
               "name": "Analytics",
               "detail": "Databuddy collects cookieless aggregated usage data: page views, referring domain, browser/device type, country/region, interactions, and technical errors. IP addresses are anonymised and individual visitors are not identified. Databuddy policy: https://www.databuddy.cc/privacy"
@@ -121,7 +117,7 @@
         {
           "title": "3. Purpose and legal basis",
           "paragraphs": [
-            "Feedback: we process the message to reply and to improve the directory. The legal basis is GDPR 6(1)(b) (steps at your request) and, for an optional email, 6(1)(a) (consent, which you can withdraw)."
+            "We process data only to provide, secure, and improve the service. The legal bases below apply to each purpose."
           ],
           "items": [
             {
@@ -135,13 +131,17 @@
             {
               "name": "Hosting and security",
               "detail": "Legitimate interest (6(1)(f)): keep the service available and protect it from abuse."
+            },
+            {
+              "name": "Email contact",
+              "detail": "Legitimate interest (6(1)(f)): process your email message and contact details so we can reply."
             }
           ]
         },
         {
           "title": "4. Sources",
           "paragraphs": [
-            "Feedback and search data come from you. Analytics and hosting data are generated when you use the site. Directory content is compiled from public sources and user reports."
+            "Search data comes from you when you use search. Analytics and hosting data are generated when you use the site. Directory content is compiled from public sources and user reports."
           ]
         },
         {
@@ -153,10 +153,6 @@
             {
               "name": "Cloudflare, Inc.",
               "detail": "Hosting, CDN, and edge compute. Privacy: https://www.cloudflare.com/privacypolicy/"
-            },
-            {
-              "name": "Resend",
-              "detail": "Delivery of feedback email to the controller. Privacy: https://resend.com/legal/privacy-policy"
             },
             {
               "name": "Databuddy",
@@ -175,15 +171,14 @@
         {
           "title": "6. Transfers outside the EU/EEA",
           "paragraphs": [
-            "Cloudflare, Resend, and Anthropic may process data outside the EEA, including in the United States. Transfers rely on the processors' safeguards, such as the European Commission's standard contractual clauses. Databuddy processes visitor data in anonymised form.",
-            "Only the search query that local search could not interpret is sent to the AI provider. Feedback messages and email addresses are not sent to Anthropic."
+            "Cloudflare and Anthropic may process data outside the EEA, including in the United States. Transfers rely on the processors' safeguards, such as the European Commission's standard contractual clauses. Databuddy processes visitor data in anonymised form.",
+            "Only the search query that local search could not interpret is sent to the AI provider."
           ]
         },
         {
           "title": "7. Retention",
           "paragraphs": [
-            "Feedback is kept for as long as handling it requires, and is usually deleted within 12 months unless the conversation continues or law requires longer retention.",
-            "Analytics is retained in aggregated form under Databuddy's policy. Anonymous search logs are kept for as long as they are needed to improve search and the directory, and they are reviewed without identifying users. Theme preference stays on your device until you clear site data."
+            "Analytics is retained in aggregated form under Databuddy's policy. Anonymous search logs are kept for as long as they are needed to improve search and the directory, and they are reviewed without identifying users. Theme preference stays on your device until you clear site data. Email contacts are kept for as long as handling them requires."
           ]
         },
         {
@@ -196,14 +191,14 @@
         {
           "title": "9. Security",
           "paragraphs": [
-            "Connections are protected with TLS. Access to feedback and search logs is limited to the controller. The feedback form includes a honeypot field to reduce spam. We do not collect payment or login data because there are no accounts."
+            "Connections are protected with TLS. Access to search logs is limited to the controller. We do not collect payment or login data because there are no accounts."
           ]
         },
         {
           "title": "10. Your rights",
           "paragraphs": [
-            "Under the GDPR you may request access, rectification, erasure, restriction, data portability, and object to processing based on legitimate interest. You can withdraw consent for an optional email at any time.",
-            "Because analytics and search logs do not include user identifiers, we cannot identify one visitor from them. For feedback we can act on a request if the message or email is enough to find it.",
+            "Under the GDPR you may request access, rectification, erasure, restriction, data portability, and object to processing based on legitimate interest.",
+            "Because analytics and search logs do not include user identifiers, we cannot identify one visitor from them. For email contacts we can act on a request if the message or address is enough to find it.",
             "Send requests to savonen.emppu@gmail.com. We will reply without undue delay, and within one month at the latest."
           ]
         },
@@ -244,7 +239,7 @@
           "paragraphs": [
             "Directory data comes from public sources and user reports. Overall colours, student organisations, and institution structures change. Information may be incomplete, outdated, or wrong.",
             "Haalarikone is not an official register and does not represent institutions, student unions, or subject organisations. Do not treat it as the only source if a wrong colour or organisation could cause harm.",
-            "Report errors with the feedback form. We correct the dataset as we can, but we do not guarantee that every report leads to a change or that a change happens on a set timetable."
+            "Report errors to savonen.emppu@gmail.com. We correct the dataset as we can, but we do not guarantee that every report leads to a change or that a change happens on a set timetable."
           ]
         },
         {
@@ -255,10 +250,10 @@
           ]
         },
         {
-          "title": "4. Feedback",
+          "title": "4. Contact",
           "paragraphs": [
-            "You can send corrections, ideas, and bug reports through the feedback form. Optional email is used only to reply.",
-            "By sending feedback you grant the operator the right to use its substance to correct the directory and improve the service. Do not send confidential, unlawful, or infringing material."
+            "You can send corrections, ideas, and bug reports to savonen.emppu@gmail.com.",
+            "By sending a message you grant the operator the right to use its substance to correct the directory and improve the service. Do not send confidential, unlawful, or infringing material."
           ]
         },
         {
@@ -271,7 +266,7 @@
           "title": "6. Liability",
           "paragraphs": [
             "The service is a free hobby project. To the extent mandatory law, including Finnish consumer protection law, does not require otherwise, it is provided without warranty of availability, accuracy, or fitness for a particular purpose.",
-            "The operator is not liable for damage arising from use of the data, service interruption, or third-party services (hosting, analytics, email, AI), except where the damage is caused by intent or gross negligence."
+            "The operator is not liable for damage arising from use of the data, service interruption, or third-party services (hosting, analytics, AI), except where the damage is caused by intent or gross negligence."
           ]
         },
         {

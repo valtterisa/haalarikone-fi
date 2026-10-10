@@ -85,7 +85,6 @@ Feature requests are welcome! Use the [Feature Request template](.github/ISSUE_T
 - pnpm (package manager)
 - Git
 - Anthropic API key (optional — only used for zero-result AI fallback)
-- (Optional) Resend account for feedback emails
 
 ### 1. Clone your fork
 
@@ -107,16 +106,11 @@ Create a `.env.local` file in the root directory with at least the following var
 ```env
 # Anthropic (optional - AI fallback when deterministic search returns no results)
 ANTHROPIC_API_KEY=your_anthropic_api_key
-
-# Resend (optional - feedback form)
-RESEND_API_KEY=your_resend_api_key
-FEEDBACK_EMAIL_TO=your_email@example.com
 ```
 
 Notes:
 
 - Optional: `ANTHROPIC_API_KEY` (AI fallback on zero-result searches)
-- Optional: `RESEND_API_KEY`, `FEEDBACK_EMAIL_TO` (feedback form fails silently if missing)
 - The app uses `localePrefix: 'as-needed'` – Finnish (default) has no prefix, other locales use `/en` or `/sv`
 
 ### 4. Start the development server

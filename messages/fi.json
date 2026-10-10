@@ -89,17 +89,13 @@
           "title": "1. Mitä tämä seloste koskee",
           "paragraphs": [
             "Haalarikone on ilmainen hakemisto suomalaisten yliopistojen ja ammattikorkeakoulujen opiskelijahaalarien väreistä. Palveluun ei luoda käyttäjätilejä, eikä hakemiston sisältö ole henkilörekisteri yksittäisistä opiskelijoista.",
-            "Henkilötietoja syntyy vain, jos lähetät palautetta, ja teknisessä mielessä kun sivustoa käytetään (analytiikka, haku ja hosting). Oppilaitosten, ainejärjestöjen ja haalarivärien tiedot ovat julkista hakemistotietoa."
+            "Henkilötietoja syntyy teknisessä mielessä, kun sivustoa käytetään (analytiikka, haku ja hosting). Oppilaitosten, ainejärjestöjen ja haalarivärien tiedot ovat julkista hakemistotietoa. Jos otat yhteyttä sähköpostitse, käsittelemme viestisi vastataksemme siihen."
           ]
         },
         {
           "title": "2. Käsiteltävät tiedot",
           "paragraphs": ["Käsittelemme vain sen, mitä palvelun pyörittäminen edellyttää:"],
           "items": [
-            {
-              "name": "Palaute",
-              "detail": "Palautelomakkeen viesti (pakollinen), vapaaehtoinen sähköpostiosoite, sekä tekniset tiedot vastauksen kannalta (sivun osoite, kohteen nimi/tunniste ja mahdollinen viittaava sivu)."
-            },
             {
               "name": "Analytiikka",
               "detail": "Databuddy kerää evästeettömästi aggregoitua käyttötietoa: sivunäkymät, viittaava domain, selain/laite-tyyppi, maa/alue, vuorovaikutukset ja tekniset virheet. IP-osoite anonymisoidaan eikä yksittäistä kävijää tunnisteta. Databuddyn seloste: https://www.databuddy.cc/privacy"
@@ -121,7 +117,7 @@
         {
           "title": "3. Tarkoitus ja oikeusperuste",
           "paragraphs": [
-            "Palaute: käsittelemme viestin vastataksemme siihen ja parantaaksemme hakemistoa. Oikeusperuste on GDPR 6(1)(b) (toimenpiteet pyynnöstäsi) ja vapaaehtoisen sähköpostin osalta 6(1)(a) (suostumus, jonka voit perua)."
+            "Käsittelemme tietoja vain palvelun tarjoamiseen, tietoturvaan ja kehittämiseen. Alla olevat oikeusperusteet koskevat kutakin käyttötarkoitusta."
           ],
           "items": [
             {
@@ -135,13 +131,17 @@
             {
               "name": "Hosting ja tietoturva",
               "detail": "Oikeutettu etu (6(1)(f)): pitää palvelu saatavilla ja suojata sitä väärinkäytöltä."
+            },
+            {
+              "name": "Sähköpostiyhteydenotot",
+              "detail": "Oikeutettu etu (6(1)(f)): käsitellä sähköpostiviestisi ja yhteystietosi, jotta voimme vastata."
             }
           ]
         },
         {
           "title": "4. Tietolähteet",
           "paragraphs": [
-            "Palaute- ja hakutiedot tulevat sinulta. Analytiikka- ja hosting-tiedot syntyvät, kun käytät sivustoa. Hakemiston sisältö on koottu julkisista lähteistä ja käyttäjien ilmoituksista."
+            "Hakutiedot tulevat sinulta, kun käytät hakua. Analytiikka- ja hosting-tiedot syntyvät, kun käytät sivustoa. Hakemiston sisältö on koottu julkisista lähteistä ja käyttäjien ilmoituksista."
           ]
         },
         {
@@ -153,10 +153,6 @@
             {
               "name": "Cloudflare, Inc.",
               "detail": "Hosting, CDN ja reunalaskenta. Tietosuoja: https://www.cloudflare.com/privacypolicy/"
-            },
-            {
-              "name": "Resend",
-              "detail": "Palautesähköpostin toimitus rekisterinpitäjälle. Tietosuoja: https://resend.com/legal/privacy-policy"
             },
             {
               "name": "Databuddy",
@@ -175,15 +171,14 @@
         {
           "title": "6. Siirrot EU- ja ETA-alueen ulkopuolelle",
           "paragraphs": [
-            "Cloudflare, Resend ja Anthropic voivat käsitellä tietoja myös ETA-alueen ulkopuolella, erityisesti Yhdysvalloissa. Siirrot perustuvat käsittelijöiden tietosuojajärjestelyihin, kuten Euroopan komission vakiosopimuslausekkeisiin. Databuddy käsittelee kävijätiedot anonymisoituina.",
-            "Tekoälyyn lähtee vain se hakulause, jota paikallinen haku ei pystynyt tulkitsemaan. Palautteen sähköposti ja viesti eivät mene Anthropicille."
+            "Cloudflare ja Anthropic voivat käsitellä tietoja myös ETA-alueen ulkopuolella, erityisesti Yhdysvalloissa. Siirrot perustuvat käsittelijöiden tietosuojajärjestelyihin, kuten Euroopan komission vakiosopimuslausekkeisiin. Databuddy käsittelee kävijätiedot anonymisoituina.",
+            "Tekoälyyn lähtee vain se hakulause, jota paikallinen haku ei pystynyt tulkitsemaan."
           ]
         },
         {
           "title": "7. Säilytysajat",
           "paragraphs": [
-            "Palaute säilytetään niin kauan kuin sen käsittely vaatii, ja poistetaan yleensä 12 kuukauden kuluessa, ellei keskustelu jatku tai laki edellytä pidempää säilytystä.",
-            "Analytiikka säilyy aggregoituna Databuddyn käytännön mukaan. Anonyymit hakulokit säilytetään niin kauan kuin niitä tarvitaan haun ja hakemiston parantamiseen, ja niitä tarkastellaan ilman käyttäjän tunnistamista. Teemavalinta säilyy laitteellasi, kunnes tyhjennät sivuston tiedot."
+            "Analytiikka säilyy aggregoituna Databuddyn käytännön mukaan. Anonyymit hakulokit säilytetään niin kauan kuin niitä tarvitaan haun ja hakemiston parantamiseen, ja niitä tarkastellaan ilman käyttäjän tunnistamista. Teemavalinta säilyy laitteellasi, kunnes tyhjennät sivuston tiedot. Sähköpostiyhteydenotot säilytetään niin kauan kuin käsittely vaatii."
           ]
         },
         {
@@ -196,14 +191,14 @@
         {
           "title": "9. Tietoturva",
           "paragraphs": [
-            "Yhteydet suojataan TLS-salauksella. Pääsy palautteeseen ja hakulokeihin on rajattu rekisterinpitäjälle. Palautelomakkeessa on honeypot-kenttä roskapostin vähentämiseksi. Emme kerää maksu- tai tunnistautumistietoja, koska tilejä ei ole."
+            "Yhteydet suojataan TLS-salauksella. Pääsy hakulokeihin on rajattu rekisterinpitäjälle. Emme kerää maksu- tai tunnistautumistietoja, koska tilejä ei ole."
           ]
         },
         {
           "title": "10. Rekisteröidyn oikeudet",
           "paragraphs": [
-            "Sinulla on GDPR:n mukainen oikeus pyytää pääsy tietoihin, oikaisu, poistaminen, käsittelyn rajoittaminen, tietojen siirto ja vastustaa käsittelyä, joka perustuu oikeutettuun etuun. Suostumuksen (vapaaehtoinen sähköposti) voit perua milloin tahansa.",
-            "Koska analytiikka ja hakulokit eivät sisällä käyttäjätunnisteita, emme voi yksilöidä yhtä kävijää niistä. Palautteen osalta voimme käsitellä pyynnön, jos viesti tai sähköposti riittää tunnistamaan sen.",
+            "Sinulla on GDPR:n mukainen oikeus pyytää pääsy tietoihin, oikaisu, poistaminen, käsittelyn rajoittaminen, tietojen siirto ja vastustaa käsittelyä, joka perustuu oikeutettuun etuun.",
+            "Koska analytiikka ja hakulokit eivät sisällä käyttäjätunnisteita, emme voi yksilöidä yhtä kävijää niistä. Sähköpostiyhteydenottojen osalta voimme käsitellä pyynnön, jos viesti tai osoite riittää tunnistamaan sen.",
             "Lähetä pyyntö osoitteeseen savonen.emppu@gmail.com. Vastaamme ilman aiheetonta viivytystä, viimeistään kuukauden kuluessa."
           ]
         },
@@ -244,7 +239,7 @@
           "paragraphs": [
             "Hakemiston tiedot perustuvat julkisiin lähteisiin ja käyttäjien ilmoituksiin. Haalarivärit, ainejärjestöt ja oppilaitosrakenteet muuttuvat. Tieto voi olla puutteellinen, vanhentunut tai virheellinen.",
             "Haalarikone ei ole virallinen rekisteri eikä oppilaitosten, ylioppilaskuntien tai ainejärjestöjen edustaja. Älä käytä tietoja ainoana lähteenä, jos väärä väri tai yhdistys voi aiheuttaa haittaa.",
-            "Ilmoita virheistä palautelomakkeella. Korjaamme aineistoa parhaan kykymme mukaan, mutta emme takaa, että jokainen ilmoitus johtaa muutokseen tai että muutos tapahtuu tietyssä ajassa."
+            "Ilmoita virheistä osoitteeseen savonen.emppu@gmail.com. Korjaamme aineistoa parhaan kykymme mukaan, mutta emme takaa, että jokainen ilmoitus johtaa muutokseen tai että muutos tapahtuu tietyssä ajassa."
           ]
         },
         {
@@ -255,10 +250,10 @@
           ]
         },
         {
-          "title": "4. Palaute",
+          "title": "4. Yhteydenotot",
           "paragraphs": [
-            "Palautelomakkeella voit lähettää korjauksia, ideoita ja virheilmoituksia. Vapaaehtoista sähköpostia käytetään vain vastaamiseen.",
-            "Lähettämällä palautetta annat ylläpitäjälle oikeuden käyttää sen asiasisältöä hakemiston korjaamiseen ja palvelun kehittämiseen. Älä lähetä salassa pidettävää, lainvastaista tai toisen henkilö- tai tekijänoikeuksia loukkaavaa aineistoa."
+            "Voit lähettää korjauksia, ideoita ja virheilmoituksia osoitteeseen savonen.emppu@gmail.com.",
+            "Lähettämällä viestin annat ylläpitäjälle oikeuden käyttää sen asiasisältöä hakemiston korjaamiseen ja palvelun kehittämiseen. Älä lähetä salassa pidettävää, lainvastaista tai toisen henkilö- tai tekijänoikeuksia loukkaavaa aineistoa."
           ]
         },
         {
@@ -271,7 +266,7 @@
           "title": "6. Vastuunrajoitus",
           "paragraphs": [
             "Palvelu on ilmainen harrasteprojekti. Siltä osin kuin pakottava laki, kuten kuluttajansuojalaki, ei toisin määrää, palvelu tarjotaan ilman takuuta saatavuudesta, virheettömyydestä tai sopivuudesta tiettyyn tarkoitukseen.",
-            "Ylläpitäjä ei vastaa vahingosta, joka syntyy tietojen käyttämisestä, palvelun keskeytyksestä tai kolmannen osapuolen palveluista (hosting, analytiikka, sähköposti, tekoäly), paitsi jos vahinko johtuu tahallisuudesta tai törkeästä huolimattomuudesta."
+            "Ylläpitäjä ei vastaa vahingosta, joka syntyy tietojen käyttämisestä, palvelun keskeytyksestä tai kolmannen osapuolen palveluista (hosting, analytiikka, tekoäly), paitsi jos vahinko johtuu tahallisuudesta tai törkeästä huolimattomuudesta."
           ]
         },
         {
