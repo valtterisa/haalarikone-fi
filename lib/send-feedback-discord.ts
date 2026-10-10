@@ -65,6 +65,7 @@ export async function sendFeedbackDiscord(payload: FeedbackPayload): Promise<voi
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
+      allowed_mentions: { parse: [] },
       embeds: [
         {
           title,

@@ -60,7 +60,7 @@
     "feedbackSubmit": "Skicka feedback",
     "email": "E-post",
     "github": "GitHub",
-    "description": "Inspiration, färger och traditioner för studentoverallar. Håll kulturen lätt att upptäcka.",
+    "description": "Inspiration, färger och traditioner för studentoveraller. Håll kulturen lätt att upptäcka.",
     "sendEmail": "Skicka e-post",
     "openGithub": "Öppna GitHub",
     "discord": "Discord",
@@ -317,7 +317,7 @@
     "overalls": "Overallar",
     "colors": "Färger",
     "schools": "Institutioner",
-    "overallCount": "overallar",
+    "overallCount": "overaller",
     "showAll": "Visa alla",
     "orSelect": "ELLER VÄLJ",
     "filter": "Filtrera",
@@ -341,12 +341,12 @@
   },
   "fields": {
     "title": "Studieområden",
-    "description": "Välj ett område för att se relaterade overallar vid olika institutioner.",
+    "description": "Välj ett område för att se relaterade overaller vid olika institutioner.",
     "notFound": "Område hittades inte",
     "pageTitle": "Studieområden | Alla områden och overallfärger | Overallmaskinen",
     "pageDescription": "Alla studieområden i Finland. Välj ett område för att se relaterade overallfärger vid olika universitet och yrkeshögskolor.",
     "relatedTopics": "Relaterade ämnen",
-    "overallCount": "olika overallar",
+    "overallCount": "olika overaller",
     "schoolCount": "olika institutioner"
   },
   "colors": {
@@ -356,7 +356,7 @@
     "pageTitle": "Haalarikone | Sökverktyg för finländska studentoverallfärger",
     "pageDescription": "Alla finländska studentoverallfärger. Välj en färg för att se relaterade overaller vid olika universitet och yrkeshögskolor.",
     "relatedTopics": "Relaterade ämnen",
-    "overallCount": "olika overallar",
+    "overallCount": "olika overaller",
     "schoolCount": "olika institutioner"
   },
   "universities": {
@@ -368,7 +368,7 @@
     "pageTitle": "Institutioner | Universitet och yrkeshögskolor i Finland | Overallmaskinen",
     "pageDescription": "Alla universitet och yrkeshögskolor i Finland. Välj en institution för att se dess overallfärger och studentorganisationsinformation.",
     "relatedTopics": "Relaterade ämnen",
-    "overallCount": "olika overallar",
+    "overallCount": "olika overaller",
     "website": "Webbplats",
     "visitWebsite": "Besök webbplatsen",
     "studentUnion": "Studentkår",
@@ -383,7 +383,7 @@
     "pageDescription": "Bläddra bland finländska studentoverallfärger efter stad och region.",
     "popularHeading": "Populära områden",
     "relatedTopics": "Relaterade ämnen",
-    "overallCount": "olika overallar",
+    "overallCount": "olika overaller",
     "schoolCount": "olika institutioner"
   },
   "overall": {
@@ -392,7 +392,7 @@
     "field": "Område",
     "area": "Område",
     "color": "Färg",
-    "otherOveralls": "Andra overallar",
+    "otherOveralls": "Andra overaller",
     "website": "Webbplats",
     "visitWebsite": "Besök webbplatsen",
     "about": "Om organisationen",
@@ -451,7 +451,7 @@
     "q1": "Var kan jag hitta alla overallfärger i Finland?",
     "a1": "Overallmaskinen är Finlands mest omfattande overallfärgdatabas, där du kan hitta över 500 overallfärger för alla finska universitet och yrkeshögskolor. Du kan söka efter overallfärger efter område, institution, område eller färg.",
     "q2": "Vilka är de mest populära overallfärgerna?",
-    "a2": "De mest populära overallfärgerna i Finland är röd, blå, svart och grön. Till exempel använder teknikstudenter ofta olika nyanser av overallar än handels- eller medicinstudenter.",
+    "a2": "De mest populära overallfärgerna i Finland är röd, blå, svart och grön. Till exempel använder teknikstudenter ofta olika nyanser av overaller än handels- eller medicinstudenter.",
     "q3": "Hur väljs overallfärger i studentorganisationer?",
     "a3": "Overallfärger väljs vanligtvis gemensamt mellan studentorganisationer och institutioner. Varje område och universitet kan ha sina egna traditioner och regler för att välja overallfärger.",
     "q4": "Är universitets- och yrkeshögskoleoverallfärger desamma?",

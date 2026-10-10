@@ -15,8 +15,8 @@ export async function sendFeedback(payload: FeedbackPayload): Promise<void> {
   }
 
   if (!isDiscordFeedbackConfigured()) {
-    console.log('DISCORD_FEEDBACK_WEBHOOK_URL is not configured. Feedback submission skipped.');
-    return;
+    console.error('DISCORD_FEEDBACK_WEBHOOK_URL is not configured. Feedback submission failed.');
+    throw new Error('Feedback service is not configured');
   }
 
   await sendFeedbackDiscord(validated);

@@ -1,6 +1,6 @@
 import { EnrichmentProse, EnrichmentWebsiteLink } from '@/components/enrichment-info';
 import type { EnrichedSchool } from '@/lib/load-enrichment';
-import { ArrowUpRight, Globe, MapPin, UsersThree } from '@phosphor-icons/react/ssr';
+import { MapPin, UsersThree } from '@phosphor-icons/react/ssr';
 import Image from 'next/image';
 
 type UniversityProfileProps = {
@@ -14,14 +14,6 @@ type UniversityProfileProps = {
   websiteLabel: string;
   studentUnionLabel: string;
 };
-
-function websiteHost(url: string): string {
-  try {
-    return new URL(url).hostname.replace(/^www\./, '');
-  } catch {
-    return url;
-  }
-}
 
 export function UniversityProfile({
   name,
@@ -72,21 +64,11 @@ export function UniversityProfile({
         </div>
 
         {enrichment?.website ? (
-          <a
+          <EnrichmentWebsiteLink
             href={enrichment.website}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-muted/40 px-3.5 py-2.5 text-sm font-semibold text-foreground transition hover:border-green/40 hover:bg-green/5 hover:text-green active:scale-[0.98] sm:ml-auto"
-          >
-            <Globe className="h-4 w-4 text-green" weight="regular" aria-hidden />
-            <span>{websiteHost(enrichment.website)}</span>
-            <span className="sr-only">{websiteLabel}</span>
-            <ArrowUpRight
-              className="h-3.5 w-3.5 text-foreground/40 transition group-hover:text-green"
-              weight="bold"
-              aria-hidden
-            />
-          </a>
+            label={websiteLabel}
+            className="sm:ml-auto"
+          />
         ) : null}
       </div>
 

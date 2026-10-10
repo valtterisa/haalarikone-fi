@@ -2,8 +2,11 @@ export function splitProseParagraphs(text: string): string[] {
   const cleaned = text.replace(/\s+/g, ' ').trim();
   if (!cleaned) return [];
 
-  const sentences = cleaned.match(/[^.!?…]+[.!?…]+(?:["»)]+)?|[^.!?…]+$/g);
-  if (!sentences || sentences.length <= 2) {
+  const sentences = [...new Intl.Segmenter('fi', { granularity: 'sentence' }).segment(cleaned)]
+    .map((part) => part.segment.trim())
+    .filter(Boolean);
+
+  if (sentences.length <= 2) {
     return [cleaned];
   }
 

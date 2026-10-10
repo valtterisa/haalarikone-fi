@@ -1,7 +1,8 @@
 import { splitProseParagraphs } from '@/lib/enrichment-prose';
+import { cn } from '@/lib/utils';
 import { ArrowUpRight, Globe, UsersThree } from '@phosphor-icons/react/ssr';
 
-function websiteHost(url: string): string {
+export function websiteHost(url: string): string {
   try {
     return new URL(url).hostname.replace(/^www\./, '');
   } catch {
@@ -20,8 +21,8 @@ export function EnrichmentProse({ text, className = '' }: EnrichmentProseProps) 
 
   return (
     <div className={`space-y-3 ${className}`.trim()}>
-      {paragraphs.map((paragraph) => (
-        <p key={paragraph} className="text-[15px] leading-relaxed text-foreground/80">
+      {paragraphs.map((paragraph, index) => (
+        <p key={`${index}-${paragraph}`} className="text-[15px] leading-relaxed text-foreground/80">
           {paragraph}
         </p>
       ))}
@@ -32,15 +33,19 @@ export function EnrichmentProse({ text, className = '' }: EnrichmentProseProps) 
 type EnrichmentWebsiteLinkProps = {
   href: string;
   label: string;
+  className?: string;
 };
 
-export function EnrichmentWebsiteLink({ href, label }: EnrichmentWebsiteLinkProps) {
+export function EnrichmentWebsiteLink({ href, label, className }: EnrichmentWebsiteLinkProps) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-muted/40 px-3.5 py-2.5 text-sm font-semibold text-foreground transition hover:border-green/40 hover:bg-green/5 hover:text-green active:scale-[0.98]"
+      className={cn(
+        'group inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-muted/40 px-3.5 py-2.5 text-sm font-semibold text-foreground transition hover:border-green/40 hover:bg-green/5 hover:text-green active:scale-[0.98]',
+        className,
+      )}
     >
       <Globe className="h-4 w-4 text-green" weight="regular" aria-hidden />
       <span>{websiteHost(href)}</span>

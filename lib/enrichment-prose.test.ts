@@ -15,4 +15,14 @@ describe('splitProseParagraphs', () => {
       'Killan tarkoituksena on tuoda yhteen Kemian tekniikan korkeakoulun opiskelijoita.',
     ]);
   });
+
+  it('does not split on decimals or Finnish abbreviations', () => {
+    const text =
+      'Hinta on noin 3.5 euroa esim. tietyissä tapauksissa. Toinen lause jatkuu tästä. Kolmas lause päättää tekstin.';
+
+    expect(splitProseParagraphs(text)).toEqual([
+      'Hinta on noin 3.5 euroa esim. tietyissä tapauksissa. Toinen lause jatkuu tästä.',
+      'Kolmas lause päättää tekstin.',
+    ]);
+  });
 });

@@ -1,6 +1,7 @@
 'use client';
 
 import { Slot } from '@radix-ui/react-slot';
+import { useTranslations } from 'next-intl';
 import { useEffect, useId, useRef, useState, type ReactElement, type ReactNode } from 'react';
 import { FeedbackForm, type FeedbackFormProps } from '@/components/feedback-form';
 import { cn } from '@/lib/utils';
@@ -31,6 +32,19 @@ export function FeedbackModalRoot({ trigger, ...formProps }: FeedbackModalRootPr
   );
 }
 
+const FOCUSABLE_SELECTOR = [
+  'a[href]',
+  'button:not([disabled])',
+  'textarea:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])',
+].join(', ');
+
+function getFocusableElements(container: HTMLElement): HTMLElement[] {
+  return Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
+}
+
 export function FeedbackModalPanel({
   children,
   onClose,
@@ -41,14 +55,43 @@ export function FeedbackModalPanel({
   titleId: string;
 }) {
   const panelRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations('feedback');
 
   useEffect(() => {
     const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    panelRef.current?.focus();
+    const panel = panelRef.current;
+    panel?.focus();
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+
+      if (e.key !== 'Tab' || !panel) return;
+
+      const focusable = getFocusableElements(panel);
+      if (focusable.length === 0) {
+        e.preventDefault();
+        panel.focus();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+
+      if (e.shiftKey) {
+        if (active === first || active === panel) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (active === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
+
     document.addEventListener('keydown', onKeyDown);
     return () => {
       document.removeEventListener('keydown', onKeyDown);
@@ -61,7 +104,8 @@ export function FeedbackModalPanel({
       <button
         type="button"
         className="absolute inset-0 bg-black/50"
-        aria-label="Close"
+        aria-label={t('close')}
+        tabIndex={-1}
         onClick={onClose}
       />
       <div

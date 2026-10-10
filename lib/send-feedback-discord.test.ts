@@ -33,8 +33,10 @@ describe('sendFeedbackDiscord', () => {
     expect(url).toBe('https://discord.test/webhook');
     expect(init.method).toBe('POST');
     const body = JSON.parse(String(init.body)) as {
+      allowed_mentions: { parse: string[] };
       embeds: Array<{ title: string; fields: Array<{ name: string; value: string }> }>;
     };
+    expect(body.allowed_mentions).toEqual({ parse: [] });
     expect(body.embeds[0]?.title).toBe('Korjauspyyntö');
     expect(body.embeds[0]?.fields.some((field) => field.name === 'Kohde')).toBe(true);
   });
