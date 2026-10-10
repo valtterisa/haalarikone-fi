@@ -1,6 +1,6 @@
 import { EnrichmentProse, EnrichmentWebsiteLink } from '@/components/enrichment-info';
 import type { EnrichedSchool } from '@/lib/load-enrichment';
-import { ArrowUpRight, Globe, MapPin, UsersThree } from '@phosphor-icons/react/dist/ssr';
+import { ArrowUpRight, Globe, MapPin, UsersThree } from '@phosphor-icons/react/ssr';
 import Image from 'next/image';
 
 type UniversityProfileProps = {

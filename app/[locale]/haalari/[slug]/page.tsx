@@ -19,7 +19,7 @@ import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 import type { Locale } from '@/lib/slug-translations';
 import { getFinnishName } from '@/lib/get-finnish-name';
 import { splitCsv } from '@/lib/popular-destinations';
-import { Buildings, CaretRight, GraduationCap, MapPin } from '@phosphor-icons/react/dist/ssr';
+import { Buildings, CaretRight, GraduationCap, MapPin } from '@phosphor-icons/react/ssr';
 import SuggestChangeCard from '@/components/suggest-change-card';
 import { EnrichmentProse, EnrichmentWebsiteLink } from '@/components/enrichment-info';
 import { getEnrichedOrganization } from '@/lib/load-enrichment';

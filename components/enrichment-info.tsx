@@ -1,5 +1,5 @@
 import { splitProseParagraphs } from '@/lib/enrichment-prose';
-import { ArrowUpRight, Globe, UsersThree } from '@phosphor-icons/react/dist/ssr';
+import { ArrowUpRight, Globe, UsersThree } from '@phosphor-icons/react/ssr';
 
 function websiteHost(url: string): string {
   try {
