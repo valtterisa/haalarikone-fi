@@ -8991,5 +8991,22 @@
     "metadata": {
       "hex": "background: black; color: white;"
     }
+  },
+  {
+    "id": "538",
+    "content": {
+      "vari": {
+        "label": "violetti",
+        "base": ["violetti"]
+      },
+      "alue": "Tampere",
+      "ala": "Socially sustainable societies",
+      "oppilaitos": "Tampereen yliopisto",
+      "ainejarjesto": "TIPSY",
+      "ainejarjestoSlug": "tipsy"
+    },
+    "metadata": {
+      "hex": "background: #9b6fbc; color: white;"
+    }
   }
 ]

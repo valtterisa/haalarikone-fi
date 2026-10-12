@@ -58,8 +58,8 @@
         "description": "Tampereen ylioppilaskunta edustaa Tampereen yliopiston opiskelijoita ja piirissään toimii noin 160 järjestöä."
       },
       "areas": ["Pori", "Tampere"],
-      "entryCount": 40,
-      "orgCount": 40
+      "entryCount": 41,
+      "orgCount": 41
     },
     {
       "name": "Itä-Suomen yliopisto",
@@ -4533,6 +4533,22 @@
       "website": "https://groups.jyu.fi/tiltti",
       "description": "Tiltti on Jyväksylän tilastotieteen opiskelijoiden oma ainejärjestö: Tiltti perustettiin keväällä 1981 ja jatkaa eloaan jo 36v vuoden jälkeen! Yhteisömme on pieni, mutta sitäkin tiiviimpi ja riveistämme löytyykin tilastotieteilijöiden lisäksi mm. kasvatustieteilijöitä, psykologeja ja taloustieteilijöitä. Ainejärjestön tila Akvaariolla voit lähes aina löytää seuran kipeitä, opiskelevia, tai lepääviä Tilttiläisiä.",
       "source": "https://jyy.fi/opiskelijalle/jarjesto-ja-harrastustoiminta/"
+    },
+    {
+      "name": "TIPSY",
+      "slug": "tipsy",
+      "schools": ["Tampereen yliopisto"],
+      "fields": [
+        "Socially sustainable societies",
+        "peace mediation and conflict research",
+        "public and global health",
+        "public policy analysis",
+        "comparative social policy and welfare"
+      ],
+      "areas": ["Tampere"],
+      "website": "https://tipsy-ry.com",
+      "description": "TIPSY ry (Tampere International Global Society Students) on Tampereen yliopiston ainejärjestö, joka edustaa muun muassa Socially Sustainable Societies -ohjelman sekä useiden kansainvälisten yhteiskunta- ja terveysalan maisteriohjelmien opiskelijoita.",
+      "source": "https://tipsy-ry.com/"
     },
     {
       "name": "Tom",
