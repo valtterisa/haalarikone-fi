@@ -21,7 +21,7 @@ import { getFinnishName } from '@/lib/get-finnish-name';
 import { splitCsv } from '@/lib/popular-destinations';
 import { Buildings, CaretRight, GraduationCap, MapPin } from '@phosphor-icons/react/ssr';
 import SuggestChangeCard from '@/components/suggest-change-card';
-import { EnrichmentProse, EnrichmentWebsiteLink } from '@/components/enrichment-info';
+import { EnrichmentAbout, EnrichmentWebsiteLink } from '@/components/enrichment-info';
 import { getEnrichedOrganization } from '@/lib/load-enrichment';
 
 export const revalidate = 86400;
@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const t = await getTranslations({ locale });
   const overallPageUrl = absoluteUrl(locale, routeHref('overall', overall.slug));
-  const enrichment = getEnrichedOrganization(overall.slug);
+  const enrichment = getEnrichedOrganization(overall.slug, locale);
 
   const keywords = [
     `${overall.vari} haalari`,
@@ -153,7 +153,7 @@ export default async function OverallPage({ params }: Props) {
   const logoName = getLogoName(overall.oppilaitos, locale);
   const areas = splitCsv(overall.alue);
   const fields = splitCsv(overall.ala);
-  const enrichment = getEnrichedOrganization(overall.slug);
+  const enrichment = getEnrichedOrganization(overall.slug, locale);
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -278,8 +278,7 @@ export default async function OverallPage({ params }: Props) {
 
           {enrichment?.description ? (
             <div className="border-b border-border px-5 py-5 sm:px-6">
-              <h2 className="mb-3 text-sm font-medium text-foreground/55">{t('overall.about')}</h2>
-              <EnrichmentProse text={enrichment.description} />
+              <EnrichmentAbout title={t('overall.about')} description={enrichment.description} />
             </div>
           ) : null}
 

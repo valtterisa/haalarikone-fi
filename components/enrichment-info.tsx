@@ -1,6 +1,8 @@
 import { splitProseParagraphs } from '@/lib/enrichment-prose';
 import { cn } from '@/lib/utils';
 import { ArrowUpRight, Globe, UsersThree } from '@phosphor-icons/react/ssr';
+import { getLocale } from 'next-intl/server';
+import type { ReactNode } from 'react';
 
 export function websiteHost(url: string): string {
   try {
@@ -15,8 +17,9 @@ type EnrichmentProseProps = {
   className?: string;
 };
 
-export function EnrichmentProse({ text, className = '' }: EnrichmentProseProps) {
-  const paragraphs = splitProseParagraphs(text);
+export async function EnrichmentProse({ text, className = '' }: EnrichmentProseProps) {
+  const locale = await getLocale();
+  const paragraphs = splitProseParagraphs(text, locale);
   if (paragraphs.length === 0) return null;
 
   return (
@@ -60,30 +63,21 @@ export function EnrichmentWebsiteLink({ href, label, className }: EnrichmentWebs
 }
 
 type EnrichmentAboutProps = {
-  title: string;
+  title?: string;
   description: string;
-  website?: string | null;
-  websiteLabel: string;
-  className?: string;
+  children?: ReactNode;
 };
 
-export function EnrichmentAbout({
-  title,
-  description,
-  website,
-  websiteLabel,
-  className = 'mt-6 overflow-hidden rounded-xl border border-border bg-card',
-}: EnrichmentAboutProps) {
+/** Title + prose (+ optional action). Shell comes from the parent. */
+export function EnrichmentAbout({ title, description, children }: EnrichmentAboutProps) {
   return (
-    <section className={className}>
-      <div className="border-b border-border px-5 py-4 sm:px-6">
-        <h2 className="text-base font-semibold tracking-tight text-foreground">{title}</h2>
-      </div>
-      <div className="flex flex-col gap-4 px-5 py-5 sm:px-6">
+    <div className="flex flex-col gap-4">
+      <div>
+        {title ? <h2 className="mb-3 text-sm font-medium text-foreground/55">{title}</h2> : null}
         <EnrichmentProse text={description} />
-        {website ? <EnrichmentWebsiteLink href={website} label={websiteLabel} /> : null}
       </div>
-    </section>
+      {children}
+    </div>
   );
 }
 
@@ -91,39 +85,32 @@ type EnrichmentStudentUnionProps = {
   title: string;
   name: string;
   description?: string | null;
-  website?: string | null;
-  websiteLabel: string;
+  children?: ReactNode;
 };
 
+/** Student-union block content. Shell comes from the parent. */
 export function EnrichmentStudentUnion({
   title,
   name,
   description,
-  website,
-  websiteLabel,
+  children,
 }: EnrichmentStudentUnionProps) {
   return (
-    <section className="mt-4 overflow-hidden rounded-xl border border-border bg-card">
-      <div className="flex flex-col gap-4 px-5 py-5 sm:flex-row sm:items-start sm:justify-between sm:px-6">
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 text-sm font-medium text-foreground/55">
-            <UsersThree className="h-4 w-4 text-green" weight="regular" aria-hidden />
-            {title}
-          </div>
-          <p className="mt-1.5 text-base font-semibold tracking-tight text-foreground">{name}</p>
-          {description ? (
-            <EnrichmentProse
-              text={description}
-              className="mt-2 [&_p]:text-sm [&_p]:text-foreground/75"
-            />
-          ) : null}
-        </div>
-        {website ? (
-          <div className="shrink-0">
-            <EnrichmentWebsiteLink href={website} label={websiteLabel} />
-          </div>
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div className="min-w-0">
+        <p className="flex items-center gap-2 text-sm font-medium text-foreground/55">
+          <UsersThree className="h-4 w-4 text-green" weight="regular" aria-hidden />
+          {title}
+        </p>
+        <p className="mt-1 text-base font-semibold tracking-tight text-foreground">{name}</p>
+        {description ? (
+          <EnrichmentProse
+            text={description}
+            className="mt-2 [&_p]:text-sm [&_p]:text-foreground/70"
+          />
         ) : null}
       </div>
-    </section>
+      {children}
+    </div>
   );
 }

@@ -1,11 +1,10 @@
-import type { BlogPost } from '@/types/blog-post';
+import type { BlogPost, LocaleString } from '@/types/blog-post';
 import { RAW_BLOG_POSTS } from '@/lib/blog-posts-data';
 
-type LocaleString = string | { fi: string; en?: string; sv?: string };
 type BlogSlugLocales = BlogPost['slug'];
 type BlogLocale = keyof BlogSlugLocales;
 
-function getLocaleString(value: LocaleString, locale: string): string {
+export function getLocaleString(value: LocaleString, locale: string): string {
   if (typeof value === 'string') {
     return value;
   }

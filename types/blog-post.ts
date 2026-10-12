@@ -1,4 +1,4 @@
-type LocaleString = string | { fi: string; en?: string; sv?: string };
+export type LocaleString = string | { fi: string; en?: string; sv?: string };
 
 export type BlogPost = {
   slug: { fi: string; en: string; sv: string };

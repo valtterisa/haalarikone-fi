@@ -24,7 +24,18 @@ import { routing } from '@/i18n/routing';
 import { routeHref, absoluteUrl } from '@/lib/use-translated-routes';
 import { joinNames, splitCsv } from '@/lib/popular-destinations';
 import SuggestChangeCard from '@/components/suggest-change-card';
-import { UniversityProfile } from '@/components/university-profile';
+import {
+  EnrichmentProse,
+  EnrichmentStudentUnion,
+  EnrichmentWebsiteLink,
+} from '@/components/enrichment-info';
+import {
+  UniversityProfile,
+  UniversityProfileBody,
+  UniversityProfileFooter,
+  UniversityProfileHeader,
+  UniversityProfileMeta,
+} from '@/components/university-profile';
 import { getEnrichedSchool } from '@/lib/load-enrichment';
 
 export const revalidate = 86400;
@@ -70,7 +81,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const capitalizedUniversity = capitalizeFirstLetter(translatedUniversity);
   const universitySlug = getSlugForEntity(university, locale, 'university');
   const pageUrl = absoluteUrl(locale, routeHref('universities', universitySlug));
-  const enrichment = getEnrichedSchool(university);
+  const enrichment = getEnrichedSchool(university, locale);
   const metaDescription =
     enrichment?.description ??
     t('universities.description', {
@@ -161,7 +172,7 @@ export default async function UniversityPage({ params }: Props) {
   const areas = Array.from(new Set(universityData.flatMap((u) => splitCsv(u.alue))));
   const capitalizedUniversity = capitalizeFirstLetter(translatedUniversity);
   const universitySlug = getSlugForEntity(university, locale, 'university');
-  const enrichment = getEnrichedSchool(university);
+  const enrichment = getEnrichedSchool(university, locale);
   const logoName = university.startsWith('Aalto-yliopisto') ? 'Aalto-yliopisto' : university;
   const introText =
     enrichment?.description ??
@@ -271,17 +282,46 @@ export default async function UniversityPage({ params }: Props) {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <UniversityProfile
-          name={capitalizedUniversity}
-          logoName={logoName}
-          description={introText}
-          overallCount={universityData.length}
-          overallCountLabel={t('universities.overallCount')}
-          areas={areas}
-          enrichment={enrichment}
-          websiteLabel={t('universities.visitWebsite')}
-          studentUnionLabel={t('universities.studentUnion')}
-        />
+        <UniversityProfile>
+          <UniversityProfileHeader
+            name={capitalizedUniversity}
+            logoName={logoName}
+            meta={
+              <UniversityProfileMeta
+                count={universityData.length}
+                countLabel={t('universities.overallCount')}
+                areas={areas}
+              />
+            }
+          >
+            {enrichment?.website ? (
+              <EnrichmentWebsiteLink
+                href={enrichment.website}
+                label={t('universities.visitWebsite')}
+                className="sm:ml-auto"
+              />
+            ) : null}
+          </UniversityProfileHeader>
+          <UniversityProfileBody>
+            <EnrichmentProse text={introText} />
+          </UniversityProfileBody>
+          {enrichment?.studentUnion ? (
+            <UniversityProfileFooter>
+              <EnrichmentStudentUnion
+                title={t('universities.studentUnion')}
+                name={enrichment.studentUnion.name}
+                description={enrichment.studentUnion.description}
+              >
+                {enrichment.studentUnion.website ? (
+                  <EnrichmentWebsiteLink
+                    href={enrichment.studentUnion.website}
+                    label={t('universities.visitWebsite')}
+                  />
+                ) : null}
+              </EnrichmentStudentUnion>
+            </UniversityProfileFooter>
+          ) : null}
+        </UniversityProfile>
 
         <RelatedTopics title={t('universities.relatedTopics')}>
           <RelatedTopicsChips>

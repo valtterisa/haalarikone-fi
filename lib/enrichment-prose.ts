@@ -1,8 +1,11 @@
-export function splitProseParagraphs(text: string): string[] {
+export function splitProseParagraphs(text: string, locale: string = 'fi'): string[] {
   const cleaned = text.replace(/\s+/g, ' ').trim();
   if (!cleaned) return [];
 
-  const sentences = [...new Intl.Segmenter('fi', { granularity: 'sentence' }).segment(cleaned)]
+  const segmentLocale = locale === 'en' || locale === 'sv' ? locale : 'fi';
+  const sentences = [
+    ...new Intl.Segmenter(segmentLocale, { granularity: 'sentence' }).segment(cleaned),
+  ]
     .map((part) => part.segment.trim())
     .filter(Boolean);
 
