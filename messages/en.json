@@ -527,9 +527,8 @@
     "approved": "Claim approved. You can edit the profile.",
     "pending": "Request received. You’ll get an email when it’s reviewed.",
     "error": "Claim failed. The organisation may already be claimed.",
-    "bannerBody": "Student organisations can now claim an official overall profile on Haalarikone.",
-    "bannerLink": "Read the guide",
-    "bannerDismiss": "Dismiss notice"
+    "bannerBody": "Student organisations can now claim an official overall profile.",
+    "bannerLink": "Read the guide"
   },
   "dashboard": {
     "title": "Your Haalarikone",

@@ -20,8 +20,7 @@ import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from './language-switcher';
 import { ThemeSwitcher } from './theme-switcher';
-import { SignInControl } from '@/components/auth/sign-in-control';
-import { ClaimBanner } from '@/components/claim/claim-banner';
+import { SignInControl, type HeaderAuthUser } from '@/components/auth/sign-in-control';
 import { trackHubClick, type HubType } from '@/lib/analytics-events';
 import { useTranslatedRoutes, type InternalHref } from '@/lib/use-translated-routes';
 
@@ -180,7 +179,7 @@ function HeaderNavLinks({
   );
 }
 
-function HeaderRoot() {
+function HeaderRoot({ user }: { user: HeaderAuthUser | null }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const reduceMotion = useReducedMotion();
   const t = useTranslations();
@@ -246,8 +245,7 @@ function HeaderRoot() {
   ];
 
   return (
-    <header className="sticky top-0 z-sticky w-full border-b border-border bg-background/92 backdrop-blur-md supports-[backdrop-filter]:bg-background/80">
-      <ClaimBanner />
+    <header className="w-full border-b border-border bg-background/92 backdrop-blur-md supports-[backdrop-filter]:bg-background/80">
       <div className="relative">
         <div className={cn(PAGE_WIDTH, 'flex h-14 items-center gap-3 sm:h-16 sm:gap-4')}>
           <div className="shrink-0" onClick={closeMobileMenu}>
@@ -264,7 +262,7 @@ function HeaderRoot() {
               />
             </div>
             <div className="ml-4 shrink-0">
-              <SignInControl variant="header" />
+              <SignInControl user={user} variant="header" />
             </div>
             <div className="ml-2 flex shrink-0 items-center gap-1">
               <LanguageSwitcher instanceId="desktop" />
@@ -273,7 +271,7 @@ function HeaderRoot() {
           </div>
 
           <div className="ml-auto flex items-center gap-1 md:hidden">
-            <SignInControl variant="header" className="mr-0.5" />
+            <SignInControl user={user} variant="header" className="mr-0.5" />
             <Button
               type="button"
               variant="ghost"
@@ -335,7 +333,7 @@ function HeaderRoot() {
                   </span>
                   <LanguageSwitcher instanceId="mobile-menu" />
                 </div>
-                <SignInControl variant="menu" onNavigate={closeMobileMenu} />
+                <SignInControl user={user} variant="menu" onNavigate={closeMobileMenu} />
               </div>
             </Header.MobileMenu>
           )}

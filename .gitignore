@@ -1,6 +1,8 @@
 node_modules
 .next
 .env*
+local.db
+local.db-*
 
 # Playwright
 /test-results/

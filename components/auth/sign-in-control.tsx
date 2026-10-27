@@ -2,35 +2,31 @@
 
 import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
-import { authClient } from '@/lib/auth-client';
 import { cn } from '@/lib/utils';
 import { UserCircle } from '@phosphor-icons/react';
 
+export type HeaderAuthUser = {
+  id: string;
+  email: string;
+};
+
 type SignInControlProps = {
+  user: HeaderAuthUser | null;
   className?: string;
   variant?: 'header' | 'menu';
   onNavigate?: () => void;
 };
 
-export function SignInControl({ className, variant = 'header', onNavigate }: SignInControlProps) {
+export function SignInControl({
+  user,
+  className,
+  variant = 'header',
+  onNavigate,
+}: SignInControlProps) {
   const t = useTranslations('nav');
   const tDash = useTranslations('dashboard');
-  const { data: session, isPending } = authClient.useSession();
 
-  if (isPending) {
-    return (
-      <span
-        className={cn(
-          'inline-block h-9 w-20 animate-pulse rounded-md bg-muted/60',
-          variant === 'menu' && 'h-12 w-full',
-          className,
-        )}
-        aria-hidden
-      />
-    );
-  }
-
-  if (session?.user) {
+  if (user) {
     if (variant === 'menu') {
       return (
         <Link
@@ -44,9 +40,7 @@ export function SignInControl({ className, variant = 'header', onNavigate }: Sig
           <UserCircle className="h-6 w-6 text-green" weight="regular" aria-hidden />
           <span className="min-w-0">
             <span className="block text-base font-semibold tracking-tight">{tDash('title')}</span>
-            <span className="block truncate text-xs text-muted-foreground">
-              {session.user.email}
-            </span>
+            <span className="block truncate text-xs text-muted-foreground">{user.email}</span>
           </span>
         </Link>
       );

@@ -362,6 +362,15 @@ export default async function OverallPage({ params }: Props) {
               </div>
             )}
           </dl>
+
+          <ClaimOrgPanel
+            orgSlug={overall.slug}
+            orgName={overall.ainejarjesto ?? overall.oppilaitos}
+            verified={verified}
+            ownerUserId={profile?.claimedByUserId ?? null}
+            emailHint={emailHint}
+            loginHref={`/kirjaudu?next=${encodeURIComponent(`/haalari/${overall.slug}`)}&hint=${encodeURIComponent(emailHint ?? '')}`}
+          />
         </div>
 
         {relatedOveralls.length > 0 && (
@@ -411,15 +420,6 @@ export default async function OverallPage({ params }: Props) {
             </div>
           </div>
         )}
-
-        <ClaimOrgPanel
-          orgSlug={overall.slug}
-          orgName={overall.ainejarjesto ?? overall.oppilaitos}
-          verified={verified}
-          ownerUserId={profile?.claimedByUserId ?? null}
-          emailHint={emailHint}
-          loginHref={`/kirjaudu?next=${encodeURIComponent(`/haalari/${overall.slug}`)}&hint=${encodeURIComponent(emailHint ?? '')}`}
-        />
 
         <SuggestChangeCard
           title={t('overall.errorTitle')}

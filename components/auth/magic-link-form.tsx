@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { useTranslations } from 'next-intl';
-import { authClient } from '@/lib/auth-client';
+import { sendMagicLinkAction } from '@/lib/auth-actions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { EnvelopeSimple, SpinnerGap, CheckCircle } from '@phosphor-icons/react';
@@ -19,18 +19,14 @@ export function MagicLinkForm({ callbackURL = '/oma', emailHint }: MagicLinkForm
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
-  function onSubmit(event: React.FormEvent) {
+  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
+    const formData = new FormData(event.currentTarget);
     startTransition(async () => {
-      const { error: signError } = await authClient.signIn.magicLink({
-        email: email.trim(),
-        callbackURL,
-        newUserCallbackURL: callbackURL,
-        errorCallbackURL: '/kirjaudu?error=1',
-      });
-      if (signError) {
-        setError(signError.message || t('sendError'));
+      const result = await sendMagicLinkAction(formData);
+      if (!result.ok) {
+        setError(t('sendError'));
         return;
       }
       setSent(true);
@@ -53,6 +49,7 @@ export function MagicLinkForm({ callbackURL = '/oma', emailHint }: MagicLinkForm
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
+      <input type="hidden" name="callbackURL" value={callbackURL} />
       <div className="space-y-2">
         <label htmlFor="email" className="text-sm font-medium text-foreground/80">
           {t('emailLabel')}
