@@ -23,8 +23,12 @@ import { Buildings, CaretRight, GraduationCap, MapPin } from '@phosphor-icons/re
 import SuggestChangeCard from '@/components/suggest-change-card';
 import { EnrichmentAbout, EnrichmentWebsiteLink } from '@/components/enrichment-info';
 import { getEnrichedOrganization } from '@/lib/load-enrichment';
+import { getOrganizationProfile, mergeOverallForPublic } from '@/lib/org-profile';
+import { ClaimOrgPanel } from '@/components/claim/claim-org-panel';
+import { suggestedOrgEmailHint } from '@/lib/org-email-domain';
+import { SealCheck } from '@phosphor-icons/react/ssr';
 
-export const revalidate = 86400;
+export const revalidate = 60;
 
 type Props = {
   params: Promise<{ locale: Locale; slug: string }>;
@@ -132,10 +136,10 @@ function getLogoName(oppilaitos: string, locale: Locale) {
 export default async function OverallPage({ params }: Props) {
   const { locale, slug } = await params;
   const universities = await loadUniversities(locale);
-  const overall = universities.find((u) => u.slug === slug);
+  const baseOverall = universities.find((u) => u.slug === slug);
   const t = await getTranslations({ locale });
 
-  if (!overall) {
+  if (!baseOverall) {
     return (
       <Page.Missing>
         <h1 className="text-2xl font-bold mb-4">{t('overall.notFound')}</h1>
@@ -146,6 +150,16 @@ export default async function OverallPage({ params }: Props) {
     );
   }
 
+  const baseEnrichment = getEnrichedOrganization(baseOverall.slug, locale);
+  const profile = await getOrganizationProfile(baseOverall.slug);
+  const { overall, enrichment, verified } = mergeOverallForPublic(
+    baseOverall,
+    baseEnrichment,
+    profile,
+    locale,
+  );
+  const emailHint = suggestedOrgEmailHint(baseEnrichment?.website ?? profile?.website);
+
   const relatedOveralls = universities
     .filter((u) => u.oppilaitos === overall.oppilaitos && u.id !== overall.id)
     .slice(0, 5);
@@ -153,7 +167,6 @@ export default async function OverallPage({ params }: Props) {
   const logoName = getLogoName(overall.oppilaitos, locale);
   const areas = splitCsv(overall.alue);
   const fields = splitCsv(overall.ala);
-  const enrichment = getEnrichedOrganization(overall.slug, locale);
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -245,9 +258,17 @@ export default async function OverallPage({ params }: Props) {
                 />
               </div>
               <div className="min-w-0">
-                <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-                  {overall.ainejarjesto ?? overall.oppilaitos}
-                </h1>
+                <div className="flex flex-wrap items-center gap-2">
+                  <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+                    {overall.ainejarjesto ?? overall.oppilaitos}
+                  </h1>
+                  {verified ? (
+                    <span className="inline-flex items-center gap-1 rounded-full border border-green/25 bg-green/10 px-2 py-0.5 text-xs font-semibold text-green">
+                      <SealCheck className="h-3.5 w-3.5" weight="fill" aria-hidden />
+                      {t('claim.verified')}
+                    </span>
+                  ) : null}
+                </div>
                 {overall.ainejarjesto && (
                   <p className="mt-0.5 text-sm text-foreground/70">{overall.oppilaitos}</p>
                 )}
@@ -390,6 +411,15 @@ export default async function OverallPage({ params }: Props) {
             </div>
           </div>
         )}
+
+        <ClaimOrgPanel
+          orgSlug={overall.slug}
+          orgName={overall.ainejarjesto ?? overall.oppilaitos}
+          verified={verified}
+          ownerUserId={profile?.claimedByUserId ?? null}
+          emailHint={emailHint}
+          loginHref={`/kirjaudu?next=${encodeURIComponent(`/haalari/${overall.slug}`)}&hint=${encodeURIComponent(emailHint ?? '')}`}
+        />
 
         <SuggestChangeCard
           title={t('overall.errorTitle')}

@@ -35,7 +35,10 @@
     "navigateDescription": "Choose the path that suits you and continue browsing.",
     "otherPages": "Other pages",
     "closeMenu": "Close menu",
-    "openMenu": "Open menu"
+    "openMenu": "Open menu",
+    "signIn": "Sign in",
+    "account": "Account",
+    "preferences": "Preferences"
   },
   "home": {
     "title": "Overall Machine",
@@ -92,14 +95,18 @@
         {
           "title": "1. What this notice covers",
           "paragraphs": [
-            "Haalarikone is a free directory of student overall colours at Finnish universities and universities of applied sciences. There are no user accounts, and the directory is not a register of individual students.",
-            "Personal data is created only if you send feedback, and in a technical sense when the site is used (analytics, search, and hosting). Institution, student organisation, and colour data is public directory information."
+            "Haalarikone is a free directory of student overall colours at Finnish universities and universities of applied sciences. The directory is not a register of individual students.",
+            "You can sign in with an email magic link to claim a student organisation profile. Personal data is also created if you send feedback, and in a technical sense when the site is used (analytics, search, and hosting)."
           ]
         },
         {
           "title": "2. Data we process",
           "paragraphs": ["We only process what is needed to run the service:"],
           "items": [
+            {
+              "name": "Account and claims",
+              "detail": "Email address, session cookie data, organisation claim requests (slug, proof message), and claimed profile edits. Magic-link emails are sent via Resend. Manual claims may appear in the operator Discord channel."
+            },
             {
               "name": "Feedback",
               "detail": "The message (required), an optional email address, and technical context needed to reply (page URL, subject name/id, and referring page if present)."
@@ -240,7 +247,7 @@
           "title": "1. The service",
           "paragraphs": [
             "Haalarikone is a free directory of student overall colours at Finnish universities and universities of applied sciences. You can browse and search by colour, field, institution, region, and student organisation. It is meant for informal use around student culture.",
-            "There is no registration. The service is provided as is, free of charge. The operator may change, suspend, or discontinue it."
+            "You can sign in with an email link to claim a student organisation profile. The service is provided as is, free of charge. The operator may change, suspend, or discontinue it."
           ]
         },
         {
@@ -485,5 +492,102 @@
     "areas": "areas",
     "blog": "blog",
     "overall": "overall"
+  },
+  "auth": {
+    "pageTitle": "Sign in",
+    "headline": "Sign in with an email link",
+    "subhead": "No passwords. We’ll send a one-time login link to your organisation or personal inbox.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "board@example.fi",
+    "orgEmailHint": "To claim an organisation, use its own email address.",
+    "sendLink": "Send login link",
+    "sending": "Sending…",
+    "checkInbox": "Check your email",
+    "checkInboxDetail": "We sent a link to {email}. It expires soon.",
+    "sendError": "Could not send the link. Try again.",
+    "linkError": "That login link was invalid or expired. Request a new one.",
+    "legalNote": "By signing in you accept the terms and privacy notice. We use Resend to deliver email."
+  },
+  "claim": {
+    "verified": "Verified",
+    "verifiedOwner": "You manage this organisation",
+    "ownerBody": "Update overall colour, description, and contact details.",
+    "editProfile": "Edit profile",
+    "ctaTitle": "Is this {name}?",
+    "ctaBody": "Claim the official profile with your organisation email and keep the details current.",
+    "useOrgEmail": "Use an address like {hint}",
+    "manualHint": "Without an org-domain inbox, claims are reviewed manually.",
+    "signInToClaim": "Sign in to claim",
+    "loggedInBody": "Matching org-domain email auto-approves; otherwise we review the request.",
+    "proofLabel": "Proof",
+    "proofPlaceholder": "e.g. board member / contact person…",
+    "submitClaim": "Claim",
+    "cancel": "Cancel",
+    "submitting": "Submitting…",
+    "approved": "Claim approved. You can edit the profile.",
+    "pending": "Request received. You’ll get an email when it’s reviewed.",
+    "error": "Claim failed. The organisation may already be claimed.",
+    "bannerTitle": "Student organisation?",
+    "bannerBody": "Claim your official overall profile.",
+    "bannerCta": "Claim",
+    "bannerDismiss": "Dismiss"
+  },
+  "dashboard": {
+    "title": "Your Haalarikone",
+    "signedInAs": "Signed in as {email}",
+    "signOut": "Sign out",
+    "myOrgs": "Your organisations",
+    "noOrgs": "No claimed organisations yet. Open an overall page and claim it.",
+    "edit": "Edit",
+    "myClaims": "Claims",
+    "noClaims": "No claims yet.",
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    }
+  },
+  "editor": {
+    "pageTitle": "Edit organisation",
+    "back": "Back",
+    "subtitle": "Changes appear on the public overall page right after saving.",
+    "profileSection": "Profile",
+    "colorSection": "Overall colour",
+    "displayName": "Name",
+    "website": "Website",
+    "instagram": "Instagram",
+    "discord": "Discord",
+    "descriptionFi": "Description (Finnish)",
+    "descriptionEn": "Description (English)",
+    "descriptionSv": "Description (Swedish)",
+    "variLabel": "Colour name",
+    "variBase": "Base colours (comma-separated)",
+    "hex": "Hex colour",
+    "textColor": "Text colour",
+    "textWhite": "White",
+    "textBlack": "Black",
+    "save": "Save",
+    "saving": "Saving…",
+    "saved": "Saved.",
+    "saveError": "Could not save.",
+    "embedTitle": "Embed (colour card)",
+    "embedBody": "Paste this on your organisation site. It links back to Haalarikone.",
+    "copyEmbed": "Copy",
+    "copied": "Copied"
+  },
+  "admin": {
+    "title": "Admin",
+    "subtitle": "Manual claims and invites.",
+    "pendingClaims": "Pending claims",
+    "noPending": "Nothing pending.",
+    "approve": "Approve",
+    "reject": "Reject",
+    "inviteTitle": "Send claim invite",
+    "inviteBody": "Email an organisation inbox via Resend.",
+    "inviteSlug": "Slug",
+    "inviteEmail": "Email",
+    "sendInvite": "Send",
+    "inviteSent": "Invite sent.",
+    "inviteError": "Could not send invite."
   }
 }

@@ -2,7 +2,19 @@ import { MetadataRoute } from 'next';
 import { SITE_ORIGIN } from '@/lib/site-url';
 
 export default function robots(): MetadataRoute.Robots {
-  const disallow = ['/protected/', '/auth/', '/api/'];
+  const disallow = [
+    '/protected/',
+    '/auth/',
+    '/api/',
+    '/oma',
+    '/admin',
+    '/kirjaudu',
+    '/sign-in',
+    '/logga-in',
+    '/dashboard',
+    '/mina',
+    '/embed/',
+  ];
 
   return {
     rules: [

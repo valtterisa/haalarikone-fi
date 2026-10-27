@@ -25,6 +25,10 @@ export const routing = defineRouting({
     '/blog/[slug]': { fi: '/blog/[slug]', en: '/blog/[slug]', sv: '/blogg/[slug]' },
     '/tietosuoja': { fi: '/tietosuoja', en: '/privacy', sv: '/integritet' },
     '/kayttoehdot': { fi: '/kayttoehdot', en: '/terms', sv: '/villkor' },
+    '/kirjaudu': { fi: '/kirjaudu', en: '/sign-in', sv: '/logga-in' },
+    '/oma': { fi: '/oma', en: '/dashboard', sv: '/mina' },
+    '/oma/[slug]': { fi: '/oma/[slug]', en: '/dashboard/[slug]', sv: '/mina/[slug]' },
+    '/admin': { fi: '/admin', en: '/admin', sv: '/admin' },
   },
 });
 
