@@ -527,10 +527,9 @@
     "approved": "Hämtning godkänd. Du kan redigera profilen.",
     "pending": "Förfrågan mottagen. Du får e-post när den behandlats.",
     "error": "Hämtning misslyckades. Organisationen kan redan vara hämtad.",
-    "bannerTitle": "Studentorganisation?",
-    "bannerBody": "Hämta er officiella overallprofil.",
-    "bannerCta": "Hämta",
-    "bannerDismiss": "Stäng"
+    "bannerBody": "Studentorganisationer kan nu hämta en officiell overallprofil på Haalarikone.",
+    "bannerLink": "Läs guiden",
+    "bannerDismiss": "Stäng meddelandet"
   },
   "dashboard": {
     "title": "Min Haalarikone",

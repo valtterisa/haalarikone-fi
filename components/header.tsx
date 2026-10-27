@@ -263,12 +263,12 @@ function HeaderRoot() {
                 pathname={pathname}
               />
             </div>
-            <div className="ml-4 flex shrink-0 items-center gap-1">
+            <div className="ml-4 shrink-0">
+              <SignInControl variant="header" />
+            </div>
+            <div className="ml-2 flex shrink-0 items-center gap-1">
               <LanguageSwitcher instanceId="desktop" />
               <ThemeSwitcher />
-            </div>
-            <div className="ml-3 shrink-0">
-              <SignInControl variant="header" />
             </div>
           </div>
 

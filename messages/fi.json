@@ -527,10 +527,9 @@
     "approved": "Lunastus hyväksytty. Voit muokata profiilia.",
     "pending": "Pyyntö vastaanotettu. Saat sähköpostin, kun se on käsitelty.",
     "error": "Lunastus epäonnistui. Organisaatio voi olla jo lunastettu.",
-    "bannerTitle": "Ainejärjestö?",
-    "bannerBody": "Lunasta virallinen haalariprofiili.",
-    "bannerCta": "Lunasta",
-    "bannerDismiss": "Sulje"
+    "bannerBody": "Ainejärjestöt voivat nyt lunastaa virallisen haalariprofiilin Haalarikoneessa.",
+    "bannerLink": "Lue ohje",
+    "bannerDismiss": "Sulje ilmoitus"
   },
   "dashboard": {
     "title": "Oma Haalarikone",
