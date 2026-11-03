@@ -29,7 +29,8 @@ export async function sendMagicLinkAction(formData: FormData): Promise<{
       headers: await headers(),
     });
     return { ok: true };
-  } catch {
+  } catch (error) {
+    console.error('[auth] magic link send failed', error);
     return { ok: false, error: 'send_failed' };
   }
 }
