@@ -8,6 +8,7 @@
     "test": "vitest --run",
     "test:watch": "vitest",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "prepare": "husky",
     "cf-typegen": "cf workers types --include-runtime false",
     "preview": "pnpm build:vinext && pnpm start:vinext",

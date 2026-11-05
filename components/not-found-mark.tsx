@@ -22,7 +22,9 @@ function Digit({
       <div
         className={cn(
           'absolute inset-y-0 left-0 w-4 sm:w-5',
-          missing ? 'border-r border-dashed border-foreground/25 bg-muted' : 'border-r border-border',
+          missing
+            ? 'border-r border-dashed border-foreground/25 bg-muted'
+            : 'border-r border-border',
         )}
         style={missing || !hex ? undefined : { backgroundColor: hex }}
       />

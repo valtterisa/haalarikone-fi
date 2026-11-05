@@ -3,7 +3,7 @@ import { getLocaleString } from '@/lib/load-blog-posts';
 import type { Locale } from '@/lib/slug-translations';
 import type { LocaleString } from '@/types/blog-post';
 
-export type EnrichedStudentUnion = {
+type EnrichedStudentUnion = {
   name: string;
   website: string | null;
   description: string | null;

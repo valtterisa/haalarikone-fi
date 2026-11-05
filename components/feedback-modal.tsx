@@ -10,7 +10,7 @@ type FeedbackModalRootProps = FeedbackFormProps & {
   trigger: ReactElement;
 };
 
-export function FeedbackModalRoot({ trigger, ...formProps }: FeedbackModalRootProps) {
+function FeedbackModalRoot({ trigger, ...formProps }: FeedbackModalRootProps) {
   const [open, setOpen] = useState(false);
   const titleId = useId();
   const close = () => setOpen(false);
@@ -45,7 +45,7 @@ function getFocusableElements(container: HTMLElement): HTMLElement[] {
   return Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
 }
 
-export function FeedbackModalPanel({
+function FeedbackModalPanel({
   children,
   onClose,
   titleId,

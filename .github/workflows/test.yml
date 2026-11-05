@@ -26,5 +26,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Prettier
+        run: pnpm format:check
+
+      - name: Knip
+        run: pnpm knip
+
       - name: Run tests
         run: pnpm test

@@ -1,9 +1,9 @@
 ---
 name: Question
 about: Ask anything related to Haalarikone
-title: "[question] "
+title: '[question] '
 labels: question
-assignees: ""
+assignees: ''
 ---
 
 ## Your question

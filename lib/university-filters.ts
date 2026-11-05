@@ -17,11 +17,7 @@ function normalize(value: string): string {
     .trim();
 }
 
-function matchesColor(
-  uni: University,
-  colorKey: string,
-  colorData: ColorData,
-): boolean {
+function matchesColor(uni: University, colorKey: string, colorData: ColorData): boolean {
   const colorInfo = colorData.colors[colorKey];
   if (!colorInfo) {
     return normalize(uni.vari).includes(normalize(colorKey));

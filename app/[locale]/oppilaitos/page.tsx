@@ -161,23 +161,25 @@ export default async function UniversityIndexPage({
 
         <UniversitySearchSection universities={universities} colorData={colorData} />
 
-        <p className="mb-3 text-sm font-semibold text-foreground">{t('universities.popularHeading')}</p>
+        <p className="mb-3 text-sm font-semibold text-foreground">
+          {t('universities.popularHeading')}
+        </p>
         <HubGrid>
-            {unique.map((uni) => {
-              const slug = entitySlug(uni, locale, 'university');
-              return (
-                <HubGridItem
-                  key={uni}
-                  href={routeHref('universities', slug)}
-                  source="university-index"
-                  type="university"
-                  slug={slug}
-                >
-                  {uni}
-                </HubGridItem>
-              );
-            })}
-          </HubGrid>
+          {unique.map((uni) => {
+            const slug = entitySlug(uni, locale, 'university');
+            return (
+              <HubGridItem
+                key={uni}
+                href={routeHref('universities', slug)}
+                source="university-index"
+                type="university"
+                slug={slug}
+              >
+                {uni}
+              </HubGridItem>
+            );
+          })}
+        </HubGrid>
       </Page>
     </>
   );

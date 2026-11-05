@@ -1,5 +1,5 @@
 /** Hosts where domain-match auto-approve is unsafe (shared student-union / uni / link-in-bio). */
-export const SHARED_EMAIL_HOST_DENYLIST = new Set([
+const SHARED_EMAIL_HOST_DENYLIST = new Set([
   'gmail.com',
   'googlemail.com',
   'outlook.com',
@@ -43,7 +43,7 @@ export const SHARED_EMAIL_HOST_DENYLIST = new Set([
   'bit.ly',
 ]);
 
-export function normalizeHostname(input: string): string | null {
+function normalizeHostname(input: string): string | null {
   try {
     const withProtocol = /^https?:\/\//i.test(input) ? input : `https://${input}`;
     const host = new URL(withProtocol).hostname.toLowerCase().replace(/^www\./, '');
@@ -53,7 +53,7 @@ export function normalizeHostname(input: string): string | null {
   }
 }
 
-export function emailDomain(email: string): string | null {
+function emailDomain(email: string): string | null {
   const at = email.lastIndexOf('@');
   if (at < 0) return null;
   const domain = email

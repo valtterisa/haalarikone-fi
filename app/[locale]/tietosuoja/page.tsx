@@ -2,11 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import type { Locale } from '@/lib/slug-translations';
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import {
-  LegalDocument,
-  parseLegalFacts,
-  parseLegalSections,
-} from '@/components/legal-document';
+import { LegalDocument, parseLegalFacts, parseLegalSections } from '@/components/legal-document';
 import { SITE_ORIGIN } from '@/lib/site-url';
 import { absoluteUrl } from '@/lib/use-translated-routes';
 

@@ -3,10 +3,6 @@ import { adminActionUrl, createAdminActionToken } from '@/lib/admin-action-token
 
 const webhookUrl = process.env.DISCORD_FEEDBACK_WEBHOOK_URL;
 
-export function isDiscordModerationConfigured(): boolean {
-  return Boolean(webhookUrl);
-}
-
 async function postEmbed(embed: {
   title: string;
   color: number;

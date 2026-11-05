@@ -20,12 +20,12 @@ describe('resolveLocaleSwitchHref', () => {
   });
 
   it('accepts localized first segments when present', () => {
-    expect(
-      resolveLocaleSwitchHref('/regioner/uleaborg', { slug: 'uleaborg' }, 'sv', 'fi'),
-    ).toEqual({
-      pathname: '/alue/[slug]',
-      params: { slug: 'oulu' },
-    });
+    expect(resolveLocaleSwitchHref('/regioner/uleaborg', { slug: 'uleaborg' }, 'sv', 'fi')).toEqual(
+      {
+        pathname: '/alue/[slug]',
+        params: { slug: 'oulu' },
+      },
+    );
 
     expect(resolveLocaleSwitchHref('/areas/oulu', { slug: 'oulu' }, 'en', 'sv')).toEqual({
       pathname: '/alue/[slug]',
@@ -47,14 +47,24 @@ describe('resolveLocaleSwitchHref', () => {
 
   it('translates blog slugs between locales', () => {
     expect(
-      resolveLocaleSwitchHref('/blog/koodaripula-it-taidot', { slug: 'koodaripula-it-taidot' }, 'fi', 'en'),
+      resolveLocaleSwitchHref(
+        '/blog/koodaripula-it-taidot',
+        { slug: 'koodaripula-it-taidot' },
+        'fi',
+        'en',
+      ),
     ).toEqual({
       pathname: '/blog/[slug]',
       params: { slug: 'koodaripula-it-skills' },
     });
 
     expect(
-      resolveLocaleSwitchHref('/blog/koodaripula-it-skills', { slug: 'koodaripula-it-skills' }, 'en', 'fi'),
+      resolveLocaleSwitchHref(
+        '/blog/koodaripula-it-skills',
+        { slug: 'koodaripula-it-skills' },
+        'en',
+        'fi',
+      ),
     ).toEqual({
       pathname: '/blog/[slug]',
       params: { slug: 'koodaripula-it-taidot' },

@@ -64,7 +64,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const uniqueUniversities = getUniqueUniversities(universities);
     uniqueUniversities.forEach((uni) => {
       entries.push({
-        url: absoluteUrl(locale, routeHref('universities', getSlugForEntity(uni, locale, 'university'))),
+        url: absoluteUrl(
+          locale,
+          routeHref('universities', getSlugForEntity(uni, locale, 'university')),
+        ),
         lastModified: dataLastModified,
         changeFrequency: 'monthly',
         priority: 0.7,

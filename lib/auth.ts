@@ -36,7 +36,7 @@ function createAuth() {
 
 let _auth: ReturnType<typeof createAuth> | null = null;
 
-export function getAuth() {
+function getAuth() {
   if (!_auth) {
     _auth = createAuth();
   }
@@ -51,5 +51,3 @@ export const auth = new Proxy({} as ReturnType<typeof createAuth>, {
     return typeof value === 'function' ? value.bind(instance) : value;
   },
 });
-
-export type Session = ReturnType<typeof createAuth>['$Infer']['Session'];

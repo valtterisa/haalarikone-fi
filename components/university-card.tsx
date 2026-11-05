@@ -93,7 +93,10 @@ export default function UniversityCard({ uni, source = 'search' }: UniversityCar
             </HubLink>
           ) : null}
           <span className="inline-flex min-h-11 items-center gap-1.5 rounded px-2 text-xs font-medium tabular-nums text-muted-foreground sm:px-2.5">
-            <span className="h-2 w-2 rounded-sm ring-1 ring-foreground/10" style={parseStyles(uni.hex)} />
+            <span
+              className="h-2 w-2 rounded-sm ring-1 ring-foreground/10"
+              style={parseStyles(uni.hex)}
+            />
             {uni.vari}
           </span>
         </div>

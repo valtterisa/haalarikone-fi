@@ -18,10 +18,7 @@ export function trackHubClick(source: HubSource, type: HubType, slug: string) {
   track('hub_click', { source, type, slug });
 }
 
-export function trackFilterSelect(
-  filter: 'area' | 'school' | 'field' | 'color',
-  value: string,
-) {
+export function trackFilterSelect(filter: 'area' | 'school' | 'field' | 'color', value: string) {
   track('filter_select', { filter, value });
 }
 

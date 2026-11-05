@@ -1,4 +1,4 @@
-import { and, eq } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { getDb, requireDb } from '@/lib/db';
 import { organizationClaims, organizationProfiles } from '@/lib/db/schema';
 import type { EnrichedOrganization } from '@/lib/load-enrichment';
@@ -23,21 +23,6 @@ export async function getOrganizationProfile(
   return rows[0] ?? null;
 }
 
-export async function getApprovedClaimForOrg(
-  orgSlug: string,
-): Promise<OrganizationClaimRow | null> {
-  const db = getDb();
-  if (!db) return null;
-
-  const rows = await db
-    .select()
-    .from(organizationClaims)
-    .where(and(eq(organizationClaims.orgSlug, orgSlug), eq(organizationClaims.status, 'approved')))
-    .limit(1);
-
-  return rows[0] ?? null;
-}
-
 export async function listProfilesByUser(userId: string): Promise<OrganizationProfileRow[]> {
   const db = requireDb();
   return db
@@ -57,10 +42,7 @@ export async function getAllOrganizationProfiles(): Promise<OrganizationProfileR
   return db.select().from(organizationProfiles);
 }
 
-export function profileDescription(
-  profile: OrganizationProfileRow | null,
-  locale: Locale,
-): string | null {
+function profileDescription(profile: OrganizationProfileRow | null, locale: Locale): string | null {
   if (!profile) return null;
   if (locale === 'en')
     return profile.descriptionEn ?? profile.descriptionFi ?? profile.descriptionSv;
@@ -131,8 +113,4 @@ export function mergeOverallForPublic(
       };
 
   return { overall: mergedOverall, enrichment: mergedEnrichment, verified: true };
-}
-
-export function buildHexStyle(hex: string, textColor: string): string {
-  return `background: ${hex}; color: ${textColor};`;
 }

@@ -49,10 +49,10 @@ export function buildSearchResponse(
     requiredBaseColors.length > 0 ||
     Boolean(
       qu.filters.color ||
-        qu.filters.area ||
-        qu.filters.field ||
-        qu.filters.school ||
-        qu.filters.organization,
+      qu.filters.area ||
+      qu.filters.field ||
+      qu.filters.school ||
+      qu.filters.organization,
     );
   const finalResults = rankCandidates(query, qu.semanticQuery, candidates, hasExplicitFilters);
 

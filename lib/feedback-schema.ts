@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const feedbackTypes = ['general', 'correction'] as const;
+const feedbackTypes = ['general', 'correction'] as const;
 
 export const feedbackSchema = z.object({
   type: z.enum(feedbackTypes),

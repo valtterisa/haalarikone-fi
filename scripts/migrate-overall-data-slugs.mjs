@@ -11,7 +11,7 @@ function generateSlug(text) {
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[åäö]/g, (match) => ({ å: 'a', ä: 'a', ö: 'o' }[match] || match))
+    .replace(/[åäö]/g, (match) => ({ å: 'a', ä: 'a', ö: 'o' })[match] || match)
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 }

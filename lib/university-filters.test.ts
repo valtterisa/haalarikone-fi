@@ -35,17 +35,13 @@ describe('advanced filters integration', () => {
   it('filters by field only', () => {
     const results = filterUniversities(universities, { field: 'oikeustiede' }, colorData);
     expect(results.length).toBeGreaterThan(0);
-    expect(
-      results.every((uni) => !uni.ala || uni.ala.toLowerCase().includes('oikeustiede')),
-    ).toBe(true);
+    expect(results.every((uni) => !uni.ala || uni.ala.toLowerCase().includes('oikeustiede'))).toBe(
+      true,
+    );
   });
 
   it('filters by school only', () => {
-    const results = filterUniversities(
-      universities,
-      { school: 'Helsingin yliopisto' },
-      colorData,
-    );
+    const results = filterUniversities(universities, { school: 'Helsingin yliopisto' }, colorData);
     expect(results.length).toBeGreaterThan(0);
     expect(
       results.every((uni) => uni.oppilaitos.toLowerCase().includes('helsingin yliopisto')),
@@ -89,11 +85,7 @@ describe('advanced filters integration', () => {
     const searchBody = buildSearchResponse(query, qu, universities, colorData);
     expect(searchBody.results.length).toBeGreaterThan(0);
 
-    const filtered = filterUniversities(
-      searchBody.results,
-      { color: 'punainen' },
-      colorData,
-    );
+    const filtered = filterUniversities(searchBody.results, { color: 'punainen' }, colorData);
     expect(filtered.length).toBeGreaterThan(0);
     expect(filtered.length).toBeLessThanOrEqual(searchBody.results.length);
     for (const uni of filtered) {
