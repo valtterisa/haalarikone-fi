@@ -572,20 +572,5 @@
     "embedBody": "Kopioi tämä koodi ainejärjestön sivulle. Linkki ohjaa Haalarikoneeseen.",
     "copyEmbed": "Kopioi",
     "copied": "Kopioitu"
-  },
-  "admin": {
-    "title": "Ylläpito",
-    "subtitle": "Manuaaliset lunastukset ja kutsut.",
-    "pendingClaims": "Odottavat lunastukset",
-    "noPending": "Ei odottavia.",
-    "approve": "Hyväksy",
-    "reject": "Hylkää",
-    "inviteTitle": "Lähetä lunastuskutsu",
-    "inviteBody": "Lähetä Resendillä kutsu organisaation sähköpostiin.",
-    "inviteSlug": "Slug",
-    "inviteEmail": "Sähköposti",
-    "sendInvite": "Lähetä",
-    "inviteSent": "Kutsu lähetetty.",
-    "inviteError": "Kutsun lähetys epäonnistui."
   }
 }

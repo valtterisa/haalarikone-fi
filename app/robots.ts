@@ -7,8 +7,8 @@ export default function robots(): MetadataRoute.Robots {
     '/auth/',
     '/api/',
     '/oma',
-    '/admin',
     '/kirjaudu',
+
     '/sign-in',
     '/logga-in',
     '/dashboard',

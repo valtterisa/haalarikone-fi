@@ -3,11 +3,9 @@
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { requireDb } from '@/lib/db';
-import { organizationInvites, organizationProfiles } from '@/lib/db/schema';
-import { requireAdminSession, requireSession } from '@/lib/auth-session';
-import { approveClaim, rejectClaim, revokeClaim, submitOrganizationClaim } from '@/lib/org-claims';
-import { sendClaimInviteEmail } from '@/lib/email';
-import { loadUniversities } from '@/lib/load-universities';
+import { organizationProfiles } from '@/lib/db/schema';
+import { requireSession } from '@/lib/auth-session';
+import { submitOrganizationClaim } from '@/lib/org-claims';
 
 /** Form fields: valid URL, or blank (saved as null). */
 const blankableUrl = z.url().max(500).or(z.literal(''));
@@ -114,68 +112,6 @@ export async function updateOrganizationProfileAction(formData: FormData) {
       updatedByUserId: session.user.id,
     })
     .where(eq(organizationProfiles.orgSlug, data.orgSlug));
-
-  return { ok: true as const };
-}
-
-export async function adminApproveClaimAction(claimId: string) {
-  const session = await requireAdminSession();
-  await approveClaim(claimId, session.user.email);
-  return { ok: true as const };
-}
-
-export async function adminRejectClaimAction(claimId: string) {
-  const session = await requireAdminSession();
-  await rejectClaim(claimId, session.user.email);
-  return { ok: true as const };
-}
-
-export async function adminRevokeClaimAction(claimId: string) {
-  const session = await requireAdminSession();
-  await revokeClaim(claimId, session.user.email);
-  return { ok: true as const };
-}
-
-export async function sendClaimInviteAction(formData: FormData) {
-  const session = await requireAdminSession();
-  const orgSlug = formText(formData.get('orgSlug'));
-  const emailResult = z.email().safeParse(formText(formData.get('email')).toLowerCase());
-
-  if (!orgSlug || !emailResult.success) {
-    return { ok: false as const, error: 'invalid' };
-  }
-
-  const email = emailResult.data;
-  const universities = await loadUniversities('fi');
-  const overall = universities.find((u) => u.slug === orgSlug);
-  if (!overall) {
-    return { ok: false as const, error: 'not_found' };
-  }
-
-  await sendClaimInviteEmail({
-    email,
-    orgName: overall.ainejarjesto ?? orgSlug,
-    orgSlug,
-  });
-
-  const now = new Date();
-  const db = requireDb();
-  await db
-    .insert(organizationInvites)
-    .values({
-      id: crypto.randomUUID(),
-      orgSlug,
-      email,
-      sentAt: now,
-      sentBy: session.user.email,
-    })
-    .onConflictDoUpdate({
-      target: [organizationInvites.orgSlug, organizationInvites.email],
-      set: {
-        sentAt: now,
-        sentBy: session.user.email,
-      },
-    });
 
   return { ok: true as const };
 }

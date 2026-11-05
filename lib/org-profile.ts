@@ -51,11 +51,6 @@ export async function listClaimsByUser(userId: string): Promise<OrganizationClai
   return db.select().from(organizationClaims).where(eq(organizationClaims.userId, userId));
 }
 
-export async function listPendingClaims(): Promise<OrganizationClaimRow[]> {
-  const db = requireDb();
-  return db.select().from(organizationClaims).where(eq(organizationClaims.status, 'pending'));
-}
-
 export async function getAllOrganizationProfiles(): Promise<OrganizationProfileRow[]> {
   const db = getDb();
   if (!db) return [];

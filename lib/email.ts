@@ -205,37 +205,3 @@ export async function sendClaimRejectedEmail(params: {
     'claim rejected',
   );
 }
-
-export async function sendClaimInviteEmail(params: {
-  email: string;
-  orgName: string;
-  orgSlug: string;
-}): Promise<void> {
-  const claimUrl = `${SITE_ORIGIN}/kirjaudu?next=${encodeURIComponent(`/haalari/${params.orgSlug}?claim=1`)}`;
-  await sendEmail(
-    {
-      to: params.email,
-      subject: `Lunasta ${params.orgName} Haalarikoneessa`,
-      html: `
-      <div style="font-family: system-ui, sans-serif; max-width: 32rem; margin: 0 auto; padding: 1.5rem;">
-        <p style="font-size: 1.125rem; font-weight: 600; margin: 0 0 0.75rem;">Haalarikone</p>
-        <p style="margin: 0 0 1rem; line-height: 1.5; color: #333;">
-          Suomen kattavin haalariväritietokanta kutsuu ainejärjestöjä lunastamaan
-          virallisen profiilin. Kirjaudu <strong>ainejärjestön sähköpostilla</strong>
-          ja vahvista <strong>${params.orgName}</strong>.
-        </p>
-        <p style="margin: 0 0 1.5rem;">
-          <a href="${claimUrl}" style="display: inline-block; background: #65a30d; color: #fff; text-decoration: none; padding: 0.75rem 1.25rem; border-radius: 0.5rem; font-weight: 600;">
-            Lunasta profiili
-          </a>
-        </p>
-        <p style="margin: 0; font-size: 0.875rem; color: #666; line-height: 1.4;">
-          Jos viesti ei kuulu teille, voitte jättää sen huomiotta.
-        </p>
-      </div>
-    `,
-      text: `Lunasta ${params.orgName} Haalarikoneessa: ${claimUrl}`,
-    },
-    'claim invite',
-  );
-}

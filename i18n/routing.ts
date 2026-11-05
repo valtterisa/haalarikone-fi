@@ -28,7 +28,6 @@ export const routing = defineRouting({
     '/kirjaudu': { fi: '/kirjaudu', en: '/sign-in', sv: '/logga-in' },
     '/oma': { fi: '/oma', en: '/dashboard', sv: '/mina' },
     '/oma/[slug]': { fi: '/oma/[slug]', en: '/dashboard/[slug]', sv: '/mina/[slug]' },
-    '/admin': { fi: '/admin', en: '/admin', sv: '/admin' },
   },
 });
 

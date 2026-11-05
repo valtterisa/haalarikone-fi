@@ -572,20 +572,5 @@
     "embedBody": "Klistra in koden på er webbplats. Den länkar tillbaka till Haalarikone.",
     "copyEmbed": "Kopiera",
     "copied": "Kopierat"
-  },
-  "admin": {
-    "title": "Admin",
-    "subtitle": "Manuella hämtningar och inbjudningar.",
-    "pendingClaims": "Väntande hämtningar",
-    "noPending": "Inget väntande.",
-    "approve": "Godkänn",
-    "reject": "Avvisa",
-    "inviteTitle": "Skicka hämtningsinbjudan",
-    "inviteBody": "Skicka e-post via Resend till organisationens inkorg.",
-    "inviteSlug": "Slug",
-    "inviteEmail": "E-post",
-    "sendInvite": "Skicka",
-    "inviteSent": "Inbjudan skickad.",
-    "inviteError": "Kunde inte skicka inbjudan."
   }
 }

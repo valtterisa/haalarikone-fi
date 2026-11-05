@@ -572,20 +572,5 @@
     "embedBody": "Paste this on your organisation site. It links back to Haalarikone.",
     "copyEmbed": "Copy",
     "copied": "Copied"
-  },
-  "admin": {
-    "title": "Admin",
-    "subtitle": "Manual claims and invites.",
-    "pendingClaims": "Pending claims",
-    "noPending": "Nothing pending.",
-    "approve": "Approve",
-    "reject": "Reject",
-    "inviteTitle": "Send claim invite",
-    "inviteBody": "Email an organisation inbox via Resend.",
-    "inviteSlug": "Slug",
-    "inviteEmail": "Email",
-    "sendInvite": "Send",
-    "inviteSent": "Invite sent.",
-    "inviteError": "Could not send invite."
   }
 }
