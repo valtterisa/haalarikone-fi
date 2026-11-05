@@ -57,7 +57,10 @@ export function FilterTabs({
             ) : null}
           </span>
           {active === tab.key ? (
-            <span className="absolute bottom-0 left-2 right-2 h-0.5 rounded-full bg-green" aria-hidden="true" />
+            <span
+              className="absolute bottom-0 left-2 right-2 h-0.5 rounded-full bg-green"
+              aria-hidden="true"
+            />
           ) : null}
         </button>
       ))}
@@ -274,9 +277,7 @@ export function OptionList({
               className={cn(
                 'touch-manipulation rounded-lg px-3 py-1.5 text-sm shadow-sm transition-[background-color,color] duration-150',
                 focusRing,
-                isSelected
-                  ? 'bg-green text-white'
-                  : 'bg-muted text-foreground hover:bg-muted/80',
+                isSelected ? 'bg-green text-white' : 'bg-muted text-foreground hover:bg-muted/80',
               )}
             >
               {formatLabel ? formatLabel(option) : option}

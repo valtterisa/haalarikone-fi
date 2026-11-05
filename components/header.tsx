@@ -1,7 +1,7 @@
 'use client';
 
-import { Link } from '@/i18n/routing';
-import { useState, type ReactNode } from 'react';
+import { Link, usePathname } from '@/i18n/routing';
+import { useEffect, useState, type ReactNode } from 'react';
 import type { Icon } from '@phosphor-icons/react';
 import {
   ListIcon,
@@ -20,9 +20,9 @@ import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from './language-switcher';
 import { ThemeSwitcher } from './theme-switcher';
+import { SignInControl, type HeaderAuthUser } from '@/components/auth/sign-in-control';
 import { trackHubClick, type HubType } from '@/lib/analytics-events';
 import { useTranslatedRoutes, type InternalHref } from '@/lib/use-translated-routes';
-import { usePathname } from '@/i18n/routing';
 
 function internalHrefKey(href: InternalHref): string {
   if (typeof href === 'string') return href;
@@ -49,18 +49,20 @@ function HeaderCategoryLink({ link, onNavigate }: { link: CategoryLink; onNaviga
   return (
     <Link
       href={link.href}
-      className="group flex items-center gap-3 py-4 text-foreground transition-colors active:scale-[0.98]"
+      className="group flex items-center gap-3 py-3.5 text-foreground transition-colors active:scale-[0.98]"
       onClick={() => {
         trackHubClick('header', link.hubType, 'index');
         onNavigate?.();
       }}
     >
-      <Icon className="h-6 w-6 shrink-0 text-green" weight="regular" aria-hidden="true" />
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-card">
+        <Icon className="h-5 w-5 text-green" weight="regular" aria-hidden="true" />
+      </span>
       <span className="min-w-0">
-        <span className="block text-3xl font-semibold tracking-tight leading-[1.1] transition-colors group-hover:text-green">
+        <span className="block text-lg font-semibold tracking-tight leading-tight transition-colors group-hover:text-green">
           {link.label}
         </span>
-        <span className="mt-1 block text-sm text-muted-foreground">{link.description}</span>
+        <span className="mt-0.5 block text-sm text-muted-foreground">{link.description}</span>
       </span>
     </Link>
   );
@@ -159,27 +161,25 @@ function HeaderNavLinks({
   if (links.length === 0) return null;
 
   return (
-    <nav className="flex flex-col border-t border-border pt-2" aria-label="Pages">
+    <nav className="flex flex-col border-t border-border pt-1" aria-label="Pages">
       {links.map((link) => (
         <Link
           key={`mobile-nav-${internalHrefKey(link.href)}`}
           href={link.href}
-          className="group flex items-center gap-3 py-4 text-foreground transition-colors hover:text-green active:scale-[0.98]"
+          className="group flex items-center gap-3 py-3.5 text-foreground transition-colors hover:text-green active:scale-[0.98]"
           onClick={onNavigate}
         >
-          <NewspaperIcon
-            className="h-6 w-6 shrink-0 text-green"
-            weight="regular"
-            aria-hidden="true"
-          />
-          <span className="text-3xl font-semibold tracking-tight leading-[1.1]">{link.label}</span>
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-card">
+            <NewspaperIcon className="h-5 w-5 text-green" weight="regular" aria-hidden="true" />
+          </span>
+          <span className="text-lg font-semibold tracking-tight leading-tight">{link.label}</span>
         </Link>
       ))}
     </nav>
   );
 }
 
-function HeaderRoot() {
+function HeaderRoot({ user }: { user: HeaderAuthUser | null }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const reduceMotion = useReducedMotion();
   const t = useTranslations();
@@ -189,6 +189,19 @@ function HeaderRoot() {
   const pathname = usePathname();
 
   const closeMobileMenu = () => setMobileOpen(false);
+
+  useEffect(() => {
+    closeMobileMenu();
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [mobileOpen]);
 
   const navLinks = [{ label: t('common.blog'), href: routes.blog() }];
 
@@ -232,30 +245,33 @@ function HeaderRoot() {
   ];
 
   return (
-    <header className="sticky top-0 z-sticky w-full border-b border-border bg-background/92 backdrop-blur-md supports-[backdrop-filter]:bg-background/80">
+    <header className="w-full border-b border-border bg-background/92 backdrop-blur-md supports-[backdrop-filter]:bg-background/80">
       <div className="relative">
-        <div className={cn(PAGE_WIDTH, 'flex h-16 items-center gap-4')}>
+        <div className={cn(PAGE_WIDTH, 'flex h-14 items-center gap-3 sm:h-16 sm:gap-4')}>
           <div className="shrink-0" onClick={closeMobileMenu}>
             <Logo priority />
           </div>
 
-          <div className="hidden min-w-0 flex-1 items-center justify-end gap-3 md:flex">
-            <Header.DesktopNav
-              links={categoryLinks}
-              blogHref={routes.blog()}
-              blogLabel={t('common.blog')}
-              pathname={pathname}
-            />
-            <span aria-hidden="true" className="h-5 w-px bg-border" />
-            <div className="flex items-center gap-0.5">
+          <div className="hidden min-w-0 flex-1 items-center md:flex">
+            <div className="ml-2 min-w-0 flex-1 lg:ml-4">
+              <Header.DesktopNav
+                links={categoryLinks}
+                blogHref={routes.blog()}
+                blogLabel={t('common.blog')}
+                pathname={pathname}
+              />
+            </div>
+            <div className="ml-4 shrink-0">
+              <SignInControl user={user} variant="header" />
+            </div>
+            <div className="ml-2 flex shrink-0 items-center gap-1">
               <LanguageSwitcher instanceId="desktop" />
               <ThemeSwitcher />
             </div>
           </div>
 
-          <div className="ml-auto flex items-center gap-0.5 md:hidden">
-            <ThemeSwitcher />
-            <LanguageSwitcher instanceId="mobile" />
+          <div className="ml-auto flex items-center gap-1 md:hidden">
+            <SignInControl user={user} variant="header" className="mr-0.5" />
             <Button
               type="button"
               variant="ghost"
@@ -310,6 +326,15 @@ function HeaderRoot() {
             <Header.MobileMenu reduceMotion={!!reduceMotion}>
               <Header.Categories links={categoryLinks} onNavigate={closeMobileMenu} />
               <Header.NavLinks links={navLinks} onNavigate={closeMobileMenu} />
+              <div className="space-y-3 border-t border-border py-4">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                    {tNav('preferences')}
+                  </span>
+                  <LanguageSwitcher instanceId="mobile-menu" />
+                </div>
+                <SignInControl user={user} variant="menu" onNavigate={closeMobileMenu} />
+              </div>
             </Header.MobileMenu>
           )}
         </AnimatePresence>
@@ -327,18 +352,18 @@ function HeaderMobileMenu({
 }) {
   return (
     <motion.div
-      className="absolute inset-x-0 top-full origin-top overflow-hidden border-b border-border bg-background md:hidden"
-      initial={reduceMotion ? false : { opacity: 0, y: -12 }}
+      className="absolute inset-x-0 top-full max-h-[min(100dvh-3.5rem,40rem)] origin-top overflow-y-auto overscroll-contain border-b border-border bg-background shadow-lg md:hidden"
+      initial={reduceMotion ? false : { opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
-      transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+      exit={reduceMotion ? undefined : { opacity: 0, y: -6 }}
+      transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
     >
       <motion.div
-        className={cn(PAGE_WIDTH, 'space-y-2 py-1')}
-        initial={reduceMotion ? false : { opacity: 0, y: -6 }}
+        className={cn(PAGE_WIDTH, 'pb-2 pt-1')}
+        initial={reduceMotion ? false : { opacity: 0, y: -4 }}
         animate={{ opacity: 1, y: 0 }}
         exit={reduceMotion ? undefined : { opacity: 0 }}
-        transition={{ duration: 0.32, delay: reduceMotion ? 0 : 0.04, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.28, delay: reduceMotion ? 0 : 0.03, ease: [0.16, 1, 0.3, 1] }}
       >
         {children}
       </motion.div>

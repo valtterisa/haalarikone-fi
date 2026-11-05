@@ -15,7 +15,10 @@ export default function Logo({
   priority = false,
 }: LogoProps) {
   return (
-    <Link href="/" className="flex w-fit items-center gap-2 font-display text-lg font-bold tracking-tight text-foreground">
+    <Link
+      href="/"
+      className="flex w-fit items-center gap-2 font-display text-lg font-bold tracking-tight text-foreground"
+    >
       <Image
         src="/haalarikone-logo.png"
         alt=""

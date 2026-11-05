@@ -35,7 +35,9 @@ export function ResultsAdCard({ ad }: ResultsAdCardProps) {
             <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground sm:text-[11px]">
               {t('badge')}
             </span>
-            <span className="text-[10px] text-muted-foreground sm:text-[11px]">{item('brand')}</span>
+            <span className="text-[10px] text-muted-foreground sm:text-[11px]">
+              {item('brand')}
+            </span>
           </div>
           <p className="text-sm font-semibold leading-snug tracking-tight text-foreground sm:text-[15px]">
             {item('title')}

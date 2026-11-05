@@ -35,7 +35,10 @@
     "navigateDescription": "Valitse sinulle sopiva polku ja jatka selaamista.",
     "otherPages": "Muut sivut",
     "closeMenu": "Sulje valikko",
-    "openMenu": "Avaa valikko"
+    "openMenu": "Avaa valikko",
+    "signIn": "Kirjaudu",
+    "account": "Oma",
+    "preferences": "Asetukset"
   },
   "home": {
     "title": "Haalarikone",
@@ -92,14 +95,18 @@
         {
           "title": "1. Mitä tämä seloste koskee",
           "paragraphs": [
-            "Haalarikone on ilmainen hakemisto suomalaisten yliopistojen ja ammattikorkeakoulujen opiskelijahaalarien väreistä. Palveluun ei luoda käyttäjätilejä, eikä hakemiston sisältö ole henkilörekisteri yksittäisistä opiskelijoista.",
-            "Henkilötietoja syntyy vain, jos lähetät palautetta, ja teknisessä mielessä kun sivustoa käytetään (analytiikka, haku ja hosting). Oppilaitosten, ainejärjestöjen ja haalarivärien tiedot ovat julkista hakemistotietoa."
+            "Haalarikone on ilmainen hakemisto suomalaisten yliopistojen ja ammattikorkeakoulujen opiskelijahaalarien väreistä. Hakemiston sisältö ei ole henkilörekisteri yksittäisistä opiskelijoista.",
+            "Voit kirjautua sähköpostilinkillä (magic link) lunastaaksesi ainejärjestön profiilin. Henkilötietoja syntyy myös, jos lähetät palautetta, ja teknisessä mielessä kun sivustoa käytetään (analytiikka, haku ja hosting)."
           ]
         },
         {
           "title": "2. Käsiteltävät tiedot",
           "paragraphs": ["Käsittelemme vain sen, mitä palvelun pyörittäminen edellyttää:"],
           "items": [
+            {
+              "name": "Käyttäjätili ja lunastus",
+              "detail": "Sähköpostiosoite, istuntotiedot (eväste), lunastuspyynnöt (organisaation slug, perustelu) sekä mahdolliset organisaatioprofiilin muokkaukset. Magic link -viestit lähetetään Resendillä. Manuaaliset lunastukset voivat näkyä ylläpidon Discord-kanavalla."
+            },
             {
               "name": "Palaute",
               "detail": "Palautelomakkeen viesti (pakollinen), vapaaehtoinen sähköpostiosoite, sekä tekniset tiedot vastauksen kannalta (sivun osoite, kohteen nimi/tunniste ja mahdollinen viittaava sivu)."
@@ -240,7 +247,7 @@
           "title": "1. Palvelu",
           "paragraphs": [
             "Haalarikone on ilmainen hakemisto suomalaisten yliopistojen ja ammattikorkeakoulujen opiskelijahaalarien väreistä. Voit selata ja hakea tietoja värin, alan, oppilaitoksen, alueen ja ainejärjestön mukaan. Palvelu on tarkoitettu opiskelijakulttuurin harrastuskäyttöön.",
-            "Rekisteröitymistä ei ole. Palvelu tarjotaan sellaisena kuin se on, ilman maksua. Ylläpitäjä voi muuttaa, keskeyttää tai lopettaa palvelun."
+            "Voit kirjautua sähköpostilinkillä lunastaaksesi ainejärjestön profiilin. Palvelu tarjotaan sellaisena kuin se on, ilman maksua. Ylläpitäjä voi muuttaa, keskeyttää tai lopettaa palvelun."
           ]
         },
         {
@@ -485,5 +492,85 @@
     "areas": "alue",
     "blog": "blog",
     "overall": "haalari"
+  },
+  "auth": {
+    "pageTitle": "Kirjaudu",
+    "headline": "Kirjaudu sähköpostilinkillä",
+    "subhead": "Ei salasanoja. Lähetämme kertakirjautumislinkin ainejärjestön tai omaan sähköpostiisi.",
+    "emailLabel": "Sähköposti",
+    "emailPlaceholder": "hallitus@esimerkki.fi",
+    "orgEmailHint": "Lunastaaksesi organisaation käytä sen omaa sähköpostiosoitetta.",
+    "sendLink": "Lähetä kirjautumislinkki",
+    "sending": "Lähetetään…",
+    "checkInbox": "Tarkista sähköpostisi",
+    "checkInboxDetail": "Lähetimme linkin osoitteeseen {email}. Linkki vanhenee pian.",
+    "sendError": "Linkin lähetys epäonnistui. Yritä uudelleen.",
+    "linkError": "Kirjautumislinkki oli virheellinen tai vanhentunut. Pyydä uusi.",
+    "legalNote": "Kirjautumalla hyväksyt käyttöehdot ja tietosuojaselosteen. Käytämme Resendiä sähköpostien lähetykseen."
+  },
+  "claim": {
+    "verified": "Vahvistettu",
+    "verifiedOwner": "Hallinnoit tätä profiilia",
+    "ownerBody": "Voit päivittää haalarivärin, kuvauksen ja yhteystiedot.",
+    "editProfile": "Muokkaa profiilia",
+    "ctaTitle": "Edustatko {name}?",
+    "ctaBody": "Lunasta virallinen haalariprofiili ainejärjestön sähköpostilla.",
+    "useOrgEmail": "Kirjaudu esimerkiksi osoitteella {hint}.",
+    "manualHint": "Jos järjestöllä ei ole omaa sähköpostidomainia, tarkistamme pyynnön käsin.",
+    "signInToClaim": "Kirjaudu ja lunasta",
+    "loggedInBody": "Jos sähköpostisi kuuluu järjestön domainiin, hyväksymme pyynnön heti. Muuten tarkistamme sen.",
+    "proofLabel": "Perustelu",
+    "proofPlaceholder": "Esim. hallituksen jäsen tai yhteyshenkilö…",
+    "submitClaim": "Lunasta",
+    "cancel": "Peruuta",
+    "submitting": "Lähetetään…",
+    "approved": "Profiili on lunastettu. Voit muokata tietoja.",
+    "pending": "Pyyntö vastaanotettu. Saat sähköpostia, kun se on käsitelty.",
+    "error": "Lunastus ei onnistunut. Profiili voi olla jo lunastettu.",
+    "bannerBody": "Ainejärjestöt voivat nyt lunastaa virallisen haalariprofiilin.",
+    "bannerLink": "Lue ohje"
+  },
+  "dashboard": {
+    "title": "Oma Haalarikone",
+    "signedInAs": "Kirjautuneena: {email}",
+    "signOut": "Kirjaudu ulos",
+    "myOrgs": "Organisaationi",
+    "noOrgs": "Ei vielä lunastettuja organisaatioita. Avaa haalarisivu ja lunasta.",
+    "edit": "Muokkaa",
+    "myClaims": "Lunastuspyynnöt",
+    "noClaims": "Ei lunastuspyyntöjä.",
+    "status": {
+      "pending": "Odottaa",
+      "approved": "Hyväksytty",
+      "rejected": "Hylätty"
+    }
+  },
+  "editor": {
+    "pageTitle": "Muokkaa organisaatiota",
+    "back": "Takaisin",
+    "subtitle": "Muutokset näkyvät julkisella haalarisivulla heti tallennuksen jälkeen.",
+    "profileSection": "Profiili",
+    "colorSection": "Haalariväri",
+    "displayName": "Nimi",
+    "website": "Verkkosivu",
+    "instagram": "Instagram",
+    "discord": "Discord",
+    "descriptionFi": "Kuvaus (suomi)",
+    "descriptionEn": "Kuvaus (englanti)",
+    "descriptionSv": "Kuvaus (ruotsi)",
+    "variLabel": "Värin nimi",
+    "variBase": "Perusvärit (pilkulla erotettuna)",
+    "hex": "Hex-väri",
+    "textColor": "Tekstin väri",
+    "textWhite": "Valkoinen",
+    "textBlack": "Musta",
+    "save": "Tallenna",
+    "saving": "Tallennetaan…",
+    "saved": "Tallennettu.",
+    "saveError": "Tallennus epäonnistui.",
+    "embedTitle": "Upotus (color card)",
+    "embedBody": "Kopioi tämä koodi ainejärjestön sivulle. Linkki ohjaa Haalarikoneeseen.",
+    "copyEmbed": "Kopioi",
+    "copied": "Kopioitu"
   }
 }

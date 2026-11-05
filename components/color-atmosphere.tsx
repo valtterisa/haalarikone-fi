@@ -13,7 +13,11 @@ export function ColorAtmosphere({ hexes }: ColorAtmosphereProps) {
     >
       <div className="flex h-full w-full">
         {swatches.map((hex, i) => (
-          <span key={`${hex}-${i}`} className="h-full min-w-0 flex-1" style={{ backgroundColor: hex }} />
+          <span
+            key={`${hex}-${i}`}
+            className="h-full min-w-0 flex-1"
+            style={{ backgroundColor: hex }}
+          />
         ))}
       </div>
       <div className="absolute inset-0 bg-card/88 dark:bg-card/82" />

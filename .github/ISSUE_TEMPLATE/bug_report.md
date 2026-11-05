@@ -1,9 +1,9 @@
 ---
 name: Bug Report
 about: Something is broken and needs fixing
-title: "[bug] "
+title: '[bug] '
 labels: bug
-assignees: ""
+assignees: ''
 ---
 
 ## What happened?

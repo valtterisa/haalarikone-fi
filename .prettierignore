@@ -5,4 +5,8 @@ dist
 .turbo
 out
 .vercel
+.cloudflare
+.vinext
+pnpm-lock.yaml
+next-env.d.ts
 

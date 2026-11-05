@@ -152,9 +152,12 @@ Completed search intents are stored in Turso (libSQL) via Drizzle. Each row is a
 # apply schema to Turso
 pnpm db:push
 
-# Cloudflare production secrets
-npx wrangler secret put TURSO_DATABASE_URL
-npx wrangler secret put TURSO_AUTH_TOKEN
+# Cloudflare production secrets (cf CLI)
+pnpm exec cf workers secrets update TURSO_DATABASE_URL --worker haalarikone-fi
+pnpm exec cf workers secrets update TURSO_AUTH_TOKEN --worker haalarikone-fi
+
+# Deploy (vinext → Cloudflare Workers)
+pnpm deploy:vinext
 ```
 
 Logging runs server-side inside `POST /api/search` (fire-and-forget insert). Missing env or insert failures are silent and never affect search UX.

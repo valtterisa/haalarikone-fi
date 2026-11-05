@@ -4,7 +4,7 @@ import { ArrowUpRight, Globe, UsersThree } from '@phosphor-icons/react/ssr';
 import { getLocale } from 'next-intl/server';
 import type { ReactNode } from 'react';
 
-export function websiteHost(url: string): string {
+function websiteHost(url: string): string {
   try {
     return new URL(url).hostname.replace(/^www\./, '');
   } catch {

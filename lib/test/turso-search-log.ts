@@ -2,9 +2,7 @@ import { eq } from 'drizzle-orm';
 import { getDb, resetDb } from '@/lib/db';
 import { searchQueries } from '@/lib/db/schema';
 
-export const hasTursoDb = Boolean(
-  process.env.TURSO_DATABASE_URL && process.env.TURSO_AUTH_TOKEN,
-);
+export const hasTursoDb = Boolean(process.env.TURSO_DATABASE_URL && process.env.TURSO_AUTH_TOKEN);
 
 export function ensureDb() {
   resetDb();

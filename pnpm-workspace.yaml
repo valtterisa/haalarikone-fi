@@ -1,7 +1,13 @@
 packages:
-  - "."
+  - '.'
 
+# Never approve these — leftover optional peers from better-auth/drizzle.
+# We use Turso/libSQL, not Prisma or better-sqlite3.
 allowBuilds:
+  '@parcel/watcher': true
+  '@prisma/client': false
+  '@swc/core': true
+  better-sqlite3: false
   esbuild: true
   sharp: true
   workerd: true

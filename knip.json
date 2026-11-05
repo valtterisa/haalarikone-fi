@@ -1,9 +1,10 @@
 {
-  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "$schema": "./node_modules/knip/schema.json",
   "tags": ["-lintignore"],
-  "ignore": ["open-next.config.ts"],
-  "ignoreDependencies": ["lint-staged"],
+  "ignoreDependencies": ["lint-staged", "cloudflare"],
   "workspaces": {
-    ".": {}
+    ".": {
+      "entry": ["cloudflare.config.ts"]
+    }
   }
 }

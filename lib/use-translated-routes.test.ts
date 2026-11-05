@@ -49,7 +49,11 @@ describe('no double-prefix URL composition in app source', () => {
       if (st.isDirectory()) {
         if (name === 'node_modules' || name === '.next') continue;
         out.push(...walkTsFiles(full));
-      } else if (/\.(ts|tsx)$/.test(name) && !name.endsWith('.test.ts') && !name.endsWith('.test.tsx')) {
+      } else if (
+        /\.(ts|tsx)$/.test(name) &&
+        !name.endsWith('.test.ts') &&
+        !name.endsWith('.test.tsx')
+      ) {
         out.push(full);
       }
     }

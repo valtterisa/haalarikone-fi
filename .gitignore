@@ -1,6 +1,8 @@
 node_modules
 .next
 .env*
+local.db
+local.db-*
 
 # Playwright
 /test-results/
@@ -12,10 +14,14 @@ node_modules
 # OpenNext
 .open-next
 
-# wrangler files
+# wrangler / cf files
 .wrangler
+.cloudflare/output
 .dev.vars*
 !.dev.vars.example
 !.env.example
 
 .firecrawl
+/dist/
+.vinext/
+.cloudflare/

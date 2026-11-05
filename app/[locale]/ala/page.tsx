@@ -122,7 +122,10 @@ export default async function FieldIndexPage({ params }: { params: Promise<{ loc
       '@type': 'ListItem',
       position: index + 1,
       name: field.translatedName,
-      url: absoluteUrl(locale, routeHref('fields', getSlugForEntity(field.finnishName, locale, 'field'))),
+      url: absoluteUrl(
+        locale,
+        routeHref('fields', getSlugForEntity(field.finnishName, locale, 'field')),
+      ),
     })),
   };
 
@@ -160,17 +163,17 @@ export default async function FieldIndexPage({ params }: { params: Promise<{ loc
         <FieldSearchSection universities={universities} colorData={colorData} />
 
         <ul className="divide-y divide-border">
-            {fieldsWithTranslations.map((field) => (
-              <li key={field.finnishName}>
-                <Link
-                  href={routeHref('fields', getSlugForEntity(field.finnishName, locale, 'field'))}
-                  className="flex min-h-11 items-center py-3 text-base font-medium text-foreground transition hover:text-green"
-                >
-                  {field.translatedName}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {fieldsWithTranslations.map((field) => (
+            <li key={field.finnishName}>
+              <Link
+                href={routeHref('fields', getSlugForEntity(field.finnishName, locale, 'field'))}
+                className="flex min-h-11 items-center py-3 text-base font-medium text-foreground transition hover:text-green"
+              >
+                {field.translatedName}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </Page>
     </>
   );

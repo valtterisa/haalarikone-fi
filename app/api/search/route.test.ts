@@ -15,9 +15,8 @@ vi.mock('@/lib/insert-search-log', () => ({
 }));
 
 vi.mock('@/lib/load-universities', async () => {
-  const actual = await vi.importActual<typeof import('@/lib/load-universities')>(
-    '@/lib/load-universities',
-  );
+  const actual =
+    await vi.importActual<typeof import('@/lib/load-universities')>('@/lib/load-universities');
   return {
     ...actual,
     loadUniversities: (...args: Parameters<typeof actual.loadUniversities>) =>
@@ -28,14 +27,18 @@ vi.mock('@/lib/load-universities', async () => {
 import { POST } from './route';
 import type { University } from '@/types/university';
 
+type SearchResponseBody = {
+  results: Array<{ alue: string; oppilaitos: string; variBase?: string[] }>;
+  totalCount: number;
+};
+
 describe('search API integration', () => {
   let realUniversities: University[];
   let realLoadUniversities: typeof import('@/lib/load-universities').loadUniversities;
 
   beforeAll(async () => {
-    const actual = await vi.importActual<typeof import('@/lib/load-universities')>(
-      '@/lib/load-universities',
-    );
+    const actual =
+      await vi.importActual<typeof import('@/lib/load-universities')>('@/lib/load-universities');
     realLoadUniversities = actual.loadUniversities;
     realUniversities = await realLoadUniversities('fi');
   });
@@ -62,7 +65,7 @@ describe('search API integration', () => {
       body: JSON.stringify({ query, locale }),
     });
     const res = await POST(req);
-    const body = await res.json();
+    const body = (await res.json()) as SearchResponseBody;
     return { res, body };
   }
 
@@ -104,7 +107,7 @@ describe('search API integration', () => {
       }),
     });
     const res = await POST(req);
-    const body = await res.json();
+    const body = (await res.json()) as SearchResponseBody;
 
     expect(res.status).toBe(200);
     expect(body.results.length).toBeGreaterThan(0);

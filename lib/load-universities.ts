@@ -111,7 +111,49 @@ export function loadUniversitiesSync(locale: 'fi' | 'en' | 'sv' = 'fi'): Univers
 
 export async function loadUniversities(locale: 'fi' | 'en' | 'sv' = 'fi'): Promise<University[]> {
   const translations = await loadTranslations();
-  return (universitiesData as unknown[])
+  const base = (universitiesData as unknown[])
     .map((row) => normalizeJsonToUniversity(row, locale, translations))
     .filter((u): u is University => u !== null);
+
+  try {
+    const { getAllOrganizationProfiles } = await import('@/lib/org-profile');
+    const profiles = await getAllOrganizationProfiles();
+    if (profiles.length === 0) return base;
+
+    const bySlug = new Map(profiles.map((p) => [p.orgSlug, p]));
+    return base.map((overall) => {
+      const profile = bySlug.get(overall.slug);
+      if (!profile) return overall;
+
+      let variBase = overall.variBase;
+      if (profile.variBaseJson) {
+        try {
+          const parsed = JSON.parse(profile.variBaseJson) as unknown;
+          if (Array.isArray(parsed) && parsed.every((v) => typeof v === 'string')) {
+            variBase = parsed;
+          }
+        } catch {
+          /* keep */
+        }
+      }
+
+      const hex =
+        profile.hex && profile.textColor
+          ? `background: ${profile.hex}; color: ${profile.textColor};`
+          : profile.hex
+            ? `background: ${profile.hex}; color: white;`
+            : overall.hex;
+
+      return {
+        ...overall,
+        ainejarjesto: profile.displayName ?? overall.ainejarjesto,
+        vari: profile.variLabel ?? overall.vari,
+        variLabel: profile.variLabel ?? overall.variLabel,
+        variBase,
+        hex,
+      };
+    });
+  } catch {
+    return base;
+  }
 }

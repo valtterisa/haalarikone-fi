@@ -35,7 +35,10 @@
     "navigateDescription": "Välj den väg som passar dig och fortsätt bläddra.",
     "otherPages": "Andra sidor",
     "closeMenu": "Stäng meny",
-    "openMenu": "Öppna meny"
+    "openMenu": "Öppna meny",
+    "signIn": "Logga in",
+    "account": "Mitt konto",
+    "preferences": "Inställningar"
   },
   "home": {
     "title": "Overallmaskinen",
@@ -92,14 +95,18 @@
         {
           "title": "1. Vad policyn gäller",
           "paragraphs": [
-            "Haalarikone är en gratis katalog över studentoverallfärger vid finländska universitet och yrkeshögskolor. Det finns inga användarkonton, och katalogen är inte ett register över enskilda studenter.",
-            "Personuppgifter uppstår bara om du skickar feedback, och i teknisk mening när sajten används (analys, sök och hosting). Uppgifter om lärosäten, ämnesföreningar och färger är publik kataloginformation."
+            "Haalarikone är en gratis katalog över studentoverallfärger vid finländska universitet och yrkeshögskolor. Katalogen är inte ett register över enskilda studenter.",
+            "Du kan logga in med en e-postlänk (magic link) för att hämta en studentorganisationsprofil. Personuppgifter uppstår också om du skickar feedback, och i teknisk mening när sajten används (analys, sök och hosting)."
           ]
         },
         {
           "title": "2. Uppgifter vi behandlar",
           "paragraphs": ["Vi behandlar bara det som krävs för att driva tjänsten:"],
           "items": [
+            {
+              "name": "Konto och hämtning",
+              "detail": "E-postadress, sessionscookie, hämtningsförfrågningar (slug, motivering) och redigeringar av hämtad organisationsprofil. Magic link-mejl skickas via Resend. Manuella hämtningar kan synas i operatörens Discord-kanal."
+            },
             {
               "name": "Feedback",
               "detail": "Meddelandet (obligatoriskt), valfri e-postadress och teknisk kontext för att kunna svara (sidans adress, objektets namn/id och ev. hänvisande sida)."
@@ -240,7 +247,7 @@
           "title": "1. Tjänsten",
           "paragraphs": [
             "Haalarikone är en gratis katalog över studentoverallfärger vid finländska universitet och yrkeshögskolor. Du kan bläddra och söka efter färg, studieområde, lärosäte, region och ämnesförening. Tjänsten är avsedd för hobbybruk kring studentkultur.",
-            "Det finns ingen registrering. Tjänsten tillhandahålls i befintligt skick, utan avgift. Operatören kan ändra, avbryta eller lägga ner den."
+            "Du kan logga in med en e-postlänk för att hämta en studentorganisationsprofil. Tjänsten tillhandahålls i befintligt skick, utan avgift. Operatören kan ändra, avbryta eller lägga ner den."
           ]
         },
         {
@@ -485,5 +492,85 @@
     "areas": "omraden",
     "blog": "blogg",
     "overall": "overall"
+  },
+  "auth": {
+    "pageTitle": "Logga in",
+    "headline": "Logga in med e-postlänk",
+    "subhead": "Inga lösenord. Vi skickar en engångslänk till din organisations eller egen e-post.",
+    "emailLabel": "E-post",
+    "emailPlaceholder": "styrelse@exempel.fi",
+    "orgEmailHint": "För att hämta en organisation, använd dess egen e-postadress.",
+    "sendLink": "Skicka inloggningslänk",
+    "sending": "Skickar…",
+    "checkInbox": "Kolla din e-post",
+    "checkInboxDetail": "Vi skickade en länk till {email}. Den går snart ut.",
+    "sendError": "Kunde inte skicka länken. Försök igen.",
+    "linkError": "Inloggningslänken var ogiltig eller har gått ut. Begär en ny.",
+    "legalNote": "Genom att logga in godkänner du villkoren och integritetspolicyn. Vi använder Resend för e-post."
+  },
+  "claim": {
+    "verified": "Verifierad",
+    "verifiedOwner": "Du hanterar den här organisationen",
+    "ownerBody": "Uppdatera overallfärg, beskrivning och kontaktuppgifter.",
+    "editProfile": "Redigera profil",
+    "ctaTitle": "Är detta {name}?",
+    "ctaBody": "Hämta den officiella profilen med organisationens e-post och håll uppgifterna aktuella.",
+    "useOrgEmail": "Använd en adress som {hint}",
+    "manualHint": "Utan egen domäne-post granskas hämtningen manuellt.",
+    "signInToClaim": "Logga in för att hämta",
+    "loggedInBody": "Matchande organisationsdomän godkänns automatiskt; annars granskar vi förfrågan.",
+    "proofLabel": "Motivering",
+    "proofPlaceholder": "t.ex. styrelsemedlem / kontaktperson…",
+    "submitClaim": "Hämta",
+    "cancel": "Avbryt",
+    "submitting": "Skickar…",
+    "approved": "Hämtning godkänd. Du kan redigera profilen.",
+    "pending": "Förfrågan mottagen. Du får e-post när den behandlats.",
+    "error": "Hämtning misslyckades. Organisationen kan redan vara hämtad.",
+    "bannerBody": "Studentorganisationer kan nu hämta en officiell overallprofil.",
+    "bannerLink": "Läs guiden"
+  },
+  "dashboard": {
+    "title": "Min Haalarikone",
+    "signedInAs": "Inloggad som {email}",
+    "signOut": "Logga ut",
+    "myOrgs": "Mina organisationer",
+    "noOrgs": "Inga hämtade organisationer ännu. Öppna en overallsida och hämta.",
+    "edit": "Redigera",
+    "myClaims": "Hämtningar",
+    "noClaims": "Inga hämtningar ännu.",
+    "status": {
+      "pending": "Väntar",
+      "approved": "Godkänd",
+      "rejected": "Avvisad"
+    }
+  },
+  "editor": {
+    "pageTitle": "Redigera organisation",
+    "back": "Tillbaka",
+    "subtitle": "Ändringar syns på den publika overallsidan direkt efter sparning.",
+    "profileSection": "Profil",
+    "colorSection": "Overallfärg",
+    "displayName": "Namn",
+    "website": "Webbplats",
+    "instagram": "Instagram",
+    "discord": "Discord",
+    "descriptionFi": "Beskrivning (finska)",
+    "descriptionEn": "Beskrivning (engelska)",
+    "descriptionSv": "Beskrivning (svenska)",
+    "variLabel": "Färgnamn",
+    "variBase": "Basfärger (kommaseparerade)",
+    "hex": "Hex-färg",
+    "textColor": "Textfärg",
+    "textWhite": "Vit",
+    "textBlack": "Svart",
+    "save": "Spara",
+    "saving": "Sparar…",
+    "saved": "Sparat.",
+    "saveError": "Kunde inte spara.",
+    "embedTitle": "Inbäddning (färgkort)",
+    "embedBody": "Klistra in koden på er webbplats. Den länkar tillbaka till Haalarikone.",
+    "copyEmbed": "Kopiera",
+    "copied": "Kopierat"
   }
 }

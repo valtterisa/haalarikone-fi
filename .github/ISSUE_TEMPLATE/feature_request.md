@@ -17,5 +17,3 @@ assignees: ''
 ## Extra context
 
 <!-- Links, mockups, similar examples, etc. -->
-
-

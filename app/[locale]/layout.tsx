@@ -1,5 +1,6 @@
 import Footer from '@/components/footer';
 import Header from '@/components/header';
+import { ClaimBanner } from '@/components/claim/claim-banner';
 import { PAGE_WIDTH } from '@/components/page';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Databuddy } from '@databuddy/sdk/react';
@@ -10,6 +11,7 @@ import { routing } from '@/i18n/routing';
 import { getTranslations } from 'next-intl/server';
 import { SITE_ORIGIN } from '@/lib/site-url';
 import { absoluteUrl } from '@/lib/use-translated-routes';
+import { getSession } from '@/lib/auth-session';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -105,6 +107,8 @@ export default async function LocaleLayout({
 
   const messages = await getMessages({ locale });
   const t = await getTranslations({ locale, namespace: 'common' });
+  const session = await getSession();
+  const headerUser = session?.user ? { id: session.user.id, email: session.user.email } : null;
 
   return (
     <NextIntlClientProvider key={locale} locale={locale} messages={messages}>
@@ -115,7 +119,10 @@ export default async function LocaleLayout({
         >
           {t('skipToContent')}
         </a>
-        <Header />
+        <div className="sticky top-0 z-sticky bg-background/92 backdrop-blur-md supports-[backdrop-filter]:bg-background/80">
+          <ClaimBanner />
+          <Header user={headerUser} />
+        </div>
         <main id="main-content" className="flex flex-col bg-background">
           <div className={PAGE_WIDTH}>{children}</div>
           <Databuddy
