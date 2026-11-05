@@ -8,4 +8,5 @@ out
 .cloudflare
 .vinext
 pnpm-lock.yaml
+next-env.d.ts
 
