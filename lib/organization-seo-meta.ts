@@ -11,7 +11,7 @@ export type OrganizationSeoMeta = {
 
 /**
  * Org-first titles/descriptions for student organization pages.
- * Color stays in the description, not as the leading title token.
+ * Color is included in the title after the org name so shares still surface it.
  */
 export function buildOrganizationSeoMeta(overall: University, locale: Locale): OrganizationSeoMeta {
   const labels = getOgLabels(locale);
@@ -21,7 +21,9 @@ export function buildOrganizationSeoMeta(overall: University, locale: Locale): O
   const university = overall.oppilaitos;
   const field = overall.ala?.trim() || null;
 
-  const openGraphTitle = orgName ? `${orgName} - ${university}` : `${university} - ${color}`;
+  const openGraphTitle = orgName
+    ? `${orgName} (${color}) - ${university}`
+    : `${university} (${color})`;
 
   const documentTitle = `${openGraphTitle} | Haalarikone`;
 

@@ -11,14 +11,15 @@ describe('buildOrganizationSeoMeta', () => {
     universities = await loadUniversities('fi');
   });
 
-  it('leads with the student organization name, not the color', () => {
+  it('leads with the student organization name and still includes the color', () => {
     const overall = findOrganizationBySlug(universities, 'lok-ry');
     expect(overall).toBeTruthy();
 
     const meta = buildOrganizationSeoMeta(overall!, 'fi');
-    expect(meta.openGraphTitle).toBe('LOK ry - Hämeen AMK');
-    expect(meta.documentTitle).toBe('LOK ry - Hämeen AMK | Haalarikone');
+    expect(meta.openGraphTitle).toBe('LOK ry (metsänvihreä) - Hämeen AMK');
+    expect(meta.documentTitle).toBe('LOK ry (metsänvihreä) - Hämeen AMK | Haalarikone');
     expect(meta.openGraphTitle.startsWith(overall!.vari)).toBe(false);
+    expect(meta.openGraphTitle).toContain(`(${overall!.vari})`);
     expect(meta.fallbackDescription.startsWith('LOK ry:')).toBe(true);
     expect(meta.fallbackDescription).toContain(overall!.vari);
   });
@@ -28,8 +29,8 @@ describe('buildOrganizationSeoMeta', () => {
     expect(overall).toBeTruthy();
     const meta = buildOrganizationSeoMeta(overall!, 'fi');
 
-    expect(meta.openGraphTitle).toBe('Vostok - Tampereen yliopisto');
-    expect(meta.documentTitle).toBe('Vostok - Tampereen yliopisto | Haalarikone');
+    expect(meta.openGraphTitle).toBe('Vostok (oranssi) - Tampereen yliopisto');
+    expect(meta.documentTitle).toBe('Vostok (oranssi) - Tampereen yliopisto | Haalarikone');
     expect(meta.fallbackDescription).toBe(
       'Vostok: oranssi haalari, Tampereen yliopisto – journalistiikka',
     );
@@ -40,8 +41,8 @@ describe('buildOrganizationSeoMeta', () => {
     const withoutOrg: University = { ...overall, ainejarjesto: null };
     const meta = buildOrganizationSeoMeta(withoutOrg, 'fi');
 
-    expect(meta.openGraphTitle).toBe(`${overall.oppilaitos} - ${overall.vari}`);
-    expect(meta.documentTitle).toBe(`${overall.oppilaitos} - ${overall.vari} | Haalarikone`);
+    expect(meta.openGraphTitle).toBe(`${overall.oppilaitos} (${overall.vari})`);
+    expect(meta.documentTitle).toBe(`${overall.oppilaitos} (${overall.vari}) | Haalarikone`);
     expect(meta.primaryName).toBe('Tuntematon järjestö');
   });
 
