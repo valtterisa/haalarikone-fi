@@ -26,12 +26,15 @@ export function buildOrganizationSeoMeta(overall: University, locale: Locale): O
     : `${university} (${color})`;
 
   const documentTitle = `${openGraphTitle} | Haalarikone`;
+  const overallWord = labels.overallSingular;
 
   const fallbackDescription = orgName
-    ? [`${orgName}: ${color} haalari, ${university}`, field ? `– ${field}` : null]
+    ? [`${orgName}: ${color} ${overallWord}, ${university}`, field ? `– ${field}` : null]
         .filter(Boolean)
         .join(' ')
-    : [`${color} haalari, ${university}`, field ? `– ${field}` : null].filter(Boolean).join(' ');
+    : [`${color} ${overallWord}, ${university}`, field ? `– ${field}` : null]
+        .filter(Boolean)
+        .join(' ');
 
   return {
     documentTitle,

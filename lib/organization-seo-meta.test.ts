@@ -36,6 +36,20 @@ describe('buildOrganizationSeoMeta', () => {
     );
   });
 
+  it('localizes titles and descriptions for English and Swedish', async () => {
+    const [enRows, svRows] = await Promise.all([loadUniversities('en'), loadUniversities('sv')]);
+    const en = findOrganizationBySlug(enRows, 'vostok')!;
+    const sv = findOrganizationBySlug(svRows, 'vostok')!;
+
+    const enMeta = buildOrganizationSeoMeta(en, 'en');
+    const svMeta = buildOrganizationSeoMeta(sv, 'sv');
+
+    expect(enMeta.openGraphTitle).toBe('Vostok (orange) - Tampere University');
+    expect(enMeta.fallbackDescription).toContain('orange overall');
+    expect(svMeta.openGraphTitle).toContain('Tammerfors universitet');
+    expect(svMeta.fallbackDescription).toContain('orange overall');
+  });
+
   it('falls back to university + color when organization is missing', () => {
     const overall = findOrganizationBySlug(universities, 'lok-ry')!;
     const withoutOrg: University = { ...overall, ainejarjesto: null };
