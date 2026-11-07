@@ -25,6 +25,7 @@ import { EnrichmentAbout, EnrichmentWebsiteLink } from '@/components/enrichment-
 import { getEnrichedOrganization } from '@/lib/load-enrichment';
 import { ogImageAlt, ogImageUrl } from '@/lib/og/og-image-url';
 import { OG_SIZE } from '@/lib/og/types';
+import { buildOrganizationSeoMeta } from '@/lib/organization-seo-meta';
 
 export const revalidate = 86400;
 
@@ -80,29 +81,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   if (overall.ainejarjesto) {
-    keywords.push(`${overall.ainejarjesto} haalari`);
+    keywords.unshift(`${overall.ainejarjesto} haalari`, overall.ainejarjesto);
   }
 
-  const fallbackDescription = `${overall.vari} haalari ${overall.oppilaitos} ${
-    overall.ala ? `- ${overall.ala}` : ''
-  } ${overall.ainejarjesto ? `(${overall.ainejarjesto})` : ''}`.trim();
-  const metaDescription = enrichment?.description ?? fallbackDescription;
+  const seo = buildOrganizationSeoMeta(overall, locale);
+  const metaDescription = enrichment?.description ?? seo.fallbackDescription;
 
   return {
-    title: `${overall.vari} - ${overall.oppilaitos} | Haalarikone`,
+    title: seo.documentTitle,
     description: metaDescription,
     keywords,
     openGraph: {
-      title: `${overall.vari} - ${overall.oppilaitos}`,
+      title: seo.openGraphTitle,
       description: metaDescription,
       images: [
         {
           url: ogImageUrl('organization', overall.slug, locale),
           width: OG_SIZE.width,
           height: OG_SIZE.height,
-          alt: ogImageAlt(
-            overall.ainejarjesto?.trim() || `${overall.vari} - ${overall.oppilaitos}`,
-          ),
+          alt: ogImageAlt(seo.primaryName),
         },
       ],
       type: 'website',
@@ -112,10 +109,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${overall.vari} - ${overall.oppilaitos} | Haalarikone`,
+      title: seo.documentTitle,
       description: metaDescription,
       images: [ogImageUrl('organization', overall.slug, locale)],
     },
+
     alternates: {
       canonical: overallPageUrl,
       languages: {
