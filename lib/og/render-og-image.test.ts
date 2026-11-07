@@ -1,4 +1,5 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { buildOrganizationOgPayload, findOrganizationBySlug } from '@/lib/og/build-organization-og';
@@ -9,7 +10,7 @@ import { getSlugForEntity } from '@/lib/slug-translations';
 import { resolveTaxonomyHub } from '@/lib/taxonomy-hub';
 import type { University } from '@/types/university';
 
-const ARTIFACT_DIR = '/opt/cursor/artifacts';
+const ARTIFACT_DIR = join(tmpdir(), 'haalarikone-og-tests');
 
 function isPng(buffer: Buffer) {
   return buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4e && buffer[3] === 0x47;
@@ -23,7 +24,7 @@ describe('renderOgImage', () => {
     mkdirSync(ARTIFACT_DIR, { recursive: true });
   });
 
-  it('renders a PNG for an organization and writes an example artifact', async () => {
+  it('renders a PNG for an organization', async () => {
     const overall = findOrganizationBySlug(universities, 'lok-ry');
     expect(overall).toBeTruthy();
     const payload = buildOrganizationOgPayload(overall!, 'fi');
@@ -38,7 +39,7 @@ describe('renderOgImage', () => {
     writeFileSync(join(ARTIFACT_DIR, 'og-example-organization-lok-ry.png'), buffer);
   });
 
-  it('renders a PNG for a university and writes an example artifact', async () => {
+  it('renders a PNG for a university', async () => {
     const slug = getSlugForEntity('Hämeen AMK', 'fi', 'university');
     const hub = resolveTaxonomyHub(universities, slug, 'fi', 'university');
     expect(hub).toBeTruthy();

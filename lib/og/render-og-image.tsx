@@ -1,20 +1,45 @@
-import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
 import { ImageResponse } from 'next/og';
 import type { ReactElement } from 'react';
 import { OG_THEME } from '@/lib/og/og-theme';
 import type { OgPayload, OrganizationOgPayload, UniversityOgPayload } from '@/lib/og/types';
 import { OG_SIZE } from '@/lib/og/types';
 
-let fontsPromise: Promise<
-  Array<{ name: string; data: Buffer; weight: 400 | 700; style: 'normal' }>
-> | null = null;
+type OgFont = {
+  name: string;
+  data: ArrayBuffer;
+  weight: 400 | 700;
+  style: 'normal';
+};
+
+let fontsPromise: Promise<OgFont[]> | null = null;
+
+async function readBundledFont(relativePath: string): Promise<ArrayBuffer> {
+  // Resolve relative to this module so bundlers (OpenNext/Cloudflare) can
+  // include the font files, instead of reading opaque process.cwd() paths.
+  const url = new URL(relativePath, import.meta.url);
+
+  if (url.protocol === 'file:') {
+    const { readFile } = await import('node:fs/promises');
+    const { fileURLToPath } = await import('node:url');
+    const buffer = await readFile(fileURLToPath(url));
+    return buffer.buffer.slice(
+      buffer.byteOffset,
+      buffer.byteOffset + buffer.byteLength,
+    ) as ArrayBuffer;
+  }
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to load OG font ${relativePath}: ${response.status}`);
+  }
+  return response.arrayBuffer();
+}
 
 export async function loadOgFonts() {
   if (!fontsPromise) {
     fontsPromise = Promise.all([
-      readFile(join(process.cwd(), 'lib/og/fonts/Arvo-Regular.ttf')),
-      readFile(join(process.cwd(), 'lib/og/fonts/Arvo-Bold.ttf')),
+      readBundledFont('./fonts/Arvo-Regular.ttf'),
+      readBundledFont('./fonts/Arvo-Bold.ttf'),
     ]).then(([regular, bold]) => [
       { name: 'Arvo', data: regular, weight: 400 as const, style: 'normal' as const },
       { name: 'Arvo', data: bold, weight: 700 as const, style: 'normal' as const },
@@ -347,13 +372,11 @@ function UniversityCard({ payload }: { payload: UniversityOgPayload }) {
           style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
             fontSize: 24,
             color: OG_THEME.muted,
           }}
         >
           <span>haalarikone.fi</span>
-          <span style={{ fontWeight: 700, color: OG_THEME.ink }}>{payload.overallCountLabel}</span>
         </div>
       </div>
     </div>

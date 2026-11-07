@@ -1,5 +1,6 @@
 import { getOgLabels } from '@/lib/og/labels';
 import type { Locale } from '@/lib/slug-translations';
+import { capitalizeFirstLetter } from '@/lib/utils';
 import type { University } from '@/types/university';
 
 export type OrganizationSeoMeta = {
@@ -17,7 +18,8 @@ export function buildOrganizationSeoMeta(overall: University, locale: Locale): O
   const labels = getOgLabels(locale);
   const orgName = overall.ainejarjesto?.trim() || null;
   const primaryName = orgName ?? labels.unknownOrganization;
-  const color = overall.vari;
+  const color = capitalizeFirstLetter(overall.vari);
+  const colorRaw = overall.vari;
   const university = overall.oppilaitos;
   const field = overall.ala?.trim() || null;
 
@@ -29,10 +31,10 @@ export function buildOrganizationSeoMeta(overall: University, locale: Locale): O
   const overallWord = labels.overallSingular;
 
   const fallbackDescription = orgName
-    ? [`${orgName}: ${color} ${overallWord}, ${university}`, field ? `– ${field}` : null]
+    ? [`${orgName}: ${colorRaw} ${overallWord}, ${university}`, field ? `– ${field}` : null]
         .filter(Boolean)
         .join(' ')
-    : [`${color} ${overallWord}, ${university}`, field ? `– ${field}` : null]
+    : [`${colorRaw} ${overallWord}, ${university}`, field ? `– ${field}` : null]
         .filter(Boolean)
         .join(' ');
 
