@@ -16,6 +16,7 @@ type DiscordInteraction = {
   token?: string;
   application_id?: string;
   data?: { custom_id?: string };
+  channel_id?: string;
   message?: {
     id?: string;
     channel_id?: string;
@@ -68,6 +69,12 @@ async function disableCursorButton(messageId: string, channelId: string): Promis
   }).catch(() => undefined);
 }
 
+/** Only clicks inside the configured feedback channel; channel permissions decide who can see it. */
+function isAuthorizedClick(interaction: DiscordInteraction): boolean {
+  const channelId = process.env.DISCORD_FEEDBACK_CHANNEL_ID;
+  return Boolean(channelId && interaction.channel_id === channelId);
+}
+
 async function processCursorButton(interaction: DiscordInteraction): Promise<void> {
   const applicationId = interaction.application_id;
   const interactionToken = interaction.token;
@@ -85,6 +92,7 @@ async function processCursorButton(interaction: DiscordInteraction): Promise<voi
   }
 
   const result = await notifyCursorAutomation(toFeedbackPayload(parsed.payload));
+  console.log('[discord/interactions] cursor automation result:', JSON.stringify(result));
   if (!result.ok) {
     console.error('[discord/interactions]', result.error);
     await editDeferredReply(
@@ -155,6 +163,9 @@ export async function POST(request: Request): Promise<Response> {
     }
     if (!interaction.application_id || !interaction.token) {
       return ephemeral('Discord-vuorovaikutuksesta puuttuu token.');
+    }
+    if (!isAuthorizedClick(interaction)) {
+      return ephemeral('Sinulla ei ole oikeutta käynnistää Cursor-automaatiota.');
     }
 
     // Return Discord ACK now. Cursor webhook runs only after the response via next/after.
