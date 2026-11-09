@@ -1,4 +1,4 @@
-import { getCloudflareContext } from '@opennextjs/cloudflare';
+import { after } from 'next/server';
 
 import {
   CURSOR_PR_BUTTON_CUSTOM_ID,
@@ -35,39 +35,7 @@ function json(data: unknown, status = 200): Response {
 }
 
 function ephemeral(content: string) {
-  return json({
-    type: 4,
-    data: {
-      content,
-      flags: 64,
-    },
-  });
-}
-
-function deferredEphemeral() {
-  return json({
-    type: 5,
-    data: { flags: 64 },
-  });
-}
-
-/**
- * Schedule work for after this request returns.
- * Important: do NOT call `task()` here — starting the Cursor webhook fetch before
- * returning Discord's type-5 ACK can keep the response open past Discord's 3s limit.
- */
-function enqueueAfterResponse(task: () => Promise<unknown>): void {
-  const run = () => {
-    const promise = task();
-    try {
-      getCloudflareContext().ctx.waitUntil(promise);
-    } catch {
-      void promise;
-    }
-  };
-
-  // Let the Discord ACK flush first, then fire the Cursor webhook.
-  setTimeout(run, 0);
+  return json({ type: 4, data: { content, flags: 64 } });
 }
 
 async function editDeferredReply(
@@ -83,7 +51,7 @@ async function editDeferredReply(
       body: JSON.stringify({ content }),
     },
   ).catch((error) => {
-    console.error('[discord/interactions] failed to edit deferred reply:', error);
+    console.error('[discord/interactions] editDeferredReply failed:', error);
   });
 }
 
@@ -103,17 +71,10 @@ async function disableCursorButton(messageId: string, channelId: string): Promis
 async function processCursorButton(interaction: DiscordInteraction): Promise<void> {
   const applicationId = interaction.application_id;
   const interactionToken = interaction.token;
-  if (!applicationId || !interactionToken) {
-    return;
-  }
+  if (!applicationId || !interactionToken) return;
 
   const embed = interaction.message?.embeds?.[0];
-  if (!embed) {
-    await editDeferredReply(applicationId, interactionToken, 'Viestistä puuttuu palaute-embed.');
-    return;
-  }
-
-  const parsed = parseFeedbackFromDiscordEmbed(embed);
+  const parsed = embed ? parseFeedbackFromDiscordEmbed(embed) : null;
   if (!parsed || !verifyDiscordFeedbackAction(parsed.payload, parsed.signature)) {
     await editDeferredReply(
       applicationId,
@@ -184,12 +145,10 @@ export async function POST(request: Request): Promise<Response> {
     return json({ error: 'Invalid JSON' }, 400);
   }
 
-  // Discord ping — must be instant
   if (interaction.type === 1) {
     return json({ type: 1 });
   }
 
-  // Message component (button): ACK within 3s, do Cursor work after the response.
   if (interaction.type === 3) {
     if (interaction.data?.custom_id !== CURSOR_PR_BUTTON_CUSTOM_ID) {
       return ephemeral('Tuntematon painike.');
@@ -198,8 +157,9 @@ export async function POST(request: Request): Promise<Response> {
       return ephemeral('Discord-vuorovaikutuksesta puuttuu token.');
     }
 
-    enqueueAfterResponse(() => processCursorButton(interaction));
-    return deferredEphemeral();
+    // Return Discord ACK now. Cursor webhook runs only after the response via next/after.
+    after(() => processCursorButton(interaction));
+    return json({ type: 5, data: { flags: 64 } });
   }
 
   return ephemeral('Tätä vuorovaikutusta ei tueta.');
