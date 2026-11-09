@@ -9008,5 +9008,22 @@
     "metadata": {
       "hex": "background: #9b6fbc; color: white;"
     }
+  },
+  {
+    "id": "539",
+    "content": {
+      "vari": {
+        "label": "musta-violetti",
+        "base": ["musta", "violetti"]
+      },
+      "alue": "Helsinki",
+      "ala": "talotekniikka",
+      "oppilaitos": "Metropolia",
+      "ainejarjesto": "TALO ry",
+      "ainejarjestoSlug": "talo-ry"
+    },
+    "metadata": {
+      "hex": "background: black; background-image: linear-gradient(120deg, black 49%, indigo 51%);"
+    }
   }
 ]
