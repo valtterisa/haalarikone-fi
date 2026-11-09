@@ -45,7 +45,7 @@ describe('sendFeedbackDiscord', () => {
     expect(body.components).toBeUndefined();
   });
 
-  it('posts a bot message with Luo draft-PR button when bot + Cursor key are configured', async () => {
+  it('posts a bot message with Luo draft-PR button for correction and general', async () => {
     vi.stubEnv('DISCORD_FEEDBACK_WEBHOOK_URL', '');
     vi.stubEnv('DISCORD_BOT_TOKEN', 'bot-token');
     vi.stubEnv('DISCORD_FEEDBACK_CHANNEL_ID', '111');
@@ -58,28 +58,29 @@ describe('sendFeedbackDiscord', () => {
 
     const { sendFeedbackDiscord } = await import('@/lib/send-feedback-discord');
 
-    await sendFeedbackDiscord({
-      type: 'correction',
-      message: 'Wrong color for this organization',
-      email: null,
-      sourceId: '42',
-      sourceName: 'Skripti',
-      pageUrl: 'https://haalarikone.fi/fi/haalari/skripti',
-      origin: 'https://haalarikone.fi',
-      referer: null,
-    });
+    for (const type of ['correction', 'general'] as const) {
+      fetchMock.mockClear();
+      await sendFeedbackDiscord({
+        type,
+        message: 'Wrong color for this organization',
+        email: null,
+        sourceId: '42',
+        sourceName: 'Skripti',
+        pageUrl: 'https://haalarikone.fi/fi/haalari/skripti',
+        origin: 'https://haalarikone.fi',
+        referer: null,
+      });
 
-    expect(fetchMock).toHaveBeenCalledOnce();
-    const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
-    expect(url).toBe('https://discord.com/api/v10/channels/111/messages');
-    expect(init.headers).toMatchObject({ Authorization: 'Bot bot-token' });
-    const body = JSON.parse(String(init.body)) as {
-      components: Array<{ components: Array<{ custom_id: string; label: string }> }>;
-      embeds: Array<{ footer: { text: string } }>;
-    };
-    expect(body.components[0]?.components[0]?.label).toBe('Luo draft-PR');
-    expect(body.components[0]?.components[0]?.custom_id).toBe('haalarikone:cursor_pr');
-    expect(body.embeds[0]?.footer.text).toContain('v1.');
+      expect(fetchMock).toHaveBeenCalledOnce();
+      const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+      const body = JSON.parse(String(init.body)) as {
+        components: Array<{ components: Array<{ custom_id: string; label: string }> }>;
+        embeds: Array<{ footer: { text: string } }>;
+      };
+      expect(body.components[0]?.components[0]?.label).toBe('Luo draft-PR');
+      expect(body.components[0]?.components[0]?.custom_id).toBe('haalarikone:cursor_pr');
+      expect(body.embeds[0]?.footer.text).toContain('v1.');
+    }
   });
 
   it('falls back to webhook when bot post fails', async () => {

@@ -3,9 +3,9 @@ import type { FeedbackPayload } from '@/lib/feedback-schema';
 const webhookUrl = process.env.CURSOR_AUTOMATION_WEBHOOK_URL;
 const webhookKey = process.env.CURSOR_AUTOMATION_WEBHOOK_KEY;
 
-/** Comma-separated feedback types that wake the Cursor automation. Default: correction only. */
+/** Comma-separated feedback types that wake the Cursor automation. Default: both. */
 function allowedTypes(): Set<FeedbackPayload['type']> {
-  const raw = process.env.CURSOR_AUTOMATION_FEEDBACK_TYPES ?? 'correction';
+  const raw = process.env.CURSOR_AUTOMATION_FEEDBACK_TYPES ?? 'correction,general';
   return new Set(
     raw
       .split(',')

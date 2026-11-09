@@ -31,9 +31,30 @@ describe('notifyCursorAutomation', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('skips general feedback by default', async () => {
+  it('allows general feedback by default', async () => {
     vi.stubEnv('CURSOR_AUTOMATION_WEBHOOK_URL', 'https://cursor.test/webhook');
     vi.stubEnv('CURSOR_AUTOMATION_WEBHOOK_KEY', 'test-key');
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      text: async () => '',
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    const { notifyCursorAutomation } = await import('@/lib/notify-cursor-automation');
+    const result = await notifyCursorAutomation({
+      ...sampleCorrection,
+      type: 'general',
+      message: 'Love the site, keep going!',
+    });
+
+    expect(result).toEqual({ ok: true });
+    expect(fetchMock).toHaveBeenCalledOnce();
+  });
+
+  it('skips types outside CURSOR_AUTOMATION_FEEDBACK_TYPES', async () => {
+    vi.stubEnv('CURSOR_AUTOMATION_WEBHOOK_URL', 'https://cursor.test/webhook');
+    vi.stubEnv('CURSOR_AUTOMATION_WEBHOOK_KEY', 'test-key');
+    vi.stubEnv('CURSOR_AUTOMATION_FEEDBACK_TYPES', 'correction');
     const fetchMock = vi.fn();
     vi.stubGlobal('fetch', fetchMock);
 

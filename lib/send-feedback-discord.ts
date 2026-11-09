@@ -73,27 +73,25 @@ function buildEmbed(validated: FeedbackPayload, signature: string | null) {
 async function postViaBot(validated: FeedbackPayload): Promise<void> {
   const token = process.env.DISCORD_BOT_TOKEN!;
   const channelId = process.env.DISCORD_FEEDBACK_CHANNEL_ID!;
-  const isCorrection = validated.type === 'correction';
 
   const truncatedMessage = truncateDiscordField(validated.message, 1000);
-  const signature =
-    isCorrection && process.env.CURSOR_AUTOMATION_WEBHOOK_KEY
-      ? signDiscordFeedbackAction({
-          type: validated.type,
-          message: truncatedMessage,
-          sourceId: validated.sourceId,
-          sourceName: validated.sourceName,
-          pageUrl: validated.pageUrl,
-        })
-      : null;
+  const signature = process.env.CURSOR_AUTOMATION_WEBHOOK_KEY
+    ? signDiscordFeedbackAction({
+        type: validated.type,
+        message: truncatedMessage,
+        sourceId: validated.sourceId,
+        sourceName: validated.sourceName,
+        pageUrl: validated.pageUrl,
+      })
+    : null;
 
   const body: Record<string, unknown> = {
     allowed_mentions: { parse: [] },
     embeds: [buildEmbed(validated, signature)],
   };
 
-  // Button only when we can verify the click later (Cursor key present).
-  if (isCorrection && signature) {
+  // Button on both general + correction when we can verify the click (Cursor key present).
+  if (signature) {
     body.components = [
       {
         type: 1,

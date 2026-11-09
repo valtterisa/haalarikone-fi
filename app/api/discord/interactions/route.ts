@@ -107,10 +107,6 @@ export async function POST(request: Request): Promise<Response> {
       return ephemeral('Palautteen allekirjoitus ei täsmää — painiketta ei voi käyttää.');
     }
 
-    if (parsed.payload.type !== 'correction') {
-      return ephemeral('Vain korjauspyynnöille voi avata Cursor-PR:n.');
-    }
-
     const result = await notifyCursorAutomation(toFeedbackPayload(parsed.payload));
     if (!result.ok) {
       console.error('[discord/interactions]', result.error);
