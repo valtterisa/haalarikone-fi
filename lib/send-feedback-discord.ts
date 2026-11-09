@@ -1,14 +1,17 @@
 import {
   CURSOR_PR_BUTTON_CUSTOM_ID,
-  isDiscordBotFeedbackConfigured,
   signDiscordFeedbackAction,
 } from '@/lib/discord-feedback-action';
 import { feedbackSchema, truncateDiscordField, type FeedbackPayload } from '@/lib/feedback-schema';
 
 const webhookUrl = process.env.DISCORD_FEEDBACK_WEBHOOK_URL;
 
+function hasDiscordBotCredentials(): boolean {
+  return Boolean(process.env.DISCORD_BOT_TOKEN && process.env.DISCORD_FEEDBACK_CHANNEL_ID);
+}
+
 export function isDiscordFeedbackConfigured(): boolean {
-  return Boolean(webhookUrl) || isDiscordBotFeedbackConfigured();
+  return Boolean(webhookUrl) || hasDiscordBotCredentials();
 }
 
 function buildEmbed(validated: FeedbackPayload, signature: string | null) {
@@ -67,17 +70,30 @@ function buildEmbed(validated: FeedbackPayload, signature: string | null) {
   };
 }
 
-async function postViaBot(validated: FeedbackPayload, signature: string): Promise<void> {
+async function postViaBot(validated: FeedbackPayload): Promise<void> {
   const token = process.env.DISCORD_BOT_TOKEN!;
   const channelId = process.env.DISCORD_FEEDBACK_CHANNEL_ID!;
   const isCorrection = validated.type === 'correction';
+
+  const truncatedMessage = truncateDiscordField(validated.message, 1000);
+  const signature =
+    isCorrection && process.env.CURSOR_AUTOMATION_WEBHOOK_KEY
+      ? signDiscordFeedbackAction({
+          type: validated.type,
+          message: truncatedMessage,
+          sourceId: validated.sourceId,
+          sourceName: validated.sourceName,
+          pageUrl: validated.pageUrl,
+        })
+      : null;
 
   const body: Record<string, unknown> = {
     allowed_mentions: { parse: [] },
     embeds: [buildEmbed(validated, signature)],
   };
 
-  if (isCorrection) {
+  // Button only when we can verify the click later (Cursor key present).
+  if (isCorrection && signature) {
     body.components = [
       {
         type: 1,
@@ -87,7 +103,6 @@ async function postViaBot(validated: FeedbackPayload, signature: string): Promis
             style: 3,
             label: 'Luo draft-PR',
             custom_id: CURSOR_PR_BUTTON_CUSTOM_ID,
-            emoji: { name: '🛠️' },
           },
         ],
       },
@@ -137,20 +152,18 @@ export async function sendFeedbackDiscord(payload: FeedbackPayload): Promise<voi
 
   const validated = result.data;
 
-  // Real Discord buttons require a bot message (webhooks cannot attach components).
-  if (isDiscordBotFeedbackConfigured()) {
-    const signature = signDiscordFeedbackAction({
-      type: validated.type,
-      message: truncateDiscordField(validated.message, 1000),
-      sourceId: validated.sourceId,
-      sourceName: validated.sourceName,
-      pageUrl: validated.pageUrl,
-    });
-    if (!signature) {
-      throw new Error('Cursor automation signing key is missing');
+  // Prefer bot (supports the Luo draft-PR button). Fall back to webhook so feedback
+  // still lands if the bot lacks channel access / token / permissions.
+  if (hasDiscordBotCredentials()) {
+    try {
+      await postViaBot(validated);
+      return;
+    } catch (error) {
+      console.error('[feedback] Discord bot post failed, trying webhook fallback:', error);
+      if (!webhookUrl) {
+        throw error;
+      }
     }
-    await postViaBot(validated, signature);
-    return;
   }
 
   if (!webhookUrl) {

@@ -86,14 +86,9 @@ export function toFeedbackPayload(payload: DiscordFeedbackActionPayload): Feedba
   };
 }
 
+/** True when the Discord bot can post feedback messages (button needs Cursor key separately). */
 export function isDiscordBotFeedbackConfigured(): boolean {
-  return Boolean(
-    process.env.DISCORD_BOT_TOKEN &&
-    process.env.DISCORD_FEEDBACK_CHANNEL_ID &&
-    process.env.DISCORD_APPLICATION_PUBLIC_KEY &&
-    process.env.CURSOR_AUTOMATION_WEBHOOK_URL &&
-    process.env.CURSOR_AUTOMATION_WEBHOOK_KEY,
-  );
+  return Boolean(process.env.DISCORD_BOT_TOKEN && process.env.DISCORD_FEEDBACK_CHANNEL_ID);
 }
 
 export const CURSOR_PR_BUTTON_CUSTOM_ID = 'haalarikone:cursor_pr';
