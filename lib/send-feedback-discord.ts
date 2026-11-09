@@ -150,21 +150,8 @@ export async function sendFeedbackDiscord(payload: FeedbackPayload): Promise<voi
 
   const validated = result.data;
 
-  // Prefer bot (supports the Luo draft-PR button). Fall back to webhook so feedback
-  // still lands if the bot lacks channel access / token / permissions.
   if (hasDiscordBotCredentials()) {
-    try {
-      await postViaBot(validated);
-      return;
-    } catch (error) {
-      console.error('[feedback] Discord bot post failed, trying webhook fallback:', error);
-      if (!webhookUrl) {
-        throw error;
-      }
-    }
-  }
-
-  if (!webhookUrl) {
+    await postViaBot(validated);
     return;
   }
 

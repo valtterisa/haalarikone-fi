@@ -83,43 +83,36 @@ describe('sendFeedbackDiscord', () => {
     }
   });
 
-  it('falls back to webhook when bot post fails', async () => {
+  it('throws when the bot post fails', async () => {
     vi.stubEnv('DISCORD_FEEDBACK_WEBHOOK_URL', 'https://discord.test/webhook');
     vi.stubEnv('DISCORD_BOT_TOKEN', 'bot-token');
     vi.stubEnv('DISCORD_FEEDBACK_CHANNEL_ID', '111');
     vi.stubEnv('CURSOR_AUTOMATION_WEBHOOK_KEY', 'test-key');
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce({
-        ok: false,
-        status: 403,
-        text: async () => 'Missing Access',
-      })
-      .mockResolvedValueOnce({
-        ok: true,
-        text: async () => '',
-      });
+    const fetchMock = vi.fn().mockResolvedValueOnce({
+      ok: false,
+      status: 403,
+      text: async () => 'Missing Access',
+    });
     vi.stubGlobal('fetch', fetchMock);
 
     const { sendFeedbackDiscord } = await import('@/lib/send-feedback-discord');
 
-    await sendFeedbackDiscord({
-      type: 'correction',
-      message: 'Wrong color for this organization',
-      email: null,
-      sourceId: '42',
-      sourceName: 'Skripti',
-      pageUrl: 'https://haalarikone.fi/fi/haalari/skripti',
-      origin: 'https://haalarikone.fi',
-      referer: null,
-    });
-
-    expect(fetchMock).toHaveBeenCalledTimes(2);
-    expect(fetchMock.mock.calls[0]?.[0]).toContain('discord.com/api/v10/channels/111/messages');
-    expect(fetchMock.mock.calls[1]?.[0]).toBe('https://discord.test/webhook');
+    await expect(
+      sendFeedbackDiscord({
+        type: 'correction',
+        message: 'Wrong color for this organization',
+        email: null,
+        sourceId: '42',
+        sourceName: 'Skripti',
+        pageUrl: 'https://haalarikone.fi/fi/haalari/skripti',
+        origin: 'https://haalarikone.fi',
+        referer: null,
+      }),
+    ).rejects.toThrow('Discord bot message failed (403)');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
-  it('no-ops when webhook is not configured and bot is missing', async () => {
+  it('throws when neither bot nor webhook is configured', async () => {
     vi.stubEnv('DISCORD_FEEDBACK_WEBHOOK_URL', '');
     vi.stubEnv('DISCORD_BOT_TOKEN', '');
     const fetchMock = vi.fn();
@@ -127,17 +120,18 @@ describe('sendFeedbackDiscord', () => {
 
     const { sendFeedbackDiscord } = await import('@/lib/send-feedback-discord');
 
-    await sendFeedbackDiscord({
-      type: 'general',
-      message: 'Just saying hello here',
-      email: null,
-      sourceId: null,
-      sourceName: null,
-      pageUrl: null,
-      origin: null,
-      referer: null,
-    });
-
+    await expect(
+      sendFeedbackDiscord({
+        type: 'general',
+        message: 'Just saying hello here',
+        email: null,
+        sourceId: null,
+        sourceName: null,
+        pageUrl: null,
+        origin: null,
+        referer: null,
+      }),
+    ).rejects.toThrow('Discord webhook is not configured');
     expect(fetchMock).not.toHaveBeenCalled();
   });
 });
