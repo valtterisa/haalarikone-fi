@@ -13,7 +13,6 @@ export const runtime = 'nodejs';
 
 type DiscordInteraction = {
   type: number;
-  id?: string;
   token?: string;
   application_id?: string;
   data?: { custom_id?: string };
@@ -45,7 +44,6 @@ function ephemeral(content: string) {
   });
 }
 
-/** Acknowledge within Discord's 3s window, then finish work in the background. */
 function deferredEphemeral() {
   return json({
     type: 5,
@@ -53,13 +51,13 @@ function deferredEphemeral() {
   });
 }
 
-async function scheduleBackground(task: Promise<unknown>): Promise<void> {
+/** Keep work alive after the HTTP response. Never await the task before responding to Discord. */
+function enqueueAfterResponse(task: () => Promise<unknown>): void {
+  const promise = task();
   try {
-    const { ctx } = await getCloudflareContext({ async: true });
-    ctx.waitUntil(task);
+    getCloudflareContext().ctx.waitUntil(promise);
   } catch {
-    // Local `next dev` / missing CF context — still kick off the work.
-    void task;
+    void promise;
   }
 }
 
@@ -93,7 +91,7 @@ async function disableCursorButton(messageId: string, channelId: string): Promis
   }).catch(() => undefined);
 }
 
-async function runCursorFromButton(interaction: DiscordInteraction): Promise<void> {
+async function processCursorButton(interaction: DiscordInteraction): Promise<void> {
   const applicationId = interaction.application_id;
   const interactionToken = interaction.token;
   if (!applicationId || !interactionToken) {
@@ -101,7 +99,12 @@ async function runCursorFromButton(interaction: DiscordInteraction): Promise<voi
   }
 
   const embed = interaction.message?.embeds?.[0];
-  const parsed = embed ? parseFeedbackFromDiscordEmbed(embed) : null;
+  if (!embed) {
+    await editDeferredReply(applicationId, interactionToken, 'Viestistä puuttuu palaute-embed.');
+    return;
+  }
+
+  const parsed = parseFeedbackFromDiscordEmbed(embed);
   if (!parsed || !verifyDiscordFeedbackAction(parsed.payload, parsed.signature)) {
     await editDeferredReply(
       applicationId,
@@ -177,28 +180,16 @@ export async function POST(request: Request): Promise<Response> {
     return json({ type: 1 });
   }
 
-  // Message component (button)
+  // Message component (button): ACK within 3s, do Cursor work after the response.
   if (interaction.type === 3) {
     if (interaction.data?.custom_id !== CURSOR_PR_BUTTON_CUSTOM_ID) {
       return ephemeral('Tuntematon painike.');
     }
-
-    if (!interaction.message?.embeds?.[0]) {
-      return ephemeral('Viestistä puuttuu palaute-embed.');
-    }
-
-    // Fast path validation before deferring (still well under 3s).
-    const parsed = parseFeedbackFromDiscordEmbed(interaction.message.embeds[0]);
-    if (!parsed || !verifyDiscordFeedbackAction(parsed.payload, parsed.signature)) {
-      return ephemeral('Palautteen allekirjoitus ei täsmää — painiketta ei voi käyttää.');
-    }
-
     if (!interaction.application_id || !interaction.token) {
       return ephemeral('Discord-vuorovaikutuksesta puuttuu token.');
     }
 
-    // Ack Discord immediately; Cursor webhook can take longer than 3s.
-    await scheduleBackground(runCursorFromButton(interaction));
+    enqueueAfterResponse(() => processCursorButton(interaction));
     return deferredEphemeral();
   }
 
