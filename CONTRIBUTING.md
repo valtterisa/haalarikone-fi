@@ -110,12 +110,21 @@ ANTHROPIC_API_KEY=your_anthropic_api_key
 
 # Discord webhook (recommended - general feedback + correction reports)
 DISCORD_FEEDBACK_WEBHOOK_URL=https://discord.com/api/webhooks/...
+
+# Optional: Discord bot button + Cursor Automation (in-Discord “Luo draft-PR”, no browser)
+# Setup: scripts/cursor-feedback-automation.md
+DISCORD_BOT_TOKEN=
+DISCORD_APPLICATION_PUBLIC_KEY=
+DISCORD_FEEDBACK_CHANNEL_ID=
+CURSOR_AUTOMATION_WEBHOOK_URL=
+CURSOR_AUTOMATION_WEBHOOK_KEY=
 ```
 
 Notes:
 
 - Optional: `ANTHROPIC_API_KEY` (AI fallback on zero-result searches)
 - Optional: `DISCORD_FEEDBACK_WEBHOOK_URL` (posts feedback embeds to a Discord channel; if unset, feedback is skipped silently)
+- Optional: Discord bot + Cursor webhook env vars for an in-Discord **Luo draft-PR** button (no redirect/login) — see `scripts/cursor-feedback-automation.md`
 - The app uses `localePrefix: 'as-needed'` – Finnish (default) has no prefix, other locales use `/en` or `/sv`
 
 ### 4. Start the development server
