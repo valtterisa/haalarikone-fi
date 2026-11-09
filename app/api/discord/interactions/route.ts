@@ -51,14 +51,23 @@ function deferredEphemeral() {
   });
 }
 
-/** Keep work alive after the HTTP response. Never await the task before responding to Discord. */
+/**
+ * Schedule work for after this request returns.
+ * Important: do NOT call `task()` here — starting the Cursor webhook fetch before
+ * returning Discord's type-5 ACK can keep the response open past Discord's 3s limit.
+ */
 function enqueueAfterResponse(task: () => Promise<unknown>): void {
-  const promise = task();
-  try {
-    getCloudflareContext().ctx.waitUntil(promise);
-  } catch {
-    void promise;
-  }
+  const run = () => {
+    const promise = task();
+    try {
+      getCloudflareContext().ctx.waitUntil(promise);
+    } catch {
+      void promise;
+    }
+  };
+
+  // Let the Discord ACK flush first, then fire the Cursor webhook.
+  setTimeout(run, 0);
 }
 
 async function editDeferredReply(
