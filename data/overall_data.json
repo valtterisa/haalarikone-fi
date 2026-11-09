@@ -43,7 +43,7 @@
       "alue": "Hämeenlinna, Forssa, Valkeakoski",
       "ala": "sairaanhoitaja, terveydenhoitaja, sosionomi",
       "oppilaitos": "Hämeen AMK",
-      "ainejarjesto": "",
+      "ainejarjesto": "Hämeen Pinkit HÄPI ry",
       "ainejarjestoSlug": "hameen-amk-pinkki"
     },
     "metadata": {
@@ -9024,6 +9024,23 @@
     },
     "metadata": {
       "hex": "background: black; background-image: linear-gradient(120deg, black 49%, indigo 51%);"
+    }
+  },
+  {
+    "id": "540",
+    "content": {
+      "vari": {
+        "label": "neonoranssi",
+        "base": ["oranssi"]
+      },
+      "alue": "Vantaa",
+      "ala": "sähkö- ja automaatiotekniikka",
+      "oppilaitos": "Metropolia",
+      "ainejarjesto": "AOK ry",
+      "ainejarjestoSlug": "aok-ry"
+    },
+    "metadata": {
+      "hex": "background: #ff5f1f;"
     }
   }
 ]

@@ -1210,6 +1210,11 @@
       "en": "oral hygienist",
       "sv": "munhygienist"
     },
+    "sähkö- ja automaatiotekniikka": {
+      "fi": "sähkö- ja automaatiotekniikka",
+      "en": "electrical and automation engineering",
+      "sv": "el- och automationsteknik"
+    },
     "sähkötekniikka": {
       "fi": "sähkötekniikka",
       "en": "electrical engineering",
@@ -1866,6 +1871,11 @@
       "fi": "neonkeltainen",
       "en": "neon yellow",
       "sv": "neongul"
+    },
+    "neonoranssi": {
+      "fi": "neonoranssi",
+      "en": "neon orange",
+      "sv": "neonorange"
     },
     "oliivinvihreä": {
       "fi": "oliivinvihreä",

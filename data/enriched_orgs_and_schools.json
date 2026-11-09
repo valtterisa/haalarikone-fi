@@ -6,10 +6,10 @@
     "stats": {
       "schoolsTotal": 34,
       "schoolsWithWebsite": 34,
-      "organizationsTotal": 441,
-      "organizationsWithWebsite": 163,
-      "organizationsWithDescription": 201,
-      "organizationsEnriched": 201
+      "organizationsTotal": 444,
+      "organizationsWithWebsite": 166,
+      "organizationsWithDescription": 204,
+      "organizationsEnriched": 204
     },
     "notes": [
       "website and description may be null when no reliable public source was found",
@@ -611,7 +611,7 @@
       },
       "areas": ["Forssa", "Hattula", "Hämeenlinna", "Riihimäki", "Valkeakoski"],
       "entryCount": 5,
-      "orgCount": 4
+      "orgCount": 5
     },
     {
       "name": "Vaasan AMK",
@@ -1241,6 +1241,20 @@
         "sv": "Anglica ry är ämnesföreningen för engelska språkets studerande vid Åbo universitet sedan 1958. Den fungerar som en bro mellan studerande och personal samt ordnar evenemang."
       },
       "source": "https://anglica.org/"
+    },
+    {
+      "name": "AOK ry",
+      "slug": "aok-ry",
+      "schools": ["Metropolia"],
+      "fields": ["sähkö- ja automaatiotekniikka"],
+      "areas": ["Vantaa"],
+      "website": "https://aok.metropolia.fi",
+      "description": {
+        "fi": "Automaatio-opiskelijoiden kilta AOK ry on vuonna 2003 perustettu Metropolian sähkö- ja automaatiotekniikan insinööriopiskelijoiden opiskelijayhdistys. Killan haalarit ovat neonoranssit.",
+        "en": "Automaatio-opiskelijoiden kilta AOK ry is the student guild for electrical and automation engineering students at Metropolia, founded in 2003. Its overalls are neon orange.",
+        "sv": "Automaatio-opiskelijoiden kilta AOK ry är gillet för studerande i el- och automationsteknik vid Metropolia, grundat 2003. Gillets overaller är neonorange."
+      },
+      "source": "https://aok.metropolia.fi/haalarit/"
     },
     {
       "name": "Armatuuri",
@@ -2333,6 +2347,20 @@
         "sv": "Hämeenlinnan Tradenomiopiskelijat HÄTÄ ry är den lokala studentföreningen för HAMKs tradenom- och BBA-studerande. Den bevakar studerandenas intressen genom intressebevakning och medlemstjänster i Tavastehus, Valkeakoski och Forssa."
       },
       "source": "https://www.hatary.org/yhdistys"
+    },
+    {
+      "name": "Hämeen Pinkit HÄPI ry",
+      "slug": "hameen-amk-pinkki",
+      "schools": ["Hämeen AMK"],
+      "fields": ["sairaanhoitaja", "sosionomi", "terveydenhoitaja"],
+      "areas": ["Forssa", "Hämeenlinna", "Valkeakoski"],
+      "website": null,
+      "description": {
+        "fi": "Hämeen Pinkit HÄPI ry on vuonna 2024 perustettu HAMKin sosiaali- ja terveysalan opiskelijayhdistys. Se edistää sosionomi-, sairaanhoitaja- ja terveydenhoitajaopiskelijoiden etuja ja järjestää yhteisöllisyyttä tukevia tapahtumia.",
+        "en": "Hämeen Pinkit HÄPI ry is HAMK's social services and health care student association, founded in 2024. It advocates for social services, nursing and public health nursing students and organises community events.",
+        "sv": "Hämeen Pinkit HÄPI ry är HAMKs studentförening för social- och hälsovårdsstuderande, grundad 2024. Den bevakar socionom-, sjukskötar- och hälsovårdarstuderandes intressen och ordnar gemenskapsevenemang."
+      },
+      "source": "https://www.hamk.fi/en/student-union/"
     },
     {
       "name": "ITU",
@@ -5940,9 +5968,9 @@
       "schools": ["Tampereen yliopisto"],
       "fields": ["journalistiikka"],
       "areas": ["Tampere"],
-      "website": null,
+      "website": "https://www.vostok.fi",
       "description": null,
-      "source": null
+      "source": "https://www.vostok.fi"
     },
     {
       "name": "Vuorimieskilta",
