@@ -2,7 +2,7 @@
 
 Human-in-the-loop **inside Discord** (no browser redirect, no login):
 
-1. Correction feedback is posted by the **Discord bot** with a **Luo draft-PR** button.
+1. General or correction feedback is posted by the **Discord bot** with a **Luo draft-PR** button (when `CURSOR_AUTOMATION_WEBHOOK_KEY` is set).
 2. You press the button in Discord.
 3. Discord POSTs an interaction to `https://haalarikone.fi/api/discord/interactions`.
 4. The app verifies Discord’s signature, checks an HMAC on the embed, then wakes Cursor.
@@ -21,7 +21,7 @@ Human-in-the-loop **inside Discord** (no browser redirect, no login):
 ## Cursor Automation
 
 1. Trigger: Incoming HTTP webhook.
-2. Repo: `valtterisa/student-overall-app`, branch `main`.
+2. Repo: `valtterisa/haalarikone-fi`, branch `main`.
 3. Tools: Pull request creation on.
 4. Name: `Haalarikone feedback → PR`
 
@@ -34,7 +34,7 @@ The POST body is JSON shaped like:
 {
   "event": "haalarikone.feedback",
   "source": "haalarikone",
-  "repo": "valtterisa/student-overall-app",
+  "repo": "valtterisa/haalarikone-fi",
   "feedback": {
     "type": "correction",
     "message": "...",

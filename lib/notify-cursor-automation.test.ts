@@ -92,9 +92,11 @@ describe('notifyCursorAutomation', () => {
     });
     const body = JSON.parse(String(init.body)) as {
       event: string;
+      repo: string;
       feedback: { type: string; message: string; email?: string };
     };
     expect(body.event).toBe('haalarikone.feedback');
+    expect(body.repo).toBe('valtterisa/haalarikone-fi');
     expect(body.feedback.type).toBe('correction');
     expect(body.feedback.message).toContain('Wrong color');
     expect(body.feedback.email).toBeUndefined();

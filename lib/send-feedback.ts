@@ -15,7 +15,9 @@ export async function sendFeedback(payload: FeedbackPayload): Promise<void> {
   }
 
   if (!isDiscordFeedbackConfigured()) {
-    console.error('DISCORD_FEEDBACK_WEBHOOK_URL is not configured. Feedback submission failed.');
+    console.error(
+      'Discord feedback is not configured (set DISCORD_BOT_TOKEN + DISCORD_FEEDBACK_CHANNEL_ID or DISCORD_FEEDBACK_WEBHOOK_URL).',
+    );
     throw new Error('Feedback service is not configured');
   }
 

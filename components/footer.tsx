@@ -204,7 +204,7 @@ function FooterContact({
         </li>
         <li>
           <a
-            href="https://github.com/valtterisa/student-overall-app"
+            href="https://github.com/valtterisa/haalarikone-fi"
             target="_blank"
             rel="noreferrer"
             aria-label={githubAria}

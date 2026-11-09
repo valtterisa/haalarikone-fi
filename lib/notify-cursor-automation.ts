@@ -3,6 +3,9 @@ import type { FeedbackPayload } from '@/lib/feedback-schema';
 const webhookUrl = process.env.CURSOR_AUTOMATION_WEBHOOK_URL;
 const webhookKey = process.env.CURSOR_AUTOMATION_WEBHOOK_KEY;
 
+/** Canonical GitHub repo slug included in Cursor automation webhook payloads. */
+export const CURSOR_AUTOMATION_REPO = 'valtterisa/haalarikone-fi';
+
 /** Comma-separated feedback types that wake the Cursor automation. Default: both. */
 function allowedTypes(): Set<FeedbackPayload['type']> {
   const raw = process.env.CURSOR_AUTOMATION_FEEDBACK_TYPES ?? 'correction,general';
@@ -41,7 +44,7 @@ export async function notifyCursorAutomation(
   const body = {
     event: 'haalarikone.feedback',
     source: 'haalarikone',
-    repo: 'valtterisa/student-overall-app',
+    repo: CURSOR_AUTOMATION_REPO,
     feedback: {
       type: payload.type,
       message: payload.message,
