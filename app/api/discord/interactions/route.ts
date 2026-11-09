@@ -112,12 +112,12 @@ export async function POST(request: Request): Promise<Response> {
     }
 
     const result = await notifyCursorAutomation(toFeedbackPayload(parsed.payload));
-    if (result.skipped) {
-      return ephemeral(`Cursor-automaatiota ei käynnistetty (${result.reason}).`);
-    }
     if (!result.ok) {
       console.error('[discord/interactions]', result.error);
       return ephemeral('Cursor-webhook epäonnistui. Tarkista Automations-asetukset.');
+    }
+    if (result.skipped) {
+      return ephemeral(`Cursor-automaatiota ei käynnistetty (${result.reason}).`);
     }
 
     if (interaction.message?.id && interaction.message.channel_id) {
