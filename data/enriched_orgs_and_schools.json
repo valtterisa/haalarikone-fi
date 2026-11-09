@@ -390,8 +390,8 @@
         }
       },
       "areas": ["Espoo", "Helsinki", "Vantaa"],
-      "entryCount": 9,
-      "orgCount": 9
+      "entryCount": 10,
+      "orgCount": 10
     },
     {
       "name": "Novia",
@@ -5313,6 +5313,20 @@
       "website": null,
       "description": null,
       "source": null
+    },
+    {
+      "name": "TALO ry",
+      "slug": "talo-ry",
+      "schools": ["Metropolia"],
+      "fields": ["talotekniikka"],
+      "areas": ["Helsinki"],
+      "website": "https://www.instagram.com/talotekniikkametropolia/",
+      "description": {
+        "fi": "TALO ry edustaa Metropolian talotekniikan insinööri- ja LVI-mestariopiskelijoita Myllypuron kampuksella.",
+        "en": "TALO ry represents building services engineering and HVAC master’s students at Metropolia’s Myllypuro campus.",
+        "sv": "TALO ry representerar byggnadsteknikens ingenjörs- och VVS-mästarstuderande vid Metropolias Myllypuro-campus."
+      },
+      "source": "https://metkaweb.fi/yhteiso/opiskelijayhdistykset/"
     },
     {
       "name": "TTO",

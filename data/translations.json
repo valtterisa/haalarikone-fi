@@ -1245,6 +1245,11 @@
       "en": "economics (business studies)",
       "sv": "nationalekonomi (handelsvetenskaper)"
     },
+    "talotekniikka": {
+      "fi": "talotekniikka",
+      "en": "building services engineering",
+      "sv": "byggnadsteknik"
+    },
     "taloustiede (valtiotieteet)": {
       "fi": "taloustiede (valtiotieteet)",
       "en": "economics (political science)",
@@ -1846,6 +1851,11 @@
       "fi": "musta-viininpunainen",
       "en": "black-wine red",
       "sv": "svart-vinröd"
+    },
+    "musta-violetti": {
+      "fi": "musta-violetti",
+      "en": "black-violet",
+      "sv": "svart-violett"
     },
     "navy blue": {
       "fi": "navy blue",
