@@ -1,3 +1,5 @@
+import { getCloudflareContext } from '@opennextjs/cloudflare';
+
 import {
   CURSOR_PR_BUTTON_CUSTOM_ID,
   parseFeedbackFromDiscordEmbed,
@@ -13,6 +15,7 @@ type DiscordInteraction = {
   type: number;
   id?: string;
   token?: string;
+  application_id?: string;
   data?: { custom_id?: string };
   message?: {
     id?: string;
@@ -42,6 +45,41 @@ function ephemeral(content: string) {
   });
 }
 
+/** Acknowledge within Discord's 3s window, then finish work in the background. */
+function deferredEphemeral() {
+  return json({
+    type: 5,
+    data: { flags: 64 },
+  });
+}
+
+async function scheduleBackground(task: Promise<unknown>): Promise<void> {
+  try {
+    const { ctx } = await getCloudflareContext({ async: true });
+    ctx.waitUntil(task);
+  } catch {
+    // Local `next dev` / missing CF context — still kick off the work.
+    void task;
+  }
+}
+
+async function editDeferredReply(
+  applicationId: string,
+  interactionToken: string,
+  content: string,
+): Promise<void> {
+  await fetch(
+    `https://discord.com/api/v10/webhooks/${applicationId}/${interactionToken}/messages/@original`,
+    {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content }),
+    },
+  ).catch((error) => {
+    console.error('[discord/interactions] failed to edit deferred reply:', error);
+  });
+}
+
 async function disableCursorButton(messageId: string, channelId: string): Promise<void> {
   const token = process.env.DISCORD_BOT_TOKEN;
   if (!token) return;
@@ -53,6 +91,54 @@ async function disableCursorButton(messageId: string, channelId: string): Promis
     },
     body: JSON.stringify({ components: [] }),
   }).catch(() => undefined);
+}
+
+async function runCursorFromButton(interaction: DiscordInteraction): Promise<void> {
+  const applicationId = interaction.application_id;
+  const interactionToken = interaction.token;
+  if (!applicationId || !interactionToken) {
+    return;
+  }
+
+  const embed = interaction.message?.embeds?.[0];
+  const parsed = embed ? parseFeedbackFromDiscordEmbed(embed) : null;
+  if (!parsed || !verifyDiscordFeedbackAction(parsed.payload, parsed.signature)) {
+    await editDeferredReply(
+      applicationId,
+      interactionToken,
+      'Palautteen allekirjoitus ei täsmää — painiketta ei voi käyttää.',
+    );
+    return;
+  }
+
+  const result = await notifyCursorAutomation(toFeedbackPayload(parsed.payload));
+  if (!result.ok) {
+    console.error('[discord/interactions]', result.error);
+    await editDeferredReply(
+      applicationId,
+      interactionToken,
+      'Cursor-webhook epäonnistui. Tarkista Automations-asetukset.',
+    );
+    return;
+  }
+  if (result.skipped) {
+    await editDeferredReply(
+      applicationId,
+      interactionToken,
+      `Cursor-automaatiota ei käynnistetty (${result.reason}).`,
+    );
+    return;
+  }
+
+  if (interaction.message?.id && interaction.message.channel_id) {
+    await disableCursorButton(interaction.message.id, interaction.message.channel_id);
+  }
+
+  await editDeferredReply(
+    applicationId,
+    interactionToken,
+    'Cursor-agentti käynnistetty. Draft-PR aukeaa pian jos palaute on selkeä.',
+  );
 }
 
 export async function POST(request: Request): Promise<Response> {
@@ -86,7 +172,7 @@ export async function POST(request: Request): Promise<Response> {
     return json({ error: 'Invalid JSON' }, 400);
   }
 
-  // Discord ping
+  // Discord ping — must be instant
   if (interaction.type === 1) {
     return json({ type: 1 });
   }
@@ -97,30 +183,23 @@ export async function POST(request: Request): Promise<Response> {
       return ephemeral('Tuntematon painike.');
     }
 
-    const embed = interaction.message?.embeds?.[0];
-    if (!embed) {
+    if (!interaction.message?.embeds?.[0]) {
       return ephemeral('Viestistä puuttuu palaute-embed.');
     }
 
-    const parsed = parseFeedbackFromDiscordEmbed(embed);
+    // Fast path validation before deferring (still well under 3s).
+    const parsed = parseFeedbackFromDiscordEmbed(interaction.message.embeds[0]);
     if (!parsed || !verifyDiscordFeedbackAction(parsed.payload, parsed.signature)) {
       return ephemeral('Palautteen allekirjoitus ei täsmää — painiketta ei voi käyttää.');
     }
 
-    const result = await notifyCursorAutomation(toFeedbackPayload(parsed.payload));
-    if (!result.ok) {
-      console.error('[discord/interactions]', result.error);
-      return ephemeral('Cursor-webhook epäonnistui. Tarkista Automations-asetukset.');
-    }
-    if (result.skipped) {
-      return ephemeral(`Cursor-automaatiota ei käynnistetty (${result.reason}).`);
+    if (!interaction.application_id || !interaction.token) {
+      return ephemeral('Discord-vuorovaikutuksesta puuttuu token.');
     }
 
-    if (interaction.message?.id && interaction.message.channel_id) {
-      void disableCursorButton(interaction.message.id, interaction.message.channel_id);
-    }
-
-    return ephemeral('Cursor-agentti käynnistetty. Draft-PR aukeaa pian jos palaute on selkeä.');
+    // Ack Discord immediately; Cursor webhook can take longer than 3s.
+    await scheduleBackground(runCursorFromButton(interaction));
+    return deferredEphemeral();
   }
 
   return ephemeral('Tätä vuorovaikutusta ei tueta.');
