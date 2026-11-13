@@ -108,6 +108,7 @@ export async function GET(request: Request) {
     return fallbackResponse('not-found', 404);
   }
 
-  const image = await renderOgImage(payload);
+  const origin = new URL(request.url).origin;
+  const image = await renderOgImage(payload, origin);
   return withHeaders(image, SUCCESS_CACHE);
 }

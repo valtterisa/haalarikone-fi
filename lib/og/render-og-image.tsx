@@ -11,40 +11,55 @@ type OgFont = {
   style: 'normal';
 };
 
+const OG_FONT_ASSETS = {
+  regular: '/og-fonts/Arvo-Regular.ttf',
+  bold: '/og-fonts/Arvo-Bold.ttf',
+} as const;
+
 let fontsPromise: Promise<OgFont[]> | null = null;
+let fontsOrigin: string | undefined;
 
-async function readBundledFont(relativePath: string): Promise<ArrayBuffer> {
-  // Resolve relative to this module so bundlers (OpenNext/Cloudflare) can
-  // include the font files, instead of reading opaque process.cwd() paths.
-  const url = new URL(relativePath, import.meta.url);
-
-  if (url.protocol === 'file:') {
-    const { readFile } = await import('node:fs/promises');
-    const { fileURLToPath } = await import('node:url');
-    const buffer = await readFile(fileURLToPath(url));
-    return buffer.buffer.slice(
-      buffer.byteOffset,
-      buffer.byteOffset + buffer.byteLength,
-    ) as ArrayBuffer;
-  }
-
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to load OG font ${relativePath}: ${response.status}`);
-  }
-  return response.arrayBuffer();
+async function readFontFromPublic(assetPath: string): Promise<ArrayBuffer> {
+  const { readFile } = await import('node:fs/promises');
+  const { join } = await import('node:path');
+  const fileName = assetPath.split('/').pop()!;
+  const buffer = await readFile(join(process.cwd(), 'public', 'og-fonts', fileName));
+  return buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
 }
 
-export async function loadOgFonts() {
-  if (!fontsPromise) {
+async function loadFontAsset(assetPath: string, origin?: string): Promise<ArrayBuffer> {
+  const bases = [origin, process.env.NEXT_PUBLIC_SITE_URL, 'https://haalarikone.fi'].filter(
+    (value): value is string => Boolean(value),
+  );
+
+  for (const base of bases) {
+    try {
+      const response = await fetch(new URL(assetPath, base));
+      if (response.ok) {
+        return response.arrayBuffer();
+      }
+    } catch {
+      // Try the next origin, then fall back to the on-disk public copy.
+    }
+  }
+
+  return readFontFromPublic(assetPath);
+}
+
+export async function loadOgFonts(origin?: string) {
+  const cacheKey = origin ?? 'local-disk';
+
+  if (!fontsPromise || fontsOrigin !== cacheKey) {
+    fontsOrigin = cacheKey;
     fontsPromise = Promise.all([
-      readBundledFont('./fonts/Arvo-Regular.ttf'),
-      readBundledFont('./fonts/Arvo-Bold.ttf'),
+      loadFontAsset(OG_FONT_ASSETS.regular, origin),
+      loadFontAsset(OG_FONT_ASSETS.bold, origin),
     ]).then(([regular, bold]) => [
       { name: 'Arvo', data: regular, weight: 400 as const, style: 'normal' as const },
       { name: 'Arvo', data: bold, weight: 700 as const, style: 'normal' as const },
     ]);
   }
+
   return fontsPromise;
 }
 
@@ -390,8 +405,8 @@ export function OgImageElement({ payload }: { payload: OgPayload }): ReactElemen
   return <UniversityCard payload={payload} />;
 }
 
-export async function renderOgImage(payload: OgPayload): Promise<ImageResponse> {
-  const fonts = await loadOgFonts();
+export async function renderOgImage(payload: OgPayload, origin?: string): Promise<ImageResponse> {
+  const fonts = await loadOgFonts(origin);
   return new ImageResponse(<OgImageElement payload={payload} />, {
     ...OG_SIZE,
     fonts,

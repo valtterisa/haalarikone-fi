@@ -1,6 +1,6 @@
-import { defineConfig } from 'vitest/config';
 import { fileURLToPath } from 'node:url';
 import 'dotenv/config';
+import { defineConfig } from 'vitest/config';
 
 const rootDir = fileURLToPath(new URL('.', import.meta.url));
 
