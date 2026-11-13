@@ -1,3 +1,4 @@
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { ImageResponse } from 'next/og';
 import type { ReactElement } from 'react';
 import { OG_THEME } from '@/lib/og/og-theme';
@@ -27,33 +28,45 @@ async function readFontFromPublic(assetPath: string): Promise<ArrayBuffer> {
   return buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
 }
 
-async function loadFontAsset(assetPath: string, origin?: string): Promise<ArrayBuffer> {
-  const bases = [origin, process.env.NEXT_PUBLIC_SITE_URL, 'https://haalarikone.fi'].filter(
-    (value): value is string => Boolean(value),
-  );
+async function loadFontFromAssets(assetPath: string): Promise<ArrayBuffer | null> {
+  try {
+    const { env } = await getCloudflareContext({ async: true });
+    if (!env.ASSETS) return null;
 
-  for (const base of bases) {
+    const response = await env.ASSETS.fetch(new URL(assetPath, 'https://assets.local'));
+    if (!response.ok) return null;
+    return response.arrayBuffer();
+  } catch {
+    return null;
+  }
+}
+
+async function loadFontAsset(assetPath: string, requestUrl?: string): Promise<ArrayBuffer> {
+  const fromAssets = await loadFontFromAssets(assetPath);
+  if (fromAssets) return fromAssets;
+
+  if (requestUrl) {
     try {
-      const response = await fetch(new URL(assetPath, base));
+      const response = await fetch(new URL(assetPath, requestUrl));
       if (response.ok) {
         return response.arrayBuffer();
       }
     } catch {
-      // Try the next origin, then fall back to the on-disk public copy.
+      // Fall back to the on-disk public copy (Vitest/local Node).
     }
   }
 
   return readFontFromPublic(assetPath);
 }
 
-export async function loadOgFonts(origin?: string) {
-  const cacheKey = origin ?? 'local-disk';
+export async function loadOgFonts(requestUrl?: string) {
+  const cacheKey = requestUrl ?? 'local-disk';
 
   if (!fontsPromise || fontsOrigin !== cacheKey) {
     fontsOrigin = cacheKey;
     fontsPromise = Promise.all([
-      loadFontAsset(OG_FONT_ASSETS.regular, origin),
-      loadFontAsset(OG_FONT_ASSETS.bold, origin),
+      loadFontAsset(OG_FONT_ASSETS.regular, requestUrl),
+      loadFontAsset(OG_FONT_ASSETS.bold, requestUrl),
     ]).then(([regular, bold]) => [
       { name: 'Arvo', data: regular, weight: 400 as const, style: 'normal' as const },
       { name: 'Arvo', data: bold, weight: 700 as const, style: 'normal' as const },
@@ -405,8 +418,11 @@ export function OgImageElement({ payload }: { payload: OgPayload }): ReactElemen
   return <UniversityCard payload={payload} />;
 }
 
-export async function renderOgImage(payload: OgPayload, origin?: string): Promise<ImageResponse> {
-  const fonts = await loadOgFonts(origin);
+export async function renderOgImage(
+  payload: OgPayload,
+  requestUrl?: string,
+): Promise<ImageResponse> {
+  const fonts = await loadOgFonts(requestUrl);
   return new ImageResponse(<OgImageElement payload={payload} />, {
     ...OG_SIZE,
     fonts,
